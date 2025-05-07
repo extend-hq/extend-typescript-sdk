@@ -1,6 +1,6 @@
 {
-    "name": "extendsdk",
-    "version": "0.0.9",
+    "name": "extendai",
+    "version": "0.0.10",
     "private": false,
     "repository": "https://github.com/extend-hq/extend-typescript-sdk",
     "main": "./index.js",

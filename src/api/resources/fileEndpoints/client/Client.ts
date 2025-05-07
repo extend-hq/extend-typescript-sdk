@@ -89,8 +89,8 @@ export class FileEndpoints {
                         ? await core.Supplier.get(this._options.extendApiVersion)
                         : undefined,
                 "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "extendsdk",
-                "X-Fern-SDK-Version": "0.0.9",
+                "X-Fern-SDK-Name": "extendai",
+                "X-Fern-SDK-Version": "0.0.10",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -166,8 +166,8 @@ export class FileEndpoints {
                         ? await core.Supplier.get(this._options.extendApiVersion)
                         : undefined,
                 "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "extendsdk",
-                "X-Fern-SDK-Version": "0.0.9",
+                "X-Fern-SDK-Name": "extendai",
+                "X-Fern-SDK-Version": "0.0.10",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -261,8 +261,8 @@ export class FileEndpoints {
                         ? await core.Supplier.get(this._options.extendApiVersion)
                         : undefined,
                 "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "extendsdk",
-                "X-Fern-SDK-Version": "0.0.9",
+                "X-Fern-SDK-Name": "extendai",
+                "X-Fern-SDK-Version": "0.0.10",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -349,8 +349,8 @@ export class FileEndpoints {
                         ? await core.Supplier.get(this._options.extendApiVersion)
                         : undefined,
                 "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "extendsdk",
-                "X-Fern-SDK-Version": "0.0.9",
+                "X-Fern-SDK-Name": "extendai",
+                "X-Fern-SDK-Version": "0.0.10",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ..._maybeEncodedRequest.headers,

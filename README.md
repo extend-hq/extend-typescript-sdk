@@ -1,14 +1,14 @@
 # Extendconfig TypeScript Library
 
 [![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Fextend-hq%2Fextend-typescript-sdk)
-[![npm shield](https://img.shields.io/npm/v/extendsdk)](https://www.npmjs.com/package/extendsdk)
+[![npm shield](https://img.shields.io/npm/v/extendai)](https://www.npmjs.com/package/extendai)
 
 The Extendconfig TypeScript library provides convenient access to the Extendconfig API from TypeScript.
 
 ## Installation
 
 ```sh
-npm i -s extendsdk
+npm i -s extendai
 ```
 
 ## Reference
@@ -20,7 +20,7 @@ A full reference for this library is available [here](./reference.md).
 Instantiate and use the client with the following:
 
 ```typescript
-import { ExtendClient } from "extendsdk";
+import { ExtendClient } from "extendai";
 
 const client = new ExtendClient({ token: "YOUR_TOKEN", extendApiVersion: "YOUR_EXTEND_API_VERSION" });
 await client.workflowEndpoints.runWorkflow({
@@ -34,7 +34,7 @@ The SDK exports all request and response types as TypeScript interfaces. Simply 
 following namespace:
 
 ```typescript
-import { Extend } from "extendsdk";
+import { Extend } from "extendai";
 
 const request: Extend.GetWorkflowRunsRequest = {
     ...
@@ -47,7 +47,7 @@ When the API returns a non-success status code (4xx or 5xx response), a subclass
 will be thrown.
 
 ```typescript
-import { ExtendError } from "extendsdk";
+import { ExtendError } from "extendai";
 
 try {
     await client.workflowEndpoints.runWorkflow(...);
@@ -134,7 +134,7 @@ The SDK provides a way for your to customize the underlying HTTP client / Fetch 
 unsupported environment, this provides a way for you to break glass and ensure the SDK works.
 
 ```typescript
-import { ExtendClient } from "extendsdk";
+import { ExtendClient } from "extendai";
 
 const client = new ExtendClient({
     ...
