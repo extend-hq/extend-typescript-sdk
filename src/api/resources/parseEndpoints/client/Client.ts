@@ -78,7 +78,7 @@ export class ParseEndpoints {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendsdk",
-                "X-Fern-SDK-Version": "0.0.8",
+                "X-Fern-SDK-Version": "0.0.9",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
