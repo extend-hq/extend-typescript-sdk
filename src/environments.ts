@@ -3,7 +3,7 @@
  */
 
 export const ExtendEnvironment = {
-    Production: "https://api-prod.extend.app",
+    Production: "https://api.extend.ai",
 } as const;
 
 export type ExtendEnvironment = typeof ExtendEnvironment.Production;

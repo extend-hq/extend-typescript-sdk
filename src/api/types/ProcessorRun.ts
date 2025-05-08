@@ -5,6 +5,8 @@
 import * as Extend from "../index";
 
 export interface ProcessorRun {
+    /** The test of the processor run. */
+    test: string;
     /** The type of response. In this case, it will always be `"document_processor_run"`. */
     object: string;
     /**
