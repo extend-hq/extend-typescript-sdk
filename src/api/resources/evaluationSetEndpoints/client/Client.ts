@@ -54,10 +54,17 @@ export class EvaluationSetEndpoints {
      *         processorId: "processor_id_here"
      *     })
      */
-    public async createEvaluationSet(
+    public createEvaluationSet(
         request: Extend.PostEvaluationSetsRequest,
         requestOptions?: EvaluationSetEndpoints.RequestOptions,
-    ): Promise<Extend.PostEvaluationSetsResponse> {
+    ): core.HttpResponsePromise<Extend.PostEvaluationSetsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__createEvaluationSet(request, requestOptions));
+    }
+
+    private async __createEvaluationSet(
+        request: Extend.PostEvaluationSetsRequest,
+        requestOptions?: EvaluationSetEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.PostEvaluationSetsResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -88,19 +95,20 @@ export class EvaluationSetEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.PostEvaluationSetsResponse;
+            return { data: _response.body as Extend.PostEvaluationSetsResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -110,12 +118,14 @@ export class EvaluationSetEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /evaluation_sets.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -156,10 +166,17 @@ export class EvaluationSetEndpoints {
      *         }
      *     })
      */
-    public async createEvaluationSetItem(
+    public createEvaluationSetItem(
         request: Extend.PostEvaluationSetItemsRequest,
         requestOptions?: EvaluationSetEndpoints.RequestOptions,
-    ): Promise<Extend.PostEvaluationSetItemsResponse> {
+    ): core.HttpResponsePromise<Extend.PostEvaluationSetItemsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__createEvaluationSetItem(request, requestOptions));
+    }
+
+    private async __createEvaluationSetItem(
+        request: Extend.PostEvaluationSetItemsRequest,
+        requestOptions?: EvaluationSetEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.PostEvaluationSetItemsResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -190,19 +207,23 @@ export class EvaluationSetEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.PostEvaluationSetItemsResponse;
+            return {
+                data: _response.body as Extend.PostEvaluationSetItemsResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -212,12 +233,14 @@ export class EvaluationSetEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /evaluation_set_items.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -247,11 +270,19 @@ export class EvaluationSetEndpoints {
      *         }
      *     })
      */
-    public async updateEvaluationSetItem(
+    public updateEvaluationSetItem(
         id: string,
         request: Extend.PostEvaluationSetItemsIdRequest,
         requestOptions?: EvaluationSetEndpoints.RequestOptions,
-    ): Promise<Extend.PostEvaluationSetItemsIdResponse> {
+    ): core.HttpResponsePromise<Extend.PostEvaluationSetItemsIdResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__updateEvaluationSetItem(id, request, requestOptions));
+    }
+
+    private async __updateEvaluationSetItem(
+        id: string,
+        request: Extend.PostEvaluationSetItemsIdRequest,
+        requestOptions?: EvaluationSetEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.PostEvaluationSetItemsIdResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -282,21 +313,25 @@ export class EvaluationSetEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.PostEvaluationSetItemsIdResponse;
+            return {
+                data: _response.body as Extend.PostEvaluationSetItemsIdResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_);
+                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -306,12 +341,14 @@ export class EvaluationSetEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /evaluation_set_items/{id}.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -343,10 +380,17 @@ export class EvaluationSetEndpoints {
      *             }]
      *     })
      */
-    public async bulkCreateEvaluationSetItems(
+    public bulkCreateEvaluationSetItems(
         request: Extend.PostEvaluationSetItemsBulkRequest,
         requestOptions?: EvaluationSetEndpoints.RequestOptions,
-    ): Promise<Extend.PostEvaluationSetItemsBulkResponse> {
+    ): core.HttpResponsePromise<Extend.PostEvaluationSetItemsBulkResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__bulkCreateEvaluationSetItems(request, requestOptions));
+    }
+
+    private async __bulkCreateEvaluationSetItems(
+        request: Extend.PostEvaluationSetItemsBulkRequest,
+        requestOptions?: EvaluationSetEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.PostEvaluationSetItemsBulkResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -377,19 +421,23 @@ export class EvaluationSetEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.PostEvaluationSetItemsBulkResponse;
+            return {
+                data: _response.body as Extend.PostEvaluationSetItemsBulkResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -399,12 +447,14 @@ export class EvaluationSetEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /evaluation_set_items/bulk.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }

@@ -4,13 +4,15 @@
 
 import * as errors from "../../errors/index";
 import * as Extend from "../index";
+import * as core from "../../core";
 
 export class NotFoundError extends errors.ExtendError {
-    constructor(body: Extend.Error_) {
+    constructor(body: Extend.Error_, rawResponse?: core.RawResponse) {
         super({
             message: "NotFoundError",
             statusCode: 404,
             body: body,
+            rawResponse: rawResponse,
         });
         Object.setPrototypeOf(this, NotFoundError.prototype);
     }

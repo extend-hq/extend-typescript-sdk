@@ -52,10 +52,17 @@ export class FileEndpoints {
      *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
      *     })
      */
-    public async listFiles(
+    public listFiles(
         request: Extend.GetFilesRequest = {},
         requestOptions?: FileEndpoints.RequestOptions,
-    ): Promise<Extend.GetFilesResponse> {
+    ): core.HttpResponsePromise<Extend.GetFilesResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__listFiles(request, requestOptions));
+    }
+
+    private async __listFiles(
+        request: Extend.GetFilesRequest = {},
+        requestOptions?: FileEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.GetFilesResponse>> {
         const { nameContains, sortDir, nextPageToken, maxPageSize } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (nameContains != null) {
@@ -104,19 +111,20 @@ export class FileEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.GetFilesResponse;
+            return { data: _response.body as Extend.GetFilesResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -126,12 +134,14 @@ export class FileEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling GET /files.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -150,10 +160,17 @@ export class FileEndpoints {
      *         name: "name"
      *     })
      */
-    public async createFileDeprecated(
+    public createFileDeprecated(
         request: Extend.PostFilesRequest,
         requestOptions?: FileEndpoints.RequestOptions,
-    ): Promise<Extend.PostFilesResponse> {
+    ): core.HttpResponsePromise<Extend.PostFilesResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__createFileDeprecated(request, requestOptions));
+    }
+
+    private async __createFileDeprecated(
+        request: Extend.PostFilesRequest,
+        requestOptions?: FileEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.PostFilesResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -184,19 +201,20 @@ export class FileEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.PostFilesResponse;
+            return { data: _response.body as Extend.PostFilesResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -206,12 +224,14 @@ export class FileEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /files.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -231,11 +251,19 @@ export class FileEndpoints {
      * @example
      *     await client.fileEndpoints.getFile("file_id_here")
      */
-    public async getFile(
+    public getFile(
         id: string,
         request: Extend.GetFilesIdRequest = {},
         requestOptions?: FileEndpoints.RequestOptions,
-    ): Promise<Extend.GetFilesIdResponse> {
+    ): core.HttpResponsePromise<Extend.GetFilesIdResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__getFile(id, request, requestOptions));
+    }
+
+    private async __getFile(
+        id: string,
+        request: Extend.GetFilesIdRequest = {},
+        requestOptions?: FileEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.GetFilesIdResponse>> {
         const { rawText, markdown, html } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (rawText != null) {
@@ -280,19 +308,20 @@ export class FileEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.GetFilesIdResponse;
+            return { data: _response.body as Extend.GetFilesIdResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_);
+                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -302,12 +331,14 @@ export class FileEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling GET /files/{id}.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -332,10 +363,17 @@ export class FileEndpoints {
      * @example
      *     await client.fileEndpoints.uploadFile(fs.createReadStream("/path/to/your/file"))
      */
-    public async uploadFile(
+    public uploadFile(
         file: File | fs.ReadStream | Blob,
         requestOptions?: FileEndpoints.RequestOptions,
-    ): Promise<Extend.PostFilesUploadResponse> {
+    ): core.HttpResponsePromise<Extend.PostFilesUploadResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__uploadFile(file, requestOptions));
+    }
+
+    private async __uploadFile(
+        file: File | fs.ReadStream | Blob,
+        requestOptions?: FileEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.PostFilesUploadResponse>> {
         const _request = await core.newFormData();
         await _request.appendFile("file", file);
         const _maybeEncodedRequest = await _request.getRequest();
@@ -370,19 +408,20 @@ export class FileEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.PostFilesUploadResponse;
+            return { data: _response.body as Extend.PostFilesUploadResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -392,12 +431,14 @@ export class FileEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /files/upload.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }

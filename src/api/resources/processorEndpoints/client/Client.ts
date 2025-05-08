@@ -60,10 +60,17 @@ export class ProcessorEndpoints {
      *         processorId: "processor_id_here"
      *     })
      */
-    public async runProcessor(
+    public runProcessor(
         request: Extend.PostProcessorRunsRequest,
         requestOptions?: ProcessorEndpoints.RequestOptions,
-    ): Promise<Extend.PostProcessorRunsResponse> {
+    ): core.HttpResponsePromise<Extend.PostProcessorRunsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__runProcessor(request, requestOptions));
+    }
+
+    private async __runProcessor(
+        request: Extend.PostProcessorRunsRequest,
+        requestOptions?: ProcessorEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.PostProcessorRunsResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -94,21 +101,22 @@ export class ProcessorEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.PostProcessorRunsResponse;
+            return { data: _response.body as Extend.PostProcessorRunsResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_);
+                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -118,12 +126,14 @@ export class ProcessorEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /processor_runs.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -145,10 +155,17 @@ export class ProcessorEndpoints {
      * @example
      *     await client.processorEndpoints.getProcessorRun("processor_run_id_here")
      */
-    public async getProcessorRun(
+    public getProcessorRun(
         id: string,
         requestOptions?: ProcessorEndpoints.RequestOptions,
-    ): Promise<Extend.GetProcessorRunsIdResponse> {
+    ): core.HttpResponsePromise<Extend.GetProcessorRunsIdResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__getProcessorRun(id, requestOptions));
+    }
+
+    private async __getProcessorRun(
+        id: string,
+        requestOptions?: ProcessorEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.GetProcessorRunsIdResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -178,21 +195,22 @@ export class ProcessorEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.GetProcessorRunsIdResponse;
+            return { data: _response.body as Extend.GetProcessorRunsIdResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_);
+                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -202,12 +220,14 @@ export class ProcessorEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling GET /processor_runs/{id}.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -228,10 +248,17 @@ export class ProcessorEndpoints {
      *         type: "EXTRACT"
      *     })
      */
-    public async createProcessor(
+    public createProcessor(
         request: Extend.PostProcessorsRequest,
         requestOptions?: ProcessorEndpoints.RequestOptions,
-    ): Promise<Extend.PostProcessorsResponse> {
+    ): core.HttpResponsePromise<Extend.PostProcessorsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__createProcessor(request, requestOptions));
+    }
+
+    private async __createProcessor(
+        request: Extend.PostProcessorsRequest,
+        requestOptions?: ProcessorEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.PostProcessorsResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -262,21 +289,22 @@ export class ProcessorEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.PostProcessorsResponse;
+            return { data: _response.body as Extend.PostProcessorsResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_);
+                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -286,12 +314,14 @@ export class ProcessorEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /processors.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -314,11 +344,21 @@ export class ProcessorEndpoints {
      * @example
      *     await client.processorEndpoints.getProcessorVersion("processor_id_here", "processor_version_id_here")
      */
-    public async getProcessorVersion(
+    public getProcessorVersion(
         processorId: string,
         processorVersionId: string,
         requestOptions?: ProcessorEndpoints.RequestOptions,
-    ): Promise<Extend.GetProcessorsProcessorIdVersionsProcessorVersionIdResponse> {
+    ): core.HttpResponsePromise<Extend.GetProcessorsProcessorIdVersionsProcessorVersionIdResponse> {
+        return core.HttpResponsePromise.fromPromise(
+            this.__getProcessorVersion(processorId, processorVersionId, requestOptions),
+        );
+    }
+
+    private async __getProcessorVersion(
+        processorId: string,
+        processorVersionId: string,
+        requestOptions?: ProcessorEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.GetProcessorsProcessorIdVersionsProcessorVersionIdResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -348,21 +388,25 @@ export class ProcessorEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.GetProcessorsProcessorIdVersionsProcessorVersionIdResponse;
+            return {
+                data: _response.body as Extend.GetProcessorsProcessorIdVersionsProcessorVersionIdResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_);
+                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -372,6 +416,7 @@ export class ProcessorEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError(
@@ -380,6 +425,7 @@ export class ProcessorEndpoints {
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -402,10 +448,17 @@ export class ProcessorEndpoints {
      * @example
      *     await client.processorEndpoints.listProcessorVersions("processor_id_here")
      */
-    public async listProcessorVersions(
+    public listProcessorVersions(
         id: string,
         requestOptions?: ProcessorEndpoints.RequestOptions,
-    ): Promise<Extend.GetProcessorsIdVersionsResponse> {
+    ): core.HttpResponsePromise<Extend.GetProcessorsIdVersionsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__listProcessorVersions(id, requestOptions));
+    }
+
+    private async __listProcessorVersions(
+        id: string,
+        requestOptions?: ProcessorEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.GetProcessorsIdVersionsResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -435,21 +488,25 @@ export class ProcessorEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.GetProcessorsIdVersionsResponse;
+            return {
+                data: _response.body as Extend.GetProcessorsIdVersionsResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_);
+                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -459,12 +516,14 @@ export class ProcessorEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling GET /processors/{id}/versions.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -488,11 +547,19 @@ export class ProcessorEndpoints {
      *         releaseType: "major"
      *     })
      */
-    public async publishProcessorVersion(
+    public publishProcessorVersion(
         id: string,
         request: Extend.PostProcessorsIdPublishRequest,
         requestOptions?: ProcessorEndpoints.RequestOptions,
-    ): Promise<Extend.PostProcessorsIdPublishResponse> {
+    ): core.HttpResponsePromise<Extend.PostProcessorsIdPublishResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__publishProcessorVersion(id, request, requestOptions));
+    }
+
+    private async __publishProcessorVersion(
+        id: string,
+        request: Extend.PostProcessorsIdPublishRequest,
+        requestOptions?: ProcessorEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.PostProcessorsIdPublishResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -523,19 +590,23 @@ export class ProcessorEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.PostProcessorsIdPublishResponse;
+            return {
+                data: _response.body as Extend.PostProcessorsIdPublishResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -545,12 +616,14 @@ export class ProcessorEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /processors/{id}/publish.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -570,10 +643,17 @@ export class ProcessorEndpoints {
      * @example
      *     await client.processorEndpoints.getBatchProcessorRun("batch_processor_run_id_here")
      */
-    public async getBatchProcessorRun(
+    public getBatchProcessorRun(
         id: string,
         requestOptions?: ProcessorEndpoints.RequestOptions,
-    ): Promise<Extend.GetBatchProcessorRunsIdResponse> {
+    ): core.HttpResponsePromise<Extend.GetBatchProcessorRunsIdResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__getBatchProcessorRun(id, requestOptions));
+    }
+
+    private async __getBatchProcessorRun(
+        id: string,
+        requestOptions?: ProcessorEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.GetBatchProcessorRunsIdResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -603,21 +683,25 @@ export class ProcessorEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.GetBatchProcessorRunsIdResponse;
+            return {
+                data: _response.body as Extend.GetBatchProcessorRunsIdResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_);
+                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -627,12 +711,14 @@ export class ProcessorEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling GET /batch_processor_runs/{id}.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -653,11 +739,19 @@ export class ProcessorEndpoints {
      * @example
      *     await client.processorEndpoints.updateProcessor("processor_id_here")
      */
-    public async updateProcessor(
+    public updateProcessor(
         id: string,
         request: Extend.PostProcessorsIdRequest = {},
         requestOptions?: ProcessorEndpoints.RequestOptions,
-    ): Promise<Extend.PostProcessorsIdResponse> {
+    ): core.HttpResponsePromise<Extend.PostProcessorsIdResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__updateProcessor(id, request, requestOptions));
+    }
+
+    private async __updateProcessor(
+        id: string,
+        request: Extend.PostProcessorsIdRequest = {},
+        requestOptions?: ProcessorEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.PostProcessorsIdResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -688,21 +782,22 @@ export class ProcessorEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.PostProcessorsIdResponse;
+            return { data: _response.body as Extend.PostProcessorsIdResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_);
+                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -712,12 +807,14 @@ export class ProcessorEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /processors/{id}.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }

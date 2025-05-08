@@ -58,10 +58,17 @@ export class ParseEndpoints {
      *         config: {}
      *     })
      */
-    public async parseFile(
+    public parseFile(
         request: Extend.PostParseRequest,
         requestOptions?: ParseEndpoints.RequestOptions,
-    ): Promise<Extend.PostParseResponse> {
+    ): core.HttpResponsePromise<Extend.PostParseResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__parseFile(request, requestOptions));
+    }
+
+    private async __parseFile(
+        request: Extend.PostParseRequest,
+        requestOptions?: ParseEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.PostParseResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -92,21 +99,25 @@ export class ParseEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.PostParseResponse;
+            return { data: _response.body as Extend.PostParseResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 422:
-                    throw new Extend.UnprocessableEntityError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnprocessableEntityError(
+                        _response.error.body as Extend.Error_,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -116,12 +127,14 @@ export class ParseEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /parse.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }

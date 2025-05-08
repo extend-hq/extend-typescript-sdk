@@ -50,10 +50,17 @@ export class WorkflowEndpoints {
      *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
      *     })
      */
-    public async listWorkflowRuns(
+    public listWorkflowRuns(
         request: Extend.GetWorkflowRunsRequest = {},
         requestOptions?: WorkflowEndpoints.RequestOptions,
-    ): Promise<Extend.GetWorkflowRunsResponse> {
+    ): core.HttpResponsePromise<Extend.GetWorkflowRunsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__listWorkflowRuns(request, requestOptions));
+    }
+
+    private async __listWorkflowRuns(
+        request: Extend.GetWorkflowRunsRequest = {},
+        requestOptions?: WorkflowEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.GetWorkflowRunsResponse>> {
         const { status, workflowId, fileNameContains, sortBy, sortDir, nextPageToken, maxPageSize } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (status != null) {
@@ -114,19 +121,20 @@ export class WorkflowEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.GetWorkflowRunsResponse;
+            return { data: _response.body as Extend.GetWorkflowRunsResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -136,12 +144,14 @@ export class WorkflowEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling GET /workflow_runs.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -160,10 +170,17 @@ export class WorkflowEndpoints {
      *         workflowId: "workflow_id_here"
      *     })
      */
-    public async runWorkflow(
+    public runWorkflow(
         request: Extend.PostWorkflowRunsRequest,
         requestOptions?: WorkflowEndpoints.RequestOptions,
-    ): Promise<Extend.PostWorkflowRunsResponse> {
+    ): core.HttpResponsePromise<Extend.PostWorkflowRunsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__runWorkflow(request, requestOptions));
+    }
+
+    private async __runWorkflow(
+        request: Extend.PostWorkflowRunsRequest,
+        requestOptions?: WorkflowEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.PostWorkflowRunsResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -194,19 +211,20 @@ export class WorkflowEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.PostWorkflowRunsResponse;
+            return { data: _response.body as Extend.PostWorkflowRunsResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -216,12 +234,14 @@ export class WorkflowEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /workflow_runs.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -241,10 +261,17 @@ export class WorkflowEndpoints {
      * @example
      *     await client.workflowEndpoints.getWorkflowRun("workflow_run_id_here")
      */
-    public async getWorkflowRun(
+    public getWorkflowRun(
         workflowRunId: string,
         requestOptions?: WorkflowEndpoints.RequestOptions,
-    ): Promise<Extend.GetWorkflowRunsWorkflowRunIdResponse> {
+    ): core.HttpResponsePromise<Extend.GetWorkflowRunsWorkflowRunIdResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__getWorkflowRun(workflowRunId, requestOptions));
+    }
+
+    private async __getWorkflowRun(
+        workflowRunId: string,
+        requestOptions?: WorkflowEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.GetWorkflowRunsWorkflowRunIdResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -274,21 +301,25 @@ export class WorkflowEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.GetWorkflowRunsWorkflowRunIdResponse;
+            return {
+                data: _response.body as Extend.GetWorkflowRunsWorkflowRunIdResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_);
+                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -298,6 +329,7 @@ export class WorkflowEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError(
@@ -306,6 +338,7 @@ export class WorkflowEndpoints {
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -326,11 +359,19 @@ export class WorkflowEndpoints {
      * @example
      *     await client.workflowEndpoints.updateWorkflowRun("workflow_run_id_here")
      */
-    public async updateWorkflowRun(
+    public updateWorkflowRun(
         workflowRunId: string,
         request: Extend.PostWorkflowRunsWorkflowRunIdRequest = {},
         requestOptions?: WorkflowEndpoints.RequestOptions,
-    ): Promise<Extend.PostWorkflowRunsWorkflowRunIdResponse> {
+    ): core.HttpResponsePromise<Extend.PostWorkflowRunsWorkflowRunIdResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__updateWorkflowRun(workflowRunId, request, requestOptions));
+    }
+
+    private async __updateWorkflowRun(
+        workflowRunId: string,
+        request: Extend.PostWorkflowRunsWorkflowRunIdRequest = {},
+        requestOptions?: WorkflowEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.PostWorkflowRunsWorkflowRunIdResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -361,21 +402,25 @@ export class WorkflowEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.PostWorkflowRunsWorkflowRunIdResponse;
+            return {
+                data: _response.body as Extend.PostWorkflowRunsWorkflowRunIdResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_);
+                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -385,6 +430,7 @@ export class WorkflowEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError(
@@ -393,6 +439,7 @@ export class WorkflowEndpoints {
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -439,10 +486,17 @@ export class WorkflowEndpoints {
      *         inputs: [{}]
      *     })
      */
-    public async batchRunWorkflow(
+    public batchRunWorkflow(
         request: Extend.PostWorkflowRunsBatchRequest,
         requestOptions?: WorkflowEndpoints.RequestOptions,
-    ): Promise<Extend.PostWorkflowRunsBatchResponse> {
+    ): core.HttpResponsePromise<Extend.PostWorkflowRunsBatchResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__batchRunWorkflow(request, requestOptions));
+    }
+
+    private async __batchRunWorkflow(
+        request: Extend.PostWorkflowRunsBatchRequest,
+        requestOptions?: WorkflowEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.PostWorkflowRunsBatchResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -473,21 +527,22 @@ export class WorkflowEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.PostWorkflowRunsBatchResponse;
+            return { data: _response.body as Extend.PostWorkflowRunsBatchResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_);
+                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -497,12 +552,14 @@ export class WorkflowEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /workflow_runs/batch.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -535,12 +592,23 @@ export class WorkflowEndpoints {
      *         }
      *     })
      */
-    public async correctWorkflowRunOutputs(
+    public correctWorkflowRunOutputs(
         workflowRunId: string,
         outputId: string,
         request: Extend.PostWorkflowRunsWorkflowRunIdOutputsOutputIdRequest,
         requestOptions?: WorkflowEndpoints.RequestOptions,
-    ): Promise<Extend.PostWorkflowRunsWorkflowRunIdOutputsOutputIdResponse> {
+    ): core.HttpResponsePromise<Extend.PostWorkflowRunsWorkflowRunIdOutputsOutputIdResponse> {
+        return core.HttpResponsePromise.fromPromise(
+            this.__correctWorkflowRunOutputs(workflowRunId, outputId, request, requestOptions),
+        );
+    }
+
+    private async __correctWorkflowRunOutputs(
+        workflowRunId: string,
+        outputId: string,
+        request: Extend.PostWorkflowRunsWorkflowRunIdOutputsOutputIdRequest,
+        requestOptions?: WorkflowEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.PostWorkflowRunsWorkflowRunIdOutputsOutputIdResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -571,21 +639,25 @@ export class WorkflowEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.PostWorkflowRunsWorkflowRunIdOutputsOutputIdResponse;
+            return {
+                data: _response.body as Extend.PostWorkflowRunsWorkflowRunIdOutputsOutputIdResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_);
+                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -595,6 +667,7 @@ export class WorkflowEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError(
@@ -603,6 +676,7 @@ export class WorkflowEndpoints {
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
@@ -623,10 +697,17 @@ export class WorkflowEndpoints {
      *         name: "Invoice Processing"
      *     })
      */
-    public async createWorkflow(
+    public createWorkflow(
         request: Extend.PostWorkflowsRequest,
         requestOptions?: WorkflowEndpoints.RequestOptions,
-    ): Promise<Extend.PostWorkflowsResponse> {
+    ): core.HttpResponsePromise<Extend.PostWorkflowsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__createWorkflow(request, requestOptions));
+    }
+
+    private async __createWorkflow(
+        request: Extend.PostWorkflowsRequest,
+        requestOptions?: WorkflowEndpoints.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.PostWorkflowsResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -657,19 +738,20 @@ export class WorkflowEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return _response.body as Extend.PostWorkflowsResponse;
+            return { data: _response.body as Extend.PostWorkflowsResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown);
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_);
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
                         body: _response.error.body,
+                        rawResponse: _response.rawResponse,
                     });
             }
         }
@@ -679,12 +761,14 @@ export class WorkflowEndpoints {
                 throw new errors.ExtendError({
                     statusCode: _response.error.statusCode,
                     body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /workflows.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
                 });
         }
     }
