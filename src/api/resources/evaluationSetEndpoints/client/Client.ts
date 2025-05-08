@@ -81,8 +81,8 @@ export class EvaluationSetEndpoints {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.14",
-                "User-Agent": "extendai/0.0.14",
+                "X-Fern-SDK-Version": "0.0.15",
+                "User-Agent": "extendai/0.0.15",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -159,9 +159,6 @@ export class EvaluationSetEndpoints {
      *         expectedOutput: {
      *             value: {
      *                 "key": "value"
-     *             },
-     *             metadata: {
-     *                 "key": {}
      *             }
      *         }
      *     })
@@ -193,8 +190,8 @@ export class EvaluationSetEndpoints {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.14",
-                "User-Agent": "extendai/0.0.14",
+                "X-Fern-SDK-Version": "0.0.15",
+                "User-Agent": "extendai/0.0.15",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -263,9 +260,6 @@ export class EvaluationSetEndpoints {
      *         expectedOutput: {
      *             value: {
      *                 "key": "value"
-     *             },
-     *             metadata: {
-     *                 "key": {}
      *             }
      *         }
      *     })
@@ -299,8 +293,8 @@ export class EvaluationSetEndpoints {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.14",
-                "User-Agent": "extendai/0.0.14",
+                "X-Fern-SDK-Version": "0.0.15",
+                "User-Agent": "extendai/0.0.15",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -372,9 +366,6 @@ export class EvaluationSetEndpoints {
      *                 expectedOutput: {
      *                     value: {
      *                         "key": "value"
-     *                     },
-     *                     metadata: {
-     *                         "key": {}
      *                     }
      *                 }
      *             }]
@@ -407,8 +398,8 @@ export class EvaluationSetEndpoints {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.14",
-                "User-Agent": "extendai/0.0.14",
+                "X-Fern-SDK-Version": "0.0.15",
+                "User-Agent": "extendai/0.0.15",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,

@@ -29,5 +29,5 @@ export interface EvaluationSetItem {
      */
     fileId: string;
     /** The expected output that will be used to evaluate the processor's performance. This will confirm to the output type schema of the processor. */
-    expectedOutput: Extend.ProcessorOutput;
+    expectedOutput: Extend.ProvidedProcessorOutput;
 }

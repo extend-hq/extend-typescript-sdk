@@ -10,14 +10,11 @@ import * as Extend from "../../../../index";
  *         expectedOutput: {
  *             value: {
  *                 "key": "value"
- *             },
- *             metadata: {
- *                 "key": {}
  *             }
  *         }
  *     }
  */
 export interface PostEvaluationSetItemsIdRequest {
     /** The expected output of the processor when run against the file */
-    expectedOutput: Extend.ProcessorOutput;
+    expectedOutput: Extend.ProvidedProcessorOutput;
 }

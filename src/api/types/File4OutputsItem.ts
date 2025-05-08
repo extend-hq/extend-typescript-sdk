@@ -7,7 +7,6 @@ import * as Extend from "../index";
 export interface File4OutputsItem {
     /**
      * The ID of the processor that the output is associated with. The ID will start with "dp_".
-     *
      * Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
      */
     processorId: string;
@@ -17,5 +16,5 @@ export interface File4OutputsItem {
      * * For classification processors, this will be the classification result
      * * For splitter processors, this will be the split points in the document
      */
-    output: Extend.ProcessorOutput;
+    output: Extend.ProvidedProcessorOutput;
 }

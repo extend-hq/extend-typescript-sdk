@@ -12,9 +12,6 @@ import * as Extend from "../../../../index";
  *         expectedOutput: {
  *             value: {
  *                 "key": "value"
- *             },
- *             metadata: {
- *                 "key": {}
  *             }
  *         }
  *     }
@@ -33,5 +30,5 @@ export interface PostEvaluationSetItemsRequest {
      */
     fileId: string;
     /** The expected output that will be used to evaluate the processor's performance. */
-    expectedOutput: Extend.ProcessorOutput;
+    expectedOutput: Extend.ProvidedProcessorOutput;
 }

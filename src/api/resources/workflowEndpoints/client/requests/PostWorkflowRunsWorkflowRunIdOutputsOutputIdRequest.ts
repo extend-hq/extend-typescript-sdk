@@ -10,9 +10,6 @@ import * as Extend from "../../../../index";
  *         reviewedOutput: {
  *             value: {
  *                 "key": "value"
- *             },
- *             metadata: {
- *                 "key": {}
  *             }
  *         }
  *     }
@@ -25,5 +22,5 @@ export interface PostWorkflowRunsWorkflowRunIdOutputsOutputIdRequest {
      *
      * If this is an extraction result, you can include all fields, or just the ones that were corrected, our system will handle merges/dedupes. However, if you do include a field, we assume the value included in the final reviewed value.
      */
-    reviewedOutput: Extend.ProcessorOutput;
+    reviewedOutput: Extend.ProvidedProcessorOutput;
 }

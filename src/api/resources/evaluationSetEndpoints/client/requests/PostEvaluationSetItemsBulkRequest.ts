@@ -13,9 +13,6 @@ import * as Extend from "../../../../index";
  *                 expectedOutput: {
  *                     value: {
  *                         "key": "value"
- *                     },
- *                     metadata: {
- *                         "key": {}
  *                     }
  *                 }
  *             }]

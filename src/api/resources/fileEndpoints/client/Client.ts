@@ -97,8 +97,8 @@ export class FileEndpoints {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.14",
-                "User-Agent": "extendai/0.0.14",
+                "X-Fern-SDK-Version": "0.0.15",
+                "User-Agent": "extendai/0.0.15",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -156,18 +156,18 @@ export class FileEndpoints {
      * @throws {@link Extend.UnauthorizedError}
      *
      * @example
-     *     await client.fileEndpoints.createFileDeprecated({
+     *     await client.fileEndpoints.createFile({
      *         name: "name"
      *     })
      */
-    public createFileDeprecated(
+    public createFile(
         request: Extend.PostFilesRequest,
         requestOptions?: FileEndpoints.RequestOptions,
     ): core.HttpResponsePromise<Extend.PostFilesResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__createFileDeprecated(request, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__createFile(request, requestOptions));
     }
 
-    private async __createFileDeprecated(
+    private async __createFile(
         request: Extend.PostFilesRequest,
         requestOptions?: FileEndpoints.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.PostFilesResponse>> {
@@ -187,8 +187,8 @@ export class FileEndpoints {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.14",
-                "User-Agent": "extendai/0.0.14",
+                "X-Fern-SDK-Version": "0.0.15",
+                "User-Agent": "extendai/0.0.15",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -294,8 +294,8 @@ export class FileEndpoints {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.14",
-                "User-Agent": "extendai/0.0.14",
+                "X-Fern-SDK-Version": "0.0.15",
+                "User-Agent": "extendai/0.0.15",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -393,8 +393,8 @@ export class FileEndpoints {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.14",
-                "User-Agent": "extendai/0.0.14",
+                "X-Fern-SDK-Version": "0.0.15",
+                "User-Agent": "extendai/0.0.15",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ..._maybeEncodedRequest.headers,

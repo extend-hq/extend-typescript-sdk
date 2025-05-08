@@ -18,7 +18,7 @@ export interface GetFilesIdRequest {
      */
     markdown?: boolean;
     /**
-     * If set to true, the html content of the file will be included in the response. This is useful for indexing html content into RAG pipelines for files like PDFs, Word Documents, etc.
+     * If set to true, the html content of the file will be included in the response. This is useful for indexing html content into RAG pipelines.
      *
      * Only available for files with a type of DOCX.
      */

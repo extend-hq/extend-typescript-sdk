@@ -403,9 +403,6 @@ await client.workflowEndpoints.correctWorkflowRunOutputs("workflow_run_id_here",
         value: {
             key: "value",
         },
-        metadata: {
-            key: {},
-        },
     },
 });
 ```
@@ -1248,7 +1245,7 @@ await client.fileEndpoints.listFiles({
 </dl>
 </details>
 
-<details><summary><code>client.fileEndpoints.<a href="/src/api/resources/fileEndpoints/client/Client.ts">createFileDeprecated</a>({ ...params }) -> Extend.PostFilesResponse</code></summary>
+<details><summary><code>client.fileEndpoints.<a href="/src/api/resources/fileEndpoints/client/Client.ts">createFile</a>({ ...params }) -> Extend.PostFilesResponse</code></summary>
 <dl>
 <dd>
 
@@ -1276,7 +1273,7 @@ Create a new file in Extend for use in an evaluation set. This endpoint is depre
 <dd>
 
 ```typescript
-await client.fileEndpoints.createFileDeprecated({
+await client.fileEndpoints.createFile({
     name: "name",
 });
 ```
@@ -1578,9 +1575,6 @@ await client.evaluationSetEndpoints.createEvaluationSetItem({
         value: {
             key: "value",
         },
-        metadata: {
-            key: {},
-        },
     },
 });
 ```
@@ -1649,9 +1643,6 @@ await client.evaluationSetEndpoints.updateEvaluationSetItem("evaluation_set_item
     expectedOutput: {
         value: {
             key: "value",
-        },
-        metadata: {
-            key: {},
         },
     },
 });
@@ -1739,9 +1730,6 @@ await client.evaluationSetEndpoints.bulkCreateEvaluationSetItems({
             expectedOutput: {
                 value: {
                     key: "value",
-                },
-                metadata: {
-                    key: {},
                 },
             },
         },

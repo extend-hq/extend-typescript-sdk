@@ -12,5 +12,5 @@ export interface PostEvaluationSetItemsBulkRequestItemsItem {
      */
     fileId: string;
     /** The expected output of the processor when run against the file */
-    expectedOutput: Extend.ProcessorOutput;
+    expectedOutput: Extend.ProvidedProcessorOutput;
 }

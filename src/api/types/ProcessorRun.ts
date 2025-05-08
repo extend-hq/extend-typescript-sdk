@@ -44,8 +44,7 @@ export interface ProcessorRun {
     reviewed: boolean;
     /** Indicates whether the run results have been edited. */
     edited: boolean;
-    /** A record of edits made to the processor output. */
-    edits: Extend.ProcessorRunEdits;
+    edits: Record<string, Extend.ExtractionOutputEdits>;
     /**
      * The type of processor:
      * * `"CLASSIFY"` - Classifies documents into categories

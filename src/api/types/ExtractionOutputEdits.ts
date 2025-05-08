@@ -5,7 +5,7 @@
 /**
  * A record of edits made to the processor output.
  */
-export interface ProcessorRunEdits {
+export interface ExtractionOutputEdits {
     originalValue?: unknown;
     editedValue?: unknown;
     /** Any notes added during editing. */
