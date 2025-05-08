@@ -37,7 +37,7 @@ export class EvaluationSetEndpoints {
     constructor(protected readonly _options: EvaluationSetEndpoints.Options) {}
 
     /**
-     * Evaluation sets are a collection of files and expected outputs that are used to evaluate the performance of a given processor in Extend. This endpoint will create a new evaluation set in Extend, which items can be added to using the [Create Evaluation Set Item](/developers/api-reference/evaluation-set-endpoints/create-evaluation-set-item) endpoint.
+     * Evaluation sets are collections of files and expected outputs that are used to evaluate the performance of a given processor in Extend. This endpoint will create a new evaluation set in Extend, which items can be added to using the [Create Evaluation Set Item](/developers/api-reference/evaluation-set-endpoints/create-evaluation-set-item) endpoint.
      *
      * Note: it is not necessary to create an evaluation set via API. You can also create an evaluation set via the Extend dashboard and take the ID from there.
      *
@@ -51,7 +51,7 @@ export class EvaluationSetEndpoints {
      *     await client.evaluationSetEndpoints.createEvaluationSet({
      *         name: "My Evaluation Set",
      *         description: "My Evaluation Set Description",
-     *         processorId: "<processor_id_here>"
+     *         processorId: "processor_id_here"
      *     })
      */
     public async createEvaluationSet(
@@ -144,8 +144,8 @@ export class EvaluationSetEndpoints {
      *
      * @example
      *     await client.evaluationSetEndpoints.createEvaluationSetItem({
-     *         evaluationSetId: "<evaluation_set_id_here>",
-     *         fileId: "<file_id_here>",
+     *         evaluationSetId: "evaluation_set_id_here",
+     *         fileId: "file_id_here",
      *         expectedOutput: {
      *             value: {
      *                 "key": "value"
@@ -236,7 +236,7 @@ export class EvaluationSetEndpoints {
      * @throws {@link Extend.NotFoundError}
      *
      * @example
-     *     await client.evaluationSetEndpoints.updateEvaluationSetItem("<evaluation_set_item_id_here>", {
+     *     await client.evaluationSetEndpoints.updateEvaluationSetItem("evaluation_set_item_id_here", {
      *         expectedOutput: {
      *             value: {
      *                 "key": "value"
@@ -329,9 +329,9 @@ export class EvaluationSetEndpoints {
      *
      * @example
      *     await client.evaluationSetEndpoints.bulkCreateEvaluationSetItems({
-     *         evaluationSetId: "<evaluation_set_id_here>",
+     *         evaluationSetId: "evaluation_set_id_here",
      *         items: [{
-     *                 fileId: "<file_id_here>",
+     *                 fileId: "file_id_here",
      *                 expectedOutput: {
      *                     value: {
      *                         "key": "value"

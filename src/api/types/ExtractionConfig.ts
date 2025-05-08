@@ -6,7 +6,7 @@ import * as Extend from "../index";
 
 export interface ExtractionConfig {
     /** The base processor to use. For extractors, this must be either `"extraction_performance"` or `"extraction_light"`. See the [base processor documentation](/changelog/overview) for more details. */
-    baseProcessor?: string;
+    baseProcessor?: Extend.ExtractionConfigBaseProcessor;
     /** The version of the `"extraction_performance"` or `"extraction_light"` processor to use. If this is provided, the `baseProcessor` must also be provided. See the [base processor documentation](/changelog/overview) for more details. */
     baseVersion?: string;
     /** Custom rules to guide the extraction process in natural language. */

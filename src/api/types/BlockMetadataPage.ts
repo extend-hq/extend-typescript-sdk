@@ -7,7 +7,7 @@
  */
 export interface BlockMetadataPage {
     /** The page number where this block appears. */
-    number?: number;
+    number: number;
     /** The width of the page in points. */
     width?: number;
     /** The height of the page in points. */

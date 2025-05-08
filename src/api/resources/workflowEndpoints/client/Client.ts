@@ -157,7 +157,7 @@ export class WorkflowEndpoints {
      *
      * @example
      *     await client.workflowEndpoints.runWorkflow({
-     *         workflowId: "<workflow_id_here>"
+     *         workflowId: "workflow_id_here"
      *     })
      */
     public async runWorkflow(
@@ -239,7 +239,7 @@ export class WorkflowEndpoints {
      * @throws {@link Extend.NotFoundError}
      *
      * @example
-     *     await client.workflowEndpoints.getWorkflowRun("<workflow_run_id_here>")
+     *     await client.workflowEndpoints.getWorkflowRun("workflow_run_id_here")
      */
     public async getWorkflowRun(
         workflowRunId: string,
@@ -324,7 +324,7 @@ export class WorkflowEndpoints {
      * @throws {@link Extend.NotFoundError}
      *
      * @example
-     *     await client.workflowEndpoints.updateWorkflowRun("<workflow_run_id_here>")
+     *     await client.workflowEndpoints.updateWorkflowRun("workflow_run_id_here")
      */
     public async updateWorkflowRun(
         workflowRunId: string,
@@ -435,7 +435,7 @@ export class WorkflowEndpoints {
      *
      * @example
      *     await client.workflowEndpoints.batchRunWorkflow({
-     *         workflowId: "<workflow_id_here>",
+     *         workflowId: "workflow_id_here",
      *         inputs: [{}]
      *     })
      */
@@ -524,9 +524,14 @@ export class WorkflowEndpoints {
      * @throws {@link Extend.NotFoundError}
      *
      * @example
-     *     await client.workflowEndpoints.correctWorkflowRunOutputs("workflowRunId", "outputId", {
+     *     await client.workflowEndpoints.correctWorkflowRunOutputs("workflow_run_id_here", "output_id_here", {
      *         reviewedOutput: {
-     *             "key": "value"
+     *             value: {
+     *                 "key": "value"
+     *             },
+     *             metadata: {
+     *                 "key": {}
+     *             }
      *         }
      *     })
      */

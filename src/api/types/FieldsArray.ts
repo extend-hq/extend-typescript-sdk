@@ -7,4 +7,4 @@ import * as Extend from "../index";
 /**
  * The output from an extraction processor
  */
-export type ExtractionOutput = Extend.JsonSchema | Extend.FieldsArray;
+export type FieldsArray = Record<string, Extend.ExtractionFieldResult>;

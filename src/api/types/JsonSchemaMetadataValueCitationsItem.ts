@@ -4,11 +4,11 @@
 
 import * as Extend from "../index";
 
-export interface ExtractionJsonSchemaOutputMetadataValueCitationsItem {
+export interface JsonSchemaMetadataValueCitationsItem {
     /** Page number where the citation was found */
     page?: number;
     /** The text that was referenced */
     referenceText?: string;
     /** Array of points defining the polygon around the referenced text */
-    polygon?: Extend.ExtractionJsonSchemaOutputMetadataValueCitationsItemPolygonItem[];
+    polygon?: Extend.JsonSchemaMetadataValueCitationsItemPolygonItem[];
 }

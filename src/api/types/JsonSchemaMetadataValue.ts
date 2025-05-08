@@ -4,11 +4,11 @@
 
 import * as Extend from "../index";
 
-export interface ExtractionJsonSchemaOutputMetadataValue {
+export interface JsonSchemaMetadataValue {
     /** Confidence score from OCR processing, if applicable */
     ocrConfidence?: number;
     /** Confidence score based on model logprobs */
     logprobsConfidence?: number;
-    citations?: Extend.ExtractionJsonSchemaOutputMetadataValueCitationsItem[];
-    insights?: Extend.ExtractionJsonSchemaOutputMetadataValueInsightsItem[];
+    citations?: Extend.JsonSchemaMetadataValueCitationsItem[];
+    insights?: Extend.JsonSchemaMetadataValueInsightsItem[];
 }

@@ -4,11 +4,13 @@
 
 /**
  * @example
- *     {}
+ *     {
+ *         name: "name"
+ *     }
  */
 export interface PostFilesRequest {
     /** The name of the file */
-    name?: string;
+    name: string;
     /** A pre signed URL for the file */
     url?: string;
     /** The raw text content of the file */

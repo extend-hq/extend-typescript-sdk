@@ -5,7 +5,7 @@
 /**
  * A simplified bounding box for the block.
  */
-export interface PostParseResponseChunksItemBlocksItemBoundingBox {
+export interface BlockBoundingBox {
     left: number;
     right: number;
     top: number;

@@ -5,8 +5,8 @@
 /**
  * The type of chunk.
  */
-export type PostParseResponseChunksItemType = "page" | "document" | "section";
-export const PostParseResponseChunksItemType = {
+export type ChunkType = "page" | "document" | "section";
+export const ChunkType = {
     Page: "page",
     Document: "document",
     Section: "section",

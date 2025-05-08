@@ -6,13 +6,13 @@ import * as Extend from "../index";
 
 export interface Chunk {
     /** The type of object. In this case, it will always be `"chunk"`. */
-    object?: string;
-    /** The type of chunk (e.g., "page"). */
-    type?: string;
-    /** The textual content of the chunk in the specified target format. */
-    content?: string;
+    object: string;
+    /** The type of chunk. */
+    type: Extend.ChunkType;
+    /** The parsed content of the chunk. */
+    content: string;
     /** Metadata about the chunk. */
-    metadata?: Extend.ChunkMetadata;
-    /** An array of block objects that make up the chunk. See the Block object documentation for more detailed information about block structure and types. */
-    blocks?: Extend.Block[];
+    metadata: Extend.ChunkMetadata;
+    /** An array of block objects that make up the chunk. A Block represents a distinct content element within a document, such as a paragraph of text, a heading, a table, or a figure. Blocks are the fundamental units that make up chunks in parsed documents. */
+    blocks: Extend.Block[];
 }

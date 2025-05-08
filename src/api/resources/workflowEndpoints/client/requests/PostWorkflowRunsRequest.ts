@@ -7,7 +7,7 @@ import * as Extend from "../../../../index";
 /**
  * @example
  *     {
- *         workflowId: "<workflow_id_here>"
+ *         workflowId: "workflow_id_here"
  *     }
  */
 export interface PostWorkflowRunsRequest {

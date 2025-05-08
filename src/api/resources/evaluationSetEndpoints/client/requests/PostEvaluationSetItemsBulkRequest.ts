@@ -7,9 +7,9 @@ import * as Extend from "../../../../index";
 /**
  * @example
  *     {
- *         evaluationSetId: "<evaluation_set_id_here>",
+ *         evaluationSetId: "evaluation_set_id_here",
  *         items: [{
- *                 fileId: "<file_id_here>",
+ *                 fileId: "file_id_here",
  *                 expectedOutput: {
  *                     value: {
  *                         "key": "value"

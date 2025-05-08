@@ -6,7 +6,7 @@ import * as Extend from "../index";
 
 export interface SplitterConfig {
     /** The base processor to use. For splitters, this can currently only be `"splitter_performance"`. See the [base processor documentation](/changelog/overview) for more details. */
-    baseProcessor?: string;
+    baseProcessor?: "splitter_performance";
     /** The version of the `"splitter_performance"` processor to use. If this is provided, the `baseProcessor` must also be provided. See the [base processor documentation](/changelog/overview) for more details. */
     baseVersion?: string;
     /** Array of classifications that define the possible types of document sections. */

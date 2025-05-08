@@ -6,26 +6,28 @@ import * as Extend from "../index";
 
 export interface Block {
     /** The type of object. In this case, it will always be `"block"`. */
-    object?: string;
-    /** A unique identifier for the block. */
-    id?: string;
+    object: string;
+    /** A unique identifier for the block, deterministically generated as a hash of the block content. */
+    id: string;
     /**
      * The type of block:
      * * `"text"` - Regular text content
      * * `"heading"` - Section or document headings
      * * `"section_heading"` - Subsection headings
      * * `"table"` - Tabular data with rows and columns
-     * * `"figure"` - Images, charts, or diagrams
+     * * `"table_head"` - Table header cells
+     * * `"table_cell"` - Table body cells
+     * * `"figure"` - Images, charts, diagrams, or logos
      */
-    type?: Extend.BlockType;
-    /** The textual content of the block. */
-    content?: string;
-    /** Additional details specific to the block type. */
-    details?: Record<string, unknown>;
+    type: Extend.BlockType;
+    /** The textual content of the block formatted based on the target format. */
+    content: string;
+    /** Additional details specific to the block type. The schema depends on the block type. */
+    details: Extend.BlockDetails;
     /** Metadata about the block. */
-    metadata?: Extend.BlockMetadata;
+    metadata: Extend.BlockMetadata;
     /** An array of points defining the polygon that bounds the block. */
-    polygon?: Record<string, unknown>[];
+    polygon: Extend.BlockPolygonItem[];
     /** A simplified bounding box for the block. */
-    boundingBox?: Record<string, unknown>;
+    boundingBox: Extend.BlockBoundingBox;
 }

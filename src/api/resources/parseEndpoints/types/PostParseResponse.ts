@@ -15,7 +15,8 @@ export interface PostParseResponse {
     id: string;
     /** The identifier of the file that was parsed. This can be used as a parameter to other Extend endpoints, such as processor runs. This allows downstream processing to reuse a cache of the parsed file content to reduce your usage costs. */
     fileId: string;
-    chunks: Extend.PostParseResponseChunksItem[];
+    /** An array of chunks that were parsed from the file. */
+    chunks: Extend.Chunk[];
     /**
      * The status of the parser run:
      * * `"PROCESSED"` - The file was successfully processed

@@ -4,9 +4,9 @@
 
 import * as Extend from "../index";
 
-export interface ExtractionJsonSchemaOutput {
+export interface JsonSchema {
     /** The extracted values conforming to the schema defined in the processor config */
     value: Record<string, unknown>;
     /** Metadata about the extracted fields */
-    metadata: Record<string, Extend.ExtractionJsonSchemaOutputMetadataValue>;
+    metadata: Record<string, Extend.JsonSchemaMetadataValue>;
 }

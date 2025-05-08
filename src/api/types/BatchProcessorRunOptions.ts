@@ -10,7 +10,4 @@ export interface BatchProcessorRunOptions {
     fuzzyMatchFields?: string[];
     /** The fields that were excluded from the run. */
     excludeFields?: string[];
-    /** Whether the pre-processing cache was cleared. */
-    clearPreProcessingCache?: boolean;
-    rateLimitFlag?: string;
 }

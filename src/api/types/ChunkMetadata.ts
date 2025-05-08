@@ -9,5 +9,5 @@ import * as Extend from "../index";
  */
 export interface ChunkMetadata {
     /** The page range this chunk covers. Often will just be a partial page, in which cases `start` and `end` will be the same. */
-    pageRange?: Extend.ChunkMetadataPageRange;
+    pageRange: Extend.ChunkMetadataPageRange;
 }

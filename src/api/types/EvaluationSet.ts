@@ -3,7 +3,7 @@
  */
 
 /**
- * The EvaluationSet object represents an evaluation set in Extend. Evaluation sets are a collection of files and expected outputs that are used to evaluate the performance of a given processor in Extend.
+ * The EvaluationSet object represents an evaluation set in Extend. Evaluation sets are collections of files and expected outputs that are used to evaluate the performance of a given processor in Extend.
  */
 export interface EvaluationSet {
     /** The type of response. In this case, it will always be `"evaluation_set"`. */

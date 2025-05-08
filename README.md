@@ -24,7 +24,7 @@ import { ExtendClient } from "extendai";
 
 const client = new ExtendClient({ token: "YOUR_TOKEN", extendApiVersion: "YOUR_EXTEND_API_VERSION" });
 await client.workflowEndpoints.runWorkflow({
-    workflowId: "<workflow_id_here>",
+    workflowId: "workflow_id_here",
 });
 ```
 

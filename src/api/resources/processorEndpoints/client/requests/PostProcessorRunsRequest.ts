@@ -7,7 +7,7 @@ import * as Extend from "../../../../index";
 /**
  * @example
  *     {
- *         processorId: "<processor_id_here>"
+ *         processorId: "processor_id_here"
  *     }
  */
 export interface PostProcessorRunsRequest {

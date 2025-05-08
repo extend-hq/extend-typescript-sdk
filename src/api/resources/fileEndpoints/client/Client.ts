@@ -146,10 +146,12 @@ export class FileEndpoints {
      * @throws {@link Extend.UnauthorizedError}
      *
      * @example
-     *     await client.fileEndpoints.createFileDeprecated()
+     *     await client.fileEndpoints.createFileDeprecated({
+     *         name: "name"
+     *     })
      */
     public async createFileDeprecated(
-        request: Extend.PostFilesRequest = {},
+        request: Extend.PostFilesRequest,
         requestOptions?: FileEndpoints.RequestOptions,
     ): Promise<Extend.PostFilesResponse> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -227,7 +229,7 @@ export class FileEndpoints {
      * @throws {@link Extend.NotFoundError}
      *
      * @example
-     *     await client.fileEndpoints.getFile("<file_id_here>")
+     *     await client.fileEndpoints.getFile("file_id_here")
      */
     public async getFile(
         id: string,

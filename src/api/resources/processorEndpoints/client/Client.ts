@@ -57,7 +57,7 @@ export class ProcessorEndpoints {
      *
      * @example
      *     await client.processorEndpoints.runProcessor({
-     *         processorId: "<processor_id_here>"
+     *         processorId: "processor_id_here"
      *     })
      */
     public async runProcessor(
@@ -143,7 +143,7 @@ export class ProcessorEndpoints {
      * @throws {@link Extend.NotFoundError}
      *
      * @example
-     *     await client.processorEndpoints.getProcessorRun("<processor_run_id_here>")
+     *     await client.processorEndpoints.getProcessorRun("processor_run_id_here")
      */
     public async getProcessorRun(
         id: string,
@@ -312,7 +312,7 @@ export class ProcessorEndpoints {
      * @throws {@link Extend.NotFoundError}
      *
      * @example
-     *     await client.processorEndpoints.getProcessorVersion("<processor_id_here>", "<processor_version_id_here>")
+     *     await client.processorEndpoints.getProcessorVersion("processor_id_here", "processor_version_id_here")
      */
     public async getProcessorVersion(
         processorId: string,
@@ -400,7 +400,7 @@ export class ProcessorEndpoints {
      * @throws {@link Extend.NotFoundError}
      *
      * @example
-     *     await client.processorEndpoints.listProcessorVersions("<processor_id_here>")
+     *     await client.processorEndpoints.listProcessorVersions("processor_id_here")
      */
     public async listProcessorVersions(
         id: string,
@@ -484,7 +484,7 @@ export class ProcessorEndpoints {
      * @throws {@link Extend.UnauthorizedError}
      *
      * @example
-     *     await client.processorEndpoints.publishProcessorVersion("<processor_id_here>", {
+     *     await client.processorEndpoints.publishProcessorVersion("processor_id_here", {
      *         releaseType: "major"
      *     })
      */
@@ -568,7 +568,7 @@ export class ProcessorEndpoints {
      * @throws {@link Extend.NotFoundError}
      *
      * @example
-     *     await client.processorEndpoints.getBatchProcessorRun("<batch_processor_run_id_here>")
+     *     await client.processorEndpoints.getBatchProcessorRun("batch_processor_run_id_here")
      */
     public async getBatchProcessorRun(
         id: string,
@@ -651,7 +651,7 @@ export class ProcessorEndpoints {
      * @throws {@link Extend.NotFoundError}
      *
      * @example
-     *     await client.processorEndpoints.updateProcessor("<processor_id_here>")
+     *     await client.processorEndpoints.updateProcessor("processor_id_here")
      */
     public async updateProcessor(
         id: string,

@@ -7,8 +7,4 @@ import * as Extend from "../index";
 /**
  * The output from a processor run. The type of output will match the processor type.
  */
-export type ProcessorOutput =
-    | Extend.ExtractionJsonSchemaOutput
-    | Extend.ExtractionOutput
-    | Extend.ClassifierOutput
-    | Extend.SplitterOutput;
+export type ProcessorOutput = Extend.ExtractionOutput | Extend.ClassifierOutput | Extend.SplitterOutput;

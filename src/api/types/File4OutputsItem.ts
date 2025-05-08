@@ -13,9 +13,9 @@ export interface File4OutputsItem {
     processorId: string;
     /**
      * The output that is being overridden. The structure will depend on the processor type. More details can be found [here](../../guides/output-types).
-     * * For extraction processors, this will be an object mapping field names to extracted values
+     * * For extraction processors, this will either have a [JSON Schema](/developers/guides/output-types#extraction-output-type-json-schema) or a [Fields Array](/developers/guides/output-types#extraction-output-type-fields-array) output format.
      * * For classification processors, this will be the classification result
      * * For splitter processors, this will be the split points in the document
      */
-    output: Extend.File4OutputsItemOutput;
+    output: Extend.ProcessorOutput;
 }

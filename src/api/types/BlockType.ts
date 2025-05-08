@@ -8,7 +8,9 @@
  * * `"heading"` - Section or document headings
  * * `"section_heading"` - Subsection headings
  * * `"table"` - Tabular data with rows and columns
- * * `"figure"` - Images, charts, or diagrams
+ * * `"table_head"` - Table header cells
+ * * `"table_cell"` - Table body cells
+ * * `"figure"` - Images, charts, diagrams, or logos
  */
 export type BlockType = "text" | "heading" | "section_heading" | "table" | "figure";
 export const BlockType = {

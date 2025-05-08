@@ -96,7 +96,7 @@ Run a Workflow with files. A Workflow is a sequence of steps that process files 
 
 ```typescript
 await client.workflowEndpoints.runWorkflow({
-    workflowId: "<workflow_id_here>",
+    workflowId: "workflow_id_here",
 });
 ```
 
@@ -160,7 +160,7 @@ Once a workflow has been run, you can check the status and output of a specific 
 <dd>
 
 ```typescript
-await client.workflowEndpoints.getWorkflowRun("<workflow_run_id_here>");
+await client.workflowEndpoints.getWorkflowRun("workflow_run_id_here");
 ```
 
 </dd>
@@ -227,7 +227,7 @@ You can update the name and metadata of an in progress WorkflowRun at any time u
 <dd>
 
 ```typescript
-await client.workflowEndpoints.updateWorkflowRun("<workflow_run_id_here>");
+await client.workflowEndpoints.updateWorkflowRun("workflow_run_id_here");
 ```
 
 </dd>
@@ -329,7 +329,7 @@ Common errors include:
 
 ```typescript
 await client.workflowEndpoints.batchRunWorkflow({
-    workflowId: "<workflow_id_here>",
+    workflowId: "workflow_id_here",
     inputs: [{}],
 });
 ```
@@ -398,9 +398,14 @@ The output ID, would be found in a given entry within the outputs arrays of a Wo
 <dd>
 
 ```typescript
-await client.workflowEndpoints.correctWorkflowRunOutputs("workflowRunId", "outputId", {
+await client.workflowEndpoints.correctWorkflowRunOutputs("workflow_run_id_here", "output_id_here", {
     reviewedOutput: {
-        key: "value",
+        value: {
+            key: "value",
+        },
+        metadata: {
+            key: {},
+        },
     },
 });
 ```
@@ -561,7 +566,7 @@ Similar to workflow runs, processor runs are asynchronous and will return a stat
 
 ```typescript
 await client.processorEndpoints.runProcessor({
-    processorId: "<processor_id_here>",
+    processorId: "processor_id_here",
 });
 ```
 
@@ -627,7 +632,7 @@ A common use case for this endpoint is to poll for the status and final output o
 <dd>
 
 ```typescript
-await client.processorEndpoints.getProcessorRun("<processor_run_id_here>");
+await client.processorEndpoints.getProcessorRun("processor_run_id_here");
 ```
 
 </dd>
@@ -760,7 +765,7 @@ Retrieve a specific version of a processor in Extend
 <dd>
 
 ```typescript
-await client.processorEndpoints.getProcessorVersion("<processor_id_here>", "<processor_version_id_here>");
+await client.processorEndpoints.getProcessorVersion("processor_id_here", "processor_version_id_here");
 ```
 
 </dd>
@@ -842,7 +847,7 @@ The `draft` version is the latest unpublished version of the processor, which ca
 <dd>
 
 ```typescript
-await client.processorEndpoints.listProcessorVersions("<processor_id_here>");
+await client.processorEndpoints.listProcessorVersions("processor_id_here");
 ```
 
 </dd>
@@ -911,7 +916,7 @@ Publishing a new version does not automatically update existing workflows using 
 <dd>
 
 ```typescript
-await client.processorEndpoints.publishProcessorVersion("<processor_id_here>", {
+await client.processorEndpoints.publishProcessorVersion("processor_id_here", {
     releaseType: "major",
 });
 ```
@@ -988,7 +993,7 @@ Retrieve details about a batch processor run, including evaluation runs
 <dd>
 
 ```typescript
-await client.processorEndpoints.getBatchProcessorRun("<batch_processor_run_id_here>");
+await client.processorEndpoints.getBatchProcessorRun("batch_processor_run_id_here");
 ```
 
 </dd>
@@ -1055,7 +1060,7 @@ Update an existing processor in Extend
 <dd>
 
 ```typescript
-await client.processorEndpoints.updateProcessor("<processor_id_here>");
+await client.processorEndpoints.updateProcessor("processor_id_here");
 ```
 
 </dd>
@@ -1271,7 +1276,9 @@ Create a new file in Extend for use in an evaluation set. This endpoint is depre
 <dd>
 
 ```typescript
-await client.fileEndpoints.createFileDeprecated();
+await client.fileEndpoints.createFileDeprecated({
+    name: "name",
+});
 ```
 
 </dd>
@@ -1334,7 +1341,7 @@ Fetch a file by its ID to obtain additional details and the raw file content.
 <dd>
 
 ```typescript
-await client.fileEndpoints.getFile("<file_id_here>");
+await client.fileEndpoints.getFile("file_id_here");
 ```
 
 </dd>
@@ -1466,7 +1473,7 @@ await client.fileEndpoints.uploadFile(fs.createReadStream("/path/to/your/file"))
 <dl>
 <dd>
 
-Evaluation sets are a collection of files and expected outputs that are used to evaluate the performance of a given processor in Extend. This endpoint will create a new evaluation set in Extend, which items can be added to using the [Create Evaluation Set Item](/developers/api-reference/evaluation-set-endpoints/create-evaluation-set-item) endpoint.
+Evaluation sets are collections of files and expected outputs that are used to evaluate the performance of a given processor in Extend. This endpoint will create a new evaluation set in Extend, which items can be added to using the [Create Evaluation Set Item](/developers/api-reference/evaluation-set-endpoints/create-evaluation-set-item) endpoint.
 
 Note: it is not necessary to create an evaluation set via API. You can also create an evaluation set via the Extend dashboard and take the ID from there.
 
@@ -1487,7 +1494,7 @@ Note: it is not necessary to create an evaluation set via API. You can also crea
 await client.evaluationSetEndpoints.createEvaluationSet({
     name: "My Evaluation Set",
     description: "My Evaluation Set Description",
-    processorId: "<processor_id_here>",
+    processorId: "processor_id_here",
 });
 ```
 
@@ -1565,8 +1572,8 @@ Best Practices for Outputs in Evaluation Sets:
 
 ```typescript
 await client.evaluationSetEndpoints.createEvaluationSetItem({
-    evaluationSetId: "<evaluation_set_id_here>",
-    fileId: "<file_id_here>",
+    evaluationSetId: "evaluation_set_id_here",
+    fileId: "file_id_here",
     expectedOutput: {
         value: {
             key: "value",
@@ -1638,7 +1645,7 @@ If you need to change the expected output for a given evaluation set item, you c
 <dd>
 
 ```typescript
-await client.evaluationSetEndpoints.updateEvaluationSetItem("<evaluation_set_item_id_here>", {
+await client.evaluationSetEndpoints.updateEvaluationSetItem("evaluation_set_item_id_here", {
     expectedOutput: {
         value: {
             key: "value",
@@ -1725,10 +1732,10 @@ Note: you still need to create each File first using the file API.
 
 ```typescript
 await client.evaluationSetEndpoints.bulkCreateEvaluationSetItems({
-    evaluationSetId: "<evaluation_set_id_here>",
+    evaluationSetId: "evaluation_set_id_here",
     items: [
         {
-            fileId: "<file_id_here>",
+            fileId: "file_id_here",
             expectedOutput: {
                 value: {
                     key: "value",

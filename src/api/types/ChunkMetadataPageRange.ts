@@ -7,7 +7,7 @@
  */
 export interface ChunkMetadataPageRange {
     /** The starting page number (inclusive). */
-    start?: number;
+    start: number;
     /** The ending page number (inclusive). */
-    end?: number;
+    end: number;
 }
