@@ -82,8 +82,9 @@ export class Workflow {
                           )
                         : undefined,
                 "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.22",
+                "X-Fern-SDK-Name": "extendai",
+                "X-Fern-SDK-Version": "0.0.26",
+                "User-Agent": "extendai/0.0.26",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
