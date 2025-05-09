@@ -5,6 +5,10 @@
 
 The Extendconfig TypeScript library provides convenient access to the Extendconfig API from TypeScript.
 
+## Documentation
+
+API reference documentation is available [here](https://docs.extend.ai/).
+
 ## Installation
 
 ```sh
