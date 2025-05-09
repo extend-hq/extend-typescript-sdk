@@ -13,7 +13,7 @@ export const File_: core.serialization.ObjectSchema<serializers.File_.Raw, Exten
     object: core.serialization.string(),
     id: core.serialization.string(),
     name: core.serialization.string(),
-    type: FileType,
+    type: FileType.optional(),
     presignedUrl: core.serialization.string().optional(),
     parentFileId: core.serialization.string().optional(),
     contents: FileContents.optional(),
@@ -27,7 +27,7 @@ export declare namespace File_ {
         object: string;
         id: string;
         name: string;
-        type: FileType.Raw;
+        type?: FileType.Raw | null;
         presignedUrl?: string | null;
         parentFileId?: string | null;
         contents?: FileContents.Raw | null;

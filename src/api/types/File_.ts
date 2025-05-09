@@ -20,7 +20,7 @@ export interface File_ {
      */
     name: string;
     /** The type of the file */
-    type: Extend.FileType;
+    type?: Extend.FileType;
     /** A presigned URL to download the file. Expires after 15 minutes. */
     presignedUrl?: string;
     /** The ID of the parent file. Only included if this file is a derivative of another file, for instance if it was created via a Splitter in a workflow. */
