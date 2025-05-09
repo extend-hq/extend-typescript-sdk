@@ -7,7 +7,7 @@ The Extendconfig TypeScript library provides convenient access to the Extendconf
 
 ## Documentation
 
-API reference documentation is available [here](https://docs.extend.ai/).
+API reference documentation is available [here](https://docs.extend.ai/2025-04-21/developers/authentication).
 
 ## Installation
 
