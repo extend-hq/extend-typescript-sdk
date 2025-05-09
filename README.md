@@ -23,7 +23,7 @@ Instantiate and use the client with the following:
 import { ExtendClient } from "extendai";
 
 const client = new ExtendClient({ token: "YOUR_TOKEN", extendApiVersion: "YOUR_EXTEND_API_VERSION" });
-await client.workflowEndpoints.runWorkflow({
+await client.runWorkflow({
     workflowId: "workflow_id_here",
 });
 ```
@@ -36,7 +36,7 @@ following namespace:
 ```typescript
 import { Extend } from "extendai";
 
-const request: Extend.GetWorkflowRunsRequest = {
+const request: Extend.WorkflowRunListRequest = {
     ...
 };
 ```
@@ -50,7 +50,7 @@ will be thrown.
 import { ExtendError } from "extendai";
 
 try {
-    await client.workflowEndpoints.runWorkflow(...);
+    await client.runWorkflow(...);
 } catch (err) {
     if (err instanceof ExtendError) {
         console.log(err.statusCode);
@@ -68,7 +68,7 @@ try {
 If you would like to send additional headers as part of the request, use the `headers` request option.
 
 ```typescript
-const response = await client.workflowEndpoints.runWorkflow(..., {
+const response = await client.runWorkflow(..., {
     headers: {
         'X-Custom-Header': 'custom value'
     }
@@ -90,7 +90,7 @@ A request is deemed retryable when any of the following HTTP status codes is ret
 Use the `maxRetries` request option to configure this behavior.
 
 ```typescript
-const response = await client.workflowEndpoints.runWorkflow(..., {
+const response = await client.runWorkflow(..., {
     maxRetries: 0 // override maxRetries at the request level
 });
 ```
@@ -100,7 +100,7 @@ const response = await client.workflowEndpoints.runWorkflow(..., {
 The SDK defaults to a 60 second timeout. Use the `timeoutInSeconds` option to configure this behavior.
 
 ```typescript
-const response = await client.workflowEndpoints.runWorkflow(..., {
+const response = await client.runWorkflow(..., {
     timeoutInSeconds: 30 // override timeout to 30s
 });
 ```
@@ -111,7 +111,7 @@ The SDK allows users to abort requests at any point by passing in an abort signa
 
 ```typescript
 const controller = new AbortController();
-const response = await client.workflowEndpoints.runWorkflow(..., {
+const response = await client.runWorkflow(..., {
     abortSignal: controller.signal
 });
 controller.abort(); // aborts the request
@@ -123,7 +123,7 @@ The SDK provides access to raw response data, including headers, through the `.w
 The `.withRawResponse()` method returns a promise that results to an object with a `data` and a `rawResponse` property.
 
 ```typescript
-const { data, rawResponse } = await client.workflowEndpoints.runWorkflow(...).withRawResponse();
+const { data, rawResponse } = await client.runWorkflow(...).withRawResponse();
 
 console.log(data);
 console.log(rawResponse.headers['X-My-Header']);

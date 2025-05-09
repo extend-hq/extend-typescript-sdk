@@ -5,11 +5,21 @@
 import * as environments from "./environments";
 import * as core from "./core";
 import * as Extend from "./api/index";
-import { WorkflowEndpoints } from "./api/resources/workflowEndpoints/client/Client";
-import { ProcessorEndpoints } from "./api/resources/processorEndpoints/client/Client";
-import { ParseEndpoints } from "./api/resources/parseEndpoints/client/Client";
+import * as serializers from "./serialization/index";
+import urlJoin from "url-join";
+import * as errors from "./errors/index";
+import { WorkflowRun } from "./api/resources/workflowRun/client/Client";
+import { BatchWorkflowRun } from "./api/resources/batchWorkflowRun/client/Client";
+import { ProcessorRun } from "./api/resources/processorRun/client/Client";
+import { Processor } from "./api/resources/processor/client/Client";
+import { ProcessorVersion } from "./api/resources/processorVersion/client/Client";
+import { File_ } from "./api/resources/file/client/Client";
 import { FileEndpoints } from "./api/resources/fileEndpoints/client/Client";
-import { EvaluationSetEndpoints } from "./api/resources/evaluationSetEndpoints/client/Client";
+import { EvaluationSet } from "./api/resources/evaluationSet/client/Client";
+import { EvaluationSetItem } from "./api/resources/evaluationSetItem/client/Client";
+import { WorkflowRunOutput } from "./api/resources/workflowRunOutput/client/Client";
+import { BatchProcessorRun } from "./api/resources/batchProcessorRun/client/Client";
+import { Workflow } from "./api/resources/workflow/client/Client";
 
 export declare namespace ExtendClient {
     export interface Options {
@@ -37,31 +47,435 @@ export declare namespace ExtendClient {
 }
 
 export class ExtendClient {
-    protected _workflowEndpoints: WorkflowEndpoints | undefined;
-    protected _processorEndpoints: ProcessorEndpoints | undefined;
-    protected _parseEndpoints: ParseEndpoints | undefined;
+    protected _workflowRun: WorkflowRun | undefined;
+    protected _batchWorkflowRun: BatchWorkflowRun | undefined;
+    protected _processorRun: ProcessorRun | undefined;
+    protected _processor: Processor | undefined;
+    protected _processorVersion: ProcessorVersion | undefined;
+    protected _file: File_ | undefined;
     protected _fileEndpoints: FileEndpoints | undefined;
-    protected _evaluationSetEndpoints: EvaluationSetEndpoints | undefined;
+    protected _evaluationSet: EvaluationSet | undefined;
+    protected _evaluationSetItem: EvaluationSetItem | undefined;
+    protected _workflowRunOutput: WorkflowRunOutput | undefined;
+    protected _batchProcessorRun: BatchProcessorRun | undefined;
+    protected _workflow: Workflow | undefined;
 
     constructor(protected readonly _options: ExtendClient.Options) {}
 
-    public get workflowEndpoints(): WorkflowEndpoints {
-        return (this._workflowEndpoints ??= new WorkflowEndpoints(this._options));
+    public get workflowRun(): WorkflowRun {
+        return (this._workflowRun ??= new WorkflowRun(this._options));
     }
 
-    public get processorEndpoints(): ProcessorEndpoints {
-        return (this._processorEndpoints ??= new ProcessorEndpoints(this._options));
+    public get batchWorkflowRun(): BatchWorkflowRun {
+        return (this._batchWorkflowRun ??= new BatchWorkflowRun(this._options));
     }
 
-    public get parseEndpoints(): ParseEndpoints {
-        return (this._parseEndpoints ??= new ParseEndpoints(this._options));
+    public get processorRun(): ProcessorRun {
+        return (this._processorRun ??= new ProcessorRun(this._options));
+    }
+
+    public get processor(): Processor {
+        return (this._processor ??= new Processor(this._options));
+    }
+
+    public get processorVersion(): ProcessorVersion {
+        return (this._processorVersion ??= new ProcessorVersion(this._options));
+    }
+
+    public get file(): File_ {
+        return (this._file ??= new File_(this._options));
     }
 
     public get fileEndpoints(): FileEndpoints {
         return (this._fileEndpoints ??= new FileEndpoints(this._options));
     }
 
-    public get evaluationSetEndpoints(): EvaluationSetEndpoints {
-        return (this._evaluationSetEndpoints ??= new EvaluationSetEndpoints(this._options));
+    public get evaluationSet(): EvaluationSet {
+        return (this._evaluationSet ??= new EvaluationSet(this._options));
+    }
+
+    public get evaluationSetItem(): EvaluationSetItem {
+        return (this._evaluationSetItem ??= new EvaluationSetItem(this._options));
+    }
+
+    public get workflowRunOutput(): WorkflowRunOutput {
+        return (this._workflowRunOutput ??= new WorkflowRunOutput(this._options));
+    }
+
+    public get batchProcessorRun(): BatchProcessorRun {
+        return (this._batchProcessorRun ??= new BatchProcessorRun(this._options));
+    }
+
+    public get workflow(): Workflow {
+        return (this._workflow ??= new Workflow(this._options));
+    }
+
+    /**
+     * Run a Workflow with files. A Workflow is a sequence of steps that process files and data in a specific order to achieve a desired outcome. A WorkflowRun will be created for each file processed. A WorkflowRun represents a single execution of a workflow against a file.
+     *
+     * @param {Extend.RunWorkflowRequest} request
+     * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     *
+     * @example
+     *     await client.runWorkflow({
+     *         workflowId: "workflow_id_here"
+     *     })
+     */
+    public runWorkflow(
+        request: Extend.RunWorkflowRequest,
+        requestOptions?: ExtendClient.RequestOptions,
+    ): core.HttpResponsePromise<Extend.RunWorkflowResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__runWorkflow(request, requestOptions));
+    }
+
+    private async __runWorkflow(
+        request: Extend.RunWorkflowRequest,
+        requestOptions?: ExtendClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.RunWorkflowResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                "workflow_runs",
+            ),
+            method: "POST",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version":
+                    (await core.Supplier.get(this._options.extendApiVersion)) != null
+                        ? serializers.ApiVersionEnum.jsonOrThrow(
+                              await core.Supplier.get(this._options.extendApiVersion),
+                              { unrecognizedObjectKeys: "strip" },
+                          )
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "extendai",
+                "X-Fern-SDK-Version": "0.0.20",
+                "User-Agent": "extendai/0.0.20",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                ...requestOptions?.headers,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            body: serializers.RunWorkflowRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return {
+                data: serializers.RunWorkflowResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ExtendError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /workflow_runs.");
+            case "unknown":
+                throw new errors.ExtendError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Run processors (extraction, classification, splitting, etc.) on a given document.
+     *
+     * In general, the recommended way to integrate with Extend in production is via workflows, using the [Run Workflow](/developers/api-reference/workflow-endpoints/run-workflow) endpoint. This is due to several factors:
+     * * file parsing/pre-processing will automatically be reused across multiple processors, which will give you simplicity and cost savings given that many use cases will require multiple processors to be run on the same document.
+     * * workflows provide dedicated human in the loop document review, when needed.
+     * * workflows allow you to model and manage your pipeline with a single endpoint and corresponding UI for modeling and monitoring.
+     *
+     * However, there are a number of legitimate use cases and systems where it might be easier to model the pipeline via code and run processors directly. This endpoint is provided for this purpose.
+     *
+     * Similar to workflow runs, processor runs are asynchronous and will return a status of `PROCESSING` until the run is complete. You can [configure webhooks](/developers/webhooks/configuration) to receive notifications when a processor run is complete or failed.
+     *
+     * @param {Extend.RunProcessorRequest} request
+     * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.NotFoundError}
+     *
+     * @example
+     *     await client.runProcessor({
+     *         processorId: "processor_id_here"
+     *     })
+     */
+    public runProcessor(
+        request: Extend.RunProcessorRequest,
+        requestOptions?: ExtendClient.RequestOptions,
+    ): core.HttpResponsePromise<Extend.RunProcessorResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__runProcessor(request, requestOptions));
+    }
+
+    private async __runProcessor(
+        request: Extend.RunProcessorRequest,
+        requestOptions?: ExtendClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.RunProcessorResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                "processor_runs",
+            ),
+            method: "POST",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version":
+                    (await core.Supplier.get(this._options.extendApiVersion)) != null
+                        ? serializers.ApiVersionEnum.jsonOrThrow(
+                              await core.Supplier.get(this._options.extendApiVersion),
+                              { unrecognizedObjectKeys: "strip" },
+                          )
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "extendai",
+                "X-Fern-SDK-Version": "0.0.20",
+                "User-Agent": "extendai/0.0.20",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                ...requestOptions?.headers,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            body: serializers.RunProcessorRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return {
+                data: serializers.RunProcessorResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
+                case 404:
+                    throw new Extend.NotFoundError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ExtendError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /processor_runs.");
+            case "unknown":
+                throw new errors.ExtendError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Parse files to get cleaned, chunked target content (e.g. markdown).
+     *
+     * The Parse endpoint allows you to convert documents into structured, machine-readable formats with fine-grained control over the parsing process. This endpoint is ideal for extracting cleaned document content to be used as context for downstream processing, e.g. RAG pipelines, custom ingestion pipelines, embeddings classification, etc.
+     *
+     * Unlike processor and workflow runs, parsing is a synchronous endpoint and returns the parsed content in the response. Expected latency depends primarily on file size. This makes it suitable for workflows where you need immediate access to document content without waiting for asynchronous processing.
+     *
+     * For more details, see the [Parse File guide](/developers/guides/parse).
+     *
+     * @param {Extend.ParseRequest} request
+     * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.UnprocessableEntityError}
+     *
+     * @example
+     *     await client.parse({
+     *         file: {},
+     *         config: {}
+     *     })
+     */
+    public parse(
+        request: Extend.ParseRequest,
+        requestOptions?: ExtendClient.RequestOptions,
+    ): core.HttpResponsePromise<Extend.ParseResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__parse(request, requestOptions));
+    }
+
+    private async __parse(
+        request: Extend.ParseRequest,
+        requestOptions?: ExtendClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.ParseResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                "parse",
+            ),
+            method: "POST",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version":
+                    (await core.Supplier.get(this._options.extendApiVersion)) != null
+                        ? serializers.ApiVersionEnum.jsonOrThrow(
+                              await core.Supplier.get(this._options.extendApiVersion),
+                              { unrecognizedObjectKeys: "strip" },
+                          )
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "extendai",
+                "X-Fern-SDK-Version": "0.0.20",
+                "User-Agent": "extendai/0.0.20",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                ...requestOptions?.headers,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            body: serializers.ParseRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return {
+                data: serializers.ParseResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
+                case 422:
+                    throw new Extend.UnprocessableEntityError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ExtendError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /parse.");
+            case "unknown":
+                throw new errors.ExtendError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    protected async _getAuthorizationHeader(): Promise<string> {
+        return `Bearer ${await core.Supplier.get(this._options.token)}`;
     }
 }

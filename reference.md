@@ -1,8 +1,82 @@
 # Reference
 
-## WorkflowEndpoints
+<details><summary><code>client.<a href="/src/Client.ts">parse</a>({ ...params }) -> Extend.ParseResponse</code></summary>
+<dl>
+<dd>
 
-<details><summary><code>client.workflowEndpoints.<a href="/src/api/resources/workflowEndpoints/client/Client.ts">listWorkflowRuns</a>({ ...params }) -> Extend.GetWorkflowRunsResponse</code></summary>
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Parse files to get cleaned, chunked target content (e.g. markdown).
+
+The Parse endpoint allows you to convert documents into structured, machine-readable formats with fine-grained control over the parsing process. This endpoint is ideal for extracting cleaned document content to be used as context for downstream processing, e.g. RAG pipelines, custom ingestion pipelines, embeddings classification, etc.
+
+Unlike processor and workflow runs, parsing is a synchronous endpoint and returns the parsed content in the response. Expected latency depends primarily on file size. This makes it suitable for workflows where you need immediate access to document content without waiting for asynchronous processing.
+
+For more details, see the [Parse File guide](/developers/guides/parse).
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.parse({
+    file: {},
+    config: {},
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.ParseRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ExtendClient.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+##
+
+## WorkflowRun
+
+<details><summary><code>client.workflowRun.<a href="/src/api/resources/workflowRun/client/Client.ts">list</a>({ ...params }) -> Extend.WorkflowRunListResponse</code></summary>
 <dl>
 <dd>
 
@@ -30,7 +104,7 @@ List runs of a Workflow. Workflows are sequences of steps that process files and
 <dd>
 
 ```typescript
-await client.workflowEndpoints.listWorkflowRuns({
+await client.workflowRun.list({
     nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
 });
 ```
@@ -48,7 +122,7 @@ await client.workflowEndpoints.listWorkflowRuns({
 <dl>
 <dd>
 
-**request:** `Extend.GetWorkflowRunsRequest`
+**request:** `Extend.WorkflowRunListRequest`
 
 </dd>
 </dl>
@@ -56,7 +130,7 @@ await client.workflowEndpoints.listWorkflowRuns({
 <dl>
 <dd>
 
-**requestOptions:** `WorkflowEndpoints.RequestOptions`
+**requestOptions:** `WorkflowRun.RequestOptions`
 
 </dd>
 </dl>
@@ -67,72 +141,7 @@ await client.workflowEndpoints.listWorkflowRuns({
 </dl>
 </details>
 
-<details><summary><code>client.workflowEndpoints.<a href="/src/api/resources/workflowEndpoints/client/Client.ts">runWorkflow</a>({ ...params }) -> Extend.PostWorkflowRunsResponse</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Run a Workflow with files. A Workflow is a sequence of steps that process files and data in a specific order to achieve a desired outcome. A WorkflowRun will be created for each file processed. A WorkflowRun represents a single execution of a workflow against a file.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.workflowEndpoints.runWorkflow({
-    workflowId: "workflow_id_here",
-});
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `Extend.PostWorkflowRunsRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `WorkflowEndpoints.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.workflowEndpoints.<a href="/src/api/resources/workflowEndpoints/client/Client.ts">getWorkflowRun</a>(workflowRunId) -> Extend.GetWorkflowRunsWorkflowRunIdResponse</code></summary>
+<details><summary><code>client.workflowRun.<a href="/src/api/resources/workflowRun/client/Client.ts">get</a>(workflowRunId) -> Extend.WorkflowRunGetResponse</code></summary>
 <dl>
 <dd>
 
@@ -160,7 +169,7 @@ Once a workflow has been run, you can check the status and output of a specific 
 <dd>
 
 ```typescript
-await client.workflowEndpoints.getWorkflowRun("workflow_run_id_here");
+await client.workflowRun.get("workflow_run_id_here");
 ```
 
 </dd>
@@ -188,7 +197,7 @@ Example: `"workflow_run_8k9m-xyzAB_Pqrst-Nvw4"`
 <dl>
 <dd>
 
-**requestOptions:** `WorkflowEndpoints.RequestOptions`
+**requestOptions:** `WorkflowRun.RequestOptions`
 
 </dd>
 </dl>
@@ -199,7 +208,7 @@ Example: `"workflow_run_8k9m-xyzAB_Pqrst-Nvw4"`
 </dl>
 </details>
 
-<details><summary><code>client.workflowEndpoints.<a href="/src/api/resources/workflowEndpoints/client/Client.ts">updateWorkflowRun</a>(workflowRunId, { ...params }) -> Extend.PostWorkflowRunsWorkflowRunIdResponse</code></summary>
+<details><summary><code>client.workflowRun.<a href="/src/api/resources/workflowRun/client/Client.ts">update</a>(workflowRunId, { ...params }) -> Extend.WorkflowRunUpdateResponse</code></summary>
 <dl>
 <dd>
 
@@ -227,7 +236,7 @@ You can update the name and metadata of an in progress WorkflowRun at any time u
 <dd>
 
 ```typescript
-await client.workflowEndpoints.updateWorkflowRun("workflow_run_id_here");
+await client.workflowRun.update("workflow_run_id_here");
 ```
 
 </dd>
@@ -255,7 +264,7 @@ Example: `"workflow_run_8k9m-xyzAB_Pqrst-Nvw4"`
 <dl>
 <dd>
 
-**request:** `Extend.PostWorkflowRunsWorkflowRunIdRequest`
+**request:** `Extend.WorkflowRunUpdateRequest`
 
 </dd>
 </dl>
@@ -263,7 +272,7 @@ Example: `"workflow_run_8k9m-xyzAB_Pqrst-Nvw4"`
 <dl>
 <dd>
 
-**requestOptions:** `WorkflowEndpoints.RequestOptions`
+**requestOptions:** `WorkflowRun.RequestOptions`
 
 </dd>
 </dl>
@@ -274,7 +283,9 @@ Example: `"workflow_run_8k9m-xyzAB_Pqrst-Nvw4"`
 </dl>
 </details>
 
-<details><summary><code>client.workflowEndpoints.<a href="/src/api/resources/workflowEndpoints/client/Client.ts">batchRunWorkflow</a>({ ...params }) -> Extend.PostWorkflowRunsBatchResponse</code></summary>
+## BatchWorkflowRun
+
+<details><summary><code>client.batchWorkflowRun.<a href="/src/api/resources/batchWorkflowRun/client/Client.ts">create</a>({ ...params }) -> Extend.BatchWorkflowRunCreateResponse</code></summary>
 <dl>
 <dd>
 
@@ -328,7 +339,7 @@ Common errors include:
 <dd>
 
 ```typescript
-await client.workflowEndpoints.batchRunWorkflow({
+await client.batchWorkflowRun.create({
     workflowId: "workflow_id_here",
     inputs: [{}],
 });
@@ -347,7 +358,7 @@ await client.workflowEndpoints.batchRunWorkflow({
 <dl>
 <dd>
 
-**request:** `Extend.PostWorkflowRunsBatchRequest`
+**request:** `Extend.BatchWorkflowRunCreateRequest`
 
 </dd>
 </dl>
@@ -355,7 +366,7 @@ await client.workflowEndpoints.batchRunWorkflow({
 <dl>
 <dd>
 
-**requestOptions:** `WorkflowEndpoints.RequestOptions`
+**requestOptions:** `BatchWorkflowRun.RequestOptions`
 
 </dd>
 </dl>
@@ -366,240 +377,9 @@ await client.workflowEndpoints.batchRunWorkflow({
 </dl>
 </details>
 
-<details><summary><code>client.workflowEndpoints.<a href="/src/api/resources/workflowEndpoints/client/Client.ts">correctWorkflowRunOutputs</a>(workflowRunId, outputId, { ...params }) -> Extend.PostWorkflowRunsWorkflowRunIdOutputsOutputIdResponse</code></summary>
-<dl>
-<dd>
+## ProcessorRun
 
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Use this endpoint to submit corrected outputs for a WorkflowRun for future processor evaluation and tuning in Extend.
-
-If you are using our Human-in-the-loop workflow review, then we already will be collecting your operator submitted corrections. However, if you are receiving data via the API without human review, there could be incorrect outputs that you would like to correct for future usage in evaluation and tuning within the Extend platform. This endpoint allows you to submit corrected outputs for a WorkflowRun, by providing the correct output for a given output ID.
-
-The output ID, would be found in a given entry within the outputs arrays of a Workflow Run payload. The ID would look something like `dpr_gwkZZNRrPgkjcq0y-***`.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.workflowEndpoints.correctWorkflowRunOutputs("workflow_run_id_here", "output_id_here", {
-    reviewedOutput: {
-        value: {
-            key: "value",
-        },
-    },
-});
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**workflowRunId:** `string`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**outputId:** `string`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request:** `Extend.PostWorkflowRunsWorkflowRunIdOutputsOutputIdRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `WorkflowEndpoints.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.workflowEndpoints.<a href="/src/api/resources/workflowEndpoints/client/Client.ts">createWorkflow</a>({ ...params }) -> Extend.PostWorkflowsResponse</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Create a new workflow in Extend. Workflows are sequences of steps that process files and data in a specific order to achieve a desired outcome.
-
-This endpoint will create a new workflow in Extend, which can then be configured and deployed. Typically, workflows are created from our UI, however this endpoint can be used to create workflows programmatically. Configuration of the flow still needs to be done in the dashboard.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.workflowEndpoints.createWorkflow({
-    name: "Invoice Processing",
-});
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `Extend.PostWorkflowsRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `WorkflowEndpoints.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-## ProcessorEndpoints
-
-<details><summary><code>client.processorEndpoints.<a href="/src/api/resources/processorEndpoints/client/Client.ts">runProcessor</a>({ ...params }) -> Extend.PostProcessorRunsResponse</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Run processors (extraction, classification, splitting, etc.) on a given document.
-
-In general, the recommended way to integrate with Extend in production is via workflows, using the [Run Workflow](/developers/api-reference/workflow-endpoints/run-workflow) endpoint. This is due to several factors:
-
-- file parsing/pre-processing will automatically be reused across multiple processors, which will give you simplicity and cost savings given that many use cases will require multiple processors to be run on the same document.
-- workflows provide dedicated human in the loop document review, when needed.
-- workflows allow you to model and manage your pipeline with a single endpoint and corresponding UI for modeling and monitoring.
-
-However, there are a number of legitimate use cases and systems where it might be easier to model the pipeline via code and run processors directly. This endpoint is provided for this purpose.
-
-Similar to workflow runs, processor runs are asynchronous and will return a status of `PROCESSING` until the run is complete. You can [configure webhooks](/developers/webhooks/configuration) to receive notifications when a processor run is complete or failed.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.processorEndpoints.runProcessor({
-    processorId: "processor_id_here",
-});
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `Extend.PostProcessorRunsRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `ProcessorEndpoints.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.processorEndpoints.<a href="/src/api/resources/processorEndpoints/client/Client.ts">getProcessorRun</a>(id) -> Extend.GetProcessorRunsIdResponse</code></summary>
+<details><summary><code>client.processorRun.<a href="/src/api/resources/processorRun/client/Client.ts">get</a>(id) -> Extend.ProcessorRunGetResponse</code></summary>
 <dl>
 <dd>
 
@@ -629,7 +409,7 @@ A common use case for this endpoint is to poll for the status and final output o
 <dd>
 
 ```typescript
-await client.processorEndpoints.getProcessorRun("processor_run_id_here");
+await client.processorRun.get("processor_run_id_here");
 ```
 
 </dd>
@@ -657,7 +437,7 @@ Example: `"dpr_Xj8mK2pL9nR4vT7qY5wZ"`
 <dl>
 <dd>
 
-**requestOptions:** `ProcessorEndpoints.RequestOptions`
+**requestOptions:** `ProcessorRun.RequestOptions`
 
 </dd>
 </dl>
@@ -668,7 +448,9 @@ Example: `"dpr_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
-<details><summary><code>client.processorEndpoints.<a href="/src/api/resources/processorEndpoints/client/Client.ts">createProcessor</a>({ ...params }) -> Extend.PostProcessorsResponse</code></summary>
+## Processor
+
+<details><summary><code>client.processor.<a href="/src/api/resources/processor/client/Client.ts">create</a>({ ...params }) -> Extend.ProcessorCreateResponse</code></summary>
 <dl>
 <dd>
 
@@ -696,7 +478,7 @@ Create a new processor in Extend, optionally cloning from an existing processor
 <dd>
 
 ```typescript
-await client.processorEndpoints.createProcessor({
+await client.processor.create({
     name: "My Processor Name",
     type: "EXTRACT",
 });
@@ -715,7 +497,7 @@ await client.processorEndpoints.createProcessor({
 <dl>
 <dd>
 
-**request:** `Extend.PostProcessorsRequest`
+**request:** `Extend.ProcessorCreateRequest`
 
 </dd>
 </dl>
@@ -723,7 +505,7 @@ await client.processorEndpoints.createProcessor({
 <dl>
 <dd>
 
-**requestOptions:** `ProcessorEndpoints.RequestOptions`
+**requestOptions:** `Processor.RequestOptions`
 
 </dd>
 </dl>
@@ -734,7 +516,84 @@ await client.processorEndpoints.createProcessor({
 </dl>
 </details>
 
-<details><summary><code>client.processorEndpoints.<a href="/src/api/resources/processorEndpoints/client/Client.ts">getProcessorVersion</a>(processorId, processorVersionId) -> Extend.GetProcessorsProcessorIdVersionsProcessorVersionIdResponse</code></summary>
+<details><summary><code>client.processor.<a href="/src/api/resources/processor/client/Client.ts">update</a>(id, { ...params }) -> Extend.ProcessorUpdateResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update an existing processor in Extend
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.processor.update("processor_id_here");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string`
+
+The ID of the processor to update. The ID will start with "dp\_".
+
+Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.ProcessorUpdateRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Processor.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+## ProcessorVersion
+
+<details><summary><code>client.processorVersion.<a href="/src/api/resources/processorVersion/client/Client.ts">get</a>(processorId, processorVersionId) -> Extend.ProcessorVersionGetResponse</code></summary>
 <dl>
 <dd>
 
@@ -762,7 +621,7 @@ Retrieve a specific version of a processor in Extend
 <dd>
 
 ```typescript
-await client.processorEndpoints.getProcessorVersion("processor_id_here", "processor_version_id_here");
+await client.processorVersion.get("processor_id_here", "processor_version_id_here");
 ```
 
 </dd>
@@ -802,7 +661,7 @@ Example: `"dpv_QYk6jgHA_8CsO8rVWhyNC"`
 <dl>
 <dd>
 
-**requestOptions:** `ProcessorEndpoints.RequestOptions`
+**requestOptions:** `ProcessorVersion.RequestOptions`
 
 </dd>
 </dl>
@@ -813,7 +672,7 @@ Example: `"dpv_QYk6jgHA_8CsO8rVWhyNC"`
 </dl>
 </details>
 
-<details><summary><code>client.processorEndpoints.<a href="/src/api/resources/processorEndpoints/client/Client.ts">listProcessorVersions</a>(id) -> Extend.GetProcessorsIdVersionsResponse</code></summary>
+<details><summary><code>client.processorVersion.<a href="/src/api/resources/processorVersion/client/Client.ts">list</a>(id) -> Extend.ProcessorVersionListResponse</code></summary>
 <dl>
 <dd>
 
@@ -844,7 +703,7 @@ The `draft` version is the latest unpublished version of the processor, which ca
 <dd>
 
 ```typescript
-await client.processorEndpoints.listProcessorVersions("processor_id_here");
+await client.processorVersion.list("processor_id_here");
 ```
 
 </dd>
@@ -872,7 +731,7 @@ Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
 <dl>
 <dd>
 
-**requestOptions:** `ProcessorEndpoints.RequestOptions`
+**requestOptions:** `ProcessorVersion.RequestOptions`
 
 </dd>
 </dl>
@@ -883,7 +742,7 @@ Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
-<details><summary><code>client.processorEndpoints.<a href="/src/api/resources/processorEndpoints/client/Client.ts">publishProcessorVersion</a>(id, { ...params }) -> Extend.PostProcessorsIdPublishResponse</code></summary>
+<details><summary><code>client.processorVersion.<a href="/src/api/resources/processorVersion/client/Client.ts">create</a>(id, { ...params }) -> Extend.ProcessorVersionCreateResponse</code></summary>
 <dl>
 <dd>
 
@@ -913,7 +772,7 @@ Publishing a new version does not automatically update existing workflows using 
 <dd>
 
 ```typescript
-await client.processorEndpoints.publishProcessorVersion("processor_id_here", {
+await client.processorVersion.create("processor_id_here", {
     releaseType: "major",
 });
 ```
@@ -943,7 +802,7 @@ Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
 <dl>
 <dd>
 
-**request:** `Extend.PostProcessorsIdPublishRequest`
+**request:** `Extend.ProcessorVersionCreateRequest`
 
 </dd>
 </dl>
@@ -951,7 +810,7 @@ Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
 <dl>
 <dd>
 
-**requestOptions:** `ProcessorEndpoints.RequestOptions`
+**requestOptions:** `ProcessorVersion.RequestOptions`
 
 </dd>
 </dl>
@@ -962,225 +821,9 @@ Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
-<details><summary><code>client.processorEndpoints.<a href="/src/api/resources/processorEndpoints/client/Client.ts">getBatchProcessorRun</a>(id) -> Extend.GetBatchProcessorRunsIdResponse</code></summary>
-<dl>
-<dd>
+## File
 
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Retrieve details about a batch processor run, including evaluation runs
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.processorEndpoints.getBatchProcessorRun("batch_processor_run_id_here");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `string`
-
-The unique identifier of the batch processor run to retrieve. The ID will always start with "bpr\_".
-
-Example: `"bpr_Xj8mK2pL9nR4vT7qY5wZ"`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `ProcessorEndpoints.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.processorEndpoints.<a href="/src/api/resources/processorEndpoints/client/Client.ts">updateProcessor</a>(id, { ...params }) -> Extend.PostProcessorsIdResponse</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Update an existing processor in Extend
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.processorEndpoints.updateProcessor("processor_id_here");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `string`
-
-The ID of the processor to update. The ID will start with "dp\_".
-
-Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request:** `Extend.PostProcessorsIdRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `ProcessorEndpoints.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-## ParseEndpoints
-
-<details><summary><code>client.parseEndpoints.<a href="/src/api/resources/parseEndpoints/client/Client.ts">parseFile</a>({ ...params }) -> Extend.PostParseResponse</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Parse files to get cleaned, chunked target content (e.g. markdown).
-
-The Parse endpoint allows you to convert documents into structured, machine-readable formats with fine-grained control over the parsing process. This endpoint is ideal for extracting cleaned document content to be used as context for downstream processing, e.g. RAG pipelines, custom ingestion pipelines, embeddings classification, etc.
-
-Unlike processor and workflow runs, parsing is a synchronous endpoint and returns the parsed content in the response. Expected latency depends primarily on file size. This makes it suitable for workflows where you need immediate access to document content without waiting for asynchronous processing.
-
-For more details, see the [Parse File guide](/developers/guides/parse).
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.parseEndpoints.parseFile({
-    file: {},
-    config: {},
-});
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `Extend.PostParseRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `ParseEndpoints.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-## FileEndpoints
-
-<details><summary><code>client.fileEndpoints.<a href="/src/api/resources/fileEndpoints/client/Client.ts">listFiles</a>({ ...params }) -> Extend.GetFilesResponse</code></summary>
+<details><summary><code>client.file.<a href="/src/api/resources/file/client/Client.ts">list</a>({ ...params }) -> Extend.FileListResponse</code></summary>
 <dl>
 <dd>
 
@@ -1208,7 +851,7 @@ List files in your account. Files represent documents that have been uploaded to
 <dd>
 
 ```typescript
-await client.fileEndpoints.listFiles({
+await client.file.list({
     nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
 });
 ```
@@ -1226,7 +869,7 @@ await client.fileEndpoints.listFiles({
 <dl>
 <dd>
 
-**request:** `Extend.GetFilesRequest`
+**request:** `Extend.FileListRequest`
 
 </dd>
 </dl>
@@ -1234,7 +877,7 @@ await client.fileEndpoints.listFiles({
 <dl>
 <dd>
 
-**requestOptions:** `FileEndpoints.RequestOptions`
+**requestOptions:** `File_.RequestOptions`
 
 </dd>
 </dl>
@@ -1244,6 +887,154 @@ await client.fileEndpoints.listFiles({
 </dd>
 </dl>
 </details>
+
+<details><summary><code>client.file.<a href="/src/api/resources/file/client/Client.ts">get</a>(id, { ...params }) -> Extend.FileGetResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetch a file by its ID to obtain additional details and the raw file content.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.file.get("file_id_here");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string`
+
+Extend's ID for the file. It will always start with `"file_"`. This ID is returned when creating a new File, or the value on the `fileId` field in a WorkflowRun.
+
+Example: `"file_Xj8mK2pL9nR4vT7qY5wZ"`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.FileGetRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `File_.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.file.<a href="/src/api/resources/file/client/Client.ts">create</a>(file) -> Extend.FileCreateResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Upload and create a new file in Extend.
+
+This endpoint accepts file contents and registers them as a File in Extend, which can be used for [running workflows](/developers/api-reference/workflow-endpoints/run-workflow), [creating evaluation sets](/developers/api-reference/evaluation-set-endpoints/bulk-create-evaluation-set-items), [parsing](/developers/api-reference/parse-endpoints/parse-file), etc.
+
+If an uploaded file is detected as a Word or PowerPoint document, it will be automatically converted to a PDF.
+
+Supported file types can be found [here](/developers/guides/supported-file-types).
+
+This endpoint requires multipart form encoding. Most HTTP clients will handle this encoding automatically (see the examples).
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.file.create(fs.createReadStream("/path/to/your/file"));
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**file:** `File | fs.ReadStream | Blob`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `File_.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+## FileEndpoints
 
 <details><summary><code>client.fileEndpoints.<a href="/src/api/resources/fileEndpoints/client/Client.ts">createFile</a>({ ...params }) -> Extend.PostFilesResponse</code></summary>
 <dl>
@@ -1310,155 +1101,9 @@ await client.fileEndpoints.createFile({
 </dl>
 </details>
 
-<details><summary><code>client.fileEndpoints.<a href="/src/api/resources/fileEndpoints/client/Client.ts">getFile</a>(id, { ...params }) -> Extend.GetFilesIdResponse</code></summary>
-<dl>
-<dd>
+## EvaluationSet
 
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetch a file by its ID to obtain additional details and the raw file content.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.fileEndpoints.getFile("file_id_here");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `string`
-
-Extend's ID for the file. It will always start with `"file_"`. This ID is returned when creating a new File, or the value on the `fileId` field in a WorkflowRun.
-
-Example: `"file_Xj8mK2pL9nR4vT7qY5wZ"`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request:** `Extend.GetFilesIdRequest`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `FileEndpoints.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.fileEndpoints.<a href="/src/api/resources/fileEndpoints/client/Client.ts">uploadFile</a>(file) -> Extend.PostFilesUploadResponse</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Upload and create a new file in Extend.
-
-This endpoint accepts file contents and registers them as a File in Extend, which can be used for [running workflows](/developers/api-reference/workflow-endpoints/run-workflow), [creating evaluation sets](/developers/api-reference/evaluation-set-endpoints/bulk-create-evaluation-set-items), [parsing](/developers/api-reference/parse-endpoints/parse-file), etc.
-
-If an uploaded file is detected as a Word or PowerPoint document, it will be automatically converted to a PDF.
-
-Supported file types can be found [here](/developers/guides/supported-file-types).
-
-This endpoint requires multipart form encoding. Most HTTP clients will handle this encoding automatically (see the examples).
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.fileEndpoints.uploadFile(fs.createReadStream("/path/to/your/file"));
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**file:** `File | fs.ReadStream | Blob`
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `FileEndpoints.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-## EvaluationSetEndpoints
-
-<details><summary><code>client.evaluationSetEndpoints.<a href="/src/api/resources/evaluationSetEndpoints/client/Client.ts">createEvaluationSet</a>({ ...params }) -> Extend.PostEvaluationSetsResponse</code></summary>
+<details><summary><code>client.evaluationSet.<a href="/src/api/resources/evaluationSet/client/Client.ts">create</a>({ ...params }) -> Extend.EvaluationSetCreateResponse</code></summary>
 <dl>
 <dd>
 
@@ -1488,7 +1133,7 @@ Note: it is not necessary to create an evaluation set via API. You can also crea
 <dd>
 
 ```typescript
-await client.evaluationSetEndpoints.createEvaluationSet({
+await client.evaluationSet.create({
     name: "My Evaluation Set",
     description: "My Evaluation Set Description",
     processorId: "processor_id_here",
@@ -1508,7 +1153,7 @@ await client.evaluationSetEndpoints.createEvaluationSet({
 <dl>
 <dd>
 
-**request:** `Extend.PostEvaluationSetsRequest`
+**request:** `Extend.EvaluationSetCreateRequest`
 
 </dd>
 </dl>
@@ -1516,7 +1161,7 @@ await client.evaluationSetEndpoints.createEvaluationSet({
 <dl>
 <dd>
 
-**requestOptions:** `EvaluationSetEndpoints.RequestOptions`
+**requestOptions:** `EvaluationSet.RequestOptions`
 
 </dd>
 </dl>
@@ -1527,7 +1172,9 @@ await client.evaluationSetEndpoints.createEvaluationSet({
 </dl>
 </details>
 
-<details><summary><code>client.evaluationSetEndpoints.<a href="/src/api/resources/evaluationSetEndpoints/client/Client.ts">createEvaluationSetItem</a>({ ...params }) -> Extend.PostEvaluationSetItemsResponse</code></summary>
+## EvaluationSetItem
+
+<details><summary><code>client.evaluationSetItem.<a href="/src/api/resources/evaluationSetItem/client/Client.ts">create</a>({ ...params }) -> Extend.EvaluationSetItemCreateResponse</code></summary>
 <dl>
 <dd>
 
@@ -1568,7 +1215,7 @@ Best Practices for Outputs in Evaluation Sets:
 <dd>
 
 ```typescript
-await client.evaluationSetEndpoints.createEvaluationSetItem({
+await client.evaluationSetItem.create({
     evaluationSetId: "evaluation_set_id_here",
     fileId: "file_id_here",
     expectedOutput: {
@@ -1592,7 +1239,7 @@ await client.evaluationSetEndpoints.createEvaluationSetItem({
 <dl>
 <dd>
 
-**request:** `Extend.PostEvaluationSetItemsRequest`
+**request:** `Extend.EvaluationSetItemCreateRequest`
 
 </dd>
 </dl>
@@ -1600,7 +1247,7 @@ await client.evaluationSetEndpoints.createEvaluationSetItem({
 <dl>
 <dd>
 
-**requestOptions:** `EvaluationSetEndpoints.RequestOptions`
+**requestOptions:** `EvaluationSetItem.RequestOptions`
 
 </dd>
 </dl>
@@ -1611,7 +1258,7 @@ await client.evaluationSetEndpoints.createEvaluationSetItem({
 </dl>
 </details>
 
-<details><summary><code>client.evaluationSetEndpoints.<a href="/src/api/resources/evaluationSetEndpoints/client/Client.ts">updateEvaluationSetItem</a>(id, { ...params }) -> Extend.PostEvaluationSetItemsIdResponse</code></summary>
+<details><summary><code>client.evaluationSetItem.<a href="/src/api/resources/evaluationSetItem/client/Client.ts">update</a>(id, { ...params }) -> Extend.EvaluationSetItemUpdateResponse</code></summary>
 <dl>
 <dd>
 
@@ -1639,7 +1286,7 @@ If you need to change the expected output for a given evaluation set item, you c
 <dd>
 
 ```typescript
-await client.evaluationSetEndpoints.updateEvaluationSetItem("evaluation_set_item_id_here", {
+await client.evaluationSetItem.update("evaluation_set_item_id_here", {
     expectedOutput: {
         value: {
             key: "value",
@@ -1673,7 +1320,7 @@ Example: `"evi_kR9mNP12Qw4yTv8BdR3H"`
 <dl>
 <dd>
 
-**request:** `Extend.PostEvaluationSetItemsIdRequest`
+**request:** `Extend.EvaluationSetItemUpdateRequest`
 
 </dd>
 </dl>
@@ -1681,7 +1328,7 @@ Example: `"evi_kR9mNP12Qw4yTv8BdR3H"`
 <dl>
 <dd>
 
-**requestOptions:** `EvaluationSetEndpoints.RequestOptions`
+**requestOptions:** `EvaluationSetItem.RequestOptions`
 
 </dd>
 </dl>
@@ -1692,7 +1339,7 @@ Example: `"evi_kR9mNP12Qw4yTv8BdR3H"`
 </dl>
 </details>
 
-<details><summary><code>client.evaluationSetEndpoints.<a href="/src/api/resources/evaluationSetEndpoints/client/Client.ts">bulkCreateEvaluationSetItems</a>({ ...params }) -> Extend.PostEvaluationSetItemsBulkResponse</code></summary>
+<details><summary><code>client.evaluationSetItem.<a href="/src/api/resources/evaluationSetItem/client/Client.ts">createBatch</a>({ ...params }) -> Extend.EvaluationSetItemCreateBatchResponse</code></summary>
 <dl>
 <dd>
 
@@ -1722,7 +1369,7 @@ Note: you still need to create each File first using the file API.
 <dd>
 
 ```typescript
-await client.evaluationSetEndpoints.bulkCreateEvaluationSetItems({
+await client.evaluationSetItem.createBatch({
     evaluationSetId: "evaluation_set_id_here",
     items: [
         {
@@ -1750,7 +1397,7 @@ await client.evaluationSetEndpoints.bulkCreateEvaluationSetItems({
 <dl>
 <dd>
 
-**request:** `Extend.PostEvaluationSetItemsBulkRequest`
+**request:** `Extend.EvaluationSetItemCreateBatchRequest`
 
 </dd>
 </dl>
@@ -1758,7 +1405,236 @@ await client.evaluationSetEndpoints.bulkCreateEvaluationSetItems({
 <dl>
 <dd>
 
-**requestOptions:** `EvaluationSetEndpoints.RequestOptions`
+**requestOptions:** `EvaluationSetItem.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+## WorkflowRunOutput
+
+<details><summary><code>client.workflowRunOutput.<a href="/src/api/resources/workflowRunOutput/client/Client.ts">update</a>(workflowRunId, outputId, { ...params }) -> Extend.WorkflowRunOutputUpdateResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Use this endpoint to submit corrected outputs for a WorkflowRun for future processor evaluation and tuning in Extend.
+
+If you are using our Human-in-the-loop workflow review, then we already will be collecting your operator submitted corrections. However, if you are receiving data via the API without human review, there could be incorrect outputs that you would like to correct for future usage in evaluation and tuning within the Extend platform. This endpoint allows you to submit corrected outputs for a WorkflowRun, by providing the correct output for a given output ID.
+
+The output ID, would be found in a given entry within the outputs arrays of a Workflow Run payload. The ID would look something like `dpr_gwkZZNRrPgkjcq0y-***`.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.workflowRunOutput.update("workflow_run_id_here", "output_id_here", {
+    reviewedOutput: {
+        value: {
+            key: "value",
+        },
+    },
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**workflowRunId:** `string`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**outputId:** `string`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.WorkflowRunOutputUpdateRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WorkflowRunOutput.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+## BatchProcessorRun
+
+<details><summary><code>client.batchProcessorRun.<a href="/src/api/resources/batchProcessorRun/client/Client.ts">get</a>(id) -> Extend.BatchProcessorRunGetResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve details about a batch processor run, including evaluation runs
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.batchProcessorRun.get("batch_processor_run_id_here");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string`
+
+The unique identifier of the batch processor run to retrieve. The ID will always start with "bpr\_".
+
+Example: `"bpr_Xj8mK2pL9nR4vT7qY5wZ"`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `BatchProcessorRun.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+## Workflow
+
+<details><summary><code>client.workflow.<a href="/src/api/resources/workflow/client/Client.ts">create</a>({ ...params }) -> Extend.WorkflowCreateResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a new workflow in Extend. Workflows are sequences of steps that process files and data in a specific order to achieve a desired outcome.
+
+This endpoint will create a new workflow in Extend, which can then be configured and deployed. Typically, workflows are created from our UI, however this endpoint can be used to create workflows programmatically. Configuration of the flow still needs to be done in the dashboard.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.workflow.create({
+    name: "Invoice Processing",
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.WorkflowCreateRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Workflow.RequestOptions`
 
 </dd>
 </dl>
