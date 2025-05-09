@@ -31,6 +31,7 @@ export * from "./TableDetails";
 export * from "./TableCellDetails";
 export * from "./FigureDetailsFigureType";
 export * from "./FigureDetails";
+export * from "./EmptyBlockDetails";
 export * from "./BlockType";
 export * from "./BlockDetails";
 export * from "./BlockMetadataPage";

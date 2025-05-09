@@ -10,12 +10,14 @@ export const TableCellDetails: core.serialization.ObjectSchema<
     serializers.TableCellDetails.Raw,
     Extend.TableCellDetails
 > = core.serialization.object({
+    type: core.serialization.stringLiteral("table_cell_details"),
     rowIndex: core.serialization.number(),
     columnIndex: core.serialization.number(),
 });
 
 export declare namespace TableCellDetails {
     export interface Raw {
+        type: "table_cell_details";
         rowIndex: number;
         columnIndex: number;
     }

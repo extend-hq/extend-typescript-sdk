@@ -9,12 +9,14 @@ import { FigureDetailsFigureType } from "./FigureDetailsFigureType";
 
 export const FigureDetails: core.serialization.ObjectSchema<serializers.FigureDetails.Raw, Extend.FigureDetails> =
     core.serialization.object({
+        type: core.serialization.stringLiteral("figure_details"),
         imageUrl: core.serialization.string().optional(),
         figureType: FigureDetailsFigureType.optional(),
     });
 
 export declare namespace FigureDetails {
     export interface Raw {
+        type: "figure_details";
         imageUrl?: string | null;
         figureType?: FigureDetailsFigureType.Raw | null;
     }

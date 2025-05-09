@@ -6,6 +6,8 @@
  * Details for table cell blocks
  */
 export interface TableCellDetails {
+    /** Indicates this is a table cell details object */
+    type: "table_cell_details";
     rowIndex: number;
     columnIndex: number;
 }

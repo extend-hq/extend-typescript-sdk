@@ -6,6 +6,8 @@
  * Details for table blocks
  */
 export interface TableDetails {
+    /** Indicates this is a table details object */
+    type: "table_details";
     /** The number of rows in the table */
     rowCount: number;
     /** The number of columns in the table */

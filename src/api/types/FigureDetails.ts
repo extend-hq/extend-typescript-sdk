@@ -8,6 +8,8 @@ import * as Extend from "../index";
  * Details for figure blocks
  */
 export interface FigureDetails {
+    /** Indicates this is a figure details object */
+    type: "figure_details";
     /** URL to the clipped/segmented figure image. Only set if the option `figureImageClippingEnabled` in the input is `true`, which it is by default. */
     imageUrl?: string;
     /**

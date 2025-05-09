@@ -8,12 +8,14 @@ import * as core from "../../core";
 
 export const TableDetails: core.serialization.ObjectSchema<serializers.TableDetails.Raw, Extend.TableDetails> =
     core.serialization.object({
+        type: core.serialization.stringLiteral("table_details"),
         rowCount: core.serialization.number(),
         columnCount: core.serialization.number(),
     });
 
 export declare namespace TableDetails {
     export interface Raw {
+        type: "table_details";
         rowCount: number;
         columnCount: number;
     }

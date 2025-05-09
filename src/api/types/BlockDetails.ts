@@ -8,20 +8,7 @@ import * as Extend from "../index";
  * Additional details specific to the block type. The schema depends on the block type.
  */
 export type BlockDetails =
-    | Extend.BlockDetails.TableDetails
-    | Extend.BlockDetails.TableCellDetails
-    | Extend.BlockDetails.FigureDetails;
-
-export namespace BlockDetails {
-    export interface TableDetails extends Extend.TableDetails {
-        type: "table_details";
-    }
-
-    export interface TableCellDetails extends Extend.TableCellDetails {
-        type: "table_cell_details";
-    }
-
-    export interface FigureDetails extends Extend.FigureDetails {
-        type: "figure_details";
-    }
-}
+    | Extend.TableDetails
+    | Extend.TableCellDetails
+    | Extend.FigureDetails
+    | Extend.EmptyBlockDetails;

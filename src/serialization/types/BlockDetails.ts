@@ -8,31 +8,11 @@ import * as core from "../../core";
 import { TableDetails } from "./TableDetails";
 import { TableCellDetails } from "./TableCellDetails";
 import { FigureDetails } from "./FigureDetails";
+import { EmptyBlockDetails } from "./EmptyBlockDetails";
 
 export const BlockDetails: core.serialization.Schema<serializers.BlockDetails.Raw, Extend.BlockDetails> =
-    core.serialization
-        .union("type", {
-            table_details: TableDetails,
-            table_cell_details: TableCellDetails,
-            figure_details: FigureDetails,
-        })
-        .transform<Extend.BlockDetails>({
-            transform: (value) => value,
-            untransform: (value) => value,
-        });
+    core.serialization.undiscriminatedUnion([TableDetails, TableCellDetails, FigureDetails, EmptyBlockDetails]);
 
 export declare namespace BlockDetails {
-    export type Raw = BlockDetails.TableDetails | BlockDetails.TableCellDetails | BlockDetails.FigureDetails;
-
-    export interface TableDetails extends TableDetails.Raw {
-        type: "table_details";
-    }
-
-    export interface TableCellDetails extends TableCellDetails.Raw {
-        type: "table_cell_details";
-    }
-
-    export interface FigureDetails extends FigureDetails.Raw {
-        type: "figure_details";
-    }
+    export type Raw = TableDetails.Raw | TableCellDetails.Raw | FigureDetails.Raw | EmptyBlockDetails.Raw;
 }
