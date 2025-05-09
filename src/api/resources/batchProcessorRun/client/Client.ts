@@ -81,9 +81,8 @@ export class BatchProcessorRun {
                           )
                         : undefined,
                 "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.25",
-                "User-Agent": "extendai/0.0.25",
+                "X-Fern-SDK-Name": "@extend-ai/sdk",
+                "X-Fern-SDK-Version": "0.0.22",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
