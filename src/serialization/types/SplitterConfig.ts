@@ -10,7 +10,7 @@ import { SplitterAdvancedOptions } from "./SplitterAdvancedOptions";
 
 export const SplitterConfig: core.serialization.ObjectSchema<serializers.SplitterConfig.Raw, Extend.SplitterConfig> =
     core.serialization.object({
-        baseProcessor: core.serialization.stringLiteral("splitter_performance").optional(),
+        baseProcessor: core.serialization.stringLiteral("splitting_performance").optional(),
         baseVersion: core.serialization.string().optional(),
         splitClassifications: core.serialization.list(Classification),
         splitRules: core.serialization.string().optional(),
@@ -19,7 +19,7 @@ export const SplitterConfig: core.serialization.ObjectSchema<serializers.Splitte
 
 export declare namespace SplitterConfig {
     export interface Raw {
-        baseProcessor?: "splitter_performance" | null;
+        baseProcessor?: "splitting_performance" | null;
         baseVersion?: string | null;
         splitClassifications: Classification.Raw[];
         splitRules?: string | null;
