@@ -1,7 +1,7 @@
 # Extendconfig TypeScript Library
 
 [![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Fextend-hq%2Fextend-typescript-sdk)
-[![npm shield](https://img.shields.io/npm/v/extendai)](https://www.npmjs.com/package/extendai)
+[![npm shield](https://img.shields.io/npm/v/@extend-ai/sdk)](https://www.npmjs.com/package/@extend-ai/sdk)
 
 The Extendconfig TypeScript library provides convenient access to the Extendconfig API from TypeScript.
 
@@ -12,7 +12,7 @@ API reference documentation is available [here](https://docs.extend.ai/2025-04-2
 ## Installation
 
 ```sh
-npm i -s extendai
+npm i -s @extend-ai/sdk
 ```
 
 ## Reference
@@ -24,7 +24,7 @@ A full reference for this library is available [here](./reference.md).
 Instantiate and use the client with the following:
 
 ```typescript
-import { ExtendClient } from "extendai";
+import { ExtendClient } from "@extend-ai/sdk";
 
 const client = new ExtendClient({ token: "YOUR_TOKEN", extendApiVersion: "YOUR_EXTEND_API_VERSION" });
 await client.runWorkflow({
@@ -38,7 +38,7 @@ The SDK exports all request and response types as TypeScript interfaces. Simply 
 following namespace:
 
 ```typescript
-import { Extend } from "extendai";
+import { Extend } from "@extend-ai/sdk";
 
 const request: Extend.WorkflowRunListRequest = {
     ...
@@ -51,7 +51,7 @@ When the API returns a non-success status code (4xx or 5xx response), a subclass
 will be thrown.
 
 ```typescript
-import { ExtendError } from "extendai";
+import { ExtendError } from "@extend-ai/sdk";
 
 try {
     await client.runWorkflow(...);
@@ -151,7 +151,7 @@ The SDK provides a way for you to customize the underlying HTTP client / Fetch f
 unsupported environment, this provides a way for you to break glass and ensure the SDK works.
 
 ```typescript
-import { ExtendClient } from "extendai";
+import { ExtendClient } from "@extend-ai/sdk";
 
 const client = new ExtendClient({
     ...

@@ -83,9 +83,9 @@ export class ProcessorRun {
                           )
                         : undefined,
                 "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.27",
-                "User-Agent": "extendai/0.0.27",
+                "X-Fern-SDK-Name": "@extend-ai/sdk",
+                "X-Fern-SDK-Version": "0.0.23",
+                "User-Agent": "@extend-ai/sdk/0.0.23",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
