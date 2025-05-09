@@ -7,15 +7,15 @@ import * as Extend from "../../../../api/index";
 import * as core from "../../../../core";
 import { File_ } from "../../../types/File_";
 
-export const FileCreateResponse: core.serialization.ObjectSchema<
-    serializers.FileCreateResponse.Raw,
-    Extend.FileCreateResponse
+export const FileUploadResponse: core.serialization.ObjectSchema<
+    serializers.FileUploadResponse.Raw,
+    Extend.FileUploadResponse
 > = core.serialization.object({
     success: core.serialization.boolean(),
     file: File_,
 });
 
-export declare namespace FileCreateResponse {
+export declare namespace FileUploadResponse {
     export interface Raw {
         success: boolean;
         file: File_.Raw;

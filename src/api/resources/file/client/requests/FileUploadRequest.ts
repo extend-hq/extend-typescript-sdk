@@ -6,4 +6,4 @@
  * @example
  *     {}
  */
-export interface FileCreateRequest {}
+export interface FileUploadRequest {}

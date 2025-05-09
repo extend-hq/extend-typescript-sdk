@@ -963,7 +963,7 @@ Example: `"file_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
-<details><summary><code>client.file.<a href="/src/api/resources/file/client/Client.ts">create</a>(file) -> Extend.FileCreateResponse</code></summary>
+<details><summary><code>client.file.<a href="/src/api/resources/file/client/Client.ts">upload</a>(file) -> Extend.FileUploadResponse</code></summary>
 <dl>
 <dd>
 
@@ -999,7 +999,7 @@ This endpoint requires multipart form encoding. Most HTTP clients will handle th
 <dd>
 
 ```typescript
-await client.file.create(fs.createReadStream("/path/to/your/file"));
+await client.file.upload(fs.createReadStream("/path/to/your/file"));
 ```
 
 </dd>

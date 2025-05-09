@@ -22,7 +22,7 @@ export interface WorkflowRun {
     /**
      * A URL to view this workflow run in the Extend UI.
      *
-     * Example: `"https://dashboard.extend.app/workflows/workflow_Bk9mNp2qWs5_xL8vR4tYh?workflowRunId=workflow_run_Zj3nMx7ZPd9f4c2WQ_kAg"`
+     * Example: `"https://dashboard.extend.ai/workflows/workflow_Bk9mNp2qWs5_xL8vR4tYh?workflowRunId=workflow_run_Zj3nMx7ZPd9f4c2WQ_kAg"`
      */
     url: string;
     status: Extend.WorkflowStatus;

@@ -1,3 +1,3 @@
 export * from "./FileListResponse";
 export * from "./FileGetResponse";
-export * from "./FileCreateResponse";
+export * from "./FileUploadResponse";

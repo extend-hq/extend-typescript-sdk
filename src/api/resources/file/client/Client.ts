@@ -101,8 +101,8 @@ export class File_ {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.21",
-                "User-Agent": "extendai/0.0.21",
+                "X-Fern-SDK-Version": "0.0.22",
+                "User-Agent": "extendai/0.0.22",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -227,8 +227,8 @@ export class File_ {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.21",
-                "User-Agent": "extendai/0.0.21",
+                "X-Fern-SDK-Version": "0.0.22",
+                "User-Agent": "extendai/0.0.22",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -318,19 +318,19 @@ export class File_ {
      * @throws {@link Extend.UnauthorizedError}
      *
      * @example
-     *     await client.file.create(fs.createReadStream("/path/to/your/file"))
+     *     await client.file.upload(fs.createReadStream("/path/to/your/file"))
      */
-    public create(
+    public upload(
         file: File | fs.ReadStream | Blob,
         requestOptions?: File_.RequestOptions,
-    ): core.HttpResponsePromise<Extend.FileCreateResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__create(file, requestOptions));
+    ): core.HttpResponsePromise<Extend.FileUploadResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__upload(file, requestOptions));
     }
 
-    private async __create(
+    private async __upload(
         file: File | fs.ReadStream | Blob,
         requestOptions?: File_.RequestOptions,
-    ): Promise<core.WithRawResponse<Extend.FileCreateResponse>> {
+    ): Promise<core.WithRawResponse<Extend.FileUploadResponse>> {
         const _request = await core.newFormData();
         await _request.appendFile("file", file);
         const _maybeEncodedRequest = await _request.getRequest();
@@ -353,8 +353,8 @@ export class File_ {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.21",
-                "User-Agent": "extendai/0.0.21",
+                "X-Fern-SDK-Version": "0.0.22",
+                "User-Agent": "extendai/0.0.22",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ..._maybeEncodedRequest.headers,
@@ -369,7 +369,7 @@ export class File_ {
         });
         if (_response.ok) {
             return {
-                data: serializers.FileCreateResponse.parseOrThrow(_response.body, {
+                data: serializers.FileUploadResponse.parseOrThrow(_response.body, {
                     unrecognizedObjectKeys: "passthrough",
                     allowUnrecognizedUnionMembers: true,
                     allowUnrecognizedEnumValues: true,

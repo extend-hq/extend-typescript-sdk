@@ -4,7 +4,7 @@
 
 import * as Extend from "../../../index";
 
-export interface FileCreateResponse {
+export interface FileUploadResponse {
     success: boolean;
     file: Extend.File_;
 }
