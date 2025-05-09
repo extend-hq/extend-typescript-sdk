@@ -5,6 +5,7 @@
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
 import * as Extend from "../../../index";
+import * as serializers from "../../../../serialization/index";
 import urlJoin from "url-join";
 import * as errors from "../../../../errors/index";
 
@@ -64,7 +65,9 @@ export class WorkflowEndpoints {
         const { status, workflowId, fileNameContains, sortBy, sortDir, nextPageToken, maxPageSize } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (status != null) {
-            _queryParams["status"] = status;
+            _queryParams["status"] = serializers.WorkflowStatus.jsonOrThrow(status, {
+                unrecognizedObjectKeys: "strip",
+            });
         }
 
         if (workflowId != null) {
@@ -76,11 +79,11 @@ export class WorkflowEndpoints {
         }
 
         if (sortBy != null) {
-            _queryParams["sortBy"] = sortBy;
+            _queryParams["sortBy"] = serializers.SortByEnum.jsonOrThrow(sortBy, { unrecognizedObjectKeys: "strip" });
         }
 
         if (sortDir != null) {
-            _queryParams["sortDir"] = sortDir;
+            _queryParams["sortDir"] = serializers.SortDirEnum.jsonOrThrow(sortDir, { unrecognizedObjectKeys: "strip" });
         }
 
         if (nextPageToken != null) {
@@ -103,12 +106,15 @@ export class WorkflowEndpoints {
                 Authorization: await this._getAuthorizationHeader(),
                 "x-extend-api-version":
                     (await core.Supplier.get(this._options.extendApiVersion)) != null
-                        ? await core.Supplier.get(this._options.extendApiVersion)
+                        ? serializers.ApiVersionEnum.jsonOrThrow(
+                              await core.Supplier.get(this._options.extendApiVersion),
+                              { unrecognizedObjectKeys: "strip" },
+                          )
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.16",
-                "User-Agent": "extendai/0.0.16",
+                "X-Fern-SDK-Version": "0.0.17",
+                "User-Agent": "extendai/0.0.17",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -121,15 +127,31 @@ export class WorkflowEndpoints {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Extend.GetWorkflowRunsResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.GetWorkflowRunsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Extend.BadRequestError(_response.error.body, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
@@ -193,33 +215,52 @@ export class WorkflowEndpoints {
                 Authorization: await this._getAuthorizationHeader(),
                 "x-extend-api-version":
                     (await core.Supplier.get(this._options.extendApiVersion)) != null
-                        ? await core.Supplier.get(this._options.extendApiVersion)
+                        ? serializers.ApiVersionEnum.jsonOrThrow(
+                              await core.Supplier.get(this._options.extendApiVersion),
+                              { unrecognizedObjectKeys: "strip" },
+                          )
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.16",
-                "User-Agent": "extendai/0.0.16",
+                "X-Fern-SDK-Version": "0.0.17",
+                "User-Agent": "extendai/0.0.17",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
-            body: request,
+            body: serializers.PostWorkflowRunsRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Extend.PostWorkflowRunsResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.PostWorkflowRunsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Extend.BadRequestError(_response.error.body, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
@@ -284,12 +325,15 @@ export class WorkflowEndpoints {
                 Authorization: await this._getAuthorizationHeader(),
                 "x-extend-api-version":
                     (await core.Supplier.get(this._options.extendApiVersion)) != null
-                        ? await core.Supplier.get(this._options.extendApiVersion)
+                        ? serializers.ApiVersionEnum.jsonOrThrow(
+                              await core.Supplier.get(this._options.extendApiVersion),
+                              { unrecognizedObjectKeys: "strip" },
+                          )
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.16",
-                "User-Agent": "extendai/0.0.16",
+                "X-Fern-SDK-Version": "0.0.17",
+                "User-Agent": "extendai/0.0.17",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -302,7 +346,12 @@ export class WorkflowEndpoints {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Extend.GetWorkflowRunsWorkflowRunIdResponse,
+                data: serializers.GetWorkflowRunsWorkflowRunIdResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -310,11 +359,27 @@ export class WorkflowEndpoints {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Extend.BadRequestError(_response.error.body, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.NotFoundError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
@@ -384,26 +449,36 @@ export class WorkflowEndpoints {
                 Authorization: await this._getAuthorizationHeader(),
                 "x-extend-api-version":
                     (await core.Supplier.get(this._options.extendApiVersion)) != null
-                        ? await core.Supplier.get(this._options.extendApiVersion)
+                        ? serializers.ApiVersionEnum.jsonOrThrow(
+                              await core.Supplier.get(this._options.extendApiVersion),
+                              { unrecognizedObjectKeys: "strip" },
+                          )
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.16",
-                "User-Agent": "extendai/0.0.16",
+                "X-Fern-SDK-Version": "0.0.17",
+                "User-Agent": "extendai/0.0.17",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
-            body: request,
+            body: serializers.PostWorkflowRunsWorkflowRunIdRequest.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
             return {
-                data: _response.body as Extend.PostWorkflowRunsWorkflowRunIdResponse,
+                data: serializers.PostWorkflowRunsWorkflowRunIdResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -411,11 +486,27 @@ export class WorkflowEndpoints {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Extend.BadRequestError(_response.error.body, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.NotFoundError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
@@ -509,35 +600,62 @@ export class WorkflowEndpoints {
                 Authorization: await this._getAuthorizationHeader(),
                 "x-extend-api-version":
                     (await core.Supplier.get(this._options.extendApiVersion)) != null
-                        ? await core.Supplier.get(this._options.extendApiVersion)
+                        ? serializers.ApiVersionEnum.jsonOrThrow(
+                              await core.Supplier.get(this._options.extendApiVersion),
+                              { unrecognizedObjectKeys: "strip" },
+                          )
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.16",
-                "User-Agent": "extendai/0.0.16",
+                "X-Fern-SDK-Version": "0.0.17",
+                "User-Agent": "extendai/0.0.17",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
-            body: request,
+            body: serializers.PostWorkflowRunsBatchRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Extend.PostWorkflowRunsBatchResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.PostWorkflowRunsBatchResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Extend.BadRequestError(_response.error.body, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.NotFoundError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
@@ -618,26 +736,36 @@ export class WorkflowEndpoints {
                 Authorization: await this._getAuthorizationHeader(),
                 "x-extend-api-version":
                     (await core.Supplier.get(this._options.extendApiVersion)) != null
-                        ? await core.Supplier.get(this._options.extendApiVersion)
+                        ? serializers.ApiVersionEnum.jsonOrThrow(
+                              await core.Supplier.get(this._options.extendApiVersion),
+                              { unrecognizedObjectKeys: "strip" },
+                          )
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.16",
-                "User-Agent": "extendai/0.0.16",
+                "X-Fern-SDK-Version": "0.0.17",
+                "User-Agent": "extendai/0.0.17",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
-            body: request,
+            body: serializers.PostWorkflowRunsWorkflowRunIdOutputsOutputIdRequest.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
             return {
-                data: _response.body as Extend.PostWorkflowRunsWorkflowRunIdOutputsOutputIdResponse,
+                data: serializers.PostWorkflowRunsWorkflowRunIdOutputsOutputIdResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -645,11 +773,27 @@ export class WorkflowEndpoints {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Extend.BadRequestError(_response.error.body, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.NotFoundError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
@@ -717,33 +861,52 @@ export class WorkflowEndpoints {
                 Authorization: await this._getAuthorizationHeader(),
                 "x-extend-api-version":
                     (await core.Supplier.get(this._options.extendApiVersion)) != null
-                        ? await core.Supplier.get(this._options.extendApiVersion)
+                        ? serializers.ApiVersionEnum.jsonOrThrow(
+                              await core.Supplier.get(this._options.extendApiVersion),
+                              { unrecognizedObjectKeys: "strip" },
+                          )
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.16",
-                "User-Agent": "extendai/0.0.16",
+                "X-Fern-SDK-Version": "0.0.17",
+                "User-Agent": "extendai/0.0.17",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
-            body: request,
+            body: serializers.PostWorkflowsRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Extend.PostWorkflowsResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.PostWorkflowsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Extend.BadRequestError(_response.error.body, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,

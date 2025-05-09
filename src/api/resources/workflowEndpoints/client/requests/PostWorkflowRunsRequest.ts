@@ -32,5 +32,5 @@ export interface PostWorkflowRunsRequest {
     /** An optional value used to determine the relative order of WorkflowRuns when rate limiting is in effect. Lower values will be prioritized before higher values. */
     priority?: number;
     /** A optional metadata object that can be assigned to a specific WorkflowRun to help identify it. It will be returned in the response and webhooks. You can place any arbitrary `key : value` pairs in this object. */
-    metadata?: Record<string, unknown>;
+    metadata?: Extend.JsonObject;
 }

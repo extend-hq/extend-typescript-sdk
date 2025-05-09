@@ -10,11 +10,6 @@ export interface File4OutputsItem {
      * Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
      */
     processorId: string;
-    /**
-     * The output that is being overridden. The structure will depend on the processor type. More details can be found [here](../../guides/output-types).
-     * * For extraction processors, this will either have a [JSON Schema](/developers/guides/output-types#extraction-output-type-json-schema) or a [Fields Array](/developers/guides/output-types#extraction-output-type-fields-array) output format.
-     * * For classification processors, this will be the classification result
-     * * For splitter processors, this will be the split points in the document
-     */
+    /** The output that is being overridden. The structure will depend on the processor type. More details can be found [here](/developers/guides/output-types). */
     output: Extend.ProvidedProcessorOutput;
 }

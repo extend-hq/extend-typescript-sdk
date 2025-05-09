@@ -4,4 +4,4 @@
 
 import * as Extend from "../index";
 
-export type ProvidedExtractionOutput = Extend.ProvidedJsonSchema | Extend.ProvidedExtractionOutputLegacy;
+export type ProvidedExtractionOutput = Extend.ProvidedJsonOutput | Extend.ProvidedLegacyOutput;

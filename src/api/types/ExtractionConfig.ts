@@ -16,7 +16,7 @@ export interface ExtractionConfig {
      *
      * See the [schema documentation](/developers/guides/processor-configs#json-schema-structure-schema) for details and examples of schema configuration.
      */
-    schema?: Record<string, unknown>;
+    schema?: Extend.JsonObject;
     /**
      * (Legacy) Array of fields to extract from the document. Either `fields` or `schema` must be provided.
      *

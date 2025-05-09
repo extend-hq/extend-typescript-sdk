@@ -5,6 +5,7 @@
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
 import * as Extend from "../../../index";
+import * as serializers from "../../../../serialization/index";
 import urlJoin from "url-join";
 import * as errors from "../../../../errors/index";
 
@@ -77,33 +78,52 @@ export class EvaluationSetEndpoints {
                 Authorization: await this._getAuthorizationHeader(),
                 "x-extend-api-version":
                     (await core.Supplier.get(this._options.extendApiVersion)) != null
-                        ? await core.Supplier.get(this._options.extendApiVersion)
+                        ? serializers.ApiVersionEnum.jsonOrThrow(
+                              await core.Supplier.get(this._options.extendApiVersion),
+                              { unrecognizedObjectKeys: "strip" },
+                          )
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.16",
-                "User-Agent": "extendai/0.0.16",
+                "X-Fern-SDK-Version": "0.0.17",
+                "User-Agent": "extendai/0.0.17",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
-            body: request,
+            body: serializers.PostEvaluationSetsRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Extend.PostEvaluationSetsResponse, rawResponse: _response.rawResponse };
+            return {
+                data: serializers.PostEvaluationSetsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Extend.BadRequestError(_response.error.body, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
@@ -186,26 +206,34 @@ export class EvaluationSetEndpoints {
                 Authorization: await this._getAuthorizationHeader(),
                 "x-extend-api-version":
                     (await core.Supplier.get(this._options.extendApiVersion)) != null
-                        ? await core.Supplier.get(this._options.extendApiVersion)
+                        ? serializers.ApiVersionEnum.jsonOrThrow(
+                              await core.Supplier.get(this._options.extendApiVersion),
+                              { unrecognizedObjectKeys: "strip" },
+                          )
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.16",
-                "User-Agent": "extendai/0.0.16",
+                "X-Fern-SDK-Version": "0.0.17",
+                "User-Agent": "extendai/0.0.17",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
-            body: request,
+            body: serializers.PostEvaluationSetItemsRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
             return {
-                data: _response.body as Extend.PostEvaluationSetItemsResponse,
+                data: serializers.PostEvaluationSetItemsResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -213,9 +241,17 @@ export class EvaluationSetEndpoints {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Extend.BadRequestError(_response.error.body, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
@@ -289,26 +325,34 @@ export class EvaluationSetEndpoints {
                 Authorization: await this._getAuthorizationHeader(),
                 "x-extend-api-version":
                     (await core.Supplier.get(this._options.extendApiVersion)) != null
-                        ? await core.Supplier.get(this._options.extendApiVersion)
+                        ? serializers.ApiVersionEnum.jsonOrThrow(
+                              await core.Supplier.get(this._options.extendApiVersion),
+                              { unrecognizedObjectKeys: "strip" },
+                          )
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.16",
-                "User-Agent": "extendai/0.0.16",
+                "X-Fern-SDK-Version": "0.0.17",
+                "User-Agent": "extendai/0.0.17",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
-            body: request,
+            body: serializers.PostEvaluationSetItemsIdRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
             return {
-                data: _response.body as Extend.PostEvaluationSetItemsIdResponse,
+                data: serializers.PostEvaluationSetItemsIdResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -316,11 +360,27 @@ export class EvaluationSetEndpoints {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Extend.BadRequestError(_response.error.body, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.NotFoundError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
@@ -394,26 +454,36 @@ export class EvaluationSetEndpoints {
                 Authorization: await this._getAuthorizationHeader(),
                 "x-extend-api-version":
                     (await core.Supplier.get(this._options.extendApiVersion)) != null
-                        ? await core.Supplier.get(this._options.extendApiVersion)
+                        ? serializers.ApiVersionEnum.jsonOrThrow(
+                              await core.Supplier.get(this._options.extendApiVersion),
+                              { unrecognizedObjectKeys: "strip" },
+                          )
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extendai",
-                "X-Fern-SDK-Version": "0.0.16",
-                "User-Agent": "extendai/0.0.16",
+                "X-Fern-SDK-Version": "0.0.17",
+                "User-Agent": "extendai/0.0.17",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
             },
             contentType: "application/json",
             requestType: "json",
-            body: request,
+            body: serializers.PostEvaluationSetItemsBulkRequest.jsonOrThrow(request, {
+                unrecognizedObjectKeys: "strip",
+            }),
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
             return {
-                data: _response.body as Extend.PostEvaluationSetItemsBulkResponse,
+                data: serializers.PostEvaluationSetItemsBulkResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
                 rawResponse: _response.rawResponse,
             };
         }
@@ -421,9 +491,17 @@ export class EvaluationSetEndpoints {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Extend.BadRequestError(_response.error.body, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,

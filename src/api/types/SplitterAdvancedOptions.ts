@@ -13,5 +13,4 @@ export interface SplitterAdvancedOptions {
     splitExcelDocumentsBySheetEnabled?: boolean;
     /** Limit processing to a specific number of pages from the beginning of the document. */
     fixedPageLimit?: number;
-    value?: unknown;
 }

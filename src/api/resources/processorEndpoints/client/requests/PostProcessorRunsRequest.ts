@@ -26,7 +26,7 @@ export interface PostProcessorRunsRequest {
     /** An optional value used to determine the relative order of ProcessorRuns when rate limiting is in effect. Lower values will be prioritized before higher values. */
     priority?: number;
     /** An optional object that can be passed in to identify the run of the document processor. It will be returned back to you in the response and webhooks. */
-    metadata?: Record<string, unknown>;
+    metadata?: Extend.JsonObject;
     /** The configuration for the processor run. If this is provided, this config will be used. If not provided, the config for the specific version you provide will be used. The type of configuration must match the processor type. */
     config?: Extend.PostProcessorRunsRequestConfig;
 }

@@ -27,7 +27,7 @@ export interface WorkflowRun {
     url: string;
     status: Extend.WorkflowStatus;
     /** The metadata that was passed in when running the Workflow. */
-    metadata: Record<string, unknown>;
+    metadata: Extend.JsonObject;
     /**
      * The batch ID of the WorkflowRun. If this WorkflowRun was created as part of a batch of files, all runs in that batch will have the same batch ID. The ID will start with "batch".
      *
@@ -44,7 +44,7 @@ export interface WorkflowRun {
      *
      * Example: `"2025-04-28T17:01:39.285Z"`
      */
-    initialRunAt: string;
+    initialRunAt: Date;
     /**
      * The email address of the person who reviewed the workflow run. Will not be included if the workflow run has not been reviewed.
      *
@@ -64,19 +64,19 @@ export interface WorkflowRun {
      *
      * Example: `"2024-03-21T16:45:00Z"`
      */
-    reviewedAt?: string;
+    reviewedAt?: Date;
     /**
      * The time (in UTC) at which the workflow run started executing. This will always be after the `initialRunAt` time. Will follow the RFC 3339 format. Will not be included if the workflow run has not started executing.
      *
      * Example: `"2024-03-21T15:30:00Z"`
      */
-    startTime?: string;
+    startTime?: Date;
     /**
      * The time (in UTC) that the workflow finished executing. Will follow the RFC 3339 format. Will not be included if the workflow run has not finished executing.
      *
      * Example: `"2024-03-21T15:35:00Z"`
      */
-    endTime?: string;
+    endTime?: Date;
     outputs: Extend.ProcessorRun[];
     /**
      * An array of WorkflowStepRun objects. Each WorkflowStepRun represents a single run of a WorkflowStep and contains details about the step and the run's output.

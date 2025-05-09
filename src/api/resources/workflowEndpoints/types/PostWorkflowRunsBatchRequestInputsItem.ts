@@ -10,7 +10,7 @@ export interface PostWorkflowRunsBatchRequestInputsItem {
     /** A string containing raw text data to be processed. This will be treated as a `.txt` file by the workflow. Use the `file` parameter for structured data or specific file types. Either `file` or `rawText` must be provided for each input. */
     rawText?: string;
     /** An optional object containing arbitrary key-value pairs to associate with this specific workflow run. This metadata will be included in webhook payloads and responses when fetching the workflow run details. */
-    metadata?: Record<string, unknown>;
+    metadata?: Extend.JsonObject;
     /** An optional object containing secrets to be used by processors within the workflow for this specific run. Secrets provided here override any globally configured secrets for the workflow. */
     secrets?: Record<string, unknown>;
 }

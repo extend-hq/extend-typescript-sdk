@@ -17,7 +17,7 @@ export interface WorkflowRunSummary {
      *
      * Example: `"2024-03-21T15:30:00Z"`
      */
-    initialRunAt?: string;
+    initialRunAt?: Date;
     /**
      * The user of the person who reviewed the workflow run. Will not be included if the workflow run has not been reviewed.
      *
@@ -29,19 +29,19 @@ export interface WorkflowRunSummary {
      *
      * Example: `"2024-03-21T16:45:00Z"`
      */
-    reviewedAt?: string;
+    reviewedAt?: Date;
     /**
      * The start time (in UTC) that the workflow actually started executing. This occurs after the `initialRunAt` time. Will follow the RFC 3339 format.
      *
      * Example: `"2024-03-21T15:30:00Z"`
      */
-    startTime: string;
+    startTime: Date;
     /**
      * The end time (in UTC) that the workflow finished. Will follow the RFC 3339 format.
      *
      * Example: `"2024-03-21T15:35:00Z"`
      */
-    endTime?: string;
+    endTime?: Date;
     /**
      * The ID of the workflow that was run. Will always start with "workflow".
      *
@@ -77,11 +77,11 @@ export interface WorkflowRunSummary {
      *
      * Example: `"2024-03-21T15:29:55Z"`
      */
-    createdAt: string;
+    createdAt: Date;
     /**
      * The time (in UTC) at which the workflow run was last updated. Will follow the RFC 3339 format.
      *
      * Example: `"2024-03-21T16:45:00Z"`
      */
-    updatedAt: string;
+    updatedAt: Date;
 }

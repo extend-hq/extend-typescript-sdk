@@ -6,5 +6,5 @@ export interface Currency {
     /** The currency amount */
     amount: number;
     /** The ISO 4217 currency code (e.g. USD, EUR) */
-    iso_4217_currency_code: string;
+    iso4217CurrencyCode: string;
 }

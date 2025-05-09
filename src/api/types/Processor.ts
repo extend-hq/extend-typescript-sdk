@@ -25,12 +25,12 @@ export interface Processor {
      *
      * Example: `"2024-03-21T15:30:00Z"`
      */
-    createdAt: string;
+    createdAt: Date;
     /**
      * The time (in UTC) at which the processor was last updated. Will follow the RFC 3339 format.
      *
      * Example: `"2024-03-21T16:45:00Z"`
      */
-    updatedAt: string;
+    updatedAt: Date;
     draftVersion: Extend.ProcessorVersion;
 }

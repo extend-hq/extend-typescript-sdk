@@ -4,11 +4,11 @@
 
 export interface Signature {
     /** The printed name associated with the signature */
-    printed_name: string;
+    printedName: string;
     /** The date of the signature */
-    signature_date: string;
+    signatureDate: string;
     /** Whether the document is signed */
-    is_signed: boolean;
+    isSigned: boolean;
     /** The title or role of the signer */
-    title_or_role: string;
+    titleOrRole: string;
 }

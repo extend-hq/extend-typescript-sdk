@@ -5,8 +5,6 @@
 import * as Extend from "../index";
 
 export interface ProcessorRun {
-    /** The test of the processor run. */
-    test: string;
     /** The type of response. In this case, it will always be `"document_processor_run"`. */
     object: string;
     /**
@@ -41,7 +39,7 @@ export interface ProcessorRun {
     /** If the run failed, provides a detailed message about the failure. */
     failureMessage?: string;
     /** Any metadata that was provided when creating the processor run. */
-    metadata?: Record<string, unknown>;
+    metadata?: Extend.JsonObject;
     /** Indicates whether the run has been reviewed. */
     reviewed: boolean;
     /** Indicates whether the run results have been edited. */
