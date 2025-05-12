@@ -1,4 +1,6 @@
 import { ExtendClient as FernGeneratedClient } from "../Client";
+import * as core from "../core";
+import * as Extend from "../api/index";
 
 export class ExtendClient extends FernGeneratedClient {
   constructor(options: Omit<FernGeneratedClient.Options, 'extendApiVersion'>) {
@@ -9,4 +11,19 @@ export class ExtendClient extends FernGeneratedClient {
     });
   }
 
+  /**
+   * Override the parse method to use a 5-minute timeout by default
+   */
+  public parse(
+    request: Extend.ParseRequest,
+    requestOptions?: FernGeneratedClient.RequestOptions
+  ): core.HttpResponsePromise<Extend.ParseResponse> {
+    // Set default timeout to 5 minutes (300 seconds) if not specified
+    const updatedOptions: FernGeneratedClient.RequestOptions = {
+      ...requestOptions,
+      timeoutInSeconds: requestOptions?.timeoutInSeconds ?? 300
+    };
+    
+    return super.parse(request, updatedOptions);
+  }
 }
