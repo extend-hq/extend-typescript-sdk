@@ -34,6 +34,12 @@ export interface ProcessorRun {
      * * `"FAILED"` - The processor encountered an error
      */
     status: Extend.ProcessorRunStatus;
+    /**
+     * The final output, either reviewed or initial.
+     *
+     * Conforms to the shape of output types and depends on the processor type and configuration shape.
+     */
+    output: Extend.ProcessorOutput;
     /** If the run failed, indicates the reason for failure. */
     failureReason?: string;
     /** If the run failed, provides a detailed message about the failure. */
@@ -58,12 +64,6 @@ export interface ProcessorRun {
     initialOutput?: Extend.ProcessorOutput;
     /** The output after review, if any. */
     reviewedOutput?: Extend.ProcessorOutput;
-    /**
-     * The final output, either reviewed or initial.
-     *
-     * Conforms to the shape of output types and depends on the processor type and configuration shape.
-     */
-    output: Extend.ProcessorOutput;
     /**
      * Details of the processed files.
      *

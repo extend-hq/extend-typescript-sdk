@@ -6,11 +6,11 @@ import * as serializers from "../index";
 import * as Extend from "../../api/index";
 import * as core from "../../core";
 import { ProcessorRunStatus } from "./ProcessorRunStatus";
+import { ProcessorOutput } from "./ProcessorOutput";
 import { JsonObject } from "./JsonObject";
 import { ExtractionOutputEdits } from "./ExtractionOutputEdits";
 import { ProcessorRunType } from "./ProcessorRunType";
 import { ProcessorRunConfig } from "./ProcessorRunConfig";
-import { ProcessorOutput } from "./ProcessorOutput";
 import { File_ } from "./File_";
 import { ProcessorRunMergedProcessorsItem } from "./ProcessorRunMergedProcessorsItem";
 
@@ -22,6 +22,7 @@ export const ProcessorRun: core.serialization.ObjectSchema<serializers.Processor
         processorVersionId: core.serialization.string(),
         processorName: core.serialization.string(),
         status: ProcessorRunStatus,
+        output: ProcessorOutput,
         failureReason: core.serialization.string().optional(),
         failureMessage: core.serialization.string().optional(),
         metadata: JsonObject.optional(),
@@ -32,7 +33,6 @@ export const ProcessorRun: core.serialization.ObjectSchema<serializers.Processor
         config: ProcessorRunConfig,
         initialOutput: ProcessorOutput.optional(),
         reviewedOutput: ProcessorOutput.optional(),
-        output: ProcessorOutput,
         files: core.serialization.list(File_),
         mergedProcessors: core.serialization.list(ProcessorRunMergedProcessorsItem),
         url: core.serialization.string(),
@@ -46,6 +46,7 @@ export declare namespace ProcessorRun {
         processorVersionId: string;
         processorName: string;
         status: ProcessorRunStatus.Raw;
+        output: ProcessorOutput.Raw;
         failureReason?: string | null;
         failureMessage?: string | null;
         metadata?: JsonObject.Raw | null;
@@ -56,7 +57,6 @@ export declare namespace ProcessorRun {
         config: ProcessorRunConfig.Raw;
         initialOutput?: ProcessorOutput.Raw | null;
         reviewedOutput?: ProcessorOutput.Raw | null;
-        output: ProcessorOutput.Raw;
         files: File_.Raw[];
         mergedProcessors: ProcessorRunMergedProcessorsItem.Raw[];
         url: string;
