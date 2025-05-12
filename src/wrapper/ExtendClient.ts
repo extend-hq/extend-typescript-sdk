@@ -21,7 +21,7 @@ export class ExtendClient extends FernGeneratedClient {
     // Set default timeout to 5 minutes (300 seconds) if not specified
     const updatedOptions: FernGeneratedClient.RequestOptions = {
       ...requestOptions,
-      timeoutInSeconds: requestOptions?.timeoutInSeconds ?? 300
+      timeoutInSeconds: requestOptions?.timeoutInSeconds ?? 120
     };
     
     return super.parse(request, updatedOptions);
