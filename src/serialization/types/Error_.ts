@@ -10,9 +10,6 @@ export const Error_: core.serialization.ObjectSchema<serializers.Error_.Raw, Ext
     {
         success: core.serialization.boolean().optional(),
         error: core.serialization.string().optional(),
-        code: core.serialization.string().optional(),
-        requestId: core.serialization.string().optional(),
-        retryable: core.serialization.boolean().optional(),
     },
 );
 
@@ -20,8 +17,5 @@ export declare namespace Error_ {
     export interface Raw {
         success?: boolean | null;
         error?: string | null;
-        code?: string | null;
-        requestId?: string | null;
-        retryable?: boolean | null;
     }
 }

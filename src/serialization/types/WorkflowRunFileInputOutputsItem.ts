@@ -7,15 +7,15 @@ import * as Extend from "../../api/index";
 import * as core from "../../core";
 import { ProvidedProcessorOutput } from "./ProvidedProcessorOutput";
 
-export const File4OutputsItem: core.serialization.ObjectSchema<
-    serializers.File4OutputsItem.Raw,
-    Extend.File4OutputsItem
+export const WorkflowRunFileInputOutputsItem: core.serialization.ObjectSchema<
+    serializers.WorkflowRunFileInputOutputsItem.Raw,
+    Extend.WorkflowRunFileInputOutputsItem
 > = core.serialization.object({
     processorId: core.serialization.string(),
     output: ProvidedProcessorOutput,
 });
 
-export declare namespace File4OutputsItem {
+export declare namespace WorkflowRunFileInputOutputsItem {
     export interface Raw {
         processorId: string;
         output: ProvidedProcessorOutput.Raw;

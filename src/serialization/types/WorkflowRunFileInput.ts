@@ -5,20 +5,23 @@
 import * as serializers from "../index";
 import * as Extend from "../../api/index";
 import * as core from "../../core";
-import { File4OutputsItem } from "./File4OutputsItem";
+import { WorkflowRunFileInputOutputsItem } from "./WorkflowRunFileInputOutputsItem";
 
-export const File4: core.serialization.ObjectSchema<serializers.File4.Raw, Extend.File4> = core.serialization.object({
+export const WorkflowRunFileInput: core.serialization.ObjectSchema<
+    serializers.WorkflowRunFileInput.Raw,
+    Extend.WorkflowRunFileInput
+> = core.serialization.object({
     fileName: core.serialization.string().optional(),
     fileUrl: core.serialization.string().optional(),
     fileId: core.serialization.string().optional(),
-    outputs: core.serialization.list(File4OutputsItem).optional(),
+    outputs: core.serialization.list(WorkflowRunFileInputOutputsItem).optional(),
 });
 
-export declare namespace File4 {
+export declare namespace WorkflowRunFileInput {
     export interface Raw {
         fileName?: string | null;
         fileUrl?: string | null;
         fileId?: string | null;
-        outputs?: File4OutputsItem.Raw[] | null;
+        outputs?: WorkflowRunFileInputOutputsItem.Raw[] | null;
     }
 }

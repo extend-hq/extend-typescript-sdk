@@ -154,8 +154,8 @@ export class ExtendClient {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.29",
-                "User-Agent": "@extend-ai/sdk/0.0.29",
+                "X-Fern-SDK-Version": "0.0.30",
+                "User-Agent": "@extend-ai/sdk/0.0.30",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -222,14 +222,14 @@ export class ExtendClient {
     /**
      * Run processors (extraction, classification, splitting, etc.) on a given document.
      *
-     * In general, the recommended way to integrate with Extend in production is via workflows, using the [Run Workflow](/developers/api-reference/workflow-endpoints/run-workflow) endpoint. This is due to several factors:
+     * In general, the recommended way to integrate with Extend in production is via workflows, using the [Run Workflow](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/run-workflow) endpoint. This is due to several factors:
      * * file parsing/pre-processing will automatically be reused across multiple processors, which will give you simplicity and cost savings given that many use cases will require multiple processors to be run on the same document.
      * * workflows provide dedicated human in the loop document review, when needed.
      * * workflows allow you to model and manage your pipeline with a single endpoint and corresponding UI for modeling and monitoring.
      *
      * However, there are a number of legitimate use cases and systems where it might be easier to model the pipeline via code and run processors directly. This endpoint is provided for this purpose.
      *
-     * Similar to workflow runs, processor runs are asynchronous and will return a status of `PROCESSING` until the run is complete. You can [configure webhooks](/developers/webhooks/configuration) to receive notifications when a processor run is complete or failed.
+     * Similar to workflow runs, processor runs are asynchronous and will return a status of `PROCESSING` until the run is complete. You can [configure webhooks](https://docs.extend.ai/2025-04-21/developers/webhooks/configuration) to receive notifications when a processor run is complete or failed.
      *
      * @param {Extend.RunProcessorRequest} request
      * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -273,8 +273,8 @@ export class ExtendClient {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.29",
-                "User-Agent": "@extend-ai/sdk/0.0.29",
+                "X-Fern-SDK-Version": "0.0.30",
+                "User-Agent": "@extend-ai/sdk/0.0.30",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -355,7 +355,7 @@ export class ExtendClient {
      *
      * Unlike processor and workflow runs, parsing is a synchronous endpoint and returns the parsed content in the response. Expected latency depends primarily on file size. This makes it suitable for workflows where you need immediate access to document content without waiting for asynchronous processing.
      *
-     * For more details, see the [Parse File guide](/developers/guides/parse).
+     * For more details, see the [Parse File guide](https://docs.extend.ai/2025-04-21/developers/guides/parse).
      *
      * @param {Extend.ParseRequest} request
      * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -400,8 +400,8 @@ export class ExtendClient {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.29",
-                "User-Agent": "@extend-ai/sdk/0.0.29",
+                "X-Fern-SDK-Version": "0.0.30",
+                "User-Agent": "@extend-ai/sdk/0.0.30",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,

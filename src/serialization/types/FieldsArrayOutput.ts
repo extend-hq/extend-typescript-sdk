@@ -7,9 +7,9 @@ import * as Extend from "../../api/index";
 import * as core from "../../core";
 import { ExtractionFieldResult } from "./ExtractionFieldResult";
 
-export const LegacyOutput: core.serialization.Schema<serializers.LegacyOutput.Raw, Extend.LegacyOutput> =
+export const FieldsArrayOutput: core.serialization.Schema<serializers.FieldsArrayOutput.Raw, Extend.FieldsArrayOutput> =
     core.serialization.record(core.serialization.string(), ExtractionFieldResult);
 
-export declare namespace LegacyOutput {
+export declare namespace FieldsArrayOutput {
     export type Raw = Record<string, ExtractionFieldResult.Raw>;
 }

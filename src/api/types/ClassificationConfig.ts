@@ -5,9 +5,9 @@
 import * as Extend from "../index";
 
 export interface ClassificationConfig {
-    /** The base processor to use. For classifiers, this must be either `"classifier_performance"` or `"classifier_light"`. See the [base processor documentation](/changelog/overview) for more details. */
+    /** The base processor to use. For classifiers, this must be either `"classifier_performance"` or `"classifier_light"`. See the [base processor documentation](https://docs.extend.ai/2025-04-21/changelog/overview) for more details. */
     baseProcessor?: Extend.ClassificationConfigBaseProcessor;
-    /** The version of the `"classifier_performance"` or `"classifier_light"` processor to use. If this is provided, the `baseProcessor` must also be provided. See the [base processor documentation](/changelog/overview) for more details. */
+    /** The version of the `"classifier_performance"` or `"classifier_light"` processor to use. If this is provided, the `baseProcessor` must also be provided. See the [base processor documentation](https://docs.extend.ai/2025-04-21/changelog/overview) for more details. */
     baseVersion?: string;
     /** Array of possible classifications for the document. */
     classifications: Extend.Classification[];

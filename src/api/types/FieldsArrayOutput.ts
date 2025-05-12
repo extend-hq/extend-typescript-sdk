@@ -7,4 +7,4 @@ import * as Extend from "../index";
 /**
  * The output from an extraction processor
  */
-export type LegacyOutput = Record<string, Extend.ExtractionFieldResult>;
+export type FieldsArrayOutput = Record<string, Extend.ExtractionFieldResult>;

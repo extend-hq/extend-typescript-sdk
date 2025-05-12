@@ -6,24 +6,19 @@ import * as serializers from "../index";
 import * as Extend from "../../api/index";
 import * as core from "../../core";
 import { BadRequestErrorBodyCode } from "./BadRequestErrorBodyCode";
+import { Error_ } from "./Error_";
 
 export const BadRequestErrorBody: core.serialization.ObjectSchema<
     serializers.BadRequestErrorBody.Raw,
     Extend.BadRequestErrorBody
-> = core.serialization.object({
-    code: BadRequestErrorBodyCode.optional(),
-    success: core.serialization.boolean().optional(),
-    error: core.serialization.string().optional(),
-    requestId: core.serialization.string().optional(),
-    retryable: core.serialization.boolean().optional(),
-});
+> = core.serialization
+    .object({
+        code: BadRequestErrorBodyCode.optional(),
+    })
+    .extend(Error_);
 
 export declare namespace BadRequestErrorBody {
-    export interface Raw {
+    export interface Raw extends Error_.Raw {
         code?: BadRequestErrorBodyCode.Raw | null;
-        success?: boolean | null;
-        error?: string | null;
-        requestId?: string | null;
-        retryable?: boolean | null;
     }
 }

@@ -3,7 +3,7 @@
  */
 
 /**
- * The base processor to use. For extractors, this must be either `"extraction_performance"` or `"extraction_light"`. See the [base processor documentation](/changelog/overview) for more details.
+ * The base processor to use. For extractors, this must be either `"extraction_performance"` or `"extraction_light"`. See the [base processor documentation](https://docs.extend.ai/2025-04-21/changelog/overview) for more details.
  */
 export type ExtractionConfigBaseProcessor = "extraction_performance" | "extraction_light";
 export const ExtractionConfigBaseProcessor = {

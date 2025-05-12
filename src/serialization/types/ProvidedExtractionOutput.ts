@@ -6,14 +6,14 @@ import * as serializers from "../index";
 import * as Extend from "../../api/index";
 import * as core from "../../core";
 import { ProvidedJsonOutput } from "./ProvidedJsonOutput";
-import { ProvidedLegacyOutput } from "./ProvidedLegacyOutput";
-import { ProvidedLegacyOutputValue } from "./ProvidedLegacyOutputValue";
+import { ProvidedFieldsArrayOutput } from "./ProvidedFieldsArrayOutput";
+import { ProvidedFieldsArrayOutputValue } from "./ProvidedFieldsArrayOutputValue";
 
 export const ProvidedExtractionOutput: core.serialization.Schema<
     serializers.ProvidedExtractionOutput.Raw,
     Extend.ProvidedExtractionOutput
-> = core.serialization.undiscriminatedUnion([ProvidedJsonOutput, ProvidedLegacyOutput]);
+> = core.serialization.undiscriminatedUnion([ProvidedJsonOutput, ProvidedFieldsArrayOutput]);
 
 export declare namespace ProvidedExtractionOutput {
-    export type Raw = ProvidedJsonOutput.Raw | ProvidedLegacyOutput.Raw;
+    export type Raw = ProvidedJsonOutput.Raw | ProvidedFieldsArrayOutput.Raw;
 }

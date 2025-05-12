@@ -4,13 +4,6 @@
 
 import * as Extend from "../index";
 
-export interface BadRequestErrorBody {
+export interface BadRequestErrorBody extends Extend.Error_ {
     code?: Extend.BadRequestErrorBodyCode;
-    success?: boolean;
-    /** Error message */
-    error?: string;
-    /** Request ID for troubleshooting */
-    requestId?: string;
-    /** Whether the request can be retried */
-    retryable?: boolean;
 }

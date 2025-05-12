@@ -5,14 +5,14 @@
 import * as serializers from "../../../index";
 import * as Extend from "../../../../api/index";
 import * as core from "../../../../core";
-import { File3BatchRun } from "../../../types/File3BatchRun";
+import { BatchWorkflowRunFileInput } from "../../../types/BatchWorkflowRunFileInput";
 import { JsonObject } from "../../../types/JsonObject";
 
 export const BatchWorkflowRunCreateRequestInputsItem: core.serialization.ObjectSchema<
     serializers.BatchWorkflowRunCreateRequestInputsItem.Raw,
     Extend.BatchWorkflowRunCreateRequestInputsItem
 > = core.serialization.object({
-    file: File3BatchRun.optional(),
+    file: BatchWorkflowRunFileInput.optional(),
     rawText: core.serialization.string().optional(),
     metadata: JsonObject.optional(),
     secrets: core.serialization.record(core.serialization.string(), core.serialization.unknown()).optional(),
@@ -20,7 +20,7 @@ export const BatchWorkflowRunCreateRequestInputsItem: core.serialization.ObjectS
 
 export declare namespace BatchWorkflowRunCreateRequestInputsItem {
     export interface Raw {
-        file?: File3BatchRun.Raw | null;
+        file?: BatchWorkflowRunFileInput.Raw | null;
         rawText?: string | null;
         metadata?: JsonObject.Raw | null;
         secrets?: Record<string, unknown> | null;

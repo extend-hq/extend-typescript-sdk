@@ -6,12 +6,12 @@ import * as serializers from "../index";
 import * as Extend from "../../api/index";
 import * as core from "../../core";
 import { JsonOutput } from "./JsonOutput";
-import { LegacyOutput } from "./LegacyOutput";
+import { FieldsArrayOutput } from "./FieldsArrayOutput";
 import { ExtractionFieldResult } from "./ExtractionFieldResult";
 
 export const ExtractionOutput: core.serialization.Schema<serializers.ExtractionOutput.Raw, Extend.ExtractionOutput> =
-    core.serialization.undiscriminatedUnion([JsonOutput, LegacyOutput]);
+    core.serialization.undiscriminatedUnion([JsonOutput, FieldsArrayOutput]);
 
 export declare namespace ExtractionOutput {
-    export type Raw = JsonOutput.Raw | LegacyOutput.Raw;
+    export type Raw = JsonOutput.Raw | FieldsArrayOutput.Raw;
 }

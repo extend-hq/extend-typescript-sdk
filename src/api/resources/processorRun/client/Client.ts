@@ -40,7 +40,7 @@ export class ProcessorRun {
     /**
      * Retrieve details about a specific processor run, including its status, outputs, and any edits made during review.
      *
-     * A common use case for this endpoint is to poll for the status and final output of an async processor run when using the [Run Processor](/developers/api-reference/processor-endpoints/run-processor) endpoint. For instance, if you do not want to not configure webhooks to receive the output via completion/failure events.
+     * A common use case for this endpoint is to poll for the status and final output of an async processor run when using the [Run Processor](https://docs.extend.ai/2025-04-21/developers/api-reference/processor-endpoints/run-processor) endpoint. For instance, if you do not want to not configure webhooks to receive the output via completion/failure events.
      *
      * @param {string} id - The unique identifier for this processor run. The ID will start with "dpr_". This can be fetched from the API response when running a processor, or from the Extend UI in the "history" tab of a processor.
      *
@@ -84,8 +84,8 @@ export class ProcessorRun {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.29",
-                "User-Agent": "@extend-ai/sdk/0.0.29",
+                "X-Fern-SDK-Version": "0.0.30",
+                "User-Agent": "@extend-ai/sdk/0.0.30",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,

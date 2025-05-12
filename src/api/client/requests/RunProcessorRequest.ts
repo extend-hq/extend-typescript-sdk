@@ -19,8 +19,8 @@ export interface RunProcessorRequest {
      * - Specific version numbers corresponding to versions your team has published, e.g. `"1.0"`, `"2.2"`, etc.
      */
     version?: string;
-    /** The file to be processed. One of `file` or `rawText` must be provided. Supported file types can be found [here](/developers/guides/supported-file-types). */
-    file?: Extend.File3Processor;
+    /** The file to be processed. One of `file` or `rawText` must be provided. Supported file types can be found [here](https://docs.extend.ai/2025-04-21/developers/guides/supported-file-types). */
+    file?: Extend.ProcessorRunFileInput;
     /** A raw string to be processed. Can be used in place of file when passing raw text data streams. One of `file` or `rawText` must be provided. */
     rawText?: string;
     /** An optional value used to determine the relative order of ProcessorRuns when rate limiting is in effect. Lower values will be prioritized before higher values. */

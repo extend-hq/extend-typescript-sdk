@@ -38,7 +38,7 @@ export class EvaluationSet {
     constructor(protected readonly _options: EvaluationSet.Options) {}
 
     /**
-     * Evaluation sets are collections of files and expected outputs that are used to evaluate the performance of a given processor in Extend. This endpoint will create a new evaluation set in Extend, which items can be added to using the [Create Evaluation Set Item](/developers/api-reference/evaluation-set-endpoints/create-evaluation-set-item) endpoint.
+     * Evaluation sets are collections of files and expected outputs that are used to evaluate the performance of a given processor in Extend. This endpoint will create a new evaluation set in Extend, which items can be added to using the [Create Evaluation Set Item](https://docs.extend.ai/2025-04-21/developers/api-reference/evaluation-set-endpoints/create-evaluation-set-item) endpoint.
      *
      * Note: it is not necessary to create an evaluation set via API. You can also create an evaluation set via the Extend dashboard and take the ID from there.
      *
@@ -85,8 +85,8 @@ export class EvaluationSet {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.29",
-                "User-Agent": "@extend-ai/sdk/0.0.29",
+                "X-Fern-SDK-Version": "0.0.30",
+                "User-Agent": "@extend-ai/sdk/0.0.30",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,

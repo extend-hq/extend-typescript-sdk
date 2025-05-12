@@ -17,8 +17,8 @@ export interface RunWorkflowRequest {
      * Example: `"workflow_BMdfq_yWM3sT-ZzvCnA3f"`
      */
     workflowId: string;
-    /** An array of files to process through the workflow. Either the `files` array or `rawTexts` array must be provided. Supported file types can be found [here](/developers/guides/supported-file-types). */
-    files?: Extend.File4[];
+    /** An array of files to process through the workflow. Either the `files` array or `rawTexts` array must be provided. Supported file types can be found [here](https://docs.extend.ai/2025-04-21/developers/guides/supported-file-types). */
+    files?: Extend.WorkflowRunFileInput[];
     /** An array of raw strings. Can be used in place of files when passing raw data. The raw data will be converted to `.txt` files and run through the workflow. If the data follows a specific format, it is recommended to use the files parameter instead. Either `files` or `rawTexts` must be provided. */
     rawTexts?: string[];
     /**

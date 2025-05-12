@@ -6,9 +6,9 @@ import * as serializers from "../index";
 import * as Extend from "../../api/index";
 import * as core from "../../core";
 
-export const ProvidedLegacyOutputValue: core.serialization.ObjectSchema<
-    serializers.ProvidedLegacyOutputValue.Raw,
-    Extend.ProvidedLegacyOutputValue
+export const ProvidedFieldsArrayOutputValue: core.serialization.ObjectSchema<
+    serializers.ProvidedFieldsArrayOutputValue.Raw,
+    Extend.ProvidedFieldsArrayOutputValue
 > = core.serialization.object({
     id: core.serialization.string(),
     value: core.serialization.unknown(),
@@ -17,7 +17,7 @@ export const ProvidedLegacyOutputValue: core.serialization.ObjectSchema<
     page: core.serialization.number().optional(),
 });
 
-export declare namespace ProvidedLegacyOutputValue {
+export declare namespace ProvidedFieldsArrayOutputValue {
     export interface Raw {
         id: string;
         value?: unknown;

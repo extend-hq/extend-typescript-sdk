@@ -5,7 +5,7 @@
 import * as serializers from "../../index";
 import * as Extend from "../../../api/index";
 import * as core from "../../../core";
-import { File4 } from "../../types/File4";
+import { WorkflowRunFileInput } from "../../types/WorkflowRunFileInput";
 import { JsonObject } from "../../types/JsonObject";
 
 export const RunWorkflowRequest: core.serialization.Schema<
@@ -13,7 +13,7 @@ export const RunWorkflowRequest: core.serialization.Schema<
     Extend.RunWorkflowRequest
 > = core.serialization.object({
     workflowId: core.serialization.string(),
-    files: core.serialization.list(File4).optional(),
+    files: core.serialization.list(WorkflowRunFileInput).optional(),
     rawTexts: core.serialization.list(core.serialization.string()).optional(),
     version: core.serialization.string().optional(),
     priority: core.serialization.number().optional(),
@@ -23,7 +23,7 @@ export const RunWorkflowRequest: core.serialization.Schema<
 export declare namespace RunWorkflowRequest {
     export interface Raw {
         workflowId: string;
-        files?: File4.Raw[] | null;
+        files?: WorkflowRunFileInput.Raw[] | null;
         rawTexts?: string[] | null;
         version?: string | null;
         priority?: number | null;

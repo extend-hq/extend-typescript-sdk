@@ -41,7 +41,7 @@ export interface ProcessorVersion {
     /**
      * The configuration settings for this version of the document processor. The structure of this object will vary depending on the processor type.
      *
-     * See the [Processor Configs guide](/developers/guides/processor-configs) for more details on the configuration settings for each processor type.
+     * See the [Processor Configs guide](https://docs.extend.ai/2025-04-21/developers/guides/processor-configs) for more details on the configuration settings for each processor type.
      */
     config: Extend.ProcessorVersionConfig;
     /**

@@ -6,7 +6,7 @@ import * as Extend from "../../../index";
 
 export interface BatchWorkflowRunCreateRequestInputsItem {
     /** The file to be processed. Either `file` or `rawText` must be provided for each input. */
-    file?: Extend.File3BatchRun;
+    file?: Extend.BatchWorkflowRunFileInput;
     /** A string containing raw text data to be processed. This will be treated as a `.txt` file by the workflow. Use the `file` parameter for structured data or specific file types. Either `file` or `rawText` must be provided for each input. */
     rawText?: string;
     /** An optional object containing arbitrary key-value pairs to associate with this specific workflow run. This metadata will be included in webhook payloads and responses when fetching the workflow run details. */

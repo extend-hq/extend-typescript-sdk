@@ -4,12 +4,12 @@
 
 import * as Extend from "../index";
 
-export interface File4OutputsItem {
+export interface WorkflowRunFileInputOutputsItem {
     /**
      * The ID of the processor that the output is associated with. The ID will start with "dp_".
      * Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
      */
     processorId: string;
-    /** The output that is being overridden. The structure will depend on the processor type. More details can be found [here](/developers/guides/output-types). */
+    /** The output that is being overridden. The structure will depend on the processor type. More details can be found [here](https://docs.extend.ai/2025-04-21/developers/guides/output-types). */
     output: Extend.ProvidedProcessorOutput;
 }

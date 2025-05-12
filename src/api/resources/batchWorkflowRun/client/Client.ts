@@ -40,31 +40,15 @@ export class BatchWorkflowRun {
     /**
      * This endpoint allows you to efficiently initiate large batches of workflow runs in a single request (up to 1,000 in a single request, but you can queue up multiple batches in rapid succession). It accepts an array of inputs, each containing a file and metadata pair. The primary use case for this endpoint is for doing large bulk runs of >1000 files at a time that can process over the course of a few hours without needing to manage rate limits that would likely occur using the primary run endpoint.
      *
-     * Unlike the single [Run Workflow](/developers/api-reference/workflow-endpoints/run-workflow) endpoint which returns the details of the created workflow runs immediately, this batch endpoint returns a `batchId`.
+     * Unlike the single [Run Workflow](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/run-workflow) endpoint which returns the details of the created workflow runs immediately, this batch endpoint returns a `batchId`.
      *
-     * Our recommended usage pattern is to integrate with [Webhooks](/developers/webhooks/configuration) for consuming results, using the `metadata` and `batchId` to match up results to the original inputs in your downstream systems. However, you can integrate in a polling mechanism by using a combination of the [List Workflow Runs](/developers/workflow-endpoints/list-workflow-runs) endpoint to fetch all runs via a batch, and then [Get Workflow Run](/developers/workflow-endpoints/get-workflow-run) to fetch the full outputs each run.
+     * Our recommended usage pattern is to integrate with [Webhooks](https://docs.extend.ai/2025-04-21/developers/webhooks/configuration) for consuming results, using the `metadata` and `batchId` to match up results to the original inputs in your downstream systems. However, you can integrate in a polling mechanism by using a combination of the [List Workflow Runs](https://docs.extend.ai/2025-04-21/developers/workflow-endpoints/list-workflow-runs) endpoint to fetch all runs via a batch, and then [Get Workflow Run](https://docs.extend.ai/2025-04-21/developers/workflow-endpoints/get-workflow-run) to fetch the full outputs each run.
      *
      * **Processing and Monitoring:**
      * Upon successful submission, the endpoint returns a `batchId`. The individual workflow runs are then queued for processing.
      *
-     * - **Monitoring:** Track the progress and consume results of individual runs using [Webhooks](/developers/webhooks/configuration). Subscribe to events like `workflow_run.completed`, `workflow_run.failed`, etc. The webhook payload for these events will include the corresponding `batchId` and the `metadata` you provided for each input.
-     * - **Fetching Results:** You can also use the [List Workflow Runs](/developers/api-reference/workflow-endpoints/list-workflow-runs) endpoint and filter using the `batchId` query param.
-     *
-     * **Error Responses**
-     *
-     * Common errors include:
-     *
-     * **400 Bad Request**: Invalid request body (e.g., missing required fields, array size limits exceeded, issues with `fileUrl` or `fileId`). The response body will contain an `error` message detailing the specific validation issues. Can also indicate issues accessing a provided `fileUrl`.
-     *
-     * **401 Unauthorized**: Missing or invalid API token.
-     *
-     * **403 Forbidden**: The API token does not have permission to access the specified workflow.
-     *
-     * **404 Not Found**: The specified `workflowId` or `version` does not exist.
-     *
-     * **429 Too Many Requests**: The request was rate limited. Please try again later.
-     *
-     * **500 Internal Server Error**: An unexpected error occurred on the server.
+     * - **Monitoring:** Track the progress and consume results of individual runs using [Webhooks](https://docs.extend.ai/2025-04-21/developers/webhooks/configuration). Subscribe to events like `workflow_run.completed`, `workflow_run.failed`, etc. The webhook payload for these events will include the corresponding `batchId` and the `metadata` you provided for each input.
+     * - **Fetching Results:** You can also use the [List Workflow Runs](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/list-workflow-runs) endpoint and filter using the `batchId` query param.
      *
      * @param {Extend.BatchWorkflowRunCreateRequest} request
      * @param {BatchWorkflowRun.RequestOptions} requestOptions - Request-specific configuration.
@@ -109,8 +93,8 @@ export class BatchWorkflowRun {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.29",
-                "User-Agent": "@extend-ai/sdk/0.0.29",
+                "X-Fern-SDK-Version": "0.0.30",
+                "User-Agent": "@extend-ai/sdk/0.0.30",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,

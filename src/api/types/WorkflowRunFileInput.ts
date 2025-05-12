@@ -5,9 +5,9 @@
 import * as Extend from "../index";
 
 /**
- * A file object that can be specified using either a URL or an existing file ID.
+ * A file object that can be specified using either a URL or an existing file ID for workflow runs.
  */
-export interface File4 {
+export interface WorkflowRunFileInput {
     /** The name of the file to be processed. If not provided, the file name will be inferred from the URL. It is highly recommended to include this parameter for legibility. */
     fileName?: string;
     /** A URL where the file can be downloaded from. If you use presigned URLs, we recommend an expiration time of 5-15 minutes. One of a `fileUrl` or `fileId` must be provided. */
@@ -19,5 +19,5 @@ export interface File4 {
      */
     fileId?: string;
     /** Predetermined outputs that can be used to override the outputs that are generated. Generally not recommended for most use cases, however, can be useful in cases of overriding a classification in a workflow, or a subset of extraction fields when data is known. */
-    outputs?: Extend.File4OutputsItem[];
+    outputs?: Extend.WorkflowRunFileInputOutputsItem[];
 }

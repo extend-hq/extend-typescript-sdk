@@ -6,7 +6,7 @@ import * as serializers from "../../index";
 import * as Extend from "../../../api/index";
 import * as core from "../../../core";
 import { ProcessorId } from "../../types/ProcessorId";
-import { File3Processor } from "../../types/File3Processor";
+import { ProcessorRunFileInput } from "../../types/ProcessorRunFileInput";
 import { JsonObject } from "../../types/JsonObject";
 import { RunProcessorRequestConfig } from "../../types/RunProcessorRequestConfig";
 
@@ -16,7 +16,7 @@ export const RunProcessorRequest: core.serialization.Schema<
 > = core.serialization.object({
     processorId: ProcessorId,
     version: core.serialization.string().optional(),
-    file: File3Processor.optional(),
+    file: ProcessorRunFileInput.optional(),
     rawText: core.serialization.string().optional(),
     priority: core.serialization.number().optional(),
     metadata: JsonObject.optional(),
@@ -27,7 +27,7 @@ export declare namespace RunProcessorRequest {
     export interface Raw {
         processorId: ProcessorId.Raw;
         version?: string | null;
-        file?: File3Processor.Raw | null;
+        file?: ProcessorRunFileInput.Raw | null;
         rawText?: string | null;
         priority?: number | null;
         metadata?: JsonObject.Raw | null;

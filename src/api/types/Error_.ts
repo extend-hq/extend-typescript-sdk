@@ -6,10 +6,4 @@ export interface Error_ {
     success?: boolean;
     /** Error message */
     error?: string;
-    /** Error code */
-    code?: string;
-    /** Request ID for troubleshooting */
-    requestId?: string;
-    /** Whether the request can be retried */
-    retryable?: boolean;
 }
