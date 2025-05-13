@@ -26,8 +26,8 @@ Instantiate and use the client with the following:
 ```typescript
 import { ExtendClient } from "@extend-ai/sdk";
 
-const client = new ExtendClient({ token: "YOUR_TOKEN", extendApiVersion: "YOUR_EXTEND_API_VERSION" });
-await client.runWorkflow({
+const client = new ExtendClient({ token: "YOUR_TOKEN" });
+await client.workflowRun.create({
     workflowId: "workflow_id_here",
 });
 ```
@@ -54,7 +54,7 @@ will be thrown.
 import { ExtendError } from "@extend-ai/sdk";
 
 try {
-    await client.runWorkflow(...);
+    await client.workflowRun.create(...);
 } catch (err) {
     if (err instanceof ExtendError) {
         console.log(err.statusCode);
@@ -72,7 +72,7 @@ try {
 If you would like to send additional headers as part of the request, use the `headers` request option.
 
 ```typescript
-const response = await client.runWorkflow(..., {
+const response = await client.workflowRun.create(..., {
     headers: {
         'X-Custom-Header': 'custom value'
     }
@@ -94,17 +94,17 @@ A request is deemed retryable when any of the following HTTP status codes is ret
 Use the `maxRetries` request option to configure this behavior.
 
 ```typescript
-const response = await client.runWorkflow(..., {
+const response = await client.workflowRun.create(..., {
     maxRetries: 0 // override maxRetries at the request level
 });
 ```
 
 ### Timeouts
 
-The SDK defaults to a 60 second timeout. Use the `timeoutInSeconds` option to configure this behavior.
+The SDK defaults to a 3000 second timeout. Use the `timeoutInSeconds` option to configure this behavior.
 
 ```typescript
-const response = await client.runWorkflow(..., {
+const response = await client.workflowRun.create(..., {
     timeoutInSeconds: 30 // override timeout to 30s
 });
 ```
