@@ -6,7 +6,7 @@ import * as Extend from "../index";
 
 export interface WorkflowRunFileInputOutputsItem {
     /**
-     * The ID of the processor that the output is associated with. The ID will start with "dp_".
+     * The ID of the processor that the output is associated with.
      * Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
      */
     processorId: string;

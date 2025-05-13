@@ -6,7 +6,7 @@ export interface Workflow {
     /** The type of response. In this case, it will always be `"workflow"`. */
     object: string;
     /**
-     * The ID of the workflow. The ID will start with "workflow".
+     * The ID of the workflow.
      *
      * Example: `"workflow_BMlfq_yWM3sT-ZzvCnA3f"`
      */

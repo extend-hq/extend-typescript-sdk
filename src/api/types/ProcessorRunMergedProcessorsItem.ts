@@ -4,12 +4,12 @@
 
 export interface ProcessorRunMergedProcessorsItem {
     /**
-     * The ID of the merged processor. The ID will start with "dp_".
+     * The ID of the merged processor.
      *
      * Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
      */
     processorId: string;
-    /** The ID of the specific processor version used. The ID will start with "dpv_". */
+    /** The ID of the specific processor version used. */
     processorVersionId: string;
     /**
      * The name of the merged processor.

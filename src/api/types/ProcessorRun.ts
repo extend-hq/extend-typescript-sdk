@@ -8,13 +8,13 @@ export interface ProcessorRun {
     /** The type of response. In this case, it will always be `"document_processor_run"`. */
     object: string;
     /**
-     * The unique identifier for this processor run. The ID will start with "dpr_".
+     * The unique identifier for this processor run.
      *
      * Example: `"dpr_Xj8mK2pL9nR4vT7qY5wZ"`
      */
     id: string;
     /**
-     * The ID of the processor used for this run. The ID will start with "dp_".
+     * The ID of the processor used for this run.
      *
      * Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
      */

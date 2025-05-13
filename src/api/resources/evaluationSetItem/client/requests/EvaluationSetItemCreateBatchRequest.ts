@@ -20,7 +20,7 @@ import * as Extend from "../../../../index";
  */
 export interface EvaluationSetItemCreateBatchRequest {
     /**
-     * The ID of the evaluation set to add the items to. The ID will start with "ev_".
+     * The ID of the evaluation set to add the items to.
      *
      * Example: `"ev_2LcgeY_mp2T5yPaEuq5Lw"`
      */

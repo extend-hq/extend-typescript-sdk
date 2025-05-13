@@ -5,23 +5,24 @@
 import * as serializers from "../index";
 import * as Extend from "../../api/index";
 import * as core from "../../core";
+import { ProvidedExtractionFieldResultType } from "./ProvidedExtractionFieldResultType";
 
-export const ProvidedFieldsArrayOutputValue: core.serialization.ObjectSchema<
-    serializers.ProvidedFieldsArrayOutputValue.Raw,
-    Extend.ProvidedFieldsArrayOutputValue
+export const ProvidedExtractionFieldResult: core.serialization.ObjectSchema<
+    serializers.ProvidedExtractionFieldResult.Raw,
+    Extend.ProvidedExtractionFieldResult
 > = core.serialization.object({
     id: core.serialization.string(),
     value: core.serialization.unknown(),
-    type: core.serialization.string().optional(),
+    type: ProvidedExtractionFieldResultType.optional(),
     confidence: core.serialization.number().optional(),
     page: core.serialization.number().optional(),
 });
 
-export declare namespace ProvidedFieldsArrayOutputValue {
+export declare namespace ProvidedExtractionFieldResult {
     export interface Raw {
         id: string;
         value?: unknown;
-        type?: string | null;
+        type?: ProvidedExtractionFieldResultType.Raw | null;
         confidence?: number | null;
         page?: number | null;
     }

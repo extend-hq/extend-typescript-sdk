@@ -24,6 +24,7 @@ export * as workflow from "./workflow";
 export * from "./workflow/types";
 export * from "./workflowRun/client/requests";
 export * from "./batchWorkflowRun/client/requests";
+export * from "./processorRun/client/requests";
 export * from "./processor/client/requests";
 export * from "./processorVersion/client/requests";
 export * from "./fileEndpoints/client/requests";

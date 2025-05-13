@@ -38,11 +38,140 @@ export class ProcessorRun {
     constructor(protected readonly _options: ProcessorRun.Options) {}
 
     /**
+     * Run processors (extraction, classification, splitting, etc.) on a given document.
+     *
+     * In general, the recommended way to integrate with Extend in production is via workflows, using the [Run Workflow](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/run-workflow) endpoint. This is due to several factors:
+     * * file parsing/pre-processing will automatically be reused across multiple processors, which will give you simplicity and cost savings given that many use cases will require multiple processors to be run on the same document.
+     * * workflows provide dedicated human in the loop document review, when needed.
+     * * workflows allow you to model and manage your pipeline with a single endpoint and corresponding UI for modeling and monitoring.
+     *
+     * However, there are a number of legitimate use cases and systems where it might be easier to model the pipeline via code and run processors directly. This endpoint is provided for this purpose.
+     *
+     * Similar to workflow runs, processor runs are asynchronous and will return a status of `PROCESSING` until the run is complete. You can [configure webhooks](https://docs.extend.ai/2025-04-21/developers/webhooks/configuration) to receive notifications when a processor run is complete or failed.
+     *
+     * @param {Extend.ProcessorRunCreateRequest} request
+     * @param {ProcessorRun.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.NotFoundError}
+     *
+     * @example
+     *     await client.processorRun.create({
+     *         processorId: "processor_id_here"
+     *     })
+     */
+    public create(
+        request: Extend.ProcessorRunCreateRequest,
+        requestOptions?: ProcessorRun.RequestOptions,
+    ): core.HttpResponsePromise<Extend.ProcessorRunCreateResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
+    }
+
+    private async __create(
+        request: Extend.ProcessorRunCreateRequest,
+        requestOptions?: ProcessorRun.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.ProcessorRunCreateResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                "processor_runs",
+            ),
+            method: "POST",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version":
+                    (await core.Supplier.get(this._options.extendApiVersion)) != null
+                        ? serializers.ApiVersionEnum.jsonOrThrow(
+                              await core.Supplier.get(this._options.extendApiVersion),
+                              { unrecognizedObjectKeys: "strip" },
+                          )
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@extend-ai/sdk",
+                "X-Fern-SDK-Version": "0.0.34",
+                "User-Agent": "@extend-ai/sdk/0.0.34",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                ...requestOptions?.headers,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            body: serializers.ProcessorRunCreateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return {
+                data: serializers.ProcessorRunCreateResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
+                case 404:
+                    throw new Extend.NotFoundError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ExtendError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /processor_runs.");
+            case "unknown":
+                throw new errors.ExtendError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
      * Retrieve details about a specific processor run, including its status, outputs, and any edits made during review.
      *
      * A common use case for this endpoint is to poll for the status and final output of an async processor run when using the [Run Processor](https://docs.extend.ai/2025-04-21/developers/api-reference/processor-endpoints/run-processor) endpoint. For instance, if you do not want to not configure webhooks to receive the output via completion/failure events.
      *
-     * @param {string} id - The unique identifier for this processor run. The ID will start with "dpr_". This can be fetched from the API response when running a processor, or from the Extend UI in the "history" tab of a processor.
+     * @param {string} id - The unique identifier for this processor run.
      *
      *                      Example: `"dpr_Xj8mK2pL9nR4vT7qY5wZ"`
      * @param {ProcessorRun.RequestOptions} requestOptions - Request-specific configuration.
@@ -84,8 +213,8 @@ export class ProcessorRun {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.33",
-                "User-Agent": "@extend-ai/sdk/0.0.33",
+                "X-Fern-SDK-Version": "0.0.34",
+                "User-Agent": "@extend-ai/sdk/0.0.34",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,

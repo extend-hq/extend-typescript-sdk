@@ -16,7 +16,7 @@ export const WorkflowRunSummary: core.serialization.ObjectSchema<
     initialRunAt: core.serialization.date().optional(),
     reviewedByUser: core.serialization.string().optional(),
     reviewedAt: core.serialization.date().optional(),
-    startTime: core.serialization.date(),
+    startTime: core.serialization.date().optional(),
     endTime: core.serialization.date().optional(),
     workflowId: core.serialization.string(),
     workflowName: core.serialization.string(),
@@ -34,7 +34,7 @@ export declare namespace WorkflowRunSummary {
         initialRunAt?: string | null;
         reviewedByUser?: string | null;
         reviewedAt?: string | null;
-        startTime: string;
+        startTime?: string | null;
         endTime?: string | null;
         workflowId: string;
         workflowName: string;

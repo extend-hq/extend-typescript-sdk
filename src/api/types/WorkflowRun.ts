@@ -8,7 +8,7 @@ export interface WorkflowRun {
     /** The type of response. In this case, it will always be `"workflow_run"`. */
     object: string;
     /**
-     * The ID of the workflow run. The ID will start with "workflow_run".
+     * The ID of the workflow run.
      *
      * Example: `"workflow_run_xKm9pNv3qWsY_jL2tR5Dh"`
      */
@@ -29,7 +29,7 @@ export interface WorkflowRun {
     /** The metadata that was passed in when running the Workflow. */
     metadata: Extend.JsonObject;
     /**
-     * The batch ID of the WorkflowRun. If this WorkflowRun was created as part of a batch of files, all runs in that batch will have the same batch ID. The ID will start with "batch".
+     * The batch ID of the WorkflowRun. If this WorkflowRun was created as part of a batch of files, all runs in that batch will have the same batch ID.
      *
      * Example: `"batch_7Ws31-F5"`
      */

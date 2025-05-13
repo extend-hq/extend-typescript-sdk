@@ -9,7 +9,7 @@ export interface EvaluationSet {
     /** The type of response. In this case, it will always be `"evaluation_set"`. */
     object: string;
     /**
-     * The ID of the evaluation set. The ID will start with "ev_".
+     * The ID of the evaluation set.
      *
      * Example: `"ev_2LcgeY_mp2T5yPaEuq5Lw"`
      */
@@ -27,7 +27,7 @@ export interface EvaluationSet {
      */
     description: string;
     /**
-     * The ID of the processor associated with this evaluation set. The ID will start with "dp_".
+     * The ID of the processor associated with this evaluation set.
      *
      * Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
      */

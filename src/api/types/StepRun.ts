@@ -8,7 +8,7 @@ export interface StepRun {
     /** The type of response. In this case, it will always be `"workflow_step_run"`. */
     object: string;
     /**
-     * The ID of the workflow step run. The ID will start with "workflow_step_run".
+     * The ID of the workflow step run.
      *
      * Example: `"workflow_step_run_xKm9pNv3qWsY_jL2tR5Dh"`
      */

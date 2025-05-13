@@ -11,13 +11,13 @@ export interface EvaluationSetItem {
     /** The type of response. In this case, it will always be `"evaluation_set_item"`. */
     object: string;
     /**
-     * The ID of the evaluation set item. The ID will start with "evi_".
+     * The ID of the evaluation set item.
      *
      * Example: `"evi_kR9mNP12Qw4yTv8BdR3H"`
      */
     id: string;
     /**
-     * The ID of the evaluation set that this item belongs to. The ID will start with "ev_".
+     * The ID of the evaluation set that this item belongs to.
      *
      * Example: `"ev_2LcgeY_mp2T5yPaEuq5Lw"`
      */

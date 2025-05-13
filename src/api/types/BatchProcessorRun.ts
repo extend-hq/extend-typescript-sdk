@@ -8,19 +8,19 @@ export interface BatchProcessorRun {
     /** The type of response. In this case, it will always be `"batch_processor_run"`. */
     object: string;
     /**
-     * The unique identifier for this batch processor run. The ID will start with "batch_processor_run_".
+     * The unique identifier for this batch processor run.
      *
      * Example: `"batch_processor_run_Xj8mK2pL9nR4vT7qY5wZ"`
      */
     id: string;
     /**
-     * The ID of the processor used for this run. The ID will start with "dp_".
+     * The ID of the processor used for this run.
      *
      * Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
      */
     processorId: string;
     /**
-     * The ID of the specific processor version used. The ID will start with "dpv_".
+     * The ID of the specific processor version used.
      *
      * Example: `"dpv_xK9mLPqRtN3vS8wF5hB2cQ"`
      */

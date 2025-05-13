@@ -18,7 +18,7 @@ import * as Extend from "../../../../index";
  */
 export interface EvaluationSetItemCreateRequest {
     /**
-     * The ID of the evaluation set to add the item to. The ID will start with "ev_".
+     * The ID of the evaluation set to add the item to.
      *
      * Example: `"ev_Xj8mK2pL9nR4vT7qY5wZ"`
      */

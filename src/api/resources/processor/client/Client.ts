@@ -83,8 +83,8 @@ export class Processor {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.33",
-                "User-Agent": "@extend-ai/sdk/0.0.33",
+                "X-Fern-SDK-Version": "0.0.34",
+                "User-Agent": "@extend-ai/sdk/0.0.34",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -161,7 +161,7 @@ export class Processor {
     /**
      * Update an existing processor in Extend
      *
-     * @param {string} id - The ID of the processor to update. The ID will start with "dp_".
+     * @param {string} id - The ID of the processor to update.
      *
      *                      Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
      * @param {Extend.ProcessorUpdateRequest} request
@@ -206,8 +206,8 @@ export class Processor {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.33",
-                "User-Agent": "@extend-ai/sdk/0.0.33",
+                "X-Fern-SDK-Version": "0.0.34",
+                "User-Agent": "@extend-ai/sdk/0.0.34",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,

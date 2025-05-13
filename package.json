@@ -1,6 +1,6 @@
 {
     "name": "@extend-ai/sdk",
-    "version": "0.0.33",
+    "version": "0.0.34",
     "private": false,
     "repository": "https://github.com/extend-hq/extend-typescript-sdk",
     "main": "./index.js",

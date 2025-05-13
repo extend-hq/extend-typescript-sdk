@@ -9,8 +9,7 @@ export interface ExtractionFieldResult {
     id: string;
     /** The type of the extracted field */
     type: Extend.ExtractionFieldResultType;
-    /** The extracted value, type depends on the field type */
-    value: Extend.ExtractionFieldResultValue;
+    value?: unknown;
     /** The field schema of nested fields */
     schema?: Extend.ExtractionField[];
     /** Reasoning and other insights from the model */

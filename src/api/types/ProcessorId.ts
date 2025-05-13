@@ -3,7 +3,7 @@
  */
 
 /**
- * The ID of the processor to be run. The id will start with `"dp_"`. This ID can be found when viewing a processor on the Extend platform.
+ * The ID of the processor to be run.
  *
  * Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
  */

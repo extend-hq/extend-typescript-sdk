@@ -42,7 +42,7 @@ export class BatchWorkflowRun {
      *
      * Unlike the single [Run Workflow](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/run-workflow) endpoint which returns the details of the created workflow runs immediately, this batch endpoint returns a `batchId`.
      *
-     * Our recommended usage pattern is to integrate with [Webhooks](https://docs.extend.ai/2025-04-21/developers/webhooks/configuration) for consuming results, using the `metadata` and `batchId` to match up results to the original inputs in your downstream systems. However, you can integrate in a polling mechanism by using a combination of the [List Workflow Runs](https://docs.extend.ai/2025-04-21/developers/workflow-endpoints/list-workflow-runs) endpoint to fetch all runs via a batch, and then [Get Workflow Run](https://docs.extend.ai/2025-04-21/developers/workflow-endpoints/get-workflow-run) to fetch the full outputs each run.
+     * Our recommended usage pattern is to integrate with [Webhooks](https://docs.extend.ai/2025-04-21/developers/webhooks/configuration) for consuming results, using the `metadata` and `batchId` to match up results to the original inputs in your downstream systems. However, you can integrate in a polling mechanism by using a combination of the [List Workflow Runs](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/list-workflow-runs) endpoint to fetch all runs via a batch, and then [Get Workflow Run](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/get-workflow-run) to fetch the full outputs each run.
      *
      * **Processing and Monitoring:**
      * Upon successful submission, the endpoint returns a `batchId`. The individual workflow runs are then queued for processing.
@@ -93,8 +93,8 @@ export class BatchWorkflowRun {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.33",
-                "User-Agent": "@extend-ai/sdk/0.0.33",
+                "X-Fern-SDK-Version": "0.0.34",
+                "User-Agent": "@extend-ai/sdk/0.0.34",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,

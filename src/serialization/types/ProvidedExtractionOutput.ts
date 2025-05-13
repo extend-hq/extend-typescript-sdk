@@ -7,7 +7,7 @@ import * as Extend from "../../api/index";
 import * as core from "../../core";
 import { ProvidedJsonOutput } from "./ProvidedJsonOutput";
 import { ProvidedFieldsArrayOutput } from "./ProvidedFieldsArrayOutput";
-import { ProvidedFieldsArrayOutputValue } from "./ProvidedFieldsArrayOutputValue";
+import { ProvidedExtractionFieldResult } from "./ProvidedExtractionFieldResult";
 
 export const ProvidedExtractionOutput: core.serialization.Schema<
     serializers.ProvidedExtractionOutput.Raw,

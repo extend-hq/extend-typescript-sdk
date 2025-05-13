@@ -113,8 +113,8 @@ export class WorkflowRun {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.33",
-                "User-Agent": "@extend-ai/sdk/0.0.33",
+                "X-Fern-SDK-Version": "0.0.34",
+                "User-Agent": "@extend-ai/sdk/0.0.34",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -179,9 +179,118 @@ export class WorkflowRun {
     }
 
     /**
+     * Run a Workflow with files. A Workflow is a sequence of steps that process files and data in a specific order to achieve a desired outcome. A WorkflowRun will be created for each file processed. A WorkflowRun represents a single execution of a workflow against a file.
+     *
+     * @param {Extend.WorkflowRunCreateRequest} request
+     * @param {WorkflowRun.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     *
+     * @example
+     *     await client.workflowRun.create({
+     *         workflowId: "workflow_id_here"
+     *     })
+     */
+    public create(
+        request: Extend.WorkflowRunCreateRequest,
+        requestOptions?: WorkflowRun.RequestOptions,
+    ): core.HttpResponsePromise<Extend.WorkflowRunCreateResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
+    }
+
+    private async __create(
+        request: Extend.WorkflowRunCreateRequest,
+        requestOptions?: WorkflowRun.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.WorkflowRunCreateResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                "workflow_runs",
+            ),
+            method: "POST",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version":
+                    (await core.Supplier.get(this._options.extendApiVersion)) != null
+                        ? serializers.ApiVersionEnum.jsonOrThrow(
+                              await core.Supplier.get(this._options.extendApiVersion),
+                              { unrecognizedObjectKeys: "strip" },
+                          )
+                        : undefined,
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "@extend-ai/sdk",
+                "X-Fern-SDK-Version": "0.0.34",
+                "User-Agent": "@extend-ai/sdk/0.0.34",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                ...requestOptions?.headers,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            body: serializers.WorkflowRunCreateRequest.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return {
+                data: serializers.WorkflowRunCreateResponse.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                }),
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(
+                        serializers.Error_.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }),
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ExtendError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /workflow_runs.");
+            case "unknown":
+                throw new errors.ExtendError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
      * Once a workflow has been run, you can check the status and output of a specific WorkflowRun.
      *
-     * @param {string} workflowRunId - The ID of the WorkflowRun that was outputted after a Workflow was run through the API. The ID will start with "workflow_run". This ID can be found when creating a WorkflowRun via API, or when viewing the "history" tab of a workflow on the Extend platform.
+     * @param {string} workflowRunId - The ID of the WorkflowRun that was outputted after a Workflow was run through the API.
      *
      *                                 Example: `"workflow_run_8k9m-xyzAB_Pqrst-Nvw4"`
      * @param {WorkflowRun.RequestOptions} requestOptions - Request-specific configuration.
@@ -223,8 +332,8 @@ export class WorkflowRun {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.33",
-                "User-Agent": "@extend-ai/sdk/0.0.33",
+                "X-Fern-SDK-Version": "0.0.34",
+                "User-Agent": "@extend-ai/sdk/0.0.34",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -347,8 +456,8 @@ export class WorkflowRun {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.33",
-                "User-Agent": "@extend-ai/sdk/0.0.33",
+                "X-Fern-SDK-Version": "0.0.34",
+                "User-Agent": "@extend-ai/sdk/0.0.34",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,

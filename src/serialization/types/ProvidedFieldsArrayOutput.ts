@@ -5,13 +5,13 @@
 import * as serializers from "../index";
 import * as Extend from "../../api/index";
 import * as core from "../../core";
-import { ProvidedFieldsArrayOutputValue } from "./ProvidedFieldsArrayOutputValue";
+import { ProvidedExtractionFieldResult } from "./ProvidedExtractionFieldResult";
 
 export const ProvidedFieldsArrayOutput: core.serialization.Schema<
     serializers.ProvidedFieldsArrayOutput.Raw,
     Extend.ProvidedFieldsArrayOutput
-> = core.serialization.record(core.serialization.string(), ProvidedFieldsArrayOutputValue);
+> = core.serialization.record(core.serialization.string(), ProvidedExtractionFieldResult);
 
 export declare namespace ProvidedFieldsArrayOutput {
-    export type Raw = Record<string, ProvidedFieldsArrayOutputValue.Raw>;
+    export type Raw = Record<string, ProvidedExtractionFieldResult.Raw>;
 }

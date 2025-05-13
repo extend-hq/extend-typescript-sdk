@@ -24,7 +24,7 @@ export interface WorkflowRunListRequest {
      */
     status?: Extend.WorkflowStatus;
     /**
-     * Filters workflow runs by the workflow ID. If not provided, runs for all workflows are returned. The ID will start with "workflow". This ID can be found when viewing a workflow on the Extend platform.
+     * Filters workflow runs by the workflow ID. If not provided, runs for all workflows are returned.
      *
      * Example: `"workflow_BMdfq_yWM3sT-ZzvCnA3f"`
      */

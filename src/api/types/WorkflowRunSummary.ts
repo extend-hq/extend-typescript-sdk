@@ -6,7 +6,7 @@ import * as Extend from "../index";
 
 export interface WorkflowRunSummary {
     /**
-     * The ID of the workflow run. The ID will start with "workflow_run".
+     * The ID of the workflow run.
      *
      * Example: `"workflow_run_Zk9mNP12Qw4-yTv8BdR3H"`
      */
@@ -35,7 +35,7 @@ export interface WorkflowRunSummary {
      *
      * Example: `"2024-03-21T15:30:00Z"`
      */
-    startTime: Date;
+    startTime?: Date;
     /**
      * The end time (in UTC) that the workflow finished. Will follow the RFC 3339 format.
      *

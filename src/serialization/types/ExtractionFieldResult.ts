@@ -6,7 +6,6 @@ import * as serializers from "../index";
 import * as Extend from "../../api/index";
 import * as core from "../../core";
 import { ExtractionFieldResultType } from "./ExtractionFieldResultType";
-import { ExtractionFieldResultValue } from "./ExtractionFieldResultValue";
 import { Insight } from "./Insight";
 import { ExtractionFieldResultReference } from "./ExtractionFieldResultReference";
 import { EnumOption } from "./EnumOption";
@@ -17,7 +16,7 @@ export const ExtractionFieldResult: core.serialization.ObjectSchema<
 > = core.serialization.object({
     id: core.serialization.string(),
     type: ExtractionFieldResultType,
-    value: ExtractionFieldResultValue,
+    value: core.serialization.unknown(),
     schema: core.serialization.list(core.serialization.lazyObject(() => serializers.ExtractionField)).optional(),
     insights: core.serialization.list(Insight).optional(),
     references: core.serialization.list(ExtractionFieldResultReference),
@@ -28,7 +27,7 @@ export declare namespace ExtractionFieldResult {
     export interface Raw {
         id: string;
         type: ExtractionFieldResultType.Raw;
-        value: ExtractionFieldResultValue.Raw;
+        value?: unknown;
         schema?: serializers.ExtractionField.Raw[] | null;
         insights?: Insight.Raw[] | null;
         references: ExtractionFieldResultReference.Raw[];

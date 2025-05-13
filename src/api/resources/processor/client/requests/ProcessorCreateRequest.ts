@@ -16,7 +16,7 @@ export interface ProcessorCreateRequest {
     name: string;
     type: Extend.ProcessorType;
     /**
-     * The ID of an existing processor to clone. The ID will start with "dp_". One of `cloneProcessorId` or `config` must be provided.
+     * The ID of an existing processor to clone. One of `cloneProcessorId` or `config` must be provided.
      *
      * Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
      */

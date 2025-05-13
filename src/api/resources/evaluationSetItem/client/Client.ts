@@ -100,8 +100,8 @@ export class EvaluationSetItem {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.33",
-                "User-Agent": "@extend-ai/sdk/0.0.33",
+                "X-Fern-SDK-Version": "0.0.34",
+                "User-Agent": "@extend-ai/sdk/0.0.34",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -168,7 +168,7 @@ export class EvaluationSetItem {
     /**
      * If you need to change the expected output for a given evaluation set item, you can use this endpoint to update the item. This can be useful if you need to correct an error in the expected output or if the output of the processor has changed.
      *
-     * @param {string} id - The ID of the evaluation set item to update. The ID will start with "evi_".
+     * @param {string} id - The ID of the evaluation set item to update.
      *
      *                      Example: `"evi_kR9mNP12Qw4yTv8BdR3H"`
      * @param {Extend.EvaluationSetItemUpdateRequest} request
@@ -219,8 +219,8 @@ export class EvaluationSetItem {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.33",
-                "User-Agent": "@extend-ai/sdk/0.0.33",
+                "X-Fern-SDK-Version": "0.0.34",
+                "User-Agent": "@extend-ai/sdk/0.0.34",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -348,8 +348,8 @@ export class EvaluationSetItem {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.33",
-                "User-Agent": "@extend-ai/sdk/0.0.33",
+                "X-Fern-SDK-Version": "0.0.34",
+                "User-Agent": "@extend-ai/sdk/0.0.34",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,

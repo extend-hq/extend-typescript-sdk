@@ -7,4 +7,4 @@ import * as Extend from "../index";
 /**
  * A mapping of field names to their extracted values
  */
-export type ProvidedFieldsArrayOutput = Record<string, Extend.ProvidedFieldsArrayOutputValue>;
+export type ProvidedFieldsArrayOutput = Record<string, Extend.ProvidedExtractionFieldResult>;

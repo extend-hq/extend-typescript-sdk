@@ -10,17 +10,17 @@ export const BlockBoundingBox: core.serialization.ObjectSchema<
     serializers.BlockBoundingBox.Raw,
     Extend.BlockBoundingBox
 > = core.serialization.object({
-    left: core.serialization.number(),
-    right: core.serialization.number(),
-    top: core.serialization.number(),
-    bottom: core.serialization.number(),
+    left: core.serialization.number().optional(),
+    right: core.serialization.number().optional(),
+    top: core.serialization.number().optional(),
+    bottom: core.serialization.number().optional(),
 });
 
 export declare namespace BlockBoundingBox {
     export interface Raw {
-        left: number;
-        right: number;
-        top: number;
-        bottom: number;
+        left?: number | null;
+        right?: number | null;
+        top?: number | null;
+        bottom?: number | null;
     }
 }

@@ -40,10 +40,10 @@ export class ProcessorVersion {
     /**
      * Retrieve a specific version of a processor in Extend
      *
-     * @param {string} processorId - The ID of the processor. The ID will start with "dp_".
+     * @param {string} processorId - The ID of the processor.
      *
      *                               Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
-     * @param {string} processorVersionId - The ID of the specific processor version to retrieve. The ID will start with "dpv_".
+     * @param {string} processorVersionId - The ID of the specific processor version to retrieve.
      *
      *                                      Example: `"dpv_QYk6jgHA_8CsO8rVWhyNC"`
      * @param {ProcessorVersion.RequestOptions} requestOptions - Request-specific configuration.
@@ -87,8 +87,8 @@ export class ProcessorVersion {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.33",
-                "User-Agent": "@extend-ai/sdk/0.0.33",
+                "X-Fern-SDK-Version": "0.0.34",
+                "User-Agent": "@extend-ai/sdk/0.0.34",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -169,7 +169,7 @@ export class ProcessorVersion {
      * Versions are typically returned in descending order of creation (newest first), but this should be confirmed in the actual implementation.
      * The `draft` version is the latest unpublished version of the processor, which can be published to create a new version. It might not have any changes from the last published version.
      *
-     * @param {string} id - The ID of the processor to retrieve versions for. The ID will start with "dp_".
+     * @param {string} id - The ID of the processor to retrieve versions for.
      *
      *                      Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
      * @param {ProcessorVersion.RequestOptions} requestOptions - Request-specific configuration.
@@ -211,8 +211,8 @@ export class ProcessorVersion {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.33",
-                "User-Agent": "@extend-ai/sdk/0.0.33",
+                "X-Fern-SDK-Version": "0.0.34",
+                "User-Agent": "@extend-ai/sdk/0.0.34",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -290,7 +290,7 @@ export class ProcessorVersion {
      *
      * Publishing a new version does not automatically update existing workflows using this processor. You may need to manually update workflows to use the new version if desired.
      *
-     * @param {string} id - The ID of the processor to publish a new version for. The ID will start with "dp_".
+     * @param {string} id - The ID of the processor to publish a new version for.
      *
      *                      Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
      * @param {Extend.ProcessorVersionCreateRequest} request
@@ -336,8 +336,8 @@ export class ProcessorVersion {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.33",
-                "User-Agent": "@extend-ai/sdk/0.0.33",
+                "X-Fern-SDK-Version": "0.0.34",
+                "User-Agent": "@extend-ai/sdk/0.0.34",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,

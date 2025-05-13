@@ -24,7 +24,7 @@ export interface EvaluationSetCreateRequest {
      */
     description: string;
     /**
-     * The ID of the processor to create an evaluation set for. The ID will start with "dp_". Evaluation sets can in theory be run against any processor, but it is required to associate the evaluation set with a primary processor.
+     * The ID of the processor to create an evaluation set for. Evaluation sets can in theory be run against any processor, but it is required to associate the evaluation set with a primary processor.
      *
      * Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
      */

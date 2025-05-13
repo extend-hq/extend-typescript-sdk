@@ -141,6 +141,71 @@ await client.workflowRun.list({
 </dl>
 </details>
 
+<details><summary><code>client.workflowRun.<a href="/src/api/resources/workflowRun/client/Client.ts">create</a>({ ...params }) -> Extend.WorkflowRunCreateResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Run a Workflow with files. A Workflow is a sequence of steps that process files and data in a specific order to achieve a desired outcome. A WorkflowRun will be created for each file processed. A WorkflowRun represents a single execution of a workflow against a file.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.workflowRun.create({
+    workflowId: "workflow_id_here",
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.WorkflowRunCreateRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WorkflowRun.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.workflowRun.<a href="/src/api/resources/workflowRun/client/Client.ts">get</a>(workflowRunId) -> Extend.WorkflowRunGetResponse</code></summary>
 <dl>
 <dd>
@@ -187,7 +252,7 @@ await client.workflowRun.get("workflow_run_id_here");
 
 **workflowRunId:** `string`
 
-The ID of the WorkflowRun that was outputted after a Workflow was run through the API. The ID will start with "workflow_run". This ID can be found when creating a WorkflowRun via API, or when viewing the "history" tab of a workflow on the Extend platform.
+The ID of the WorkflowRun that was outputted after a Workflow was run through the API.
 
 Example: `"workflow_run_8k9m-xyzAB_Pqrst-Nvw4"`
 
@@ -301,7 +366,7 @@ This endpoint allows you to efficiently initiate large batches of workflow runs 
 
 Unlike the single [Run Workflow](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/run-workflow) endpoint which returns the details of the created workflow runs immediately, this batch endpoint returns a `batchId`.
 
-Our recommended usage pattern is to integrate with [Webhooks](https://docs.extend.ai/2025-04-21/developers/webhooks/configuration) for consuming results, using the `metadata` and `batchId` to match up results to the original inputs in your downstream systems. However, you can integrate in a polling mechanism by using a combination of the [List Workflow Runs](https://docs.extend.ai/2025-04-21/developers/workflow-endpoints/list-workflow-runs) endpoint to fetch all runs via a batch, and then [Get Workflow Run](https://docs.extend.ai/2025-04-21/developers/workflow-endpoints/get-workflow-run) to fetch the full outputs each run.
+Our recommended usage pattern is to integrate with [Webhooks](https://docs.extend.ai/2025-04-21/developers/webhooks/configuration) for consuming results, using the `metadata` and `batchId` to match up results to the original inputs in your downstream systems. However, you can integrate in a polling mechanism by using a combination of the [List Workflow Runs](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/list-workflow-runs) endpoint to fetch all runs via a batch, and then [Get Workflow Run](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/get-workflow-run) to fetch the full outputs each run.
 
 **Processing and Monitoring:**
 Upon successful submission, the endpoint returns a `batchId`. The individual workflow runs are then queued for processing.
@@ -362,6 +427,81 @@ await client.batchWorkflowRun.create({
 
 ## ProcessorRun
 
+<details><summary><code>client.processorRun.<a href="/src/api/resources/processorRun/client/Client.ts">create</a>({ ...params }) -> Extend.ProcessorRunCreateResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Run processors (extraction, classification, splitting, etc.) on a given document.
+
+In general, the recommended way to integrate with Extend in production is via workflows, using the [Run Workflow](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/run-workflow) endpoint. This is due to several factors:
+
+- file parsing/pre-processing will automatically be reused across multiple processors, which will give you simplicity and cost savings given that many use cases will require multiple processors to be run on the same document.
+- workflows provide dedicated human in the loop document review, when needed.
+- workflows allow you to model and manage your pipeline with a single endpoint and corresponding UI for modeling and monitoring.
+
+However, there are a number of legitimate use cases and systems where it might be easier to model the pipeline via code and run processors directly. This endpoint is provided for this purpose.
+
+Similar to workflow runs, processor runs are asynchronous and will return a status of `PROCESSING` until the run is complete. You can [configure webhooks](https://docs.extend.ai/2025-04-21/developers/webhooks/configuration) to receive notifications when a processor run is complete or failed.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.processorRun.create({
+    processorId: "processor_id_here",
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.ProcessorRunCreateRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ProcessorRun.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.processorRun.<a href="/src/api/resources/processorRun/client/Client.ts">get</a>(id) -> Extend.ProcessorRunGetResponse</code></summary>
 <dl>
 <dd>
@@ -410,7 +550,7 @@ await client.processorRun.get("processor_run_id_here");
 
 **id:** `string`
 
-The unique identifier for this processor run. The ID will start with "dpr\_". This can be fetched from the API response when running a processor, or from the Extend UI in the "history" tab of a processor.
+The unique identifier for this processor run.
 
 Example: `"dpr_Xj8mK2pL9nR4vT7qY5wZ"`
 
@@ -545,7 +685,7 @@ await client.processor.update("processor_id_here");
 
 **id:** `string`
 
-The ID of the processor to update. The ID will start with "dp\_".
+The ID of the processor to update.
 
 Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
 
@@ -622,7 +762,7 @@ await client.processorVersion.get("processor_id_here", "processor_version_id_her
 
 **processorId:** `string`
 
-The ID of the processor. The ID will start with "dp\_".
+The ID of the processor.
 
 Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
 
@@ -634,7 +774,7 @@ Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
 
 **processorVersionId:** `string`
 
-The ID of the specific processor version to retrieve. The ID will start with "dpv\_".
+The ID of the specific processor version to retrieve.
 
 Example: `"dpv_QYk6jgHA_8CsO8rVWhyNC"`
 
@@ -704,7 +844,7 @@ await client.processorVersion.list("processor_id_here");
 
 **id:** `string`
 
-The ID of the processor to retrieve versions for. The ID will start with "dp\_".
+The ID of the processor to retrieve versions for.
 
 Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
 
@@ -775,7 +915,7 @@ await client.processorVersion.create("processor_id_here", {
 
 **id:** `string`
 
-The ID of the processor to publish a new version for. The ID will start with "dp\_".
+The ID of the processor to publish a new version for.
 
 Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
 
@@ -1293,7 +1433,7 @@ await client.evaluationSetItem.update("evaluation_set_item_id_here", {
 
 **id:** `string`
 
-The ID of the evaluation set item to update. The ID will start with "evi\_".
+The ID of the evaluation set item to update.
 
 Example: `"evi_kR9mNP12Qw4yTv8BdR3H"`
 

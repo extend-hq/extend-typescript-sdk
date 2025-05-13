@@ -8,13 +8,13 @@ export interface ProcessorVersion {
     /** The type of the object. In this case, it will always be `"document_processor_version"`. */
     object: string;
     /**
-     * The unique identifier for this version of the document processor. The ID will start with "dpv_".
+     * The unique identifier for this version of the document processor.
      *
      * Example: `"dpv_xK9mLPqRtN3vS8wF5hB2cQ"`
      */
     id: string;
     /**
-     * The ID of the parent document processor. The ID will start with "dp_".
+     * The ID of the parent document processor.
      *
      * Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
      */

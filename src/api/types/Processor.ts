@@ -8,7 +8,7 @@ export interface Processor {
     /** The type of response. In this case, it will always be `"document_processor"`. */
     object: string;
     /**
-     * The ID of the processor. The ID will start with "dp_".
+     * The ID of the processor.
      *
      * Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
      */
