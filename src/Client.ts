@@ -14,7 +14,6 @@ import { ProcessorRun } from "./api/resources/processorRun/client/Client";
 import { Processor } from "./api/resources/processor/client/Client";
 import { ProcessorVersion } from "./api/resources/processorVersion/client/Client";
 import { File_ } from "./api/resources/file/client/Client";
-import { FileEndpoints } from "./api/resources/fileEndpoints/client/Client";
 import { EvaluationSet } from "./api/resources/evaluationSet/client/Client";
 import { EvaluationSetItem } from "./api/resources/evaluationSetItem/client/Client";
 import { WorkflowRunOutput } from "./api/resources/workflowRunOutput/client/Client";
@@ -53,7 +52,6 @@ export class ExtendClient {
     protected _processor: Processor | undefined;
     protected _processorVersion: ProcessorVersion | undefined;
     protected _file: File_ | undefined;
-    protected _fileEndpoints: FileEndpoints | undefined;
     protected _evaluationSet: EvaluationSet | undefined;
     protected _evaluationSetItem: EvaluationSetItem | undefined;
     protected _workflowRunOutput: WorkflowRunOutput | undefined;
@@ -84,10 +82,6 @@ export class ExtendClient {
 
     public get file(): File_ {
         return (this._file ??= new File_(this._options));
-    }
-
-    public get fileEndpoints(): FileEndpoints {
-        return (this._fileEndpoints ??= new FileEndpoints(this._options));
     }
 
     public get evaluationSet(): EvaluationSet {
@@ -162,8 +156,8 @@ export class ExtendClient {
                         : undefined,
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.35",
-                "User-Agent": "@extend-ai/sdk/0.0.35",
+                "X-Fern-SDK-Version": "0.0.36",
+                "User-Agent": "@extend-ai/sdk/0.0.36",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,

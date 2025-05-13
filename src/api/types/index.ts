@@ -103,7 +103,6 @@ export * from "./Enum";
 export * from "./SplitterConfig";
 export * from "./SplitterAdvancedOptionsSplitMethod";
 export * from "./SplitterAdvancedOptions";
-export * from "./ProvidedSplitterOutputSplitsItem";
 export * from "./ProvidedSplitterOutput";
 export * from "./SplitterOutputSplitsItem";
 export * from "./SplitterOutput";

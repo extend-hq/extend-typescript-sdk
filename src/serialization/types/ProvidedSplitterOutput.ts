@@ -5,17 +5,28 @@
 import * as serializers from "../index";
 import * as Extend from "../../api/index";
 import * as core from "../../core";
-import { ProvidedSplitterOutputSplitsItem } from "./ProvidedSplitterOutputSplitsItem";
 
 export const ProvidedSplitterOutput: core.serialization.ObjectSchema<
     serializers.ProvidedSplitterOutput.Raw,
     Extend.ProvidedSplitterOutput
 > = core.serialization.object({
-    splits: core.serialization.list(ProvidedSplitterOutputSplitsItem),
+    id: core.serialization.string(),
+    classificationId: core.serialization.string(),
+    type: core.serialization.string(),
+    observation: core.serialization.string().optional(),
+    identifier: core.serialization.string().optional(),
+    startPage: core.serialization.number(),
+    endPage: core.serialization.number(),
 });
 
 export declare namespace ProvidedSplitterOutput {
     export interface Raw {
-        splits: ProvidedSplitterOutputSplitsItem.Raw[];
+        id: string;
+        classificationId: string;
+        type: string;
+        observation?: string | null;
+        identifier?: string | null;
+        startPage: number;
+        endPage: number;
     }
 }

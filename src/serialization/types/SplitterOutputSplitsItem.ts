@@ -13,7 +13,12 @@ export const SplitterOutputSplitsItem: core.serialization.ObjectSchema<
     type: core.serialization.string(),
     observation: core.serialization.string(),
     identifier: core.serialization.string(),
+    startPage: core.serialization.number(),
+    endPage: core.serialization.number(),
     name: core.serialization.string().optional(),
+    classificationId: core.serialization.string(),
+    id: core.serialization.string(),
+    fileId: core.serialization.string(),
 });
 
 export declare namespace SplitterOutputSplitsItem {
@@ -21,6 +26,11 @@ export declare namespace SplitterOutputSplitsItem {
         type: string;
         observation: string;
         identifier: string;
+        startPage: number;
+        endPage: number;
         name?: string | null;
+        classificationId: string;
+        id: string;
+        fileId: string;
     }
 }

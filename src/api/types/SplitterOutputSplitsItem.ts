@@ -7,8 +7,18 @@ export interface SplitterOutputSplitsItem {
     type: string;
     /** Explanation of the results */
     observation: string;
-    /** File ID associated with this split */
+    /** Identifier for the split document (e.g. invoice number) */
     identifier: string;
+    /** The start page of the split document */
+    startPage: number;
+    /** The end page of the split document */
+    endPage: number;
     /** Optional name for the split */
     name?: string;
+    /** ID of the classification type (set in the processor config) */
+    classificationId: string;
+    /** Unique ID for this split */
+    id: string;
+    /** File ID associated with this split */
+    fileId: string;
 }
