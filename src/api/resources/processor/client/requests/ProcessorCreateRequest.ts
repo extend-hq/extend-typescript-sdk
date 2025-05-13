@@ -23,6 +23,4 @@ export interface ProcessorCreateRequest {
     cloneProcessorId?: string;
     /** The configuration for the processor. The type of configuration must match the processor type. One of `cloneProcessorId` or `config` must be provided. */
     config?: Extend.ProcessorCreateRequestConfig;
-    /** Whether to enable JSON schema for the processor. Defaults to false. */
-    jsonSchemaEnabled?: boolean;
 }

@@ -16,7 +16,6 @@ export const ProcessorCreateRequest: core.serialization.Schema<
     type: ProcessorType,
     cloneProcessorId: core.serialization.string().optional(),
     config: ProcessorCreateRequestConfig.optional(),
-    jsonSchemaEnabled: core.serialization.boolean().optional(),
 });
 
 export declare namespace ProcessorCreateRequest {
@@ -25,6 +24,5 @@ export declare namespace ProcessorCreateRequest {
         type: ProcessorType.Raw;
         cloneProcessorId?: string | null;
         config?: ProcessorCreateRequestConfig.Raw | null;
-        jsonSchemaEnabled?: boolean | null;
     }
 }

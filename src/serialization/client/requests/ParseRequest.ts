@@ -11,12 +11,12 @@ import { ParseConfig } from "../../types/ParseConfig";
 export const ParseRequest: core.serialization.Schema<serializers.ParseRequest.Raw, Extend.ParseRequest> =
     core.serialization.object({
         file: ParseRequestFile,
-        config: ParseConfig,
+        config: ParseConfig.optional(),
     });
 
 export declare namespace ParseRequest {
     export interface Raw {
         file: ParseRequestFile.Raw;
-        config: ParseConfig.Raw;
+        config?: ParseConfig.Raw | null;
     }
 }

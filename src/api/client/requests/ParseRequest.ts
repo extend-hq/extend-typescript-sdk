@@ -7,12 +7,11 @@ import * as Extend from "../../index";
 /**
  * @example
  *     {
- *         file: {},
- *         config: {}
+ *         file: {}
  *     }
  */
 export interface ParseRequest {
     /** A file object containing either a URL or a fileId. */
     file: Extend.ParseRequestFile;
-    config: Extend.ParseConfig;
+    config?: Extend.ParseConfig;
 }

@@ -27,7 +27,7 @@ export declare namespace ExtendClient {
         baseUrl?: core.Supplier<string>;
         token: core.Supplier<core.BearerToken>;
         /** Override the x-extend-api-version header */
-        extendApiVersion?: core.Supplier<Extend.ApiVersionEnum | undefined>;
+        extendApiVersion?: "2025-04-21";
         fetcher?: core.FetchFunction;
     }
 
@@ -39,7 +39,7 @@ export declare namespace ExtendClient {
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
         /** Override the x-extend-api-version header */
-        extendApiVersion?: Extend.ApiVersionEnum | undefined;
+        extendApiVersion?: "2025-04-21";
         /** Additional headers to include in the request. */
         headers?: Record<string, string>;
     }
@@ -122,8 +122,7 @@ export class ExtendClient {
      *
      * @example
      *     await client.parse({
-     *         file: {},
-     *         config: {}
+     *         file: {}
      *     })
      */
     public parse(
@@ -148,16 +147,11 @@ export class ExtendClient {
             headers: {
                 Authorization: await this._getAuthorizationHeader(),
                 "x-extend-api-version":
-                    (await core.Supplier.get(this._options.extendApiVersion)) != null
-                        ? serializers.ApiVersionEnum.jsonOrThrow(
-                              await core.Supplier.get(this._options.extendApiVersion),
-                              { unrecognizedObjectKeys: "strip" },
-                          )
-                        : undefined,
+                    requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "@extend-ai/sdk",
-                "X-Fern-SDK-Version": "0.0.36",
-                "User-Agent": "@extend-ai/sdk/0.0.36",
+                "X-Fern-SDK-Version": "0.0.37",
+                "User-Agent": "@extend-ai/sdk/0.0.37",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,

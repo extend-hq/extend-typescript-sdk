@@ -36,7 +36,6 @@ For more details, see the [Parse File guide](https://docs.extend.ai/2025-04-21/d
 ```typescript
 await client.parse({
     file: {},
-    config: {},
 });
 ```
 
