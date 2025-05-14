@@ -101,7 +101,7 @@ const response = await client.workflowRun.create(..., {
 
 ### Timeouts
 
-The SDK defaults to a 3000 second timeout. Use the `timeoutInSeconds` option to configure this behavior.
+The SDK defaults to a 300 second timeout. Use the `timeoutInSeconds` option to configure this behavior.
 
 ```typescript
 const response = await client.workflowRun.create(..., {
