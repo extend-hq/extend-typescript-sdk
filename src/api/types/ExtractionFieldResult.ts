@@ -10,6 +10,8 @@ export interface ExtractionFieldResult {
     /** The type of the extracted field */
     type: Extend.ExtractionFieldResultType;
     value?: unknown;
+    /** A value between 0 and 1 indicating confidence in the extraction */
+    confidence?: number;
     /** The field schema of nested fields */
     schema?: Extend.ExtractionField[];
     /** Reasoning and other insights from the model */
