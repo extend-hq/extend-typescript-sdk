@@ -15,8 +15,6 @@ export interface ExtractionAdvancedOptions {
     advancedMultimodalEnabled?: boolean;
     /** Whether to enable citations in the output. */
     citationsEnabled?: boolean;
-    /** Whether to enable the auto-review assistant. */
-    autoReviewAssistantEnabled?: boolean;
     /** Whether to enable advanced figure parsing. */
     advancedFigureParsingEnabled?: boolean;
     chunkingOptions?: Extend.ExtractChunkingOptions;

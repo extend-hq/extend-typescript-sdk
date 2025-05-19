@@ -61,7 +61,7 @@ export class WorkflowRun {
         request: Extend.WorkflowRunListRequest = {},
         requestOptions?: WorkflowRun.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.WorkflowRunListResponse>> {
-        const { status, workflowId, fileNameContains, sortBy, sortDir, nextPageToken, maxPageSize } = request;
+        const { status, workflowId, batchId, fileNameContains, sortBy, sortDir, nextPageToken, maxPageSize } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (status != null) {
             _queryParams["status"] = status;
@@ -69,6 +69,10 @@ export class WorkflowRun {
 
         if (workflowId != null) {
             _queryParams["workflowId"] = workflowId;
+        }
+
+        if (batchId != null) {
+            _queryParams["batchId"] = batchId;
         }
 
         if (fileNameContains != null) {
@@ -105,8 +109,8 @@ export class WorkflowRun {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.1-beta",
-                "User-Agent": "extend-ai/0.0.1-beta",
+                "X-Fern-SDK-Version": "0.0.2-beta",
+                "User-Agent": "extend-ai/0.0.2-beta",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -193,8 +197,8 @@ export class WorkflowRun {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.1-beta",
-                "User-Agent": "extend-ai/0.0.1-beta",
+                "X-Fern-SDK-Version": "0.0.2-beta",
+                "User-Agent": "extend-ai/0.0.2-beta",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -282,8 +286,8 @@ export class WorkflowRun {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.1-beta",
-                "User-Agent": "extend-ai/0.0.1-beta",
+                "X-Fern-SDK-Version": "0.0.2-beta",
+                "User-Agent": "extend-ai/0.0.2-beta",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -377,8 +381,8 @@ export class WorkflowRun {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.1-beta",
-                "User-Agent": "extend-ai/0.0.1-beta",
+                "X-Fern-SDK-Version": "0.0.2-beta",
+                "User-Agent": "extend-ai/0.0.2-beta",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
