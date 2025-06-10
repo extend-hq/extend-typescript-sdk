@@ -570,6 +570,75 @@ Example: `"dpr_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
+<details><summary><code>client.processorRun.<a href="/src/api/resources/processorRun/client/Client.ts">cancel</a>(id) -> Extend.ProcessorRunCancelResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Cancel a running processor run by its ID. This endpoint allows you to stop a processor run that is currently in progress.
+
+Note: Only processor runs with a status of `"PROCESSING"` can be cancelled. Processor runs that have already completed, failed, or been cancelled cannot be cancelled again.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.processorRun.cancel("processor_run_id_here");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string`
+
+The unique identifier for the processor run to cancel.
+
+Example: `"dpr_Xj8mK2pL9nR4vT7qY5wZ"`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ProcessorRun.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
 ## Processor
 
 <details><summary><code>client.processor.<a href="/src/api/resources/processor/client/Client.ts">create</a>({ ...params }) -> Extend.ProcessorCreateResponse</code></summary>
@@ -1158,6 +1227,74 @@ await client.file.upload(fs.createReadStream("/path/to/your/file"));
 
 ## EvaluationSet
 
+<details><summary><code>client.evaluationSet.<a href="/src/api/resources/evaluationSet/client/Client.ts">list</a>({ ...params }) -> Extend.EvaluationSetListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List evaluation sets in your account. You can use the `processorId` parameter to filter evaluation sets by processor.
+
+This endpoint returns a paginated response. You can use the `nextPageToken` to fetch subsequent results.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluationSet.list({
+    processorId: "processor_id_here",
+    nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.EvaluationSetListRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `EvaluationSet.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.evaluationSet.<a href="/src/api/resources/evaluationSet/client/Client.ts">create</a>({ ...params }) -> Extend.EvaluationSetCreateResponse</code></summary>
 <dl>
 <dd>
@@ -1227,7 +1364,153 @@ await client.evaluationSet.create({
 </dl>
 </details>
 
+<details><summary><code>client.evaluationSet.<a href="/src/api/resources/evaluationSet/client/Client.ts">get</a>(id) -> Extend.EvaluationSetGetResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a specific evaluation set by ID. This returns an evaluation set object, but does not include the items in the evaluation set. You can use the [List Evaluation Set Items](https://docs.extend.ai/2025-04-21/developers/api-reference/evaluation-set-endpoints/list-evaluation-set-items) endpoint to get the items in an evaluation set.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluationSet.get("evaluation_set_id_here");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string`
+
+The ID of the evaluation set to retrieve.
+
+Example: `"ev_2LcgeY_mp2T5yPaEuq5Lw"`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `EvaluationSet.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
 ## EvaluationSetItem
+
+<details><summary><code>client.evaluationSetItem.<a href="/src/api/resources/evaluationSetItem/client/Client.ts">list</a>(id, { ...params }) -> Extend.EvaluationSetItemListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List all items in a specific evaluation set. Evaluation set items are the individual files and expected outputs that are used to evaluate the performance of a given processor in Extend.
+
+This endpoint returns a paginated response. You can use the `nextPageToken` to fetch subsequent results.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluationSetItem.list("evaluation_set_id_here", {
+    nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string`
+
+The ID of the evaluation set to retrieve items for.
+
+Example: `"ev_2LcgeY_mp2T5yPaEuq5Lw"`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.EvaluationSetItemListRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `EvaluationSetItem.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
 
 <details><summary><code>client.evaluationSetItem.<a href="/src/api/resources/evaluationSetItem/client/Client.ts">create</a>({ ...params }) -> Extend.EvaluationSetItemCreateResponse</code></summary>
 <dl>
