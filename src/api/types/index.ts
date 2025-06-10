@@ -100,6 +100,7 @@ export * from "./ExtractChunkingOptions";
 export * from "./ExtractionFieldType";
 export * from "./ExtractionField";
 export * from "./Enum";
+export * from "./SplitterConfigBaseProcessor";
 export * from "./SplitterConfig";
 export * from "./SplitterAdvancedOptionsSplitMethod";
 export * from "./SplitterAdvancedOptions";

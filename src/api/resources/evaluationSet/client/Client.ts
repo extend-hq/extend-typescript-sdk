@@ -37,6 +37,119 @@ export class EvaluationSet {
     constructor(protected readonly _options: EvaluationSet.Options) {}
 
     /**
+     * List evaluation sets in your account. You can use the `processorId` parameter to filter evaluation sets by processor.
+     *
+     * This endpoint returns a paginated response. You can use the `nextPageToken` to fetch subsequent results.
+     *
+     * @param {Extend.EvaluationSetListRequest} request
+     * @param {EvaluationSet.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     *
+     * @example
+     *     await client.evaluationSet.list({
+     *         processorId: "processor_id_here",
+     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
+     *     })
+     */
+    public list(
+        request: Extend.EvaluationSetListRequest = {},
+        requestOptions?: EvaluationSet.RequestOptions,
+    ): core.HttpResponsePromise<Extend.EvaluationSetListResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
+    }
+
+    private async __list(
+        request: Extend.EvaluationSetListRequest = {},
+        requestOptions?: EvaluationSet.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.EvaluationSetListResponse>> {
+        const { processorId, sortBy, sortDir, nextPageToken, maxPageSize } = request;
+        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
+        if (processorId != null) {
+            _queryParams["processorId"] = processorId;
+        }
+
+        if (sortBy != null) {
+            _queryParams["sortBy"] = sortBy;
+        }
+
+        if (sortDir != null) {
+            _queryParams["sortDir"] = sortDir;
+        }
+
+        if (nextPageToken != null) {
+            _queryParams["nextPageToken"] = nextPageToken;
+        }
+
+        if (maxPageSize != null) {
+            _queryParams["maxPageSize"] = maxPageSize.toString();
+        }
+
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                "evaluation_sets",
+            ),
+            method: "GET",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version":
+                    requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "extend-ai",
+                "X-Fern-SDK-Version": "0.0.3",
+                "User-Agent": "extend-ai/0.0.3",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                ...requestOptions?.headers,
+            },
+            contentType: "application/json",
+            queryParameters: _queryParams,
+            requestType: "json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.EvaluationSetListResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ExtendError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.ExtendTimeoutError("Timeout exceeded when calling GET /evaluation_sets.");
+            case "unknown":
+                throw new errors.ExtendError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
      * Evaluation sets are collections of files and expected outputs that are used to evaluate the performance of a given processor in Extend. This endpoint will create a new evaluation set in Extend, which items can be added to using the [Create Evaluation Set Item](https://docs.extend.ai/2025-04-21/developers/api-reference/evaluation-set-endpoints/create-evaluation-set-item) endpoint.
      *
      * Note: it is not necessary to create an evaluation set via API. You can also create an evaluation set via the Extend dashboard and take the ID from there.
@@ -79,8 +192,8 @@ export class EvaluationSet {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.2-beta",
-                "User-Agent": "extend-ai/0.0.2-beta",
+                "X-Fern-SDK-Version": "0.0.3",
+                "User-Agent": "extend-ai/0.0.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -120,6 +233,96 @@ export class EvaluationSet {
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /evaluation_sets.");
+            case "unknown":
+                throw new errors.ExtendError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Retrieve a specific evaluation set by ID. This returns an evaluation set object, but does not include the items in the evaluation set. You can use the [List Evaluation Set Items](https://docs.extend.ai/2025-04-21/developers/api-reference/evaluation-set-endpoints/list-evaluation-set-items) endpoint to get the items in an evaluation set.
+     *
+     * @param {string} id - The ID of the evaluation set to retrieve.
+     *
+     *                      Example: `"ev_2LcgeY_mp2T5yPaEuq5Lw"`
+     * @param {EvaluationSet.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.NotFoundError}
+     *
+     * @example
+     *     await client.evaluationSet.get("evaluation_set_id_here")
+     */
+    public get(
+        id: string,
+        requestOptions?: EvaluationSet.RequestOptions,
+    ): core.HttpResponsePromise<Extend.EvaluationSetGetResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__get(id, requestOptions));
+    }
+
+    private async __get(
+        id: string,
+        requestOptions?: EvaluationSet.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.EvaluationSetGetResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                `evaluation_sets/${encodeURIComponent(id)}`,
+            ),
+            method: "GET",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version":
+                    requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "extend-ai",
+                "X-Fern-SDK-Version": "0.0.3",
+                "User-Agent": "extend-ai/0.0.3",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                ...requestOptions?.headers,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.EvaluationSetGetResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ExtendError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.ExtendTimeoutError("Timeout exceeded when calling GET /evaluation_sets/{id}.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,

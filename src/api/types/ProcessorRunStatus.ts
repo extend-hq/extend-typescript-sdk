@@ -7,10 +7,12 @@
  * * `"PROCESSING"` - The processor is currently running
  * * `"PROCESSED"` - The processor has completed successfully
  * * `"FAILED"` - The processor encountered an error
+ * * `"CANCELLED"` - The processor run was cancelled
  */
-export type ProcessorRunStatus = "PROCESSING" | "PROCESSED" | "FAILED";
+export type ProcessorRunStatus = "PROCESSING" | "PROCESSED" | "FAILED" | "CANCELLED";
 export const ProcessorRunStatus = {
     Processing: "PROCESSING",
     Processed: "PROCESSED",
     Failed: "FAILED",
+    Cancelled: "CANCELLED",
 } as const;

@@ -85,8 +85,8 @@ export class ProcessorRun {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.2-beta",
-                "User-Agent": "extend-ai/0.0.2-beta",
+                "X-Fern-SDK-Version": "0.0.3",
+                "User-Agent": "extend-ai/0.0.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -178,8 +178,8 @@ export class ProcessorRun {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.2-beta",
-                "User-Agent": "extend-ai/0.0.2-beta",
+                "X-Fern-SDK-Version": "0.0.3",
+                "User-Agent": "extend-ai/0.0.3",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -220,6 +220,98 @@ export class ProcessorRun {
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling GET /processor_runs/{id}.");
+            case "unknown":
+                throw new errors.ExtendError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Cancel a running processor run by its ID. This endpoint allows you to stop a processor run that is currently in progress.
+     *
+     * Note: Only processor runs with a status of `"PROCESSING"` can be cancelled. Processor runs that have already completed, failed, or been cancelled cannot be cancelled again.
+     *
+     * @param {string} id - The unique identifier for the processor run to cancel.
+     *
+     *                      Example: `"dpr_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {ProcessorRun.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.NotFoundError}
+     *
+     * @example
+     *     await client.processorRun.cancel("processor_run_id_here")
+     */
+    public cancel(
+        id: string,
+        requestOptions?: ProcessorRun.RequestOptions,
+    ): core.HttpResponsePromise<Extend.ProcessorRunCancelResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__cancel(id, requestOptions));
+    }
+
+    private async __cancel(
+        id: string,
+        requestOptions?: ProcessorRun.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.ProcessorRunCancelResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                `processor_runs/${encodeURIComponent(id)}/cancel`,
+            ),
+            method: "POST",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version":
+                    requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "extend-ai",
+                "X-Fern-SDK-Version": "0.0.3",
+                "User-Agent": "extend-ai/0.0.3",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                ...requestOptions?.headers,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.ProcessorRunCancelResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ExtendError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /processor_runs/{id}/cancel.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
