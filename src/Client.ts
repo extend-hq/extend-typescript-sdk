@@ -12,6 +12,7 @@ import { BatchWorkflowRun } from "./api/resources/batchWorkflowRun/client/Client
 import { ProcessorRun } from "./api/resources/processorRun/client/Client";
 import { Processor } from "./api/resources/processor/client/Client";
 import { ProcessorVersion } from "./api/resources/processorVersion/client/Client";
+import { ParserRun } from "./api/resources/parserRun/client/Client";
 import { File_ } from "./api/resources/file/client/Client";
 import { EvaluationSet } from "./api/resources/evaluationSet/client/Client";
 import { EvaluationSetItem } from "./api/resources/evaluationSetItem/client/Client";
@@ -50,6 +51,7 @@ export class ExtendClient {
     protected _processorRun: ProcessorRun | undefined;
     protected _processor: Processor | undefined;
     protected _processorVersion: ProcessorVersion | undefined;
+    protected _parserRun: ParserRun | undefined;
     protected _file: File_ | undefined;
     protected _evaluationSet: EvaluationSet | undefined;
     protected _evaluationSetItem: EvaluationSetItem | undefined;
@@ -77,6 +79,10 @@ export class ExtendClient {
 
     public get processorVersion(): ProcessorVersion {
         return (this._processorVersion ??= new ProcessorVersion(this._options));
+    }
+
+    public get parserRun(): ParserRun {
+        return (this._parserRun ??= new ParserRun(this._options));
     }
 
     public get file(): File_ {
@@ -127,14 +133,20 @@ export class ExtendClient {
     public parse(
         request: Extend.ParseRequest,
         requestOptions?: ExtendClient.RequestOptions,
-    ): core.HttpResponsePromise<Extend.ParseResponse> {
+    ): core.HttpResponsePromise<Extend.ParserRun> {
         return core.HttpResponsePromise.fromPromise(this.__parse(request, requestOptions));
     }
 
     private async __parse(
         request: Extend.ParseRequest,
         requestOptions?: ExtendClient.RequestOptions,
-    ): Promise<core.WithRawResponse<Extend.ParseResponse>> {
+    ): Promise<core.WithRawResponse<Extend.ParserRun>> {
+        const { responseType, ..._body } = request;
+        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
+        if (responseType != null) {
+            _queryParams["responseType"] = responseType;
+        }
+
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: urlJoin(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -149,21 +161,22 @@ export class ExtendClient {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.3",
-                "User-Agent": "extend-ai/0.0.3",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
             },
             contentType: "application/json",
+            queryParameters: _queryParams,
             requestType: "json",
-            body: request,
+            body: _body,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Extend.ParseResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Extend.ParserRun, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -195,6 +208,104 @@ export class ExtendClient {
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /parse.");
+            case "unknown":
+                throw new errors.ExtendError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Parse files **asynchronously** to get cleaned, chunked target content (e.g. markdown).
+     *
+     * The Parse Async endpoint allows you to convert documents into structured, machine-readable formats with fine-grained control over the parsing process. This endpoint is ideal for extracting cleaned document content to be used as context for downstream processing, e.g. RAG pipelines, custom ingestion pipelines, embeddings classification, etc.
+     *
+     * Parse files asynchronously and get a parser run ID that can be used to check status and retrieve results with the [Get Parser Run](https://docs.extend.ai/2025-04-21/developers/api-reference/parse-endpoints/get-parser-run) endpoint.
+     *
+     * This is useful for:
+     * * Large files that may take longer to process
+     * * Avoiding timeout issues with synchronous parsing.
+     *
+     * For more details, see the [Parse File guide](https://docs.extend.ai/2025-04-21/developers/guides/parse).
+     *
+     * @param {Extend.ParseAsyncRequest} request
+     * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     *
+     * @example
+     *     await client.parseAsync({
+     *         file: {}
+     *     })
+     */
+    public parseAsync(
+        request: Extend.ParseAsyncRequest,
+        requestOptions?: ExtendClient.RequestOptions,
+    ): core.HttpResponsePromise<Extend.ParserRunStatus> {
+        return core.HttpResponsePromise.fromPromise(this.__parseAsync(request, requestOptions));
+    }
+
+    private async __parseAsync(
+        request: Extend.ParseAsyncRequest,
+        requestOptions?: ExtendClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.ParserRunStatus>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                "parse/async",
+            ),
+            method: "POST",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version":
+                    requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "extend-ai",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                ...requestOptions?.headers,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            body: request,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.ParserRunStatus, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ExtendError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /parse/async.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,

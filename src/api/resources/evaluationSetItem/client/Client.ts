@@ -101,8 +101,8 @@ export class EvaluationSetItem {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.3",
-                "User-Agent": "extend-ai/0.0.3",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -125,7 +125,7 @@ export class EvaluationSetItem {
                 case 401:
                     throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
@@ -210,8 +210,8 @@ export class EvaluationSetItem {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.3",
-                "User-Agent": "extend-ai/0.0.3",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -311,8 +311,8 @@ export class EvaluationSetItem {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.3",
-                "User-Agent": "extend-ai/0.0.3",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -338,7 +338,7 @@ export class EvaluationSetItem {
                 case 401:
                     throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
@@ -414,8 +414,8 @@ export class EvaluationSetItem {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.3",
-                "User-Agent": "extend-ai/0.0.3",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,

@@ -5,7 +5,7 @@
 /**
  * Metrics about the parsing process.
  */
-export interface ParseResponseMetrics {
+export interface ParserRunMetrics {
     /** The time taken to process the document in milliseconds. */
     processingTimeMs: number;
     /** The number of pages in the document. */

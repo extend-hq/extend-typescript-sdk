@@ -39,14 +39,13 @@ export class ProcessorRun {
     /**
      * Run processors (extraction, classification, splitting, etc.) on a given document.
      *
-     * In general, the recommended way to integrate with Extend in production is via workflows, using the [Run Workflow](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/run-workflow) endpoint. This is due to several factors:
-     * * file parsing/pre-processing will automatically be reused across multiple processors, which will give you simplicity and cost savings given that many use cases will require multiple processors to be run on the same document.
-     * * workflows provide dedicated human in the loop document review, when needed.
-     * * workflows allow you to model and manage your pipeline with a single endpoint and corresponding UI for modeling and monitoring.
+     * **Synchronous vs Asynchronous Processing:**
+     * - **Asynchronous (default)**: Returns immediately with `PROCESSING` status. Use webhooks or polling to get results.
+     * - **Synchronous**: Set `sync: true` to wait for completion and get final results in the response (5-minute timeout).
      *
-     * However, there are a number of legitimate use cases and systems where it might be easier to model the pipeline via code and run processors directly. This endpoint is provided for this purpose.
-     *
-     * Similar to workflow runs, processor runs are asynchronous and will return a status of `PROCESSING` until the run is complete. You can [configure webhooks](https://docs.extend.ai/2025-04-21/developers/webhooks/configuration) to receive notifications when a processor run is complete or failed.
+     * **For asynchronous processing:**
+     * - You can [configure webhooks](https://docs.extend.ai/2025-04-21/developers/webhooks/configuration) to receive notifications when a processor run is complete or failed.
+     * - Or you can [poll the get endpoint](https://docs.extend.ai/2025-04-21/developers/api-reference/processor-endpoints/get-processor-run) for updates on the status of the processor run.
      *
      * @param {Extend.ProcessorRunCreateRequest} request
      * @param {ProcessorRun.RequestOptions} requestOptions - Request-specific configuration.
@@ -54,6 +53,7 @@ export class ProcessorRun {
      * @throws {@link Extend.BadRequestError}
      * @throws {@link Extend.UnauthorizedError}
      * @throws {@link Extend.NotFoundError}
+     * @throws {@link Extend.TooManyRequestsError}
      *
      * @example
      *     await client.processorRun.create({
@@ -85,8 +85,8 @@ export class ProcessorRun {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.3",
-                "User-Agent": "extend-ai/0.0.3",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -109,7 +109,12 @@ export class ProcessorRun {
                 case 401:
                     throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 429:
+                    throw new Extend.TooManyRequestsError(
+                        _response.error.body as Extend.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
@@ -178,8 +183,8 @@ export class ProcessorRun {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.3",
-                "User-Agent": "extend-ai/0.0.3",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -201,7 +206,7 @@ export class ProcessorRun {
                 case 401:
                     throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
@@ -220,6 +225,98 @@ export class ProcessorRun {
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling GET /processor_runs/{id}.");
+            case "unknown":
+                throw new errors.ExtendError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Delete a processor run and all associated data from Extend. This operation is permanent and cannot be undone.
+     *
+     * This endpoint can be used if you'd like to manage data retention on your own rather than automated data retention policies. Or make one-off deletions for your downstream customers.
+     *
+     * @param {string} id - The ID of the processor run to delete.
+     *
+     *                      Example: `"dpr_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {ProcessorRun.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.NotFoundError}
+     * @throws {@link Extend.InternalServerError}
+     *
+     * @example
+     *     await client.processorRun.delete("processor_run_id_here")
+     */
+    public delete(
+        id: string,
+        requestOptions?: ProcessorRun.RequestOptions,
+    ): core.HttpResponsePromise<Extend.ProcessorRunDeleteResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
+    }
+
+    private async __delete(
+        id: string,
+        requestOptions?: ProcessorRun.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.ProcessorRunDeleteResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                `processor_runs/${encodeURIComponent(id)}`,
+            ),
+            method: "DELETE",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version":
+                    requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "extend-ai",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                ...requestOptions?.headers,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.ProcessorRunDeleteResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Extend.InternalServerError(
+                        _response.error.body as Extend.ExtendError,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ExtendError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.ExtendTimeoutError("Timeout exceeded when calling DELETE /processor_runs/{id}.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
@@ -270,8 +367,8 @@ export class ProcessorRun {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.3",
-                "User-Agent": "extend-ai/0.0.3",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -293,7 +390,7 @@ export class ProcessorRun {
                 case 401:
                     throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,

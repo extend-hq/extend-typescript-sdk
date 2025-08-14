@@ -20,7 +20,9 @@ export type WebhookEventEventType =
     | "processor.updated"
     | "processor.deleted"
     | "processor.draft.updated"
-    | "processor.version.published";
+    | "processor.version.published"
+    | "parser_run.processed"
+    | "parser_run.failed";
 export const WebhookEventEventType = {
     WorkflowRunCompleted: "workflow_run.completed",
     WorkflowRunFailed: "workflow_run.failed",
@@ -37,4 +39,6 @@ export const WebhookEventEventType = {
     ProcessorDeleted: "processor.deleted",
     ProcessorDraftUpdated: "processor.draft.updated",
     ProcessorVersionPublished: "processor.version.published",
+    ParserRunProcessed: "parser_run.processed",
+    ParserRunFailed: "parser_run.failed",
 } as const;

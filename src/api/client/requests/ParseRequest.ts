@@ -11,6 +11,12 @@ import * as Extend from "../../index";
  *     }
  */
 export interface ParseRequest {
+    /**
+     * Controls the format of the response chunks. Defaults to `json` if not specified.
+     * * `json` - Returns parsed outputs in the response body
+     * * `url` - Return a presigned URL to the parsed content in the response body
+     */
+    responseType?: Extend.ParseRequestResponseType;
     /** A file object containing either a URL or a fileId. */
     file: Extend.ParseRequestFile;
     config?: Extend.ParseConfig;

@@ -109,8 +109,8 @@ export class WorkflowRun {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.3",
-                "User-Agent": "extend-ai/0.0.3",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -197,8 +197,8 @@ export class WorkflowRun {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.3",
-                "User-Agent": "extend-ai/0.0.3",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -286,8 +286,8 @@ export class WorkflowRun {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.3",
-                "User-Agent": "extend-ai/0.0.3",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -309,7 +309,7 @@ export class WorkflowRun {
                 case 401:
                     throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
@@ -381,8 +381,8 @@ export class WorkflowRun {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.3",
-                "User-Agent": "extend-ai/0.0.3",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -405,7 +405,7 @@ export class WorkflowRun {
                 case 401:
                     throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
@@ -425,6 +425,100 @@ export class WorkflowRun {
             case "timeout":
                 throw new errors.ExtendTimeoutError(
                     "Timeout exceeded when calling POST /workflow_runs/{workflowRunId}.",
+                );
+            case "unknown":
+                throw new errors.ExtendError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Delete a workflow run and all associated data from Extend. This operation is permanent and cannot be undone.
+     *
+     * This endpoint can be used if you'd like to manage data retention on your own rather than automated data retention policies. Or make one-off deletions for your downstream customers.
+     *
+     * @param {string} workflowRunId - The ID of the workflow run to delete.
+     *
+     *                                 Example: `"workflow_run_xKm9pNv3qWsY_jL2tR5Dh"`
+     * @param {WorkflowRun.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.NotFoundError}
+     * @throws {@link Extend.InternalServerError}
+     *
+     * @example
+     *     await client.workflowRun.delete("workflow_run_id_here")
+     */
+    public delete(
+        workflowRunId: string,
+        requestOptions?: WorkflowRun.RequestOptions,
+    ): core.HttpResponsePromise<Extend.WorkflowRunDeleteResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__delete(workflowRunId, requestOptions));
+    }
+
+    private async __delete(
+        workflowRunId: string,
+        requestOptions?: WorkflowRun.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.WorkflowRunDeleteResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                `workflow_runs/${encodeURIComponent(workflowRunId)}`,
+            ),
+            method: "DELETE",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version":
+                    requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "extend-ai",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                ...requestOptions?.headers,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.WorkflowRunDeleteResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Extend.InternalServerError(
+                        _response.error.body as Extend.ExtendError,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ExtendError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.ExtendTimeoutError(
+                    "Timeout exceeded when calling DELETE /workflow_runs/{workflowRunId}.",
                 );
             case "unknown":
                 throw new errors.ExtendError({

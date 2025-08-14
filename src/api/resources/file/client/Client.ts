@@ -95,8 +95,8 @@ export class File_ {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.3",
-                "User-Agent": "extend-ai/0.0.3",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -200,8 +200,8 @@ export class File_ {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.3",
-                "User-Agent": "extend-ai/0.0.3",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ...requestOptions?.headers,
@@ -222,7 +222,7 @@ export class File_ {
                 case 401:
                     throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
                 case 404:
-                    throw new Extend.NotFoundError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
@@ -241,6 +241,98 @@ export class File_ {
                 });
             case "timeout":
                 throw new errors.ExtendTimeoutError("Timeout exceeded when calling GET /files/{id}.");
+            case "unknown":
+                throw new errors.ExtendError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Delete a file and all associated data from Extend. This operation is permanent and cannot be undone.
+     *
+     * This endpoint can be used if you'd like to manage data retention on your own rather than automated data retention policies. Or make one-off deletions for your downstream customers.
+     *
+     * @param {string} id - The ID of the file to delete.
+     *
+     *                      Example: `"file_xK9mLPqRtN3vS8wF5hB2cQ"`
+     * @param {File_.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.NotFoundError}
+     * @throws {@link Extend.InternalServerError}
+     *
+     * @example
+     *     await client.file.delete("file_id_here")
+     */
+    public delete(
+        id: string,
+        requestOptions?: File_.RequestOptions,
+    ): core.HttpResponsePromise<Extend.FileDeleteResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
+    }
+
+    private async __delete(
+        id: string,
+        requestOptions?: File_.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.FileDeleteResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: urlJoin(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                `files/${encodeURIComponent(id)}`,
+            ),
+            method: "DELETE",
+            headers: {
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version":
+                    requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
+                "X-Fern-Language": "JavaScript",
+                "X-Fern-SDK-Name": "extend-ai",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
+                "X-Fern-Runtime": core.RUNTIME.type,
+                "X-Fern-Runtime-Version": core.RUNTIME.version,
+                ...requestOptions?.headers,
+            },
+            contentType: "application/json",
+            requestType: "json",
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.FileDeleteResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Extend.InternalServerError(
+                        _response.error.body as Extend.ExtendError,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ExtendError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.ExtendTimeoutError("Timeout exceeded when calling DELETE /files/{id}.");
             case "unknown":
                 throw new errors.ExtendError({
                     message: _response.error.errorMessage,
@@ -297,8 +389,8 @@ export class File_ {
                     requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
                 "X-Fern-Language": "JavaScript",
                 "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.3",
-                "User-Agent": "extend-ai/0.0.3",
+                "X-Fern-SDK-Version": "0.0.4",
+                "User-Agent": "extend-ai/0.0.4",
                 "X-Fern-Runtime": core.RUNTIME.type,
                 "X-Fern-Runtime-Version": core.RUNTIME.version,
                 ..._maybeEncodedRequest.headers,
