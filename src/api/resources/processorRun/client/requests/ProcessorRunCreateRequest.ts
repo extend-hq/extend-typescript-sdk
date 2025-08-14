@@ -23,6 +23,12 @@ export interface ProcessorRunCreateRequest {
     file?: Extend.ProcessorRunFileInput;
     /** A raw string to be processed. Can be used in place of file when passing raw text data streams. One of `file` or `rawText` must be provided. */
     rawText?: string;
+    /**
+     * Whether to run the processor synchronously. When `true`, the request will wait for the processor run to complete and return the final results. When `false` (default), the request returns immediately with a `PROCESSING` status, and you can poll for completion or use webhooks. For production use cases, we recommending leaving sync off and building around an async integration for more resiliency, unless your use case is predictably fast (e.g. sub < 30 seconds) run time or otherwise have integration constraints that require a synchronous API.
+     *
+     * **Timeout**: Synchronous requests have a 5-minute timeout. If the processor run takes longer, it will continue processing asynchronously and you can retrieve the results via the GET endpoint.
+     */
+    sync?: boolean;
     /** An optional value used to determine the relative order of ProcessorRuns when rate limiting is in effect. Lower values will be prioritized before higher values. */
     priority?: number;
     /** An optional object that can be passed in to identify the run of the document processor. It will be returned back to you in the response and webhooks. */

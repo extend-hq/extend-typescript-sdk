@@ -7,8 +7,8 @@
  * * `"PROCESSED"` - The file was successfully processed
  * * `"FAILED"` - The processing failed (see failureReason for details)
  */
-export type ParseResponseStatus = "PROCESSED" | "FAILED";
-export const ParseResponseStatus = {
+export type ParserRunStatusEnum = "PROCESSED" | "FAILED";
+export const ParserRunStatusEnum = {
     Processed: "PROCESSED",
     Failed: "FAILED",
 } as const;

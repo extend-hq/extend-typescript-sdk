@@ -12,4 +12,5 @@ export type WebhookEventPayload =
     | Extend.ProcessorRun
     | Extend.Workflow
     | Extend.Processor
-    | Extend.ProcessorVersion;
+    | Extend.ProcessorVersion
+    | Extend.ParserRunStatus;

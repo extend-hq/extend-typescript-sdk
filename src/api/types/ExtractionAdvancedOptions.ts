@@ -20,4 +20,6 @@ export interface ExtractionAdvancedOptions {
     chunkingOptions?: Extend.ExtractChunkingOptions;
     /** Optional fixed limit on the number of pages to process. */
     fixedPageLimit?: number;
+    /** Limit processing to the specified page ranges. */
+    pageRanges?: Extend.ExtractionAdvancedOptionsPageRangesItem[];
 }

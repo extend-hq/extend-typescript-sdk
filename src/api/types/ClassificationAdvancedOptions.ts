@@ -11,4 +11,6 @@ export interface ClassificationAdvancedOptions {
     advancedMultimodalEnabled?: boolean;
     /** Limit processing to a specific number of pages from the beginning of the document. */
     fixedPageLimit?: number;
+    /** Limit processing to the specified page ranges. */
+    pageRanges?: Extend.ClassificationAdvancedOptionsPageRangesItem[];
 }

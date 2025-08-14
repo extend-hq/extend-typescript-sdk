@@ -1,6 +1,6 @@
 # Reference
 
-<details><summary><code>client.<a href="/src/Client.ts">parse</a>({ ...params }) -> Extend.ParseResponse</code></summary>
+<details><summary><code>client.<a href="/src/Client.ts">parseAsync</a>({ ...params }) -> Extend.ParserRunStatus</code></summary>
 <dl>
 <dd>
 
@@ -12,11 +12,16 @@
 <dl>
 <dd>
 
-Parse files to get cleaned, chunked target content (e.g. markdown).
+Parse files **asynchronously** to get cleaned, chunked target content (e.g. markdown).
 
-The Parse endpoint allows you to convert documents into structured, machine-readable formats with fine-grained control over the parsing process. This endpoint is ideal for extracting cleaned document content to be used as context for downstream processing, e.g. RAG pipelines, custom ingestion pipelines, embeddings classification, etc.
+The Parse Async endpoint allows you to convert documents into structured, machine-readable formats with fine-grained control over the parsing process. This endpoint is ideal for extracting cleaned document content to be used as context for downstream processing, e.g. RAG pipelines, custom ingestion pipelines, embeddings classification, etc.
 
-Unlike processor and workflow runs, parsing is a synchronous endpoint and returns the parsed content in the response. Expected latency depends primarily on file size. This makes it suitable for workflows where you need immediate access to document content without waiting for asynchronous processing.
+Parse files asynchronously and get a parser run ID that can be used to check status and retrieve results with the [Get Parser Run](https://docs.extend.ai/2025-04-21/developers/api-reference/parse-endpoints/get-parser-run) endpoint.
+
+This is useful for:
+
+- Large files that may take longer to process
+- Avoiding timeout issues with synchronous parsing.
 
 For more details, see the [Parse File guide](https://docs.extend.ai/2025-04-21/developers/guides/parse).
 
@@ -34,7 +39,7 @@ For more details, see the [Parse File guide](https://docs.extend.ai/2025-04-21/d
 <dd>
 
 ```typescript
-await client.parse({
+await client.parseAsync({
     file: {},
 });
 ```
@@ -52,7 +57,7 @@ await client.parse({
 <dl>
 <dd>
 
-**request:** `Extend.ParseRequest`
+**request:** `Extend.ParseAsyncRequest`
 
 </dd>
 </dl>
@@ -347,6 +352,75 @@ Example: `"workflow_run_8k9m-xyzAB_Pqrst-Nvw4"`
 </dl>
 </details>
 
+<details><summary><code>client.workflowRun.<a href="/src/api/resources/workflowRun/client/Client.ts">delete</a>(workflowRunId) -> Extend.WorkflowRunDeleteResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Delete a workflow run and all associated data from Extend. This operation is permanent and cannot be undone.
+
+This endpoint can be used if you'd like to manage data retention on your own rather than automated data retention policies. Or make one-off deletions for your downstream customers.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.workflowRun.delete("workflow_run_id_here");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**workflowRunId:** `string`
+
+The ID of the workflow run to delete.
+
+Example: `"workflow_run_xKm9pNv3qWsY_jL2tR5Dh"`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WorkflowRun.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
 ## BatchWorkflowRun
 
 <details><summary><code>client.batchWorkflowRun.<a href="/src/api/resources/batchWorkflowRun/client/Client.ts">create</a>({ ...params }) -> Extend.BatchWorkflowRunCreateResponse</code></summary>
@@ -366,6 +440,8 @@ This endpoint allows you to efficiently initiate large batches of workflow runs 
 Unlike the single [Run Workflow](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/run-workflow) endpoint which returns the details of the created workflow runs immediately, this batch endpoint returns a `batchId`.
 
 Our recommended usage pattern is to integrate with [Webhooks](https://docs.extend.ai/2025-04-21/developers/webhooks/configuration) for consuming results, using the `metadata` and `batchId` to match up results to the original inputs in your downstream systems. However, you can integrate in a polling mechanism by using a combination of the [List Workflow Runs](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/list-workflow-runs) endpoint to fetch all runs via a batch, and then [Get Workflow Run](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/get-workflow-run) to fetch the full outputs each run.
+
+**Priority:** All workflow runs created through this batch endpoint are automatically assigned a priority of 90.
 
 **Processing and Monitoring:**
 Upon successful submission, the endpoint returns a `batchId`. The individual workflow runs are then queued for processing.
@@ -440,20 +516,19 @@ await client.batchWorkflowRun.create({
 
 Run processors (extraction, classification, splitting, etc.) on a given document.
 
-In general, the recommended way to integrate with Extend in production is via workflows, using the [Run Workflow](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/run-workflow) endpoint. This is due to several factors:
+**Synchronous vs Asynchronous Processing:**
 
-- file parsing/pre-processing will automatically be reused across multiple processors, which will give you simplicity and cost savings given that many use cases will require multiple processors to be run on the same document.
-- workflows provide dedicated human in the loop document review, when needed.
-- workflows allow you to model and manage your pipeline with a single endpoint and corresponding UI for modeling and monitoring.
+- **Asynchronous (default)**: Returns immediately with `PROCESSING` status. Use webhooks or polling to get results.
+- **Synchronous**: Set `sync: true` to wait for completion and get final results in the response (5-minute timeout).
 
-However, there are a number of legitimate use cases and systems where it might be easier to model the pipeline via code and run processors directly. This endpoint is provided for this purpose.
+**For asynchronous processing:**
 
-Similar to workflow runs, processor runs are asynchronous and will return a status of `PROCESSING` until the run is complete. You can [configure webhooks](https://docs.extend.ai/2025-04-21/developers/webhooks/configuration) to receive notifications when a processor run is complete or failed.
-
-</dd>
-</dl>
-</dd>
-</dl>
+- You can [configure webhooks](https://docs.extend.ai/2025-04-21/developers/webhooks/configuration) to receive notifications when a processor run is complete or failed.
+- Or you can [poll the get endpoint](https://docs.extend.ai/2025-04-21/developers/api-reference/processor-endpoints/get-processor-run) for updates on the status of the processor run.
+  </dd>
+  </dl>
+  </dd>
+  </dl>
 
 #### 🔌 Usage
 
@@ -550,6 +625,75 @@ await client.processorRun.get("processor_run_id_here");
 **id:** `string`
 
 The unique identifier for this processor run.
+
+Example: `"dpr_Xj8mK2pL9nR4vT7qY5wZ"`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ProcessorRun.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.processorRun.<a href="/src/api/resources/processorRun/client/Client.ts">delete</a>(id) -> Extend.ProcessorRunDeleteResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Delete a processor run and all associated data from Extend. This operation is permanent and cannot be undone.
+
+This endpoint can be used if you'd like to manage data retention on your own rather than automated data retention policies. Or make one-off deletions for your downstream customers.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.processorRun.delete("processor_run_id_here");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string`
+
+The ID of the processor run to delete.
 
 Example: `"dpr_Xj8mK2pL9nR4vT7qY5wZ"`
 
@@ -1012,6 +1156,156 @@ Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
+## ParserRun
+
+<details><summary><code>client.parserRun.<a href="/src/api/resources/parserRun/client/Client.ts">get</a>(id, { ...params }) -> Extend.ParserRunGetResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve the status and results of a parser run.
+
+Use this endpoint to get results for a parser run that has already completed, or to check on the status of an asynchronous parser run initiated via the [Parse File Asynchronously](https://docs.extend.ai/2025-04-21/developers/api-reference/parse-endpoints/parse-file-async) endpoint.
+
+If parsing is still in progress, you'll receive a response with just the status. Once complete, you'll receive the full parsed content in the response.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.parserRun.get("parser_run_id_here");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string`
+
+The unique identifier for the parser run.
+
+Example: `"parser_run_xK9mLPqRtN3vS8wF5hB2cQ"`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.ParserRunGetRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ParserRun.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.parserRun.<a href="/src/api/resources/parserRun/client/Client.ts">delete</a>(id) -> Extend.ParserRunDeleteResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Delete a parser run and all associated data from Extend. This operation is permanent and cannot be undone.
+
+This endpoint can be used if you'd like to manage data retention on your own rather than automated data retention policies. Or make one-off deletions for your downstream customers.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.parserRun.delete("parser_run_id_here");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string`
+
+The ID of the parser run to delete.
+
+Example: `"parser_run_xK9mLPqRtN3vS8wF5hB2cQ"`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ParserRun.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
 ## File
 
 <details><summary><code>client.file.<a href="/src/api/resources/file/client/Client.ts">list</a>({ ...params }) -> Extend.FileListResponse</code></summary>
@@ -1136,6 +1430,75 @@ Example: `"file_Xj8mK2pL9nR4vT7qY5wZ"`
 <dd>
 
 **request:** `Extend.FileGetRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `File_.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.file.<a href="/src/api/resources/file/client/Client.ts">delete</a>(id) -> Extend.FileDeleteResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Delete a file and all associated data from Extend. This operation is permanent and cannot be undone.
+
+This endpoint can be used if you'd like to manage data retention on your own rather than automated data retention policies. Or make one-off deletions for your downstream customers.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.file.delete("file_id_here");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string`
+
+The ID of the file to delete.
+
+Example: `"file_xK9mLPqRtN3vS8wF5hB2cQ"`
 
 </dd>
 </dl>

@@ -25,4 +25,6 @@ export interface ExtractionConfig {
     fields?: Extend.ExtractionField[];
     /** Advanced configuration options. */
     advancedOptions?: Extend.ExtractionAdvancedOptions;
+    /** Configuration options for the parsing process. */
+    parser?: Extend.ParseConfig;
 }

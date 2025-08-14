@@ -15,4 +15,6 @@ export interface SplitterConfig {
     splitRules?: string;
     /** Advanced configuration options. */
     advancedOptions?: Extend.SplitterAdvancedOptions;
+    /** Configuration options for the parsing process. */
+    parser?: Extend.ParseConfig;
 }

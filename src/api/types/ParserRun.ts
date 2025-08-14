@@ -4,16 +4,17 @@
 
 import * as Extend from "../index";
 
-export interface ParseResponse {
-    /** The type of object. Will always be `"parser_run"`. */
-    object: "parser_run";
+/**
+ * Full parser run object with complete parsing results
+ */
+export interface ParserRun {
     /**
      * A unique identifier for the parser run. Will always start with `"parser_run_"`
      *
      * Example: `"parser_run_xK9mLPqRtN3vS8wF5hB2cQ"`
      */
     id: string;
-    /** The identifier of the file that was parsed. This can be used as a parameter to other Extend endpoints, such as processor runs. This allows downstream processing to reuse a cache of the parsed file content to reduce your usage costs. */
+    /** The identifier of the file that was parsed. This can be used as a parameter to other Extend endpoints, such as processor runs. */
     fileId: string;
     /** An array of chunks that were parsed from the file. */
     chunks: Extend.Chunk[];
@@ -22,11 +23,11 @@ export interface ParseResponse {
      * * `"PROCESSED"` - The file was successfully processed
      * * `"FAILED"` - The processing failed (see failureReason for details)
      */
-    status: Extend.ParseResponseStatus;
+    status: Extend.ParserRunStatusEnum;
     /** The reason for failure if status is "FAILED". */
     failureReason?: string;
     /** Metrics about the parsing process. */
-    metrics: Extend.ParseResponseMetrics;
+    metrics: Extend.ParserRunMetrics;
     /** The configuration used for the parsing process, including any default values that were applied. */
     config: Extend.ParseConfig;
 }

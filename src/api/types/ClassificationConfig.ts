@@ -15,4 +15,6 @@ export interface ClassificationConfig {
     classificationRules?: string;
     /** Advanced configuration options. */
     advancedOptions?: Extend.ClassificationAdvancedOptions;
+    /** Configuration options for the parsing process. */
+    parser?: Extend.ParseConfig;
 }
