@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import fs from "fs";
-
 import { Node18FormData, WebFormData } from "../../../src/core/form-data-utils/FormDataWrapper";
 
 describe("CrossPlatformFormData", () => {
@@ -13,7 +11,7 @@ describe("CrossPlatformFormData", () => {
         });
 
         it("should append a Readable stream with a specified filename", async () => {
-            const value = (await import("readable-stream")).Readable.from(["file content"]);
+            const value = (await import("stream")).Readable.from(["file content"]);
             const filename = "testfile.txt";
 
             await formData.appendFile("file", value, filename);
@@ -75,7 +73,7 @@ describe("CrossPlatformFormData", () => {
         it("should append stream with path", async () => {
             const expectedFileName = "testfile.txt";
             const filePath = "/test/testfile.txt";
-            const stream = (await import("readable-stream")).Readable.from(["file content"]);
+            const stream = (await import("stream")).Readable.from(["file content"]);
             (stream as any).path = filePath;
             await formData.appendFile("file", stream);
 
@@ -85,7 +83,7 @@ describe("CrossPlatformFormData", () => {
             for await (const chunk of request.body) {
                 data += decoder.decode(chunk);
             }
-            expect(data).toContain(`Content-Disposition: form-data; name="file"; filename="${expectedFileName}"`);
+            expect(data).toContain('Content-Disposition: form-data; name="file"; filename="' + expectedFileName + '"');
         });
     });
 
@@ -98,7 +96,7 @@ describe("CrossPlatformFormData", () => {
         });
 
         it("should append a Readable stream with a specified filename", async () => {
-            const value = (await import("readable-stream")).Readable.from(["file content"]);
+            const value = (await import("stream")).Readable.from(["file content"]);
             const filename = "testfile.txt";
 
             await formData.appendFile("file", value, filename);

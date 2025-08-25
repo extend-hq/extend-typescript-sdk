@@ -10,6 +10,6 @@ export interface WorkflowRunFileInputOutputsItem {
      * Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
      */
     processorId: string;
-    /** The output that is being overridden. The structure will depend on the processor type. More details can be found [here](https://docs.extend.ai/2025-04-21/developers/guides/output-types). */
+    /** The output that is being overridden. The structure will depend on the processor type. More details can be found on the "output type" page for the corresponding processor, in the guides section. */
     output: Extend.ProvidedProcessorOutput;
 }

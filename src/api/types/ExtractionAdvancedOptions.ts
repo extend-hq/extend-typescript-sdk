@@ -18,8 +18,8 @@ export interface ExtractionAdvancedOptions {
     /** Whether to enable advanced figure parsing. */
     advancedFigureParsingEnabled?: boolean;
     chunkingOptions?: Extend.ExtractChunkingOptions;
-    /** Optional fixed limit on the number of pages to process. */
+    /** Optional fixed limit on the number of pages to process. See [Page Ranges](/product/page-ranges). */
     fixedPageLimit?: number;
-    /** Limit processing to the specified page ranges. */
+    /** Limit processing to the specified page ranges. See [Page Ranges](/product/page-ranges). */
     pageRanges?: Extend.ExtractionAdvancedOptionsPageRangesItem[];
 }

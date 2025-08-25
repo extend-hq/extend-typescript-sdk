@@ -18,13 +18,9 @@ export interface EvaluationSetListRequest {
      * Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
      */
     processorId?: string;
-    /**
-     * Sorts the evaluation sets by the given field.
-     */
+    /** Sorts the evaluation sets by the given field. */
     sortBy?: Extend.SortByEnum;
-    /**
-     * Sorts the evaluation sets in ascending or descending order. Ascending order means the earliest evaluation set is returned first.
-     */
+    /** Sorts the evaluation sets in ascending or descending order. Ascending order means the earliest evaluation set is returned first. */
     sortDir?: Extend.SortDirEnum;
     nextPageToken?: Extend.NextPageToken;
     maxPageSize?: Extend.MaxPageSize;

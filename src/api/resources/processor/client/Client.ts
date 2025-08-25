@@ -5,7 +5,7 @@
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
 import * as Extend from "../../../index";
-import urlJoin from "url-join";
+import { mergeHeaders, mergeOnlyDefinedHeaders } from "../../../../core/headers";
 import * as errors from "../../../../errors/index";
 
 export declare namespace Processor {
@@ -16,6 +16,8 @@ export declare namespace Processor {
         token: core.Supplier<core.BearerToken>;
         /** Override the x-extend-api-version header */
         extendApiVersion?: "2025-04-21";
+        /** Additional headers to include in requests. */
+        headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
         fetcher?: core.FetchFunction;
     }
 
@@ -28,13 +30,19 @@ export declare namespace Processor {
         abortSignal?: AbortSignal;
         /** Override the x-extend-api-version header */
         extendApiVersion?: "2025-04-21";
+        /** Additional query string parameters to include in the request. */
+        queryParams?: Record<string, unknown>;
         /** Additional headers to include in the request. */
-        headers?: Record<string, string>;
+        headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
     }
 }
 
 export class Processor {
-    constructor(protected readonly _options: Processor.Options) {}
+    protected readonly _options: Processor.Options;
+
+    constructor(_options: Processor.Options) {
+        this._options = _options;
+    }
 
     /**
      * Create a new processor in Extend, optionally cloning from an existing processor
@@ -63,27 +71,25 @@ export class Processor {
         request: Extend.ProcessorCreateRequest,
         requestOptions?: Processor.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ProcessorCreateResponse>> {
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+            }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: urlJoin(
+            url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.ExtendEnvironment.Production,
                 "processors",
             ),
             method: "POST",
-            headers: {
-                Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version":
-                    requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
-                "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.4",
-                "User-Agent": "extend-ai/0.0.4",
-                "X-Fern-Runtime": core.RUNTIME.type,
-                "X-Fern-Runtime-Version": core.RUNTIME.version,
-                ...requestOptions?.headers,
-            },
+            headers: _headers,
             contentType: "application/json",
+            queryParameters: requestOptions?.queryParams,
             requestType: "json",
             body: request,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
@@ -157,27 +163,25 @@ export class Processor {
         request: Extend.ProcessorUpdateRequest = {},
         requestOptions?: Processor.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ProcessorUpdateResponse>> {
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+            }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: urlJoin(
+            url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.ExtendEnvironment.Production,
                 `processors/${encodeURIComponent(id)}`,
             ),
             method: "POST",
-            headers: {
-                Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version":
-                    requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
-                "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.4",
-                "User-Agent": "extend-ai/0.0.4",
-                "X-Fern-Runtime": core.RUNTIME.type,
-                "X-Fern-Runtime-Version": core.RUNTIME.version,
-                ...requestOptions?.headers,
-            },
+            headers: _headers,
             contentType: "application/json",
+            queryParameters: requestOptions?.queryParams,
             requestType: "json",
             body: request,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,

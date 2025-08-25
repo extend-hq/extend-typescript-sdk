@@ -5,7 +5,7 @@
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
 import * as Extend from "../../../index";
-import urlJoin from "url-join";
+import { mergeHeaders, mergeOnlyDefinedHeaders } from "../../../../core/headers";
 import * as errors from "../../../../errors/index";
 
 export declare namespace ParserRun {
@@ -16,6 +16,8 @@ export declare namespace ParserRun {
         token: core.Supplier<core.BearerToken>;
         /** Override the x-extend-api-version header */
         extendApiVersion?: "2025-04-21";
+        /** Additional headers to include in requests. */
+        headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
         fetcher?: core.FetchFunction;
     }
 
@@ -28,13 +30,19 @@ export declare namespace ParserRun {
         abortSignal?: AbortSignal;
         /** Override the x-extend-api-version header */
         extendApiVersion?: "2025-04-21";
+        /** Additional query string parameters to include in the request. */
+        queryParams?: Record<string, unknown>;
         /** Additional headers to include in the request. */
-        headers?: Record<string, string>;
+        headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
     }
 }
 
 export class ParserRun {
-    constructor(protected readonly _options: ParserRun.Options) {}
+    protected readonly _options: ParserRun.Options;
+
+    constructor(_options: ParserRun.Options) {
+        this._options = _options;
+    }
 
     /**
      * Retrieve the status and results of a parser run.
@@ -75,29 +83,24 @@ export class ParserRun {
             _queryParams["responseType"] = responseType;
         }
 
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+            }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: urlJoin(
+            url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.ExtendEnvironment.Production,
                 `parser_runs/${encodeURIComponent(id)}`,
             ),
             method: "GET",
-            headers: {
-                Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version":
-                    requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
-                "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.4",
-                "User-Agent": "extend-ai/0.0.4",
-                "X-Fern-Runtime": core.RUNTIME.type,
-                "X-Fern-Runtime-Version": core.RUNTIME.version,
-                ...requestOptions?.headers,
-            },
-            contentType: "application/json",
-            queryParameters: _queryParams,
-            requestType: "json",
+            headers: _headers,
+            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -167,28 +170,24 @@ export class ParserRun {
         id: string,
         requestOptions?: ParserRun.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ParserRunDeleteResponse>> {
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+            }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: urlJoin(
+            url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.ExtendEnvironment.Production,
                 `parser_runs/${encodeURIComponent(id)}`,
             ),
             method: "DELETE",
-            headers: {
-                Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version":
-                    requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
-                "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.4",
-                "User-Agent": "extend-ai/0.0.4",
-                "X-Fern-Runtime": core.RUNTIME.type,
-                "X-Fern-Runtime-Version": core.RUNTIME.version,
-                ...requestOptions?.headers,
-            },
-            contentType: "application/json",
-            requestType: "json",
+            headers: _headers,
+            queryParameters: requestOptions?.queryParams,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

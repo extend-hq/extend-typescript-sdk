@@ -9,8 +9,8 @@ export interface ClassificationAdvancedOptions {
     context?: Extend.ClassificationAdvancedOptionsContext;
     /** Enable advanced multimodal processing for better handling of visual elements during classification. */
     advancedMultimodalEnabled?: boolean;
-    /** Limit processing to a specific number of pages from the beginning of the document. */
+    /** Limit processing to a specific number of pages from the beginning of the document. See [Page Ranges](/product/page-ranges). */
     fixedPageLimit?: number;
-    /** Limit processing to the specified page ranges. */
+    /** Limit processing to the specified page ranges. See [Page Ranges](/product/page-ranges). */
     pageRanges?: Extend.ClassificationAdvancedOptionsPageRangesItem[];
 }

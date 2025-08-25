@@ -19,7 +19,7 @@ export interface ProcessorRunCreateRequest {
      * - Specific version numbers corresponding to versions your team has published, e.g. `"1.0"`, `"2.2"`, etc.
      */
     version?: string;
-    /** The file to be processed. One of `file` or `rawText` must be provided. Supported file types can be found [here](https://docs.extend.ai/2025-04-21/developers/guides/supported-file-types). */
+    /** The file to be processed. One of `file` or `rawText` must be provided. Supported file types can be found [here](/product/supported-file-types). */
     file?: Extend.ProcessorRunFileInput;
     /** A raw string to be processed. Can be used in place of file when passing raw text data streams. One of `file` or `rawText` must be provided. */
     rawText?: string;

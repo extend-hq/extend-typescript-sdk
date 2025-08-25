@@ -17,9 +17,7 @@ export interface FileListRequest {
      * Example: `"invoice"`
      */
     nameContains?: string;
-    /**
-     * Sorts the files in ascending or descending order. Ascending order means the earliest file is returned first.
-     */
+    /** Sorts the files in ascending or descending order. Ascending order means the earliest file is returned first. */
     sortDir?: Extend.SortDirEnum;
     nextPageToken?: Extend.NextPageToken;
     maxPageSize?: Extend.MaxPageSize;
