@@ -23,7 +23,7 @@ This is useful for:
 - Large files that may take longer to process
 - Avoiding timeout issues with synchronous parsing.
 
-For more details, see the [Parse File guide](https://docs.extend.ai/2025-04-21/developers/guides/parse).
+For more details, see the [Parse File guide](/product/parsing/parse).
 
 </dd>
 </dl>
@@ -437,16 +437,16 @@ Example: `"workflow_run_xKm9pNv3qWsY_jL2tR5Dh"`
 
 This endpoint allows you to efficiently initiate large batches of workflow runs in a single request (up to 1,000 in a single request, but you can queue up multiple batches in rapid succession). It accepts an array of inputs, each containing a file and metadata pair. The primary use case for this endpoint is for doing large bulk runs of >1000 files at a time that can process over the course of a few hours without needing to manage rate limits that would likely occur using the primary run endpoint.
 
-Unlike the single [Run Workflow](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/run-workflow) endpoint which returns the details of the created workflow runs immediately, this batch endpoint returns a `batchId`.
+Unlike the single [Run Workflow](/developers/api-reference/workflow-endpoints/run-workflow) endpoint which returns the details of the created workflow runs immediately, this batch endpoint returns a `batchId`.
 
-Our recommended usage pattern is to integrate with [Webhooks](https://docs.extend.ai/2025-04-21/developers/webhooks/configuration) for consuming results, using the `metadata` and `batchId` to match up results to the original inputs in your downstream systems. However, you can integrate in a polling mechanism by using a combination of the [List Workflow Runs](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/list-workflow-runs) endpoint to fetch all runs via a batch, and then [Get Workflow Run](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/get-workflow-run) to fetch the full outputs each run.
+Our recommended usage pattern is to integrate with [Webhooks](/product/webhooks/configuration) for consuming results, using the `metadata` and `batchId` to match up results to the original inputs in your downstream systems. However, you can integrate in a polling mechanism by using a combination of the [List Workflow Runs](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/list-workflow-runs) endpoint to fetch all runs via a batch, and then [Get Workflow Run](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/get-workflow-run) to fetch the full outputs each run.
 
 **Priority:** All workflow runs created through this batch endpoint are automatically assigned a priority of 90.
 
 **Processing and Monitoring:**
 Upon successful submission, the endpoint returns a `batchId`. The individual workflow runs are then queued for processing.
 
-- **Monitoring:** Track the progress and consume results of individual runs using [Webhooks](https://docs.extend.ai/2025-04-21/developers/webhooks/configuration). Subscribe to events like `workflow_run.completed`, `workflow_run.failed`, etc. The webhook payload for these events will include the corresponding `batchId` and the `metadata` you provided for each input.
+- **Monitoring:** Track the progress and consume results of individual runs using [Webhooks](/product/webhooks/configuration). Subscribe to events like `workflow_run.completed`, `workflow_run.failed`, etc. The webhook payload for these events will include the corresponding `batchId` and the `metadata` you provided for each input.
 - **Fetching Results:** You can also use the [List Workflow Runs](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/list-workflow-runs) endpoint and filter using the `batchId` query param.
   </dd>
   </dl>
@@ -1535,7 +1535,7 @@ This endpoint accepts file contents and registers them as a File in Extend, whic
 
 If an uploaded file is detected as a Word or PowerPoint document, it will be automatically converted to a PDF.
 
-Supported file types can be found [here](https://docs.extend.ai/2025-04-21/developers/guides/supported-file-types).
+Supported file types can be found [here](/product/supported-file-types).
 
 This endpoint requires multipart form encoding. Most HTTP clients will handle this encoding automatically (see the examples).
 
@@ -1553,7 +1553,7 @@ This endpoint requires multipart form encoding. Most HTTP clients will handle th
 <dd>
 
 ```typescript
-await client.file.upload(fs.createReadStream("/path/to/your/file"));
+await client.file.upload(createReadStream("path/to/file"));
 ```
 
 </dd>

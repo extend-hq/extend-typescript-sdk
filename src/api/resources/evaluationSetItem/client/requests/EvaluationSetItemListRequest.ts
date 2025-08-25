@@ -11,13 +11,9 @@ import * as Extend from "../../../../index";
  *     }
  */
 export interface EvaluationSetItemListRequest {
-    /**
-     * Sorts the evaluation set items by the given field.
-     */
+    /** Sorts the evaluation set items by the given field. */
     sortBy?: Extend.SortByEnum;
-    /**
-     * Sorts the evaluation set items in ascending or descending order. Ascending order means the earliest evaluation set is returned first.
-     */
+    /** Sorts the evaluation set items in ascending or descending order. Ascending order means the earliest evaluation set is returned first. */
     sortDir?: Extend.SortDirEnum;
     nextPageToken?: Extend.NextPageToken;
     maxPageSize?: Extend.MaxPageSize;

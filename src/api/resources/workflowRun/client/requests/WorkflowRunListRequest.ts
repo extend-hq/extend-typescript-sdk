@@ -30,7 +30,7 @@ export interface WorkflowRunListRequest {
      */
     workflowId?: string;
     /**
-     * Filters workflow runs by the batch ID. This is useful for fetching all runs for a given batch created via the [Batch Run Workflow](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/batch-run-workflow) endpoint.
+     * Filters workflow runs by the batch ID. This is useful for fetching all runs for a given batch created via the [Batch Run Workflow](/developers/api-reference/workflow-endpoints/batch-run-workflow) endpoint.
      *
      * Example: `"batch_7Ws31-F5"`
      */
@@ -41,13 +41,9 @@ export interface WorkflowRunListRequest {
      * Example: `"invoice"`
      */
     fileNameContains?: string;
-    /**
-     * Sorts the workflow runs by the given field.
-     */
+    /** Sorts the workflow runs by the given field. */
     sortBy?: Extend.SortByEnum;
-    /**
-     * Sorts the workflow runs in ascending or descending order. Ascending order means the earliest workflow run is returned first.
-     */
+    /** Sorts the workflow runs in ascending or descending order. Ascending order means the earliest workflow run is returned first. */
     sortDir?: Extend.SortDirEnum;
     nextPageToken?: Extend.NextPageToken;
     maxPageSize?: Extend.MaxPageSize;

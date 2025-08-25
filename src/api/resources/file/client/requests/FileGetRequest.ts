@@ -7,9 +7,7 @@
  *     {}
  */
 export interface FileGetRequest {
-    /**
-     * If set to true, the raw text content of the file will be included in the response. This is useful for indexing text-based files like PDFs, Word Documents, etc.
-     */
+    /** If set to true, the raw text content of the file will be included in the response. This is useful for indexing text-based files like PDFs, Word Documents, etc. */
     rawText?: boolean;
     /**
      * If set to true, the markdown content of the file will be included in the response. This is useful for indexing very clean content into RAG pipelines for files like PDFs, Word Documents, etc.

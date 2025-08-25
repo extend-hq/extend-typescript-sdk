@@ -4,8 +4,8 @@
 
 import * as environments from "./environments";
 import * as core from "./core";
+import { mergeHeaders, mergeOnlyDefinedHeaders } from "./core/headers";
 import * as Extend from "./api/index";
-import urlJoin from "url-join";
 import * as errors from "./errors/index";
 import { WorkflowRun } from "./api/resources/workflowRun/client/Client";
 import { BatchWorkflowRun } from "./api/resources/batchWorkflowRun/client/Client";
@@ -28,6 +28,8 @@ export declare namespace ExtendClient {
         token: core.Supplier<core.BearerToken>;
         /** Override the x-extend-api-version header */
         extendApiVersion?: "2025-04-21";
+        /** Additional headers to include in requests. */
+        headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
         fetcher?: core.FetchFunction;
     }
 
@@ -40,12 +42,15 @@ export declare namespace ExtendClient {
         abortSignal?: AbortSignal;
         /** Override the x-extend-api-version header */
         extendApiVersion?: "2025-04-21";
+        /** Additional query string parameters to include in the request. */
+        queryParams?: Record<string, unknown>;
         /** Additional headers to include in the request. */
-        headers?: Record<string, string>;
+        headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
     }
 }
 
 export class ExtendClient {
+    protected readonly _options: ExtendClient.Options;
     protected _workflowRun: WorkflowRun | undefined;
     protected _batchWorkflowRun: BatchWorkflowRun | undefined;
     protected _processorRun: ProcessorRun | undefined;
@@ -59,7 +64,23 @@ export class ExtendClient {
     protected _batchProcessorRun: BatchProcessorRun | undefined;
     protected _workflow: Workflow | undefined;
 
-    constructor(protected readonly _options: ExtendClient.Options) {}
+    constructor(_options: ExtendClient.Options) {
+        this._options = {
+            ..._options,
+            headers: mergeHeaders(
+                {
+                    "x-extend-api-version": _options?.extendApiVersion ?? "2025-04-21",
+                    "X-Fern-Language": "JavaScript",
+                    "X-Fern-SDK-Name": "extend-ai",
+                    "X-Fern-SDK-Version": "0.0.5",
+                    "User-Agent": "extend-ai/0.0.5",
+                    "X-Fern-Runtime": core.RUNTIME.type,
+                    "X-Fern-Runtime-Version": core.RUNTIME.version,
+                },
+                _options?.headers,
+            ),
+        };
+    }
 
     public get workflowRun(): WorkflowRun {
         return (this._workflowRun ??= new WorkflowRun(this._options));
@@ -114,9 +135,7 @@ export class ExtendClient {
      *
      * The Parse endpoint allows you to convert documents into structured, machine-readable formats with fine-grained control over the parsing process. This endpoint is ideal for extracting cleaned document content to be used as context for downstream processing, e.g. RAG pipelines, custom ingestion pipelines, embeddings classification, etc.
      *
-     * Unlike processor and workflow runs, parsing is a synchronous endpoint and returns the parsed content in the response. Expected latency depends primarily on file size. This makes it suitable for workflows where you need immediate access to document content without waiting for asynchronous processing.
-     *
-     * For more details, see the [Parse File guide](https://docs.extend.ai/2025-04-21/developers/guides/parse).
+     * For more details, see the [Parse File guide](/product/parsing/parse).
      *
      * @param {Extend.ParseRequest} request
      * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -147,28 +166,25 @@ export class ExtendClient {
             _queryParams["responseType"] = responseType;
         }
 
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+            }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: urlJoin(
+            url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.ExtendEnvironment.Production,
                 "parse",
             ),
             method: "POST",
-            headers: {
-                Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version":
-                    requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
-                "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.4",
-                "User-Agent": "extend-ai/0.0.4",
-                "X-Fern-Runtime": core.RUNTIME.type,
-                "X-Fern-Runtime-Version": core.RUNTIME.version,
-                ...requestOptions?.headers,
-            },
+            headers: _headers,
             contentType: "application/json",
-            queryParameters: _queryParams,
+            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             requestType: "json",
             body: _body,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
@@ -227,7 +243,7 @@ export class ExtendClient {
      * * Large files that may take longer to process
      * * Avoiding timeout issues with synchronous parsing.
      *
-     * For more details, see the [Parse File guide](https://docs.extend.ai/2025-04-21/developers/guides/parse).
+     * For more details, see the [Parse File guide](/product/parsing/parse).
      *
      * @param {Extend.ParseAsyncRequest} request
      * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -251,27 +267,25 @@ export class ExtendClient {
         request: Extend.ParseAsyncRequest,
         requestOptions?: ExtendClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ParserRunStatus>> {
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+            }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: urlJoin(
+            url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.ExtendEnvironment.Production,
                 "parse/async",
             ),
             method: "POST",
-            headers: {
-                Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version":
-                    requestOptions?.extendApiVersion ?? this._options?.extendApiVersion ?? "2025-04-21",
-                "X-Fern-Language": "JavaScript",
-                "X-Fern-SDK-Name": "extend-ai",
-                "X-Fern-SDK-Version": "0.0.4",
-                "User-Agent": "extend-ai/0.0.4",
-                "X-Fern-Runtime": core.RUNTIME.type,
-                "X-Fern-Runtime-Version": core.RUNTIME.version,
-                ...requestOptions?.headers,
-            },
+            headers: _headers,
             contentType: "application/json",
+            queryParameters: requestOptions?.queryParams,
             requestType: "json",
             body: request,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,

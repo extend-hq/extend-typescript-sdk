@@ -3,7 +3,7 @@
  */
 
 /**
- * The base processor to use. For classifiers, this must be either `"classifier_performance"` or `"classifier_light"`. See the [base processor documentation](https://docs.extend.ai/2025-04-21/changelog/overview) for more details.
+ * The base processor to use. For classifiers, this must be either `"classifier_performance"` or `"classifier_light"`. See [Classification Changelog](/changelog/classification/classification-performance) for more details.
  */
 export type ClassificationConfigBaseProcessor = "classifier_performance" | "classifier_light";
 export const ClassificationConfigBaseProcessor = {
