@@ -16,4 +16,6 @@ export interface ParseConfigBlockOptionsTables {
      * * `html`: Convert table to HTML format
      */
     targetFormat?: Extend.ParseConfigBlockOptionsTablesTargetFormat;
+    /** Whether to automatically copy table headers to headerless tables on subsequent pages when they have matching column counts. Useful for multi-page tables. */
+    tableHeaderContinuationEnabled?: boolean;
 }

@@ -16,8 +16,6 @@ export interface ParseConfigChunkingStrategy {
      * * `section`: Split by logical sections. Not supported for target=spatial.
      */
     type?: Extend.ParseConfigChunkingStrategyType;
-    /** Specify a minimum number of characters per chunk. */
-    minCharacters?: number;
-    /** Specify a maximum number of characters per chunk. */
-    maxCharacters?: number;
+    /** Additional options for the chunking strategy. */
+    options?: Extend.ParseConfigChunkingStrategyOptions;
 }

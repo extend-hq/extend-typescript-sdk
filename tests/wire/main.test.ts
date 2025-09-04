@@ -38,8 +38,14 @@ describe("ExtendClient", () => {
             metrics: { processingTimeMs: 1.1, pageCount: 1.1 },
             config: {
                 target: "markdown",
-                chunkingStrategy: { type: "page", minCharacters: 100, maxCharacters: 1000 },
-                advancedOptions: { pageRotationEnabled: true },
+                chunkingStrategy: { type: "page", options: { minCharacters: 100, maxCharacters: 1000 } },
+                advancedOptions: {
+                    pageRotationEnabled: true,
+                    pageRanges: [
+                        { start: 1, end: 10 },
+                        { start: 20, end: 30 },
+                    ],
+                },
             },
         };
         server
@@ -106,11 +112,23 @@ describe("ExtendClient", () => {
                 target: "markdown",
                 chunkingStrategy: {
                     type: "page",
-                    minCharacters: 100,
-                    maxCharacters: 1000,
+                    options: {
+                        minCharacters: 100,
+                        maxCharacters: 1000,
+                    },
                 },
                 advancedOptions: {
                     pageRotationEnabled: true,
+                    pageRanges: [
+                        {
+                            start: 1,
+                            end: 10,
+                        },
+                        {
+                            start: 20,
+                            end: 30,
+                        },
+                    ],
                 },
             },
         });
