@@ -21,7 +21,7 @@ describe("ProcessorVersion", () => {
                 description: "Updated extraction fields for new invoice format",
                 version: "draft",
                 config: {
-                    baseProcessor: "classifier_performance",
+                    baseProcessor: "classification_performance",
                     baseVersion: "3.2.0",
                     classifications: [
                         {
@@ -60,7 +60,7 @@ describe("ProcessorVersion", () => {
                 version: "draft",
                 config: {
                     type: "CLASSIFY",
-                    baseProcessor: "classifier_performance",
+                    baseProcessor: "classification_performance",
                     baseVersion: "3.2.0",
                     classifications: [
                         {
@@ -169,7 +169,7 @@ describe("ProcessorVersion", () => {
                 description: "Updated extraction fields for new invoice format",
                 version: "draft",
                 config: {
-                    baseProcessor: "classifier_performance",
+                    baseProcessor: "classification_performance",
                     baseVersion: "3.2.0",
                     classifications: [
                         {
@@ -211,7 +211,7 @@ describe("ProcessorVersion", () => {
                 version: "draft",
                 config: {
                     type: "CLASSIFY",
-                    baseProcessor: "classifier_performance",
+                    baseProcessor: "classification_performance",
                     baseVersion: "3.2.0",
                     classifications: [
                         {

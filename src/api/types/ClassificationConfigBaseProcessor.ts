@@ -3,10 +3,10 @@
  */
 
 /**
- * The base processor to use. For classifiers, this must be either `"classifier_performance"` or `"classifier_light"`. See [Classification Changelog](/changelog/classification/classification-performance) for more details.
+ * The base processor to use. For classifiers, this must be either `"classification_performance"` or `"classification_light"`. See [Classification Changelog](/changelog/classification/classification-performance) for more details.
  */
-export type ClassificationConfigBaseProcessor = "classifier_performance" | "classifier_light";
+export type ClassificationConfigBaseProcessor = "classification_performance" | "classification_light";
 export const ClassificationConfigBaseProcessor = {
-    ClassifierPerformance: "classifier_performance",
-    ClassifierLight: "classifier_light",
+    ClassificationPerformance: "classification_performance",
+    ClassificationLight: "classification_light",
 } as const;

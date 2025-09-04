@@ -138,7 +138,7 @@ describe("ProcessorRun", () => {
                 edits: { key: { notes: "This is a note about the edit.", page: 15, fieldType: "string" } },
                 type: "CLASSIFY",
                 config: {
-                    baseProcessor: "classifier_performance",
+                    baseProcessor: "classification_performance",
                     baseVersion: "3.2.0",
                     classifications: [
                         {
@@ -228,7 +228,7 @@ describe("ProcessorRun", () => {
                 type: "CLASSIFY",
                 config: {
                     type: "CLASSIFY",
-                    baseProcessor: "classifier_performance",
+                    baseProcessor: "classification_performance",
                     baseVersion: "3.2.0",
                     classifications: [
                         {
@@ -337,7 +337,7 @@ describe("ProcessorRun", () => {
                 edits: { key: { notes: "This is a note about the edit.", page: 15, fieldType: "string" } },
                 type: "CLASSIFY",
                 config: {
-                    baseProcessor: "classifier_performance",
+                    baseProcessor: "classification_performance",
                     baseVersion: "3.2.0",
                     classifications: [
                         {
@@ -427,7 +427,7 @@ describe("ProcessorRun", () => {
                 type: "CLASSIFY",
                 config: {
                     type: "CLASSIFY",
-                    baseProcessor: "classifier_performance",
+                    baseProcessor: "classification_performance",
                     baseVersion: "3.2.0",
                     classifications: [
                         {
