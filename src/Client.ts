@@ -72,8 +72,8 @@ export class ExtendClient {
                     "x-extend-api-version": _options?.extendApiVersion ?? "2025-04-21",
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "extend-ai",
-                    "X-Fern-SDK-Version": "0.0.6",
-                    "User-Agent": "extend-ai/0.0.6",
+                    "X-Fern-SDK-Version": "0.0.7",
+                    "User-Agent": "extend-ai/0.0.7",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                 },
@@ -142,7 +142,10 @@ export class ExtendClient {
      *
      * @throws {@link Extend.BadRequestError}
      * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.PaymentRequiredError}
+     * @throws {@link Extend.NotFoundError}
      * @throws {@link Extend.UnprocessableEntityError}
+     * @throws {@link Extend.InternalServerError}
      *
      * @example
      *     await client.parse({
@@ -201,9 +204,18 @@ export class ExtendClient {
                     throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
                     throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                case 402:
+                    throw new Extend.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
                     throw new Extend.UnprocessableEntityError(
-                        _response.error.body as Extend.Error_,
+                        _response.error.body as Extend.ExtendError,
+                        _response.rawResponse,
+                    );
+                case 500:
+                    throw new Extend.InternalServerError(
+                        _response.error.body as Extend.ExtendError,
                         _response.rawResponse,
                     );
                 default:

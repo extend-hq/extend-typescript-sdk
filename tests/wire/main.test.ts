@@ -41,6 +41,7 @@ describe("ExtendClient", () => {
                 chunkingStrategy: { type: "page", options: { minCharacters: 100, maxCharacters: 1000 } },
                 advancedOptions: {
                     pageRotationEnabled: true,
+                    agenticOcrEnabled: true,
                     pageRanges: [
                         { start: 1, end: 10 },
                         { start: 20, end: 30 },
@@ -119,6 +120,7 @@ describe("ExtendClient", () => {
                 },
                 advancedOptions: {
                     pageRotationEnabled: true,
+                    agenticOcrEnabled: true,
                     pageRanges: [
                         {
                             start: 1,
