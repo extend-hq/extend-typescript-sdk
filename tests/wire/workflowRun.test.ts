@@ -4,9 +4,10 @@
 
 import { mockServerPool } from "../mock-server/MockServerPool";
 import { ExtendClient } from "../../src/Client";
+import * as Extend from "../../src/api/index";
 
 describe("WorkflowRun", () => {
-    test("list", async () => {
+    test("list (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
@@ -35,7 +36,14 @@ describe("WorkflowRun", () => {
         server.mockEndpoint().get("/workflow_runs").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.workflowRun.list({
+            status: "PENDING",
+            workflowId: "workflowId",
+            batchId: "batchId",
+            fileNameContains: "fileNameContains",
+            sortBy: "updatedAt",
+            sortDir: "asc",
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+            maxPageSize: 1,
         });
         expect(response).toEqual({
             success: true,
@@ -61,7 +69,31 @@ describe("WorkflowRun", () => {
         });
     });
 
-    test("create", async () => {
+    test("list (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/workflow_runs").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workflowRun.list();
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("list (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { success: undefined, error: undefined };
+        server.mockEndpoint().get("/workflow_runs").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workflowRun.list();
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = { workflowId: "workflow_id_here" };
@@ -97,12 +129,13 @@ describe("WorkflowRun", () => {
                             processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
                             processorName: "Invoice Processor",
                             status: "PROCESSING",
-                            output: { value: { key: "value" }, metadata: { key: {} } },
+                            output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                             reviewed: false,
                             edited: false,
                             edits: { key: { notes: "This is a note about the edit.", page: 15, fieldType: "string" } },
                             type: "CLASSIFY",
                             config: {
+                                type: "CLASSIFY",
                                 baseVersion: "3.2.0",
                                 classifications: [
                                     {
@@ -114,7 +147,6 @@ describe("WorkflowRun", () => {
                                 ],
                                 classificationRules:
                                     "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
-                                type: "CLASSIFY",
                             },
                             files: [
                                 {
@@ -221,7 +253,9 @@ describe("WorkflowRun", () => {
                                     key: "value",
                                 },
                                 metadata: {
-                                    key: {},
+                                    key: {
+                                        logprobsConfidence: undefined,
+                                    },
                                 },
                             },
                             reviewed: false,
@@ -304,7 +338,73 @@ describe("WorkflowRun", () => {
         });
     });
 
-    test("get", async () => {
+    test("create (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            workflowId: "workflowId",
+            files: undefined,
+            rawTexts: undefined,
+            version: undefined,
+            priority: undefined,
+            metadata: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/workflow_runs")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflowRun.create({
+                workflowId: "workflowId",
+                files: undefined,
+                rawTexts: undefined,
+                version: undefined,
+                priority: undefined,
+                metadata: undefined,
+            });
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("create (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            workflowId: "workflowId",
+            files: undefined,
+            rawTexts: undefined,
+            version: undefined,
+            priority: undefined,
+            metadata: undefined,
+        };
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .post("/workflow_runs")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflowRun.create({
+                workflowId: "workflowId",
+                files: undefined,
+                rawTexts: undefined,
+                version: undefined,
+                priority: undefined,
+                metadata: undefined,
+            });
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("get (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
@@ -356,12 +456,13 @@ describe("WorkflowRun", () => {
                         processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
                         processorName: "Invoice Processor",
                         status: "PROCESSING",
-                        output: { value: { key: "value" }, metadata: { key: {} } },
+                        output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                         reviewed: false,
                         edited: false,
                         edits: { key: { notes: "This is a note about the edit.", page: 15, fieldType: "string" } },
                         type: "CLASSIFY",
                         config: {
+                            type: "CLASSIFY",
                             baseVersion: "3.2.0",
                             classifications: [
                                 {
@@ -373,7 +474,6 @@ describe("WorkflowRun", () => {
                             ],
                             classificationRules:
                                 "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
-                            type: "CLASSIFY",
                         },
                         files: [
                             {
@@ -491,7 +591,9 @@ describe("WorkflowRun", () => {
                                 key: "value",
                             },
                             metadata: {
-                                key: {},
+                                key: {
+                                    logprobsConfidence: undefined,
+                                },
                             },
                         },
                         reviewed: false,
@@ -572,7 +674,61 @@ describe("WorkflowRun", () => {
         });
     });
 
-    test("update", async () => {
+    test("get (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/workflow_runs/workflowRunId")
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflowRun.get("workflowRunId");
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("get (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .get("/workflow_runs/workflowRunId")
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflowRun.get("workflowRunId");
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("get (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/workflow_runs/workflowRunId")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflowRun.get("workflowRunId");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("update (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = {};
@@ -624,12 +780,13 @@ describe("WorkflowRun", () => {
                         processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
                         processorName: "Invoice Processor",
                         status: "PROCESSING",
-                        output: { value: { key: "value" }, metadata: { key: {} } },
+                        output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                         reviewed: false,
                         edited: false,
                         edits: { key: { notes: "This is a note about the edit.", page: 15, fieldType: "string" } },
                         type: "CLASSIFY",
                         config: {
+                            type: "CLASSIFY",
                             baseVersion: "3.2.0",
                             classifications: [
                                 {
@@ -641,7 +798,6 @@ describe("WorkflowRun", () => {
                             ],
                             classificationRules:
                                 "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
-                            type: "CLASSIFY",
                         },
                         files: [
                             {
@@ -760,7 +916,9 @@ describe("WorkflowRun", () => {
                                 key: "value",
                             },
                             metadata: {
-                                key: {},
+                                key: {
+                                    logprobsConfidence: undefined,
+                                },
                             },
                         },
                         reviewed: false,
@@ -841,7 +999,73 @@ describe("WorkflowRun", () => {
         });
     });
 
-    test("delete", async () => {
+    test("update (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: undefined, metadata: undefined };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/workflow_runs/workflowRunId")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflowRun.update("workflowRunId", {
+                name: undefined,
+                metadata: undefined,
+            });
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("update (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: undefined, metadata: undefined };
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .post("/workflow_runs/workflowRunId")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflowRun.update("workflowRunId", {
+                name: undefined,
+                metadata: undefined,
+            });
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("update (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: undefined, metadata: undefined };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/workflow_runs/workflowRunId")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflowRun.update("workflowRunId", {
+                name: undefined,
+                metadata: undefined,
+            });
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("delete (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
@@ -864,5 +1088,383 @@ describe("WorkflowRun", () => {
             workflowRunId: "workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
             message: "Workflow run data has been successfully deleted.",
         });
+    });
+
+    test("delete (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .delete("/workflow_runs/workflowRunId")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflowRun.delete("workflowRunId");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("delete (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", requestId: "requestId", retryable: true };
+        server
+            .mockEndpoint()
+            .delete("/workflow_runs/workflowRunId")
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflowRun.delete("workflowRunId");
+        }).rejects.toThrow(Extend.InternalServerError);
+    });
+
+    test("cancel (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = {
+            success: true,
+            workflowRun: {
+                object: "workflow_run",
+                id: "workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
+                name: "myFirstFile.pdf",
+                url: "https://dashboard.extend.ai/workflows/workflow_Bk9mNp2qWs5_xL8vR4tYh?workflowRunId=workflow_run_Zj3nMx7ZPd9f4c2WQ_kAg",
+                status: "CANCELLED",
+                metadata: { key: "value" },
+                batchId: "batch_7Ws31-F5",
+                files: [
+                    {
+                        object: "file",
+                        id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                        name: "Invoices.pdf",
+                        presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                        parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                        metadata: {
+                            pageCount: 30,
+                            parentSplit: {
+                                id: "id",
+                                type: "Invoice",
+                                identifier: "other_2_9",
+                                startPage: 1,
+                                endPage: 10,
+                            },
+                        },
+                        createdAt: "2024-03-21T15:30:00Z",
+                        updatedAt: "2024-03-21T16:45:00Z",
+                    },
+                ],
+                failureReason: "failureReason",
+                failureMessage: "failureMessage",
+                initialRunAt: "2025-04-28T17:01:39Z",
+                reviewedBy: "jane.doe@example.com",
+                reviewed: true,
+                rejectionNote: "rejectionNote",
+                reviewedAt: "2024-03-21T16:45:00Z",
+                startTime: "2024-03-21T15:30:00Z",
+                endTime: "2024-03-21T15:35:00Z",
+                outputs: [
+                    {
+                        object: "document_processor_run",
+                        id: "dpr_Xj8mK2pL9nR4vT7qY5wZ",
+                        processorId: "dp_Xj8mK2pL9nR4vT7qY5wZ",
+                        processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
+                        processorName: "Invoice Processor",
+                        status: "PROCESSING",
+                        output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
+                        reviewed: false,
+                        edited: false,
+                        edits: { key: { notes: "This is a note about the edit.", page: 15, fieldType: "string" } },
+                        type: "CLASSIFY",
+                        config: {
+                            type: "CLASSIFY",
+                            baseVersion: "3.2.0",
+                            classifications: [
+                                {
+                                    id: "my_unique_id",
+                                    type: "invoice",
+                                    description:
+                                        "An invoice is a document that lists the items purchased and the total amount due.",
+                                },
+                            ],
+                            classificationRules:
+                                "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                        },
+                        files: [
+                            {
+                                object: "file",
+                                id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                                name: "Invoices.pdf",
+                                presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                                parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                                metadata: {
+                                    pageCount: 30,
+                                    parentSplit: {
+                                        id: "id",
+                                        type: "Invoice",
+                                        identifier: "other_2_9",
+                                        startPage: 1,
+                                        endPage: 10,
+                                    },
+                                },
+                                createdAt: "2024-03-21T15:30:00Z",
+                                updatedAt: "2024-03-21T16:45:00Z",
+                            },
+                        ],
+                        mergedProcessors: [
+                            {
+                                processorId: "dp_Xj8mK2pL9nR4vT7qY5wZ",
+                                processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
+                                processorName: "Invoice Line Items Processor",
+                            },
+                        ],
+                        url: "https://dashboard.extend.ai/runs/dpr_Xj8mK2pL9nR4vT7qY5wZ",
+                    },
+                ],
+                stepRuns: [
+                    {
+                        object: "workflow_step_run",
+                        id: "workflow_step_run_xK9mLPqRtN3vS8wF5hB2cQ",
+                        status: "PENDING",
+                        step: {
+                            object: "workflow_step",
+                            id: "step_xK9mLPqRtN3vS8wF5hB2cQ",
+                            name: "Validate Invoice Total",
+                            type: "EXTERNAL_DATA_VALIDATION",
+                        },
+                    },
+                ],
+                workflow: {
+                    object: "workflow",
+                    id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
+                    version: "draft",
+                    name: "Invoice Processing",
+                },
+            },
+        };
+        server
+            .mockEndpoint()
+            .post("/workflow_runs/workflow_run_id_here/cancel")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.workflowRun.cancel("workflow_run_id_here");
+        expect(response).toEqual({
+            success: true,
+            workflowRun: {
+                object: "workflow_run",
+                id: "workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
+                name: "myFirstFile.pdf",
+                url: "https://dashboard.extend.ai/workflows/workflow_Bk9mNp2qWs5_xL8vR4tYh?workflowRunId=workflow_run_Zj3nMx7ZPd9f4c2WQ_kAg",
+                status: "CANCELLED",
+                metadata: {
+                    key: "value",
+                },
+                batchId: "batch_7Ws31-F5",
+                files: [
+                    {
+                        object: "file",
+                        id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                        name: "Invoices.pdf",
+                        presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                        parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                        metadata: {
+                            pageCount: 30,
+                            parentSplit: {
+                                id: "id",
+                                type: "Invoice",
+                                identifier: "other_2_9",
+                                startPage: 1,
+                                endPage: 10,
+                            },
+                        },
+                        createdAt: "2024-03-21T15:30:00Z",
+                        updatedAt: "2024-03-21T16:45:00Z",
+                    },
+                ],
+                failureReason: "failureReason",
+                failureMessage: "failureMessage",
+                initialRunAt: "2025-04-28T17:01:39Z",
+                reviewedBy: "jane.doe@example.com",
+                reviewed: true,
+                rejectionNote: "rejectionNote",
+                reviewedAt: "2024-03-21T16:45:00Z",
+                startTime: "2024-03-21T15:30:00Z",
+                endTime: "2024-03-21T15:35:00Z",
+                outputs: [
+                    {
+                        object: "document_processor_run",
+                        id: "dpr_Xj8mK2pL9nR4vT7qY5wZ",
+                        processorId: "dp_Xj8mK2pL9nR4vT7qY5wZ",
+                        processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
+                        processorName: "Invoice Processor",
+                        status: "PROCESSING",
+                        output: {
+                            value: {
+                                key: "value",
+                            },
+                            metadata: {
+                                key: {
+                                    logprobsConfidence: undefined,
+                                },
+                            },
+                        },
+                        reviewed: false,
+                        edited: false,
+                        edits: {
+                            key: {
+                                notes: "This is a note about the edit.",
+                                page: 15,
+                                fieldType: "string",
+                            },
+                        },
+                        type: "CLASSIFY",
+                        config: {
+                            type: "CLASSIFY",
+                            baseVersion: "3.2.0",
+                            classifications: [
+                                {
+                                    id: "my_unique_id",
+                                    type: "invoice",
+                                    description:
+                                        "An invoice is a document that lists the items purchased and the total amount due.",
+                                },
+                            ],
+                            classificationRules:
+                                "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                        },
+                        files: [
+                            {
+                                object: "file",
+                                id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                                name: "Invoices.pdf",
+                                presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                                parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                                metadata: {
+                                    pageCount: 30,
+                                    parentSplit: {
+                                        id: "id",
+                                        type: "Invoice",
+                                        identifier: "other_2_9",
+                                        startPage: 1,
+                                        endPage: 10,
+                                    },
+                                },
+                                createdAt: "2024-03-21T15:30:00Z",
+                                updatedAt: "2024-03-21T16:45:00Z",
+                            },
+                        ],
+                        mergedProcessors: [
+                            {
+                                processorId: "dp_Xj8mK2pL9nR4vT7qY5wZ",
+                                processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
+                                processorName: "Invoice Line Items Processor",
+                            },
+                        ],
+                        url: "https://dashboard.extend.ai/runs/dpr_Xj8mK2pL9nR4vT7qY5wZ",
+                    },
+                ],
+                stepRuns: [
+                    {
+                        object: "workflow_step_run",
+                        id: "workflow_step_run_xK9mLPqRtN3vS8wF5hB2cQ",
+                        status: "PENDING",
+                        step: {
+                            object: "workflow_step",
+                            id: "step_xK9mLPqRtN3vS8wF5hB2cQ",
+                            name: "Validate Invoice Total",
+                            type: "EXTERNAL_DATA_VALIDATION",
+                        },
+                    },
+                ],
+                workflow: {
+                    object: "workflow",
+                    id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
+                    version: "draft",
+                    name: "Invoice Processing",
+                },
+            },
+        });
+    });
+
+    test("cancel (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/workflow_runs/workflowRunId/cancel")
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflowRun.cancel("workflowRunId");
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("cancel (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .post("/workflow_runs/workflowRunId/cancel")
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflowRun.cancel("workflowRunId");
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("cancel (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/workflow_runs/workflowRunId/cancel")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflowRun.cancel("workflowRunId");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("cancel (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", requestId: "requestId", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/workflow_runs/workflowRunId/cancel")
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflowRun.cancel("workflowRunId");
+        }).rejects.toThrow(Extend.InternalServerError);
     });
 });

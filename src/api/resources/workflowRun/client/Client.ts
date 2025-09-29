@@ -13,11 +13,11 @@ export declare namespace WorkflowRun {
         environment?: core.Supplier<environments.ExtendEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token: core.Supplier<core.BearerToken>;
+        token?: core.Supplier<core.BearerToken | undefined>;
         /** Override the x-extend-api-version header */
         extendApiVersion?: "2025-04-21";
         /** Additional headers to include in requests. */
-        headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
+        headers?: Record<string, string | core.Supplier<string | null | undefined> | null | undefined>;
         fetcher?: core.FetchFunction;
     }
 
@@ -33,14 +33,14 @@ export declare namespace WorkflowRun {
         /** Additional query string parameters to include in the request. */
         queryParams?: Record<string, unknown>;
         /** Additional headers to include in the request. */
-        headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
+        headers?: Record<string, string | core.Supplier<string | null | undefined> | null | undefined>;
     }
 }
 
 export class WorkflowRun {
     protected readonly _options: WorkflowRun.Options;
 
-    constructor(_options: WorkflowRun.Options) {
+    constructor(_options: WorkflowRun.Options = {}) {
         this._options = _options;
     }
 
@@ -55,7 +55,14 @@ export class WorkflowRun {
      *
      * @example
      *     await client.workflowRun.list({
-     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
+     *         status: "PENDING",
+     *         workflowId: "workflowId",
+     *         batchId: "batchId",
+     *         fileNameContains: "fileNameContains",
+     *         sortBy: "updatedAt",
+     *         sortDir: "asc",
+     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+     *         maxPageSize: 1
      *     })
      */
     public list(
@@ -519,7 +526,108 @@ export class WorkflowRun {
         }
     }
 
-    protected async _getAuthorizationHeader(): Promise<string> {
-        return `Bearer ${await core.Supplier.get(this._options.token)}`;
+    /**
+     * Cancel a running workflow run by its ID. This endpoint allows you to stop a workflow run that is currently in progress.
+     *
+     * Note: Only workflow runs with a status of `PROCESSING` or `PENDING` can be cancelled. Workflow runs that are completed, failed, in review, rejected, or already cancelled cannot be cancelled.
+     *
+     * @param {string} workflowRunId - The ID of the workflow run to cancel.
+     *
+     *                                 Example: `"workflow_run_xKm9pNv3qWsY_jL2tR5Dh"`
+     * @param {WorkflowRun.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.NotFoundError}
+     * @throws {@link Extend.InternalServerError}
+     *
+     * @example
+     *     await client.workflowRun.cancel("workflow_run_id_here")
+     */
+    public cancel(
+        workflowRunId: string,
+        requestOptions?: WorkflowRun.RequestOptions,
+    ): core.HttpResponsePromise<Extend.WorkflowRunCancelResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__cancel(workflowRunId, requestOptions));
+    }
+
+    private async __cancel(
+        workflowRunId: string,
+        requestOptions?: WorkflowRun.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.WorkflowRunCancelResponse>> {
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+            }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                `workflow_runs/${encodeURIComponent(workflowRunId)}/cancel`,
+            ),
+            method: "POST",
+            headers: _headers,
+            queryParameters: requestOptions?.queryParams,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.WorkflowRunCancelResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Extend.InternalServerError(
+                        _response.error.body as Extend.ExtendError,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ExtendError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.ExtendTimeoutError(
+                    "Timeout exceeded when calling POST /workflow_runs/{workflowRunId}/cancel.",
+                );
+            case "unknown":
+                throw new errors.ExtendError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    protected async _getAuthorizationHeader(): Promise<string | undefined> {
+        const bearer = await core.Supplier.get(this._options.token);
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
+        }
+
+        return undefined;
     }
 }
