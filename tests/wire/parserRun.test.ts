@@ -4,9 +4,10 @@
 
 import { mockServerPool } from "../mock-server/MockServerPool";
 import { ExtendClient } from "../../src/Client";
+import * as Extend from "../../src/api/index";
 
 describe("ParserRun", () => {
-    test("get", async () => {
+    test("get (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
@@ -14,10 +15,10 @@ describe("ParserRun", () => {
             success: true,
             warning: "warning",
             parserRun: {
+                object: "parser_run_status",
                 id: "parser_run_xK9mLPqRtN3vS8wF5hB2cQ",
                 status: "PROCESSING",
                 failureReason: "failureReason",
-                object: "parser_run_status",
             },
         };
         server
@@ -28,7 +29,9 @@ describe("ParserRun", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.parserRun.get("parser_run_id_here");
+        const response = await client.parserRun.get("parser_run_id_here", {
+            responseType: "json",
+        });
         expect(response).toEqual({
             success: true,
             warning: "warning",
@@ -41,7 +44,43 @@ describe("ParserRun", () => {
         });
     });
 
-    test("delete", async () => {
+    test("get (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/parser_runs/id").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.parserRun.get("id");
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("get (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { success: undefined, error: undefined };
+        server.mockEndpoint().get("/parser_runs/id").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.parserRun.get("id");
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("get (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/parser_runs/id").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.parserRun.get("id");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("delete (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
@@ -64,5 +103,29 @@ describe("ParserRun", () => {
             parserRunId: "parser_run_xK9mLPqRtN3vS8wF5hB2cQ",
             message: "Parser run data has been successfully deleted.",
         });
+    });
+
+    test("delete (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().delete("/parser_runs/id").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.parserRun.delete("id");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("delete (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", requestId: "requestId", retryable: true };
+        server.mockEndpoint().delete("/parser_runs/id").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.parserRun.delete("id");
+        }).rejects.toThrow(Extend.InternalServerError);
     });
 });

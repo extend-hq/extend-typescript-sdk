@@ -4,9 +4,10 @@
 
 import { mockServerPool } from "../mock-server/MockServerPool";
 import { ExtendClient } from "../../src/Client";
+import * as Extend from "../../src/api/index";
 
 describe("ExtendClient", () => {
-    test("parse", async () => {
+    test("parse (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = { file: {} };
@@ -41,6 +42,7 @@ describe("ExtendClient", () => {
                 chunkingStrategy: { type: "page", options: { minCharacters: 100, maxCharacters: 1000 } },
                 advancedOptions: {
                     pageRotationEnabled: true,
+                    agenticOcrEnabled: true,
                     pageRanges: [
                         { start: 1, end: 10 },
                         { start: 20, end: 30 },
@@ -58,6 +60,7 @@ describe("ExtendClient", () => {
             .build();
 
         const response = await client.parse({
+            responseType: "json",
             file: {},
         });
         expect(response).toEqual({
@@ -119,6 +122,7 @@ describe("ExtendClient", () => {
                 },
                 advancedOptions: {
                     pageRotationEnabled: true,
+                    agenticOcrEnabled: true,
                     pageRanges: [
                         {
                             start: 1,
@@ -134,7 +138,181 @@ describe("ExtendClient", () => {
         });
     });
 
-    test("parseAsync", async () => {
+    test("parse (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            file: { fileName: undefined, fileUrl: undefined, fileId: undefined },
+            config: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/parse")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parse({
+                file: {
+                    fileName: undefined,
+                    fileUrl: undefined,
+                    fileId: undefined,
+                },
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("parse (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            file: { fileName: undefined, fileUrl: undefined, fileId: undefined },
+            config: undefined,
+        };
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .post("/parse")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parse({
+                file: {
+                    fileName: undefined,
+                    fileUrl: undefined,
+                    fileId: undefined,
+                },
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("parse (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            file: { fileName: undefined, fileUrl: undefined, fileId: undefined },
+            config: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/parse")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(402)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parse({
+                file: {
+                    fileName: undefined,
+                    fileUrl: undefined,
+                    fileId: undefined,
+                },
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.PaymentRequiredError);
+    });
+
+    test("parse (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            file: { fileName: undefined, fileUrl: undefined, fileId: undefined },
+            config: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/parse")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parse({
+                file: {
+                    fileName: undefined,
+                    fileUrl: undefined,
+                    fileId: undefined,
+                },
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("parse (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            file: { fileName: undefined, fileUrl: undefined, fileId: undefined },
+            config: undefined,
+        };
+        const rawResponseBody = { code: "code", message: "message", requestId: "requestId", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/parse")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(422)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parse({
+                file: {
+                    fileName: undefined,
+                    fileUrl: undefined,
+                    fileId: undefined,
+                },
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.UnprocessableEntityError);
+    });
+
+    test("parse (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            file: { fileName: undefined, fileUrl: undefined, fileId: undefined },
+            config: undefined,
+        };
+        const rawResponseBody = { code: "code", message: "message", requestId: "requestId", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/parse")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parse({
+                file: {
+                    fileName: undefined,
+                    fileUrl: undefined,
+                    fileId: undefined,
+                },
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.InternalServerError);
+    });
+
+    test("parseAsync (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = { file: {} };
@@ -160,5 +338,63 @@ describe("ExtendClient", () => {
             status: "PROCESSING",
             failureReason: "failureReason",
         });
+    });
+
+    test("parseAsync (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            file: { fileName: undefined, fileUrl: undefined, fileId: undefined },
+            config: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/parse/async")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parseAsync({
+                file: {
+                    fileName: undefined,
+                    fileUrl: undefined,
+                    fileId: undefined,
+                },
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("parseAsync (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            file: { fileName: undefined, fileUrl: undefined, fileId: undefined },
+            config: undefined,
+        };
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .post("/parse/async")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parseAsync({
+                file: {
+                    fileName: undefined,
+                    fileUrl: undefined,
+                    fileId: undefined,
+                },
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.UnauthorizedError);
     });
 });
