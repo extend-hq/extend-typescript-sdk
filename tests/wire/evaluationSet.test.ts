@@ -4,9 +4,10 @@
 
 import { mockServerPool } from "../mock-server/MockServerPool";
 import { ExtendClient } from "../../src/Client";
+import * as Extend from "../../src/api/index";
 
 describe("EvaluationSet", () => {
-    test("list", async () => {
+    test("list (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
@@ -47,7 +48,10 @@ describe("EvaluationSet", () => {
 
         const response = await client.evaluationSet.list({
             processorId: "processor_id_here",
+            sortBy: "updatedAt",
+            sortDir: "asc",
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+            maxPageSize: 1,
         });
         expect(response).toEqual({
             success: true,
@@ -84,7 +88,31 @@ describe("EvaluationSet", () => {
         });
     });
 
-    test("create", async () => {
+    test("list (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/evaluation_sets").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.evaluationSet.list();
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("list (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { success: undefined, error: undefined };
+        server.mockEndpoint().get("/evaluation_sets").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.evaluationSet.list();
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -132,7 +160,53 @@ describe("EvaluationSet", () => {
         });
     });
 
-    test("get", async () => {
+    test("create (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: "name", description: "description", processorId: "processorId" };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/evaluation_sets")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSet.create({
+                name: "name",
+                description: "description",
+                processorId: "processorId",
+            });
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("create (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: "name", description: "description", processorId: "processorId" };
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .post("/evaluation_sets")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSet.create({
+                name: "name",
+                description: "description",
+                processorId: "processorId",
+            });
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("get (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
@@ -169,5 +243,59 @@ describe("EvaluationSet", () => {
                 updatedAt: "2024-03-21T16:45:00Z",
             },
         });
+    });
+
+    test("get (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/evaluation_sets/id")
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSet.get("id");
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("get (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .get("/evaluation_sets/id")
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSet.get("id");
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("get (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/evaluation_sets/id")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSet.get("id");
+        }).rejects.toThrow(Extend.NotFoundError);
     });
 });

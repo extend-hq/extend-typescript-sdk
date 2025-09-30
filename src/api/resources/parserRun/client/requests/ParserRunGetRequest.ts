@@ -6,7 +6,9 @@ import * as Extend from "../../../../index";
 
 /**
  * @example
- *     {}
+ *     {
+ *         responseType: "json"
+ *     }
  */
 export interface ParserRunGetRequest {
     /**

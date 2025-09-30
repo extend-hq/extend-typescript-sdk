@@ -19,6 +19,7 @@ export interface StepRun {
      * * `"PROCESSING"` - The step run is currently executing
      * * `"PROCESSED"` - The step run completed successfully
      * * `"FAILED"` - The step run encountered an error
+     * * `"CANCELLED"` - The step run was cancelled
      */
     status: Extend.StepRunStatus;
     step: Extend.StepRunStep;

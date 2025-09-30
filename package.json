@@ -1,6 +1,6 @@
 {
     "name": "extend-ai",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "private": false,
     "repository": "github:extend-hq/extend-typescript-sdk",
     "main": "./index.js",
@@ -11,7 +11,6 @@
         "prepack": "cp -rv dist/. .",
         "test": "jest --config jest.config.mjs",
         "test:unit": "jest --selectProjects unit",
-        "test:browser": "jest --selectProjects browser",
         "test:wire": "jest --selectProjects wire"
     },
     "dependencies": {
@@ -31,7 +30,7 @@
         "@types/jest": "^29.5.14",
         "ts-jest": "^29.3.4",
         "jest-environment-jsdom": "^29.7.0",
-        "msw": "^2.8.4",
+        "msw": "2.11.2",
         "@types/node": "^18.19.70",
         "prettier": "^3.4.2",
         "typescript": "~5.7.2"

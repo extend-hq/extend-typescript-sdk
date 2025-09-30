@@ -8,7 +8,10 @@ import * as Extend from "../../../../index";
  * @example
  *     {
  *         processorId: "processor_id_here",
- *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
+ *         sortBy: "updatedAt",
+ *         sortDir: "asc",
+ *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+ *         maxPageSize: 1
  *     }
  */
 export interface EvaluationSetListRequest {

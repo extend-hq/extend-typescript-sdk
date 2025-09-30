@@ -109,7 +109,14 @@ List runs of a Workflow. Workflows are sequences of steps that process files and
 
 ```typescript
 await client.workflowRun.list({
+    status: "PENDING",
+    workflowId: "workflowId",
+    batchId: "batchId",
+    fileNameContains: "fileNameContains",
+    sortBy: "updatedAt",
+    sortDir: "asc",
     nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+    maxPageSize: 1,
 });
 ```
 
@@ -401,6 +408,75 @@ await client.workflowRun.delete("workflow_run_id_here");
 **workflowRunId:** `string`
 
 The ID of the workflow run to delete.
+
+Example: `"workflow_run_xKm9pNv3qWsY_jL2tR5Dh"`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WorkflowRun.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.workflowRun.<a href="/src/api/resources/workflowRun/client/Client.ts">cancel</a>(workflowRunId) -> Extend.WorkflowRunCancelResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Cancel a running workflow run by its ID. This endpoint allows you to stop a workflow run that is currently in progress.
+
+Note: Only workflow runs with a status of `PROCESSING` or `PENDING` can be cancelled. Workflow runs that are completed, failed, in review, rejected, or already cancelled cannot be cancelled.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.workflowRun.cancel("workflow_run_id_here");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**workflowRunId:** `string`
+
+The ID of the workflow run to cancel.
 
 Example: `"workflow_run_xKm9pNv3qWsY_jL2tR5Dh"`
 
@@ -1190,7 +1266,9 @@ If parsing is still in progress, you'll receive a response with just the status.
 <dd>
 
 ```typescript
-await client.parserRun.get("parser_run_id_here");
+await client.parserRun.get("parser_run_id_here", {
+    responseType: "json",
+});
 ```
 
 </dd>
@@ -1337,7 +1415,10 @@ List files in your account. Files represent documents that have been uploaded to
 
 ```typescript
 await client.file.list({
+    nameContains: "nameContains",
+    sortDir: "asc",
     nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+    maxPageSize: 1,
 });
 ```
 
@@ -1401,7 +1482,11 @@ Fetch a file by its ID to obtain additional details and the raw file content.
 <dd>
 
 ```typescript
-await client.file.get("file_id_here");
+await client.file.get("file_id_here", {
+    rawText: true,
+    markdown: true,
+    html: true,
+});
 ```
 
 </dd>
@@ -1535,7 +1620,7 @@ This endpoint accepts file contents and registers them as a File in Extend, whic
 
 If an uploaded file is detected as a Word or PowerPoint document, it will be automatically converted to a PDF.
 
-Supported file types can be found [here](/product/supported-file-types).
+Supported file types can be found [here](/product/general/supported-file-types).
 
 This endpoint requires multipart form encoding. Most HTTP clients will handle this encoding automatically (see the examples).
 
@@ -1622,7 +1707,10 @@ This endpoint returns a paginated response. You can use the `nextPageToken` to f
 ```typescript
 await client.evaluationSet.list({
     processorId: "processor_id_here",
+    sortBy: "updatedAt",
+    sortDir: "asc",
     nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+    maxPageSize: 1,
 });
 ```
 
@@ -1827,7 +1915,10 @@ This endpoint returns a paginated response. You can use the `nextPageToken` to f
 
 ```typescript
 await client.evaluationSetItem.list("evaluation_set_id_here", {
+    sortBy: "updatedAt",
+    sortDir: "asc",
     nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+    maxPageSize: 1,
 });
 ```
 

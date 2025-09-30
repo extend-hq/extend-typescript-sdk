@@ -15,11 +15,11 @@ export declare namespace File_ {
         environment?: core.Supplier<environments.ExtendEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token: core.Supplier<core.BearerToken>;
+        token?: core.Supplier<core.BearerToken | undefined>;
         /** Override the x-extend-api-version header */
         extendApiVersion?: "2025-04-21";
         /** Additional headers to include in requests. */
-        headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
+        headers?: Record<string, string | core.Supplier<string | null | undefined> | null | undefined>;
         fetcher?: core.FetchFunction;
     }
 
@@ -35,14 +35,14 @@ export declare namespace File_ {
         /** Additional query string parameters to include in the request. */
         queryParams?: Record<string, unknown>;
         /** Additional headers to include in the request. */
-        headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
+        headers?: Record<string, string | core.Supplier<string | null | undefined> | null | undefined>;
     }
 }
 
 export class File_ {
     protected readonly _options: File_.Options;
 
-    constructor(_options: File_.Options) {
+    constructor(_options: File_.Options = {}) {
         this._options = _options;
     }
 
@@ -57,7 +57,10 @@ export class File_ {
      *
      * @example
      *     await client.file.list({
-     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
+     *         nameContains: "nameContains",
+     *         sortDir: "asc",
+     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+     *         maxPageSize: 1
      *     })
      */
     public list(
@@ -160,7 +163,11 @@ export class File_ {
      * @throws {@link Extend.NotFoundError}
      *
      * @example
-     *     await client.file.get("file_id_here")
+     *     await client.file.get("file_id_here", {
+     *         rawText: true,
+     *         markdown: true,
+     *         html: true
+     *     })
      */
     public get(
         id: string,
@@ -342,7 +349,7 @@ export class File_ {
      *
      * If an uploaded file is detected as a Word or PowerPoint document, it will be automatically converted to a PDF.
      *
-     * Supported file types can be found [here](/product/supported-file-types).
+     * Supported file types can be found [here](/product/general/supported-file-types).
      *
      * This endpoint requires multipart form encoding. Most HTTP clients will handle this encoding automatically (see the examples).
      *
@@ -432,7 +439,12 @@ export class File_ {
         }
     }
 
-    protected async _getAuthorizationHeader(): Promise<string> {
-        return `Bearer ${await core.Supplier.get(this._options.token)}`;
+    protected async _getAuthorizationHeader(): Promise<string | undefined> {
+        const bearer = await core.Supplier.get(this._options.token);
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
+        }
+
+        return undefined;
     }
 }

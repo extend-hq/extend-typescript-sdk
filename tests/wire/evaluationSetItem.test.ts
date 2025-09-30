@@ -4,9 +4,10 @@
 
 import { mockServerPool } from "../mock-server/MockServerPool";
 import { ExtendClient } from "../../src/Client";
+import * as Extend from "../../src/api/index";
 
 describe("EvaluationSetItem", () => {
-    test("list", async () => {
+    test("list (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
@@ -105,7 +106,10 @@ describe("EvaluationSetItem", () => {
             .build();
 
         const response = await client.evaluationSetItem.list("evaluation_set_id_here", {
+            sortBy: "updatedAt",
+            sortDir: "asc",
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+            maxPageSize: 1,
         });
         expect(response).toEqual({
             success: true,
@@ -259,7 +263,61 @@ describe("EvaluationSetItem", () => {
         });
     });
 
-    test("create", async () => {
+    test("list (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/evaluation_sets/id/items")
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetItem.list("id");
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("list (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .get("/evaluation_sets/id/items")
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetItem.list("id");
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("list (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/evaluation_sets/id/items")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetItem.list("id");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -311,7 +369,73 @@ describe("EvaluationSetItem", () => {
         });
     });
 
-    test("update", async () => {
+    test("create (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            evaluationSetId: "evaluationSetId",
+            fileId: "fileId",
+            expectedOutput: { value: { value: { key: "value" } } },
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/evaluation_set_items")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetItem.create({
+                evaluationSetId: "evaluationSetId",
+                fileId: "fileId",
+                expectedOutput: {
+                    value: {
+                        value: {
+                            key: "value",
+                        },
+                    },
+                },
+            });
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("create (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            evaluationSetId: "evaluationSetId",
+            fileId: "fileId",
+            expectedOutput: { value: { value: { key: "value" } } },
+        };
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .post("/evaluation_set_items")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetItem.create({
+                evaluationSetId: "evaluationSetId",
+                fileId: "fileId",
+                expectedOutput: {
+                    value: {
+                        value: {
+                            key: "value",
+                        },
+                    },
+                },
+            });
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("update (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = { expectedOutput: { value: { key: "value" } } };
@@ -357,7 +481,88 @@ describe("EvaluationSetItem", () => {
         });
     });
 
-    test("createBatch", async () => {
+    test("update (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { expectedOutput: { value: { value: { key: "value" } } } };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/evaluation_set_items/id")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetItem.update("id", {
+                expectedOutput: {
+                    value: {
+                        value: {
+                            key: "value",
+                        },
+                    },
+                },
+            });
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("update (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { expectedOutput: { value: { value: { key: "value" } } } };
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .post("/evaluation_set_items/id")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetItem.update("id", {
+                expectedOutput: {
+                    value: {
+                        value: {
+                            key: "value",
+                        },
+                    },
+                },
+            });
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("update (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { expectedOutput: { value: { value: { key: "value" } } } };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/evaluation_set_items/id")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetItem.update("id", {
+                expectedOutput: {
+                    value: {
+                        value: {
+                            key: "value",
+                        },
+                    },
+                },
+            });
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("createBatch (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -414,5 +619,103 @@ describe("EvaluationSetItem", () => {
                 },
             ],
         });
+    });
+
+    test("createBatch (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            evaluationSetId: "evaluationSetId",
+            items: [
+                { fileId: "fileId", expectedOutput: { value: { value: { key: "value" } } } },
+                { fileId: "fileId", expectedOutput: { value: { value: { key: "value" } } } },
+            ],
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/evaluation_set_items/bulk")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetItem.createBatch({
+                evaluationSetId: "evaluationSetId",
+                items: [
+                    {
+                        fileId: "fileId",
+                        expectedOutput: {
+                            value: {
+                                value: {
+                                    key: "value",
+                                },
+                            },
+                        },
+                    },
+                    {
+                        fileId: "fileId",
+                        expectedOutput: {
+                            value: {
+                                value: {
+                                    key: "value",
+                                },
+                            },
+                        },
+                    },
+                ],
+            });
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("createBatch (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            evaluationSetId: "evaluationSetId",
+            items: [
+                { fileId: "fileId", expectedOutput: { value: { value: { key: "value" } } } },
+                { fileId: "fileId", expectedOutput: { value: { value: { key: "value" } } } },
+            ],
+        };
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .post("/evaluation_set_items/bulk")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetItem.createBatch({
+                evaluationSetId: "evaluationSetId",
+                items: [
+                    {
+                        fileId: "fileId",
+                        expectedOutput: {
+                            value: {
+                                value: {
+                                    key: "value",
+                                },
+                            },
+                        },
+                    },
+                    {
+                        fileId: "fileId",
+                        expectedOutput: {
+                            value: {
+                                value: {
+                                    key: "value",
+                                },
+                            },
+                        },
+                    },
+                ],
+            });
+        }).rejects.toThrow(Extend.UnauthorizedError);
     });
 });
