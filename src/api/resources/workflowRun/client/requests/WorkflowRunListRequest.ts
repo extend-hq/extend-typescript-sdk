@@ -7,7 +7,14 @@ import * as Extend from "../../../../index";
 /**
  * @example
  *     {
- *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
+ *         status: "PENDING",
+ *         workflowId: "workflowId",
+ *         batchId: "batchId",
+ *         fileNameContains: "fileNameContains",
+ *         sortBy: "updatedAt",
+ *         sortDir: "asc",
+ *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+ *         maxPageSize: 1
  *     }
  */
 export interface WorkflowRunListRequest {
@@ -21,6 +28,8 @@ export interface WorkflowRunListRequest {
      *  * `"REJECTED"` - The workflow run was rejected during manual review
      *  * `"PROCESSED"` - The workflow run completed successfully
      *  * `"FAILED"` - The workflow run encountered an error
+     *  * `"CANCELLED"` - The workflow run was cancelled
+     *  * `"CANCELLING"` - The workflow run is being cancelled
      */
     status?: Extend.WorkflowStatus;
     /**

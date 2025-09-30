@@ -10,8 +10,18 @@
  * * `"REJECTED"` - The workflow run was rejected during review
  * * `"PROCESSED"` - The workflow run completed successfully
  * * `"FAILED"` - The workflow run encountered an error
+ * * `"CANCELLED"` - The workflow run was cancelled
+ * * `"CANCELLING"` - The workflow run is being cancelled
  */
-export type WorkflowStatus = "PENDING" | "PROCESSING" | "NEEDS_REVIEW" | "REJECTED" | "PROCESSED" | "FAILED";
+export type WorkflowStatus =
+    | "PENDING"
+    | "PROCESSING"
+    | "NEEDS_REVIEW"
+    | "REJECTED"
+    | "PROCESSED"
+    | "FAILED"
+    | "CANCELLED"
+    | "CANCELLING";
 export const WorkflowStatus = {
     Pending: "PENDING",
     Processing: "PROCESSING",
@@ -19,4 +29,6 @@ export const WorkflowStatus = {
     Rejected: "REJECTED",
     Processed: "PROCESSED",
     Failed: "FAILED",
+    Cancelled: "CANCELLED",
+    Cancelling: "CANCELLING",
 } as const;

@@ -4,9 +4,10 @@
 
 import { mockServerPool } from "../mock-server/MockServerPool";
 import { ExtendClient } from "../../src/Client";
+import * as Extend from "../../src/api/index";
 
 describe("ProcessorVersion", () => {
-    test("get", async () => {
+    test("get (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
@@ -21,6 +22,7 @@ describe("ProcessorVersion", () => {
                 description: "Updated extraction fields for new invoice format",
                 version: "draft",
                 config: {
+                    type: "CLASSIFY",
                     baseProcessor: "classification_performance",
                     baseVersion: "3.2.0",
                     classifications: [
@@ -33,7 +35,6 @@ describe("ProcessorVersion", () => {
                     ],
                     classificationRules:
                         "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
-                    type: "CLASSIFY",
                 },
                 createdAt: "2024-03-21T15:30:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
@@ -79,7 +80,61 @@ describe("ProcessorVersion", () => {
         });
     });
 
-    test("list", async () => {
+    test("get (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/processors/processorId/versions/processorVersionId")
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorVersion.get("processorId", "processorVersionId");
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("get (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .get("/processors/processorId/versions/processorVersionId")
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorVersion.get("processorId", "processorVersionId");
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("get (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/processors/processorId/versions/processorVersionId")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorVersion.get("processorId", "processorVersionId");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("list (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
@@ -95,6 +150,7 @@ describe("ProcessorVersion", () => {
                     description: "Updated extraction fields for new invoice format",
                     version: "draft",
                     config: {
+                        type: "CLASSIFY",
                         baseVersion: "3.2.0",
                         classifications: [
                             {
@@ -106,7 +162,6 @@ describe("ProcessorVersion", () => {
                         ],
                         classificationRules:
                             "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
-                        type: "CLASSIFY",
                     },
                     createdAt: "2024-03-21T15:30:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
@@ -154,7 +209,61 @@ describe("ProcessorVersion", () => {
         });
     });
 
-    test("create", async () => {
+    test("list (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/processors/id/versions")
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorVersion.list("id");
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("list (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .get("/processors/id/versions")
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorVersion.list("id");
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("list (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/processors/id/versions")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorVersion.list("id");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = { releaseType: "major" };
@@ -169,6 +278,7 @@ describe("ProcessorVersion", () => {
                 description: "Updated extraction fields for new invoice format",
                 version: "draft",
                 config: {
+                    type: "CLASSIFY",
                     baseProcessor: "classification_performance",
                     baseVersion: "3.2.0",
                     classifications: [
@@ -181,7 +291,6 @@ describe("ProcessorVersion", () => {
                     ],
                     classificationRules:
                         "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
-                    type: "CLASSIFY",
                 },
                 createdAt: "2024-03-21T15:30:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
@@ -228,5 +337,51 @@ describe("ProcessorVersion", () => {
                 updatedAt: "2024-03-21T16:45:00Z",
             },
         });
+    });
+
+    test("create (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { releaseType: "major", description: undefined, config: undefined };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/processors/id/publish")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorVersion.create("id", {
+                releaseType: "major",
+                description: undefined,
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("create (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { releaseType: "major", description: undefined, config: undefined };
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .post("/processors/id/publish")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorVersion.create("id", {
+                releaseType: "major",
+                description: undefined,
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.UnauthorizedError);
     });
 });

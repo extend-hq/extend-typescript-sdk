@@ -7,7 +7,7 @@ import * as Extend from "../index";
 import * as core from "../../core";
 
 export class UnprocessableEntityError extends errors.ExtendError {
-    constructor(body: Extend.Error_, rawResponse?: core.RawResponse) {
+    constructor(body: Extend.ExtendError, rawResponse?: core.RawResponse) {
         super({
             message: "UnprocessableEntityError",
             statusCode: 422,

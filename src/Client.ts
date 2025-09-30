@@ -25,11 +25,11 @@ export declare namespace ExtendClient {
         environment?: core.Supplier<environments.ExtendEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token: core.Supplier<core.BearerToken>;
+        token?: core.Supplier<core.BearerToken | undefined>;
         /** Override the x-extend-api-version header */
         extendApiVersion?: "2025-04-21";
         /** Additional headers to include in requests. */
-        headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
+        headers?: Record<string, string | core.Supplier<string | null | undefined> | null | undefined>;
         fetcher?: core.FetchFunction;
     }
 
@@ -45,7 +45,7 @@ export declare namespace ExtendClient {
         /** Additional query string parameters to include in the request. */
         queryParams?: Record<string, unknown>;
         /** Additional headers to include in the request. */
-        headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
+        headers?: Record<string, string | core.Supplier<string | null | undefined> | null | undefined>;
     }
 }
 
@@ -64,7 +64,7 @@ export class ExtendClient {
     protected _batchProcessorRun: BatchProcessorRun | undefined;
     protected _workflow: Workflow | undefined;
 
-    constructor(_options: ExtendClient.Options) {
+    constructor(_options: ExtendClient.Options = {}) {
         this._options = {
             ..._options,
             headers: mergeHeaders(
@@ -72,8 +72,8 @@ export class ExtendClient {
                     "x-extend-api-version": _options?.extendApiVersion ?? "2025-04-21",
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "extend-ai",
-                    "X-Fern-SDK-Version": "0.0.6",
-                    "User-Agent": "extend-ai/0.0.6",
+                    "X-Fern-SDK-Version": "0.0.7",
+                    "User-Agent": "extend-ai/0.0.7",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                 },
@@ -142,10 +142,14 @@ export class ExtendClient {
      *
      * @throws {@link Extend.BadRequestError}
      * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.PaymentRequiredError}
+     * @throws {@link Extend.NotFoundError}
      * @throws {@link Extend.UnprocessableEntityError}
+     * @throws {@link Extend.InternalServerError}
      *
      * @example
      *     await client.parse({
+     *         responseType: "json",
      *         file: {}
      *     })
      */
@@ -201,9 +205,18 @@ export class ExtendClient {
                     throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
                     throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                case 402:
+                    throw new Extend.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
                     throw new Extend.UnprocessableEntityError(
-                        _response.error.body as Extend.Error_,
+                        _response.error.body as Extend.ExtendError,
+                        _response.rawResponse,
+                    );
+                case 500:
+                    throw new Extend.InternalServerError(
+                        _response.error.body as Extend.ExtendError,
                         _response.rawResponse,
                     );
                 default:
@@ -328,7 +341,12 @@ export class ExtendClient {
         }
     }
 
-    protected async _getAuthorizationHeader(): Promise<string> {
-        return `Bearer ${await core.Supplier.get(this._options.token)}`;
+    protected async _getAuthorizationHeader(): Promise<string | undefined> {
+        const bearer = await core.Supplier.get(this._options.token);
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
+        }
+
+        return undefined;
     }
 }

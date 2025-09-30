@@ -4,9 +4,10 @@
 
 import { mockServerPool } from "../mock-server/MockServerPool";
 import { ExtendClient } from "../../src/Client";
+import * as Extend from "../../src/api/index";
 
 describe("Processor", () => {
-    test("create", async () => {
+    test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "My Processor Name", type: "EXTRACT" };
@@ -28,6 +29,7 @@ describe("Processor", () => {
                     description: "Updated extraction fields for new invoice format",
                     version: "draft",
                     config: {
+                        type: "CLASSIFY",
                         baseVersion: "3.2.0",
                         classifications: [
                             {
@@ -39,7 +41,6 @@ describe("Processor", () => {
                         ],
                         classificationRules:
                             "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
-                        type: "CLASSIFY",
                     },
                     createdAt: "2024-03-21T15:30:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
@@ -97,7 +98,79 @@ describe("Processor", () => {
         });
     });
 
-    test("update", async () => {
+    test("create (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: "name", type: "EXTRACT", cloneProcessorId: undefined, config: undefined };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/processors")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processor.create({
+                name: "name",
+                type: "EXTRACT",
+                cloneProcessorId: undefined,
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("create (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: "name", type: "EXTRACT", cloneProcessorId: undefined, config: undefined };
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .post("/processors")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processor.create({
+                name: "name",
+                type: "EXTRACT",
+                cloneProcessorId: undefined,
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("create (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: "name", type: "EXTRACT", cloneProcessorId: undefined, config: undefined };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/processors")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processor.create({
+                name: "name",
+                type: "EXTRACT",
+                cloneProcessorId: undefined,
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("update (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = {};
@@ -119,6 +192,7 @@ describe("Processor", () => {
                     description: "Updated extraction fields for new invoice format",
                     version: "draft",
                     config: {
+                        type: "CLASSIFY",
                         baseVersion: "3.2.0",
                         classifications: [
                             {
@@ -130,7 +204,6 @@ describe("Processor", () => {
                         ],
                         classificationRules:
                             "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
-                        type: "CLASSIFY",
                     },
                     createdAt: "2024-03-21T15:30:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
@@ -183,5 +256,71 @@ describe("Processor", () => {
                 },
             },
         });
+    });
+
+    test("update (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: undefined, config: undefined };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/processors/id")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processor.update("id", {
+                name: undefined,
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("update (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: undefined, config: undefined };
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .post("/processors/id")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processor.update("id", {
+                name: undefined,
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("update (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: undefined, config: undefined };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/processors/id")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processor.update("id", {
+                name: undefined,
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.NotFoundError);
     });
 });

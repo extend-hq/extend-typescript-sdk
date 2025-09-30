@@ -8,11 +8,13 @@
  * * `"PROCESSING"` - The step run is currently executing
  * * `"PROCESSED"` - The step run completed successfully
  * * `"FAILED"` - The step run encountered an error
+ * * `"CANCELLED"` - The step run was cancelled
  */
-export type StepRunStatus = "PENDING" | "PROCESSING" | "PROCESSED" | "FAILED";
+export type StepRunStatus = "PENDING" | "PROCESSING" | "PROCESSED" | "FAILED" | "CANCELLED";
 export const StepRunStatus = {
     Pending: "PENDING",
     Processing: "PROCESSING",
     Processed: "PROCESSED",
     Failed: "FAILED",
+    Cancelled: "CANCELLED",
 } as const;

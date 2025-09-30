@@ -7,6 +7,7 @@ import * as Extend from "../../index";
 /**
  * @example
  *     {
+ *         responseType: "json",
  *         file: {}
  *     }
  */
