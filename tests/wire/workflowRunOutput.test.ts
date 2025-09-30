@@ -4,9 +4,10 @@
 
 import { mockServerPool } from "../mock-server/MockServerPool";
 import { ExtendClient } from "../../src/Client";
+import * as Extend from "../../src/api/index";
 
 describe("WorkflowRunOutput", () => {
-    test("update", async () => {
+    test("update (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = { reviewedOutput: { value: { key: "value" } } };
@@ -58,12 +59,13 @@ describe("WorkflowRunOutput", () => {
                         processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
                         processorName: "Invoice Processor",
                         status: "PROCESSING",
-                        output: { value: { key: "value" }, metadata: { key: {} } },
+                        output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                         reviewed: false,
                         edited: false,
                         edits: { key: { notes: "This is a note about the edit.", page: 15, fieldType: "string" } },
                         type: "CLASSIFY",
                         config: {
+                            type: "CLASSIFY",
                             baseVersion: "3.2.0",
                             classifications: [
                                 {
@@ -75,7 +77,6 @@ describe("WorkflowRunOutput", () => {
                             ],
                             classificationRules:
                                 "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
-                            type: "CLASSIFY",
                         },
                         files: [
                             {
@@ -200,7 +201,9 @@ describe("WorkflowRunOutput", () => {
                                 key: "value",
                             },
                             metadata: {
-                                key: {},
+                                key: {
+                                    logprobsConfidence: undefined,
+                                },
                             },
                         },
                         reviewed: false,
@@ -279,5 +282,86 @@ describe("WorkflowRunOutput", () => {
                 },
             },
         });
+    });
+
+    test("update (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { reviewedOutput: { value: { value: { key: "value" } } } };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/workflow_runs/workflowRunId/outputs/outputId")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflowRunOutput.update("workflowRunId", "outputId", {
+                reviewedOutput: {
+                    value: {
+                        value: {
+                            key: "value",
+                        },
+                    },
+                },
+            });
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("update (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { reviewedOutput: { value: { value: { key: "value" } } } };
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .post("/workflow_runs/workflowRunId/outputs/outputId")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflowRunOutput.update("workflowRunId", "outputId", {
+                reviewedOutput: {
+                    value: {
+                        value: {
+                            key: "value",
+                        },
+                    },
+                },
+            });
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("update (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { reviewedOutput: { value: { value: { key: "value" } } } };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/workflow_runs/workflowRunId/outputs/outputId")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflowRunOutput.update("workflowRunId", "outputId", {
+                reviewedOutput: {
+                    value: {
+                        value: {
+                            key: "value",
+                        },
+                    },
+                },
+            });
+        }).rejects.toThrow(Extend.NotFoundError);
     });
 });

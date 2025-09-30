@@ -4,7 +4,11 @@
 
 /**
  * @example
- *     {}
+ *     {
+ *         rawText: true,
+ *         markdown: true,
+ *         html: true
+ *     }
  */
 export interface FileGetRequest {
     /** If set to true, the raw text content of the file will be included in the response. This is useful for indexing text-based files like PDFs, Word Documents, etc. */

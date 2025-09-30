@@ -4,9 +4,10 @@
 
 import { mockServerPool } from "../mock-server/MockServerPool";
 import { ExtendClient } from "../../src/Client";
+import * as Extend from "../../src/api/index";
 
 describe("ProcessorRun", () => {
-    test("create", async () => {
+    test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = { processorId: "processor_id_here" };
@@ -25,11 +26,11 @@ describe("ProcessorRun", () => {
                 edits: { key: { notes: "This is a note about the edit.", page: 15, fieldType: "string" } },
                 type: "EXTRACT",
                 config: {
+                    type: "EXTRACT",
                     baseProcessor: "extraction_performance",
                     baseVersion: "baseVersion",
                     extractionRules: "extractionRules",
                     schema: { key: "value" },
-                    type: "EXTRACT",
                 },
                 files: [
                     {
@@ -116,7 +117,155 @@ describe("ProcessorRun", () => {
         });
     });
 
-    test("get", async () => {
+    test("create (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            processorId: "processorId",
+            version: undefined,
+            file: undefined,
+            rawText: undefined,
+            sync: undefined,
+            priority: undefined,
+            metadata: undefined,
+            config: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/processor_runs")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorRun.create({
+                processorId: "processorId",
+                version: undefined,
+                file: undefined,
+                rawText: undefined,
+                sync: undefined,
+                priority: undefined,
+                metadata: undefined,
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("create (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            processorId: "processorId",
+            version: undefined,
+            file: undefined,
+            rawText: undefined,
+            sync: undefined,
+            priority: undefined,
+            metadata: undefined,
+            config: undefined,
+        };
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .post("/processor_runs")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorRun.create({
+                processorId: "processorId",
+                version: undefined,
+                file: undefined,
+                rawText: undefined,
+                sync: undefined,
+                priority: undefined,
+                metadata: undefined,
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("create (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            processorId: "processorId",
+            version: undefined,
+            file: undefined,
+            rawText: undefined,
+            sync: undefined,
+            priority: undefined,
+            metadata: undefined,
+            config: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/processor_runs")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorRun.create({
+                processorId: "processorId",
+                version: undefined,
+                file: undefined,
+                rawText: undefined,
+                sync: undefined,
+                priority: undefined,
+                metadata: undefined,
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("create (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            processorId: "processorId",
+            version: undefined,
+            file: undefined,
+            rawText: undefined,
+            sync: undefined,
+            priority: undefined,
+            metadata: undefined,
+            config: undefined,
+        };
+        const rawResponseBody = { error: "error" };
+        server
+            .mockEndpoint()
+            .post("/processor_runs")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(429)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorRun.create({
+                processorId: "processorId",
+                version: undefined,
+                file: undefined,
+                rawText: undefined,
+                sync: undefined,
+                priority: undefined,
+                metadata: undefined,
+                config: undefined,
+            });
+        }).rejects.toThrow(Extend.TooManyRequestsError);
+    });
+
+    test("get (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
@@ -129,7 +278,7 @@ describe("ProcessorRun", () => {
                 processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
                 processorName: "Invoice Processor",
                 status: "PROCESSING",
-                output: { value: { key: "value" }, metadata: { key: {} } },
+                output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                 failureReason: "failureReason",
                 failureMessage: "failureMessage",
                 metadata: { key: "value" },
@@ -138,6 +287,7 @@ describe("ProcessorRun", () => {
                 edits: { key: { notes: "This is a note about the edit.", page: 15, fieldType: "string" } },
                 type: "CLASSIFY",
                 config: {
+                    type: "CLASSIFY",
                     baseProcessor: "classification_performance",
                     baseVersion: "3.2.0",
                     classifications: [
@@ -150,10 +300,9 @@ describe("ProcessorRun", () => {
                     ],
                     classificationRules:
                         "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
-                    type: "CLASSIFY",
                 },
-                initialOutput: { value: { key: "value" }, metadata: { key: {} } },
-                reviewedOutput: { value: { key: "value" }, metadata: { key: {} } },
+                initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
+                reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                 files: [
                     {
                         object: "file",
@@ -208,7 +357,9 @@ describe("ProcessorRun", () => {
                         key: "value",
                     },
                     metadata: {
-                        key: {},
+                        key: {
+                            logprobsConfidence: undefined,
+                        },
                     },
                 },
                 failureReason: "failureReason",
@@ -246,7 +397,9 @@ describe("ProcessorRun", () => {
                         key: "value",
                     },
                     metadata: {
-                        key: {},
+                        key: {
+                            logprobsConfidence: undefined,
+                        },
                     },
                 },
                 reviewedOutput: {
@@ -254,7 +407,9 @@ describe("ProcessorRun", () => {
                         key: "value",
                     },
                     metadata: {
-                        key: {},
+                        key: {
+                            logprobsConfidence: undefined,
+                        },
                     },
                 },
                 files: [
@@ -290,7 +445,43 @@ describe("ProcessorRun", () => {
         });
     });
 
-    test("delete", async () => {
+    test("get (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/processor_runs/id").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.processorRun.get("id");
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("get (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { success: undefined, error: undefined };
+        server.mockEndpoint().get("/processor_runs/id").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.processorRun.get("id");
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("get (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/processor_runs/id").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.processorRun.get("id");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("delete (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
@@ -315,7 +506,43 @@ describe("ProcessorRun", () => {
         });
     });
 
-    test("cancel", async () => {
+    test("delete (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .delete("/processor_runs/id")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorRun.delete("id");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("delete (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", requestId: "requestId", retryable: true };
+        server
+            .mockEndpoint()
+            .delete("/processor_runs/id")
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorRun.delete("id");
+        }).rejects.toThrow(Extend.InternalServerError);
+    });
+
+    test("cancel (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
@@ -328,7 +555,7 @@ describe("ProcessorRun", () => {
                 processorVersionId: "dpv_YrgxmNn83sAO0JChhmLpa",
                 processorName: "My Processor",
                 status: "CANCELLED",
-                output: { value: { key: "value" }, metadata: { key: {} } },
+                output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                 failureReason: "failureReason",
                 failureMessage: "failureMessage",
                 metadata: { key: "value" },
@@ -337,6 +564,7 @@ describe("ProcessorRun", () => {
                 edits: { key: { notes: "This is a note about the edit.", page: 15, fieldType: "string" } },
                 type: "CLASSIFY",
                 config: {
+                    type: "CLASSIFY",
                     baseProcessor: "classification_performance",
                     baseVersion: "3.2.0",
                     classifications: [
@@ -349,10 +577,9 @@ describe("ProcessorRun", () => {
                     ],
                     classificationRules:
                         "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
-                    type: "CLASSIFY",
                 },
-                initialOutput: { value: { key: "value" }, metadata: { key: {} } },
-                reviewedOutput: { value: { key: "value" }, metadata: { key: {} } },
+                initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
+                reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                 files: [
                     {
                         object: "file",
@@ -407,7 +634,9 @@ describe("ProcessorRun", () => {
                         key: "value",
                     },
                     metadata: {
-                        key: {},
+                        key: {
+                            logprobsConfidence: undefined,
+                        },
                     },
                 },
                 failureReason: "failureReason",
@@ -445,7 +674,9 @@ describe("ProcessorRun", () => {
                         key: "value",
                     },
                     metadata: {
-                        key: {},
+                        key: {
+                            logprobsConfidence: undefined,
+                        },
                     },
                 },
                 reviewedOutput: {
@@ -453,7 +684,9 @@ describe("ProcessorRun", () => {
                         key: "value",
                     },
                     metadata: {
-                        key: {},
+                        key: {
+                            logprobsConfidence: undefined,
+                        },
                     },
                 },
                 files: [
@@ -487,5 +720,59 @@ describe("ProcessorRun", () => {
                 url: "https://dashboard.extend.ai/runs/dpr_Xj8mK2pL9nR4vT7qY5wZ",
             },
         });
+    });
+
+    test("cancel (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/processor_runs/id/cancel")
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorRun.cancel("id");
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("cancel (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .post("/processor_runs/id/cancel")
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorRun.cancel("id");
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("cancel (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/processor_runs/id/cancel")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorRun.cancel("id");
+        }).rejects.toThrow(Extend.NotFoundError);
     });
 });
