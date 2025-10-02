@@ -578,6 +578,80 @@ await client.batchWorkflowRun.create({
 
 ## ProcessorRun
 
+<details><summary><code>client.processorRun.<a href="/src/api/resources/processorRun/client/Client.ts">list</a>({ ...params }) -> Extend.ProcessorRunListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List runs of a Processor. A ProcessorRun represents a single execution of a processor against a file.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.processorRun.list({
+    status: "PENDING",
+    processorId: "processorId",
+    processorType: "EXTRACT",
+    sourceId: "sourceId",
+    source: "ADMIN",
+    fileNameContains: "fileNameContains",
+    sortBy: "updatedAt",
+    sortDir: "asc",
+    nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+    maxPageSize: 1,
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.ProcessorRunListRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ProcessorRun.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.processorRun.<a href="/src/api/resources/processorRun/client/Client.ts">create</a>({ ...params }) -> Extend.ProcessorRunCreateResponse</code></summary>
 <dl>
 <dd>

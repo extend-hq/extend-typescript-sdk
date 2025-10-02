@@ -27,14 +27,7 @@ export interface ProcessorRun {
      * Example: `"Invoice Processor"`
      */
     processorName: string;
-    /**
-     * The current status of the processor run:
-     * * `"PROCESSING"` - The processor is currently running
-     * * `"PROCESSED"` - The processor has completed successfully
-     * * `"FAILED"` - The processor encountered an error
-     * * `"CANCELLED"` - The processor run was cancelled
-     */
-    status: Extend.ProcessorRunStatus;
+    status: Extend.ProcessorStatus;
     /**
      * The final output, either reviewed or initial.
      *

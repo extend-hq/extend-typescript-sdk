@@ -58,7 +58,7 @@ describe("WorkflowRunOutput", () => {
                         processorId: "dp_Xj8mK2pL9nR4vT7qY5wZ",
                         processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
                         processorName: "Invoice Processor",
-                        status: "PROCESSING",
+                        status: "PENDING",
                         output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                         reviewed: false,
                         edited: false,
@@ -195,7 +195,7 @@ describe("WorkflowRunOutput", () => {
                         processorId: "dp_Xj8mK2pL9nR4vT7qY5wZ",
                         processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
                         processorName: "Invoice Processor",
-                        status: "PROCESSING",
+                        status: "PENDING",
                         output: {
                             value: {
                                 key: "value",
