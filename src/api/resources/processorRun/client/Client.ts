@@ -45,6 +45,151 @@ export class ProcessorRun {
     }
 
     /**
+     * List runs of a Processor. A ProcessorRun represents a single execution of a processor against a file.
+     *
+     * @param {Extend.ProcessorRunListRequest} request
+     * @param {ProcessorRun.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     *
+     * @example
+     *     await client.processorRun.list({
+     *         status: "PENDING",
+     *         processorId: "processorId",
+     *         processorType: "EXTRACT",
+     *         sourceId: "sourceId",
+     *         source: "ADMIN",
+     *         fileNameContains: "fileNameContains",
+     *         sortBy: "updatedAt",
+     *         sortDir: "asc",
+     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+     *         maxPageSize: 1
+     *     })
+     */
+    public list(
+        request: Extend.ProcessorRunListRequest = {},
+        requestOptions?: ProcessorRun.RequestOptions,
+    ): core.HttpResponsePromise<Extend.ProcessorRunListResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
+    }
+
+    private async __list(
+        request: Extend.ProcessorRunListRequest = {},
+        requestOptions?: ProcessorRun.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.ProcessorRunListResponse>> {
+        const {
+            status,
+            processorId,
+            processorType,
+            sourceId,
+            source,
+            fileNameContains,
+            sortBy,
+            sortDir,
+            nextPageToken,
+            maxPageSize,
+        } = request;
+        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
+        if (status != null) {
+            _queryParams["status"] = status;
+        }
+
+        if (processorId != null) {
+            _queryParams["processorId"] = processorId;
+        }
+
+        if (processorType != null) {
+            _queryParams["processorType"] = processorType;
+        }
+
+        if (sourceId != null) {
+            _queryParams["sourceId"] = sourceId;
+        }
+
+        if (source != null) {
+            _queryParams["source"] = source;
+        }
+
+        if (fileNameContains != null) {
+            _queryParams["fileNameContains"] = fileNameContains;
+        }
+
+        if (sortBy != null) {
+            _queryParams["sortBy"] = sortBy;
+        }
+
+        if (sortDir != null) {
+            _queryParams["sortDir"] = sortDir;
+        }
+
+        if (nextPageToken != null) {
+            _queryParams["nextPageToken"] = nextPageToken;
+        }
+
+        if (maxPageSize != null) {
+            _queryParams["maxPageSize"] = maxPageSize.toString();
+        }
+
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+            }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                "processor_runs",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.ProcessorRunListResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ExtendError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.ExtendTimeoutError("Timeout exceeded when calling GET /processor_runs.");
+            case "unknown":
+                throw new errors.ExtendError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
      * Run processors (extraction, classification, splitting, etc.) on a given document.
      *
      * **Synchronous vs Asynchronous Processing:**

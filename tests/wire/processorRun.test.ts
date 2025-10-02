@@ -7,6 +7,82 @@ import { ExtendClient } from "../../src/Client";
 import * as Extend from "../../src/api/index";
 
 describe("ProcessorRun", () => {
+    test("list (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = {
+            success: true,
+            processorRuns: [
+                {
+                    id: "dpr_Zk9mNP12Qw4-yTv8BdR3H",
+                    status: "PROCESSED",
+                    processorId: "dp_BMdfq_yWM3sT-ZzvCnA3f",
+                    processorName: "Invoice Extractor",
+                    processorVersionId: "dpv_Zk9mNP12Qw4-yTv8BdR3H",
+                    type: "EXTRACT",
+                    createdAt: "2024-03-21T15:29:55Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
+            nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+        };
+        server.mockEndpoint().get("/processor_runs").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
+
+        const response = await client.processorRun.list({
+            status: "PENDING",
+            processorId: "processorId",
+            processorType: "EXTRACT",
+            sourceId: "sourceId",
+            source: "ADMIN",
+            fileNameContains: "fileNameContains",
+            sortBy: "updatedAt",
+            sortDir: "asc",
+            nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+            maxPageSize: 1,
+        });
+        expect(response).toEqual({
+            success: true,
+            processorRuns: [
+                {
+                    id: "dpr_Zk9mNP12Qw4-yTv8BdR3H",
+                    status: "PROCESSED",
+                    processorId: "dp_BMdfq_yWM3sT-ZzvCnA3f",
+                    processorName: "Invoice Extractor",
+                    processorVersionId: "dpv_Zk9mNP12Qw4-yTv8BdR3H",
+                    type: "EXTRACT",
+                    createdAt: "2024-03-21T15:29:55Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
+            nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+        });
+    });
+
+    test("list (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/processor_runs").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.processorRun.list();
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("list (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { success: undefined, error: undefined };
+        server.mockEndpoint().get("/processor_runs").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.processorRun.list();
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
@@ -277,7 +353,7 @@ describe("ProcessorRun", () => {
                 processorId: "dp_Xj8mK2pL9nR4vT7qY5wZ",
                 processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
                 processorName: "Invoice Processor",
-                status: "PROCESSING",
+                status: "PENDING",
                 output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                 failureReason: "failureReason",
                 failureMessage: "failureMessage",
@@ -351,7 +427,7 @@ describe("ProcessorRun", () => {
                 processorId: "dp_Xj8mK2pL9nR4vT7qY5wZ",
                 processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
                 processorName: "Invoice Processor",
-                status: "PROCESSING",
+                status: "PENDING",
                 output: {
                     value: {
                         key: "value",
