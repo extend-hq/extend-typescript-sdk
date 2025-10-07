@@ -49,6 +49,7 @@ describe("ExtendClient", () => {
                     ],
                 },
             },
+            usage: { credits: 10 },
         };
         server
             .mockEndpoint()
@@ -134,6 +135,9 @@ describe("ExtendClient", () => {
                         },
                     ],
                 },
+            },
+            usage: {
+                credits: 10,
             },
         });
     });

@@ -30,4 +30,5 @@ export interface ParserRun {
     metrics: Extend.ParserRunMetrics;
     /** The configuration used for the parsing process, including any default values that were applied. */
     config: Extend.ParseConfig;
+    usage?: Extend.ParserRunCredits;
 }

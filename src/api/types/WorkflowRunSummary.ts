@@ -84,4 +84,5 @@ export interface WorkflowRunSummary {
      * Example: `"2024-03-21T16:45:00Z"`
      */
     updatedAt: string;
+    usage?: Extend.WorkflowRunCredits;
 }
