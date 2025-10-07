@@ -85,4 +85,5 @@ export interface WorkflowRun {
      */
     stepRuns: Extend.StepRun[];
     workflow: Extend.Workflow;
+    usage?: Extend.WorkflowRunCredits;
 }

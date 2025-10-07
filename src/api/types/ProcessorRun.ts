@@ -70,4 +70,5 @@ export interface ProcessorRun {
     mergedProcessors: Extend.ProcessorRunMergedProcessorsItem[];
     /** The URL to view the processor run. */
     url: string;
+    usage?: Extend.DocumentProcessorRunCredits;
 }

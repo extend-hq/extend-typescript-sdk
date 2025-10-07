@@ -41,6 +41,7 @@ describe("File_", () => {
                     },
                     createdAt: "2024-03-21T15:30:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
+                    usage: { credits: 10 },
                 },
             ],
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
@@ -94,6 +95,9 @@ describe("File_", () => {
                     },
                     createdAt: "2024-03-21T15:30:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
+                    usage: {
+                        credits: 10,
+                    },
                 },
             ],
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
@@ -159,6 +163,7 @@ describe("File_", () => {
                 },
                 createdAt: "2024-03-21T15:30:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
+                usage: { credits: 10 },
             },
         };
         server
@@ -216,6 +221,9 @@ describe("File_", () => {
                 },
                 createdAt: "2024-03-21T15:30:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
+                usage: {
+                    credits: 10,
+                },
             },
         });
     });

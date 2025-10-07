@@ -29,6 +29,7 @@ describe("WorkflowRun", () => {
                     rejectionNote: "Invalid invoice format",
                     createdAt: "2024-03-21T15:29:55Z",
                     updatedAt: "2024-03-21T16:45:00Z",
+                    usage: { credits: 25 },
                 },
             ],
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
@@ -63,6 +64,9 @@ describe("WorkflowRun", () => {
                     rejectionNote: "Invalid invoice format",
                     createdAt: "2024-03-21T15:29:55Z",
                     updatedAt: "2024-03-21T16:45:00Z",
+                    usage: {
+                        credits: 25,
+                    },
                 },
             ],
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
@@ -117,6 +121,7 @@ describe("WorkflowRun", () => {
                             metadata: {},
                             createdAt: "2025-05-12T21:34:54Z",
                             updatedAt: "2025-05-12T21:34:54Z",
+                            usage: { credits: 10 },
                         },
                     ],
                     initialRunAt: "2025-05-12T21:34:54Z",
@@ -168,6 +173,7 @@ describe("WorkflowRun", () => {
                                     },
                                     createdAt: "2024-03-21T15:30:00Z",
                                     updatedAt: "2024-03-21T16:45:00Z",
+                                    usage: { credits: 10 },
                                 },
                             ],
                             mergedProcessors: [
@@ -178,6 +184,7 @@ describe("WorkflowRun", () => {
                                 },
                             ],
                             url: "https://dashboard.extend.ai/runs/dpr_Xj8mK2pL9nR4vT7qY5wZ",
+                            usage: { credits: 3.5 },
                         },
                     ],
                     stepRuns: [
@@ -199,6 +206,7 @@ describe("WorkflowRun", () => {
                         version: "1",
                         name: "My Workflow",
                     },
+                    usage: { credits: 25 },
                 },
             ],
         };
@@ -236,6 +244,9 @@ describe("WorkflowRun", () => {
                             metadata: {},
                             createdAt: "2025-05-12T21:34:54Z",
                             updatedAt: "2025-05-12T21:34:54Z",
+                            usage: {
+                                credits: 10,
+                            },
                         },
                     ],
                     initialRunAt: "2025-05-12T21:34:54Z",
@@ -302,6 +313,9 @@ describe("WorkflowRun", () => {
                                     },
                                     createdAt: "2024-03-21T15:30:00Z",
                                     updatedAt: "2024-03-21T16:45:00Z",
+                                    usage: {
+                                        credits: 10,
+                                    },
                                 },
                             ],
                             mergedProcessors: [
@@ -312,6 +326,9 @@ describe("WorkflowRun", () => {
                                 },
                             ],
                             url: "https://dashboard.extend.ai/runs/dpr_Xj8mK2pL9nR4vT7qY5wZ",
+                            usage: {
+                                credits: 3.5,
+                            },
                         },
                     ],
                     stepRuns: [
@@ -332,6 +349,9 @@ describe("WorkflowRun", () => {
                         id: "workflow_YH1ZEST4sxgUT7w84KBGa",
                         version: "1",
                         name: "My Workflow",
+                    },
+                    usage: {
+                        credits: 25,
                     },
                 },
             ],
@@ -437,6 +457,7 @@ describe("WorkflowRun", () => {
                         },
                         createdAt: "2024-03-21T15:30:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
+                        usage: { credits: 10 },
                     },
                 ],
                 failureReason: "failureReason",
@@ -494,6 +515,7 @@ describe("WorkflowRun", () => {
                                 },
                                 createdAt: "2024-03-21T15:30:00Z",
                                 updatedAt: "2024-03-21T16:45:00Z",
+                                usage: { credits: 10 },
                             },
                         ],
                         mergedProcessors: [
@@ -504,6 +526,7 @@ describe("WorkflowRun", () => {
                             },
                         ],
                         url: "https://dashboard.extend.ai/runs/dpr_Xj8mK2pL9nR4vT7qY5wZ",
+                        usage: { credits: 3.5 },
                     },
                 ],
                 stepRuns: [
@@ -525,6 +548,7 @@ describe("WorkflowRun", () => {
                     version: "draft",
                     name: "Invoice Processing",
                 },
+                usage: { credits: 25 },
             },
         };
         server
@@ -567,6 +591,9 @@ describe("WorkflowRun", () => {
                         },
                         createdAt: "2024-03-21T15:30:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
+                        usage: {
+                            credits: 10,
+                        },
                     },
                 ],
                 failureReason: "failureReason",
@@ -639,6 +666,9 @@ describe("WorkflowRun", () => {
                                 },
                                 createdAt: "2024-03-21T15:30:00Z",
                                 updatedAt: "2024-03-21T16:45:00Z",
+                                usage: {
+                                    credits: 10,
+                                },
                             },
                         ],
                         mergedProcessors: [
@@ -649,6 +679,9 @@ describe("WorkflowRun", () => {
                             },
                         ],
                         url: "https://dashboard.extend.ai/runs/dpr_Xj8mK2pL9nR4vT7qY5wZ",
+                        usage: {
+                            credits: 3.5,
+                        },
                     },
                 ],
                 stepRuns: [
@@ -669,6 +702,9 @@ describe("WorkflowRun", () => {
                     id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
                     version: "draft",
                     name: "Invoice Processing",
+                },
+                usage: {
+                    credits: 25,
                 },
             },
         });
@@ -761,6 +797,7 @@ describe("WorkflowRun", () => {
                         },
                         createdAt: "2024-03-21T15:30:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
+                        usage: { credits: 10 },
                     },
                 ],
                 failureReason: "failureReason",
@@ -818,6 +855,7 @@ describe("WorkflowRun", () => {
                                 },
                                 createdAt: "2024-03-21T15:30:00Z",
                                 updatedAt: "2024-03-21T16:45:00Z",
+                                usage: { credits: 10 },
                             },
                         ],
                         mergedProcessors: [
@@ -828,6 +866,7 @@ describe("WorkflowRun", () => {
                             },
                         ],
                         url: "https://dashboard.extend.ai/runs/dpr_Xj8mK2pL9nR4vT7qY5wZ",
+                        usage: { credits: 3.5 },
                     },
                 ],
                 stepRuns: [
@@ -849,6 +888,7 @@ describe("WorkflowRun", () => {
                     version: "draft",
                     name: "Invoice Processing",
                 },
+                usage: { credits: 25 },
             },
         };
         server
@@ -892,6 +932,9 @@ describe("WorkflowRun", () => {
                         },
                         createdAt: "2024-03-21T15:30:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
+                        usage: {
+                            credits: 10,
+                        },
                     },
                 ],
                 failureReason: "failureReason",
@@ -964,6 +1007,9 @@ describe("WorkflowRun", () => {
                                 },
                                 createdAt: "2024-03-21T15:30:00Z",
                                 updatedAt: "2024-03-21T16:45:00Z",
+                                usage: {
+                                    credits: 10,
+                                },
                             },
                         ],
                         mergedProcessors: [
@@ -974,6 +1020,9 @@ describe("WorkflowRun", () => {
                             },
                         ],
                         url: "https://dashboard.extend.ai/runs/dpr_Xj8mK2pL9nR4vT7qY5wZ",
+                        usage: {
+                            credits: 3.5,
+                        },
                     },
                 ],
                 stepRuns: [
@@ -994,6 +1043,9 @@ describe("WorkflowRun", () => {
                     id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
                     version: "draft",
                     name: "Invoice Processing",
+                },
+                usage: {
+                    credits: 25,
                 },
             },
         });
@@ -1159,6 +1211,7 @@ describe("WorkflowRun", () => {
                         },
                         createdAt: "2024-03-21T15:30:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
+                        usage: { credits: 10 },
                     },
                 ],
                 failureReason: "failureReason",
@@ -1216,6 +1269,7 @@ describe("WorkflowRun", () => {
                                 },
                                 createdAt: "2024-03-21T15:30:00Z",
                                 updatedAt: "2024-03-21T16:45:00Z",
+                                usage: { credits: 10 },
                             },
                         ],
                         mergedProcessors: [
@@ -1226,6 +1280,7 @@ describe("WorkflowRun", () => {
                             },
                         ],
                         url: "https://dashboard.extend.ai/runs/dpr_Xj8mK2pL9nR4vT7qY5wZ",
+                        usage: { credits: 3.5 },
                     },
                 ],
                 stepRuns: [
@@ -1247,6 +1302,7 @@ describe("WorkflowRun", () => {
                     version: "draft",
                     name: "Invoice Processing",
                 },
+                usage: { credits: 25 },
             },
         };
         server
@@ -1289,6 +1345,9 @@ describe("WorkflowRun", () => {
                         },
                         createdAt: "2024-03-21T15:30:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
+                        usage: {
+                            credits: 10,
+                        },
                     },
                 ],
                 failureReason: "failureReason",
@@ -1361,6 +1420,9 @@ describe("WorkflowRun", () => {
                                 },
                                 createdAt: "2024-03-21T15:30:00Z",
                                 updatedAt: "2024-03-21T16:45:00Z",
+                                usage: {
+                                    credits: 10,
+                                },
                             },
                         ],
                         mergedProcessors: [
@@ -1371,6 +1433,9 @@ describe("WorkflowRun", () => {
                             },
                         ],
                         url: "https://dashboard.extend.ai/runs/dpr_Xj8mK2pL9nR4vT7qY5wZ",
+                        usage: {
+                            credits: 3.5,
+                        },
                     },
                 ],
                 stepRuns: [
@@ -1391,6 +1456,9 @@ describe("WorkflowRun", () => {
                     id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
                     version: "draft",
                     name: "Invoice Processing",
+                },
+                usage: {
+                    credits: 25,
                 },
             },
         });

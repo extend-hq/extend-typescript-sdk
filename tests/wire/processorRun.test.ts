@@ -117,6 +117,7 @@ describe("ProcessorRun", () => {
                         metadata: {},
                         createdAt: "2025-05-12T21:22:37Z",
                         updatedAt: "2025-05-12T21:22:37Z",
+                        usage: { credits: 10 },
                     },
                 ],
                 mergedProcessors: [
@@ -127,6 +128,7 @@ describe("ProcessorRun", () => {
                     },
                 ],
                 url: "https://dashboard.extend.ai/runs/dpr_l39vTgFDiB13heVuMQnUa",
+                usage: { credits: 3.5 },
             },
         };
         server
@@ -179,6 +181,9 @@ describe("ProcessorRun", () => {
                         metadata: {},
                         createdAt: "2025-05-12T21:22:37Z",
                         updatedAt: "2025-05-12T21:22:37Z",
+                        usage: {
+                            credits: 10,
+                        },
                     },
                 ],
                 mergedProcessors: [
@@ -189,6 +194,9 @@ describe("ProcessorRun", () => {
                     },
                 ],
                 url: "https://dashboard.extend.ai/runs/dpr_l39vTgFDiB13heVuMQnUa",
+                usage: {
+                    credits: 3.5,
+                },
             },
         });
     });
@@ -398,6 +406,7 @@ describe("ProcessorRun", () => {
                         },
                         createdAt: "2024-03-21T15:30:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
+                        usage: { credits: 10 },
                     },
                 ],
                 mergedProcessors: [
@@ -408,6 +417,7 @@ describe("ProcessorRun", () => {
                     },
                 ],
                 url: "https://dashboard.extend.ai/runs/dpr_Xj8mK2pL9nR4vT7qY5wZ",
+                usage: { credits: 3.5 },
             },
         };
         server
@@ -507,6 +517,9 @@ describe("ProcessorRun", () => {
                         },
                         createdAt: "2024-03-21T15:30:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
+                        usage: {
+                            credits: 10,
+                        },
                     },
                 ],
                 mergedProcessors: [
@@ -517,6 +530,9 @@ describe("ProcessorRun", () => {
                     },
                 ],
                 url: "https://dashboard.extend.ai/runs/dpr_Xj8mK2pL9nR4vT7qY5wZ",
+                usage: {
+                    credits: 3.5,
+                },
             },
         });
     });
@@ -675,6 +691,7 @@ describe("ProcessorRun", () => {
                         },
                         createdAt: "2024-03-21T15:30:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
+                        usage: { credits: 10 },
                     },
                 ],
                 mergedProcessors: [
@@ -685,6 +702,7 @@ describe("ProcessorRun", () => {
                     },
                 ],
                 url: "https://dashboard.extend.ai/runs/dpr_Xj8mK2pL9nR4vT7qY5wZ",
+                usage: { credits: 3.5 },
             },
         };
         server
@@ -784,6 +802,9 @@ describe("ProcessorRun", () => {
                         },
                         createdAt: "2024-03-21T15:30:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
+                        usage: {
+                            credits: 10,
+                        },
                     },
                 ],
                 mergedProcessors: [
@@ -794,6 +815,9 @@ describe("ProcessorRun", () => {
                     },
                 ],
                 url: "https://dashboard.extend.ai/runs/dpr_Xj8mK2pL9nR4vT7qY5wZ",
+                usage: {
+                    credits: 3.5,
+                },
             },
         });
     });
