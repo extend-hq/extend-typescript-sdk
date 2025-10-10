@@ -23,6 +23,7 @@ describe("ProcessorRun", () => {
                     type: "EXTRACT",
                     createdAt: "2024-03-21T15:29:55Z",
                     updatedAt: "2024-03-21T16:45:00Z",
+                    usage: { credits: 3.5 },
                 },
             ],
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
@@ -53,6 +54,9 @@ describe("ProcessorRun", () => {
                     type: "EXTRACT",
                     createdAt: "2024-03-21T15:29:55Z",
                     updatedAt: "2024-03-21T16:45:00Z",
+                    usage: {
+                        credits: 3.5,
+                    },
                 },
             ],
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",

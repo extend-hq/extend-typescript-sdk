@@ -60,7 +60,6 @@ export interface ProcessorRunListRequest {
      * * `"WORKFLOW_RUN"` - Created from a workflow run
      * * `"STUDIO"` - Created from Studio
      * * `"API"` - Created via API
-     *
      */
     source?: Extend.ProcessorRunListRequestSource;
     /**
