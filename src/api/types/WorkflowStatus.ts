@@ -4,8 +4,8 @@
 
 /**
  * The status of a workflow run:
- * * `"PENDING"` - The workflow run is in progress
- * * `"PROCESSING"` - The workflow run completed successfully
+ * * `"PENDING"` - The workflow run is waiting to be processed
+ * * `"PROCESSING"` - The workflow run is currently processing
  * * `"NEEDS_REVIEW"` - The workflow run requires manual review
  * * `"REJECTED"` - The workflow run was rejected during review
  * * `"PROCESSED"` - The workflow run completed successfully
