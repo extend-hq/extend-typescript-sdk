@@ -368,6 +368,97 @@ export class EvaluationSetItem {
     }
 
     /**
+     * Delete an evaluation set item from an evaluation set. This operation is permanent and cannot be undone.
+     *
+     * This endpoint can be used to remove individual items from an evaluation set when they are no longer needed or if they were added in error.
+     *
+     * @param {string} id - The ID of the evaluation set item to delete.
+     *
+     *                      Example: `"evi_kR9mNP12Qw4yTv8BdR3H"`
+     * @param {EvaluationSetItem.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.NotFoundError}
+     * @throws {@link Extend.InternalServerError}
+     *
+     * @example
+     *     await client.evaluationSetItem.delete("evaluation_set_item_id_here")
+     */
+    public delete(
+        id: string,
+        requestOptions?: EvaluationSetItem.RequestOptions,
+    ): core.HttpResponsePromise<Extend.EvaluationSetItemDeleteResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
+    }
+
+    private async __delete(
+        id: string,
+        requestOptions?: EvaluationSetItem.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.EvaluationSetItemDeleteResponse>> {
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+            }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                `evaluation_set_items/${encodeURIComponent(id)}`,
+            ),
+            method: "DELETE",
+            headers: _headers,
+            queryParameters: requestOptions?.queryParams,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as Extend.EvaluationSetItemDeleteResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Extend.InternalServerError(
+                        _response.error.body as Extend.ExtendError,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ExtendError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.ExtendTimeoutError("Timeout exceeded when calling DELETE /evaluation_set_items/{id}.");
+            case "unknown":
+                throw new errors.ExtendError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
      * If you have a large number of files that you need to add to an evaluation set, you can use this endpoint to create multiple evaluation set items at once. This can be useful if you have a large dataset that you need to evaluate the performance of a processor against.
      *
      * Note: you still need to create each File first using the file API.

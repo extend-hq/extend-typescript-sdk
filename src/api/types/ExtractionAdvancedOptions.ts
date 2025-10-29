@@ -5,9 +5,9 @@
 import * as Extend from "../index";
 
 export interface ExtractionAdvancedOptions {
-    /** The kind of document being processed. */
+    /** DEPRECATED - use extractionRules for all system prompts. */
     documentKind?: string;
-    /** Custom key definitions for extraction. */
+    /** DEPRECATED - use extractionRules for all system prompts. */
     keyDefinitions?: string;
     /** Whether to enable model reasoning insights. */
     modelReasoningInsightsEnabled?: boolean;
@@ -17,8 +17,14 @@ export interface ExtractionAdvancedOptions {
     citationsEnabled?: boolean;
     /** Whether to enable advanced figure parsing. */
     advancedFigureParsingEnabled?: boolean;
+    /** Strategy for handling large arrays in documents. */
+    arrayStrategy?: Extend.ArrayStrategy;
     chunkingOptions?: Extend.ExtractChunkingOptions;
-    /** Optional fixed limit on the number of pages to process. See [Page Ranges](/product/page-ranges). */
+    /** Ranges of sheet indices to extract from Excel documents. */
+    excelSheetRanges?: Extend.ExcelSheetRange[];
+    /** Strategy for selecting sheets from Excel documents. */
+    excelSheetSelectionStrategy?: Extend.ExtractionAdvancedOptionsExcelSheetSelectionStrategy;
+    /** DEPRECATED - See [Page Ranges](/product/page-ranges). */
     fixedPageLimit?: number;
     pageRanges?: Extend.PageRanges;
 }

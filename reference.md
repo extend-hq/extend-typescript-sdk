@@ -2205,6 +2205,75 @@ Example: `"evi_kR9mNP12Qw4yTv8BdR3H"`
 </dl>
 </details>
 
+<details><summary><code>client.evaluationSetItem.<a href="/src/api/resources/evaluationSetItem/client/Client.ts">delete</a>(id) -> Extend.EvaluationSetItemDeleteResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Delete an evaluation set item from an evaluation set. This operation is permanent and cannot be undone.
+
+This endpoint can be used to remove individual items from an evaluation set when they are no longer needed or if they were added in error.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluationSetItem.delete("evaluation_set_item_id_here");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string`
+
+The ID of the evaluation set item to delete.
+
+Example: `"evi_kR9mNP12Qw4yTv8BdR3H"`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `EvaluationSetItem.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.evaluationSetItem.<a href="/src/api/resources/evaluationSetItem/client/Client.ts">createBatch</a>({ ...params }) -> Extend.EvaluationSetItemCreateBatchResponse</code></summary>
 <dl>
 <dd>
