@@ -562,6 +562,67 @@ describe("EvaluationSetItem", () => {
         }).rejects.toThrow(Extend.NotFoundError);
     });
 
+    test("delete (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = {
+            success: true,
+            evaluationSetItemId: "evi_kR9mNP12Qw4yTv8BdR3H",
+            message: "Evaluation set item has been successfully deleted.",
+        };
+        server
+            .mockEndpoint()
+            .delete("/evaluation_set_items/evaluation_set_item_id_here")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.evaluationSetItem.delete("evaluation_set_item_id_here");
+        expect(response).toEqual({
+            success: true,
+            evaluationSetItemId: "evi_kR9mNP12Qw4yTv8BdR3H",
+            message: "Evaluation set item has been successfully deleted.",
+        });
+    });
+
+    test("delete (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .delete("/evaluation_set_items/id")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetItem.delete("id");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("delete (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", requestId: "requestId", retryable: true };
+        server
+            .mockEndpoint()
+            .delete("/evaluation_set_items/id")
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetItem.delete("id");
+        }).rejects.toThrow(Extend.InternalServerError);
+    });
+
     test("createBatch (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
