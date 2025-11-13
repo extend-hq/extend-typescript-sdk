@@ -15,6 +15,8 @@ export interface ExtractionAdvancedOptions {
     advancedMultimodalEnabled?: boolean;
     /** Whether to enable citations in the output. */
     citationsEnabled?: boolean;
+    /** Granularity for array citations. This requires citationsEnabled=true and a base processor version that supports property-level array citations (extraction_performance ≥ 4.4.0). */
+    arrayCitationStrategy?: Extend.ExtractionAdvancedOptionsArrayCitationStrategy;
     /** Whether to enable advanced figure parsing. */
     advancedFigureParsingEnabled?: boolean;
     /** Strategy for handling large arrays in documents. */

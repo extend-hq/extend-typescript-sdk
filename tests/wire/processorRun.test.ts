@@ -329,7 +329,7 @@ describe("ProcessorRun", () => {
             metadata: undefined,
             config: undefined,
         };
-        const rawResponseBody = { error: "error" };
+        const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
             .post("/processor_runs")
@@ -624,7 +624,7 @@ describe("ProcessorRun", () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { code: "code", message: "message", requestId: "requestId", retryable: true };
+        const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
             .delete("/processor_runs/id")

@@ -7,6 +7,106 @@ import { ExtendClient } from "../../src/Client";
 import * as Extend from "../../src/api/index";
 
 describe("Processor", () => {
+    test("list (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = {
+            success: true,
+            warning: "warning",
+            processors: [
+                {
+                    object: "document_processor",
+                    id: "dp_Xj8mK2pL9nR4vT7qY5wZ",
+                    name: "Invoice Processor",
+                    type: "EXTRACT",
+                    versions: [{ id: "dpv_xK9mLPqRtN3vS8wF5hB2cQ", version: "3" }],
+                    createdAt: "2024-03-21T15:30:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
+            nextPageToken: "nextPageToken",
+        };
+        server.mockEndpoint().get("/processors").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
+
+        const response = await client.processor.list({
+            type: "EXTRACT",
+            nextPageToken: "nextPageToken",
+            maxPageSize: 1,
+            sortBy: "createdAt",
+            sortDir: "asc",
+        });
+        expect(response).toEqual({
+            success: true,
+            warning: "warning",
+            processors: [
+                {
+                    object: "document_processor",
+                    id: "dp_Xj8mK2pL9nR4vT7qY5wZ",
+                    name: "Invoice Processor",
+                    type: "EXTRACT",
+                    versions: [
+                        {
+                            id: "dpv_xK9mLPqRtN3vS8wF5hB2cQ",
+                            version: "3",
+                        },
+                    ],
+                    createdAt: "2024-03-21T15:30:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
+            nextPageToken: "nextPageToken",
+        });
+    });
+
+    test("list (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/processors").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.processor.list();
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("list (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { success: undefined, error: undefined };
+        server.mockEndpoint().get("/processors").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.processor.list();
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("list (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/processors").respondWith().statusCode(429).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.processor.list();
+        }).rejects.toThrow(Extend.TooManyRequestsError);
+    });
+
+    test("list (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/processors").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.processor.list();
+        }).rejects.toThrow(Extend.InternalServerError);
+    });
+
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });

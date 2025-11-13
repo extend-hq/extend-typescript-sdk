@@ -935,6 +935,75 @@ Example: `"dpr_Xj8mK2pL9nR4vT7qY5wZ"`
 
 ## Processor
 
+<details><summary><code>client.processor.<a href="/src/api/resources/processor/client/Client.ts">list</a>({ ...params }) -> Extend.ListProcessorsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List all processors in your organization
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.processor.list({
+    type: "EXTRACT",
+    nextPageToken: "nextPageToken",
+    maxPageSize: 1,
+    sortBy: "createdAt",
+    sortDir: "asc",
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.ProcessorListRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Processor.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.processor.<a href="/src/api/resources/processor/client/Client.ts">create</a>({ ...params }) -> Extend.ProcessorCreateResponse</code></summary>
 <dl>
 <dd>
