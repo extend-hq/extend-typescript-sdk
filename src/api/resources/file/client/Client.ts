@@ -312,10 +312,7 @@ export class File_ {
                 case 404:
                     throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new Extend.InternalServerError(
-                        _response.error.body as Extend.ExtendError,
-                        _response.rawResponse,
-                    );
+                    throw new Extend.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,

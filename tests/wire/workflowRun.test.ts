@@ -1164,7 +1164,7 @@ describe("WorkflowRun", () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { code: "code", message: "message", requestId: "requestId", retryable: true };
+        const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
             .delete("/workflow_runs/workflowRunId")
@@ -1522,7 +1522,7 @@ describe("WorkflowRun", () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { code: "code", message: "message", requestId: "requestId", retryable: true };
+        const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
             .post("/workflow_runs/workflowRunId/cancel")

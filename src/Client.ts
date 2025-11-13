@@ -72,8 +72,8 @@ export class ExtendClient {
                     "x-extend-api-version": _options?.extendApiVersion ?? "2025-04-21",
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "extend-ai",
-                    "X-Fern-SDK-Version": "0.0.10",
-                    "User-Agent": "extend-ai/0.0.10",
+                    "X-Fern-SDK-Version": "0.0.12",
+                    "User-Agent": "extend-ai/0.0.12",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                 },
@@ -215,10 +215,7 @@ export class ExtendClient {
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new Extend.InternalServerError(
-                        _response.error.body as Extend.ExtendError,
-                        _response.rawResponse,
-                    );
+                    throw new Extend.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,

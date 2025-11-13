@@ -45,6 +45,121 @@ export class Processor {
     }
 
     /**
+     * List all processors in your organization
+     *
+     * @param {Extend.ProcessorListRequest} request
+     * @param {Processor.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.TooManyRequestsError}
+     * @throws {@link Extend.InternalServerError}
+     *
+     * @example
+     *     await client.processor.list({
+     *         type: "EXTRACT",
+     *         nextPageToken: "nextPageToken",
+     *         maxPageSize: 1,
+     *         sortBy: "createdAt",
+     *         sortDir: "asc"
+     *     })
+     */
+    public list(
+        request: Extend.ProcessorListRequest = {},
+        requestOptions?: Processor.RequestOptions,
+    ): core.HttpResponsePromise<Extend.ListProcessorsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
+    }
+
+    private async __list(
+        request: Extend.ProcessorListRequest = {},
+        requestOptions?: Processor.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.ListProcessorsResponse>> {
+        const { type: type_, nextPageToken, maxPageSize, sortBy, sortDir } = request;
+        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
+        if (type_ != null) {
+            _queryParams["type"] = type_;
+        }
+
+        if (nextPageToken != null) {
+            _queryParams["nextPageToken"] = nextPageToken;
+        }
+
+        if (maxPageSize != null) {
+            _queryParams["maxPageSize"] = maxPageSize.toString();
+        }
+
+        if (sortBy != null) {
+            _queryParams["sortBy"] = sortBy;
+        }
+
+        if (sortDir != null) {
+            _queryParams["sortDir"] = sortDir;
+        }
+
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+            }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                "processors",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.ListProcessorsResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                case 429:
+                    throw new Extend.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Extend.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ExtendError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.ExtendTimeoutError("Timeout exceeded when calling GET /processors.");
+            case "unknown":
+                throw new errors.ExtendError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
      * Create a new processor in Extend, optionally cloning from an existing processor
      *
      * @param {Extend.ProcessorCreateRequest} request

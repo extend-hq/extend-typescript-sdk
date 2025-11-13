@@ -294,7 +294,7 @@ describe("ExtendClient", () => {
             file: { fileName: undefined, fileUrl: undefined, fileId: undefined },
             config: undefined,
         };
-        const rawResponseBody = { code: "code", message: "message", requestId: "requestId", retryable: true };
+        const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
             .post("/parse")
