@@ -15,6 +15,8 @@ export interface WorkflowRunUpdateRequest {
      * A metadata object that can be assigned to a specific WorkflowRun. If metadata already exists on this WorkflowRun, the newly incoming metadata will be merged with the existing metadata, with the incoming metadata taking field precedence.
      *
      * You can include any arbitrary `key : value` pairs in this object.
+     *
+     * To categorize workflow runs for billing and usage tracking, include `extend:usage_tags` with an array of string values (e.g., `{"extend:usage_tags": ["production", "team-eng", "customer-123"]}`). Tags must contain only alphanumeric characters, hyphens, and underscores; any special characters will be automatically removed.
      */
     metadata?: Extend.JsonObject;
 }

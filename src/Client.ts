@@ -13,6 +13,7 @@ import { ProcessorRun } from "./api/resources/processorRun/client/Client";
 import { Processor } from "./api/resources/processor/client/Client";
 import { ProcessorVersion } from "./api/resources/processorVersion/client/Client";
 import { ParserRun } from "./api/resources/parserRun/client/Client";
+import { Edit } from "./api/resources/edit/client/Client";
 import { File_ } from "./api/resources/file/client/Client";
 import { EvaluationSet } from "./api/resources/evaluationSet/client/Client";
 import { EvaluationSetItem } from "./api/resources/evaluationSetItem/client/Client";
@@ -57,6 +58,7 @@ export class ExtendClient {
     protected _processor: Processor | undefined;
     protected _processorVersion: ProcessorVersion | undefined;
     protected _parserRun: ParserRun | undefined;
+    protected _edit: Edit | undefined;
     protected _file: File_ | undefined;
     protected _evaluationSet: EvaluationSet | undefined;
     protected _evaluationSetItem: EvaluationSetItem | undefined;
@@ -72,8 +74,8 @@ export class ExtendClient {
                     "x-extend-api-version": _options?.extendApiVersion ?? "2025-04-21",
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "extend-ai",
-                    "X-Fern-SDK-Version": "0.0.12",
-                    "User-Agent": "extend-ai/0.0.12",
+                    "X-Fern-SDK-Version": "0.0.13",
+                    "User-Agent": "extend-ai/0.0.13",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                 },
@@ -104,6 +106,10 @@ export class ExtendClient {
 
     public get parserRun(): ParserRun {
         return (this._parserRun ??= new ParserRun(this._options));
+    }
+
+    public get edit(): Edit {
+        return (this._edit ??= new Edit(this._options));
     }
 
     public get file(): File_ {

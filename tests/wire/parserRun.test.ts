@@ -37,6 +37,7 @@ describe("ParserRun", () => {
             warning: "warning",
             parserRun: {
                 object: "parser_run_status",
+                object: "parser_run_status",
                 id: "parser_run_xK9mLPqRtN3vS8wF5hB2cQ",
                 status: "PROCESSING",
                 failureReason: "failureReason",

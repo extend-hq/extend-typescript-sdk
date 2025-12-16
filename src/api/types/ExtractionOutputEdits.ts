@@ -6,7 +6,9 @@
  * A record of edits made to the processor output.
  */
 export interface ExtractionOutputEdits {
+    /** The original value before editing. */
     originalValue?: unknown;
+    /** The value after editing. */
     editedValue?: unknown;
     /** Any notes added during editing. */
     notes?: string;

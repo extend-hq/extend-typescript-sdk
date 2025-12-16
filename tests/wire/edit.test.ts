@@ -6,147 +6,102 @@ import { mockServerPool } from "../mock-server/MockServerPool";
 import { ExtendClient } from "../../src/Client";
 import * as Extend from "../../src/api/index";
 
-describe("ExtendClient", () => {
-    test("parse (1)", async () => {
+describe("Edit", () => {
+    test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = { file: {} };
         const rawResponseBody = {
-            object: "parser_run",
-            id: "parser_run_xK9mLPqRtN3vS8wF5hB2cQ",
+            object: "edit_run",
+            id: "edit_run_xK9mLPqRtN3vS8wF5hB2cQ",
             fileId: "file_Zk9mNP12Qw4yTv8BdR3H",
-            chunks: [
-                {
-                    object: "chunk",
-                    type: "page",
-                    content: "This is the content of the chunk.",
-                    metadata: { pageRange: { start: 1, end: 1 } },
-                    blocks: [
-                        {
-                            object: "block",
-                            id: "id",
-                            type: "text",
-                            content: "content",
-                            details: { type: "table_details", rowCount: 1, columnCount: 1 },
-                            metadata: {},
-                            polygon: [{ x: 10, y: 20 }],
-                            boundingBox: { left: 10, right: 20, top: 10, bottom: 20 },
-                        },
-                    ],
-                },
-            ],
-            status: "PROCESSED",
-            failureReason: "failureReason",
-            metrics: { processingTimeMs: 1.1, pageCount: 1.1 },
-            config: {
-                target: "markdown",
-                chunkingStrategy: { type: "page", options: { minCharacters: 100, maxCharacters: 1000 } },
-                advancedOptions: {
-                    pageRotationEnabled: true,
-                    agenticOcrEnabled: true,
-                    pageRanges: [
-                        { start: 1, end: 10 },
-                        { start: 20, end: 30 },
-                    ],
-                    verticalGroupingThreshold: 1.1,
-                },
+            editedFile: {
+                fileId: "file_Ab3cDE45Fg6hIj7KlM8nO",
+                downloadUrl: "https://extend-ai-files.s3.amazonaws.com/...",
             },
-            usage: { credits: 10 },
+            status: {
+                object: "edit_run_status",
+                id: "edit_run_xK9mLPqRtN3vS8wF5hB2cQ",
+                status: "PROCESSING",
+                failureReason: "failureReason",
+            },
+            failureReason: "failureReason",
+            config: {
+                schema: { type: "object", properties: { key: {} }, required: ["required"], additionalProperties: true },
+                instructions: "instructions",
+                advancedOptions: { flattenPdf: true, tableParsingEnabled: true },
+            },
+            output: { key: "value" },
+            metrics: {
+                processingTimeMs: 1.1,
+                fieldCount: 1,
+                pageCount: 1,
+                fieldFillingTimeMs: 1.1,
+                fieldDetectionTimeMs: 1.1,
+                fieldAnnotationTimeMs: 1.1,
+            },
+            usage: { credits: 1.1 },
         };
         server
             .mockEndpoint()
-            .post("/parse")
+            .post("/edit")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(200)
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.parse({
-            responseType: "json",
+        const response = await client.edit.create({
             file: {},
         });
         expect(response).toEqual({
-            object: "parser_run",
-            id: "parser_run_xK9mLPqRtN3vS8wF5hB2cQ",
+            object: "edit_run",
+            id: "edit_run_xK9mLPqRtN3vS8wF5hB2cQ",
             fileId: "file_Zk9mNP12Qw4yTv8BdR3H",
-            chunks: [
-                {
-                    object: "chunk",
-                    type: "page",
-                    content: "This is the content of the chunk.",
-                    metadata: {
-                        pageRange: {
-                            start: 1,
-                            end: 1,
-                        },
-                    },
-                    blocks: [
-                        {
-                            object: "block",
-                            id: "id",
-                            type: "text",
-                            content: "content",
-                            details: {
-                                type: "table_details",
-                                rowCount: 1,
-                                columnCount: 1,
-                            },
-                            metadata: {},
-                            polygon: [
-                                {
-                                    x: 10,
-                                    y: 20,
-                                },
-                            ],
-                            boundingBox: {
-                                left: 10,
-                                right: 20,
-                                top: 10,
-                                bottom: 20,
-                            },
-                        },
-                    ],
-                },
-            ],
-            status: "PROCESSED",
+            editedFile: {
+                fileId: "file_Ab3cDE45Fg6hIj7KlM8nO",
+                downloadUrl: "https://extend-ai-files.s3.amazonaws.com/...",
+            },
+            status: {
+                object: "edit_run_status",
+                id: "edit_run_xK9mLPqRtN3vS8wF5hB2cQ",
+                status: "PROCESSING",
+                failureReason: "failureReason",
+            },
             failureReason: "failureReason",
+            config: {
+                schema: {
+                    type: "object",
+                    properties: {
+                        key: {},
+                    },
+                    required: ["required"],
+                    additionalProperties: true,
+                },
+                instructions: "instructions",
+                advancedOptions: {
+                    flattenPdf: true,
+                    tableParsingEnabled: true,
+                },
+            },
+            output: {
+                key: "value",
+            },
             metrics: {
                 processingTimeMs: 1.1,
-                pageCount: 1.1,
-            },
-            config: {
-                target: "markdown",
-                chunkingStrategy: {
-                    type: "page",
-                    options: {
-                        minCharacters: 100,
-                        maxCharacters: 1000,
-                    },
-                },
-                advancedOptions: {
-                    pageRotationEnabled: true,
-                    agenticOcrEnabled: true,
-                    pageRanges: [
-                        {
-                            start: 1,
-                            end: 10,
-                        },
-                        {
-                            start: 20,
-                            end: 30,
-                        },
-                    ],
-                    verticalGroupingThreshold: 1.1,
-                },
+                fieldCount: 1,
+                pageCount: 1,
+                fieldFillingTimeMs: 1.1,
+                fieldDetectionTimeMs: 1.1,
+                fieldAnnotationTimeMs: 1.1,
             },
             usage: {
-                credits: 10,
+                credits: 1.1,
             },
         });
     });
 
-    test("parse (2)", async () => {
+    test("create (2)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -156,7 +111,7 @@ describe("ExtendClient", () => {
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
-            .post("/parse")
+            .post("/edit")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(400)
@@ -164,7 +119,7 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.parse({
+            return await client.edit.create({
                 file: {
                     fileName: undefined,
                     fileUrl: undefined,
@@ -175,7 +130,7 @@ describe("ExtendClient", () => {
         }).rejects.toThrow(Extend.BadRequestError);
     });
 
-    test("parse (3)", async () => {
+    test("create (3)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -185,7 +140,7 @@ describe("ExtendClient", () => {
         const rawResponseBody = { success: undefined, error: undefined };
         server
             .mockEndpoint()
-            .post("/parse")
+            .post("/edit")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(401)
@@ -193,7 +148,7 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.parse({
+            return await client.edit.create({
                 file: {
                     fileName: undefined,
                     fileUrl: undefined,
@@ -204,7 +159,7 @@ describe("ExtendClient", () => {
         }).rejects.toThrow(Extend.UnauthorizedError);
     });
 
-    test("parse (4)", async () => {
+    test("create (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -214,7 +169,7 @@ describe("ExtendClient", () => {
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
-            .post("/parse")
+            .post("/edit")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(402)
@@ -222,7 +177,7 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.parse({
+            return await client.edit.create({
                 file: {
                     fileName: undefined,
                     fileUrl: undefined,
@@ -233,7 +188,7 @@ describe("ExtendClient", () => {
         }).rejects.toThrow(Extend.PaymentRequiredError);
     });
 
-    test("parse (5)", async () => {
+    test("create (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -243,7 +198,7 @@ describe("ExtendClient", () => {
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
-            .post("/parse")
+            .post("/edit")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(404)
@@ -251,7 +206,7 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.parse({
+            return await client.edit.create({
                 file: {
                     fileName: undefined,
                     fileUrl: undefined,
@@ -262,7 +217,7 @@ describe("ExtendClient", () => {
         }).rejects.toThrow(Extend.NotFoundError);
     });
 
-    test("parse (6)", async () => {
+    test("create (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -272,7 +227,7 @@ describe("ExtendClient", () => {
         const rawResponseBody = { code: "code", message: "message", requestId: "requestId", retryable: true };
         server
             .mockEndpoint()
-            .post("/parse")
+            .post("/edit")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(422)
@@ -280,7 +235,7 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.parse({
+            return await client.edit.create({
                 file: {
                     fileName: undefined,
                     fileUrl: undefined,
@@ -291,7 +246,7 @@ describe("ExtendClient", () => {
         }).rejects.toThrow(Extend.UnprocessableEntityError);
     });
 
-    test("parse (7)", async () => {
+    test("create (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -301,7 +256,7 @@ describe("ExtendClient", () => {
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
-            .post("/parse")
+            .post("/edit")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(500)
@@ -309,7 +264,7 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.parse({
+            return await client.edit.create({
                 file: {
                     fileName: undefined,
                     fileUrl: undefined,
@@ -320,37 +275,37 @@ describe("ExtendClient", () => {
         }).rejects.toThrow(Extend.InternalServerError);
     });
 
-    test("parseAsync (1)", async () => {
+    test("createAsync (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = { file: {} };
         const rawResponseBody = {
-            object: "parser_run_status",
-            id: "parser_run_xK9mLPqRtN3vS8wF5hB2cQ",
+            object: "edit_run_status",
+            id: "edit_run_xK9mLPqRtN3vS8wF5hB2cQ",
             status: "PROCESSING",
             failureReason: "failureReason",
         };
         server
             .mockEndpoint()
-            .post("/parse/async")
+            .post("/edit/async")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(200)
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.parseAsync({
+        const response = await client.edit.createAsync({
             file: {},
         });
         expect(response).toEqual({
-            object: "parser_run_status",
-            id: "parser_run_xK9mLPqRtN3vS8wF5hB2cQ",
+            object: "edit_run_status",
+            id: "edit_run_xK9mLPqRtN3vS8wF5hB2cQ",
             status: "PROCESSING",
             failureReason: "failureReason",
         });
     });
 
-    test("parseAsync (2)", async () => {
+    test("createAsync (2)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -360,7 +315,7 @@ describe("ExtendClient", () => {
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
-            .post("/parse/async")
+            .post("/edit/async")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(400)
@@ -368,7 +323,7 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.parseAsync({
+            return await client.edit.createAsync({
                 file: {
                     fileName: undefined,
                     fileUrl: undefined,
@@ -379,7 +334,7 @@ describe("ExtendClient", () => {
         }).rejects.toThrow(Extend.BadRequestError);
     });
 
-    test("parseAsync (3)", async () => {
+    test("createAsync (3)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = {
@@ -389,7 +344,7 @@ describe("ExtendClient", () => {
         const rawResponseBody = { success: undefined, error: undefined };
         server
             .mockEndpoint()
-            .post("/parse/async")
+            .post("/edit/async")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(401)
@@ -397,7 +352,7 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.parseAsync({
+            return await client.edit.createAsync({
                 file: {
                     fileName: undefined,
                     fileUrl: undefined,
@@ -406,5 +361,114 @@ describe("ExtendClient", () => {
                 config: undefined,
             });
         }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("get (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = {
+            success: true,
+            warning: "warning",
+            editRun: {
+                object: "edit_run_status",
+                id: "edit_run_xK9mLPqRtN3vS8wF5hB2cQ",
+                status: "PROCESSING",
+                failureReason: "failureReason",
+            },
+        };
+        server
+            .mockEndpoint()
+            .get("/edit_runs/edit_run_id_here")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.edit.get("edit_run_id_here");
+        expect(response).toEqual({
+            success: true,
+            warning: "warning",
+            editRun: {
+                object: "edit_run_status",
+                object: "edit_run_status",
+                id: "edit_run_xK9mLPqRtN3vS8wF5hB2cQ",
+                status: "PROCESSING",
+                failureReason: "failureReason",
+            },
+        });
+    });
+
+    test("get (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { success: undefined, error: undefined };
+        server.mockEndpoint().get("/edit_runs/id").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.edit.get("id");
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("get (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/edit_runs/id").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.edit.get("id");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("delete (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = {
+            success: true,
+            editRunId: "edit_run_xK9mLPqRtN3vS8wF5hB2cQ",
+            message: "Edit run data has been successfully deleted.",
+        };
+        server
+            .mockEndpoint()
+            .delete("/edit_runs/edit_run_id_here")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.edit.delete("edit_run_id_here");
+        expect(response).toEqual({
+            success: true,
+            editRunId: "edit_run_xK9mLPqRtN3vS8wF5hB2cQ",
+            message: "Edit run data has been successfully deleted.",
+        });
+    });
+
+    test("delete (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().delete("/edit_runs/id").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.edit.delete("id");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("delete (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().delete("/edit_runs/id").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.edit.delete("id");
+        }).rejects.toThrow(Extend.InternalServerError);
     });
 });

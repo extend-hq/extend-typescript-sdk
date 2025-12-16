@@ -101,6 +101,9 @@ describe("ProcessorRun", () => {
                 processorName: "My Processor",
                 status: "PROCESSING",
                 output: {},
+                failureReason: "failureReason",
+                failureMessage: "failureMessage",
+                metadata: { key: "value" },
                 reviewed: false,
                 edited: false,
                 edits: { key: { notes: "This is a note about the edit.", page: 15, fieldType: "string" } },
@@ -111,14 +114,32 @@ describe("ProcessorRun", () => {
                     baseVersion: "baseVersion",
                     extractionRules: "extractionRules",
                     schema: { key: "value" },
+                    advancedOptions: {
+                        pageRanges: [
+                            { start: 1, end: 10 },
+                            { start: 20, end: 30 },
+                        ],
+                    },
                 },
+                reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                 files: [
                     {
                         object: "file",
                         id: "file_0QyyVL9rrOd0_WllDDCNa",
                         name: "My File",
                         type: "PDF",
-                        metadata: {},
+                        presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                        parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                        metadata: {
+                            pageCount: 30,
+                            parentSplit: {
+                                id: "id",
+                                type: "Invoice",
+                                identifier: "other_2_9",
+                                startPage: 1,
+                                endPage: 10,
+                            },
+                        },
                         createdAt: "2025-05-12T21:22:37Z",
                         updatedAt: "2025-05-12T21:22:37Z",
                         usage: { credits: 10 },
@@ -157,6 +178,11 @@ describe("ProcessorRun", () => {
                 processorName: "My Processor",
                 status: "PROCESSING",
                 output: {},
+                failureReason: "failureReason",
+                failureMessage: "failureMessage",
+                metadata: {
+                    key: "value",
+                },
                 reviewed: false,
                 edited: false,
                 edits: {
@@ -175,6 +201,28 @@ describe("ProcessorRun", () => {
                     schema: {
                         key: "value",
                     },
+                    advancedOptions: {
+                        pageRanges: [
+                            {
+                                start: 1,
+                                end: 10,
+                            },
+                            {
+                                start: 20,
+                                end: 30,
+                            },
+                        ],
+                    },
+                },
+                reviewedOutput: {
+                    value: {
+                        key: "value",
+                    },
+                    metadata: {
+                        key: {
+                            logprobsConfidence: undefined,
+                        },
+                    },
                 },
                 files: [
                     {
@@ -182,7 +230,18 @@ describe("ProcessorRun", () => {
                         id: "file_0QyyVL9rrOd0_WllDDCNa",
                         name: "My File",
                         type: "PDF",
-                        metadata: {},
+                        presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                        parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                        metadata: {
+                            pageCount: 30,
+                            parentSplit: {
+                                id: "id",
+                                type: "Invoice",
+                                identifier: "other_2_9",
+                                startPage: 1,
+                                endPage: 10,
+                            },
+                        },
                         createdAt: "2025-05-12T21:22:37Z",
                         updatedAt: "2025-05-12T21:22:37Z",
                         usage: {
@@ -388,6 +447,12 @@ describe("ProcessorRun", () => {
                     ],
                     classificationRules:
                         "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                    advancedOptions: {
+                        pageRanges: [
+                            { start: 1, end: 10 },
+                            { start: 20, end: 30 },
+                        ],
+                    },
                 },
                 initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                 reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
@@ -481,6 +546,18 @@ describe("ProcessorRun", () => {
                     ],
                     classificationRules:
                         "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                    advancedOptions: {
+                        pageRanges: [
+                            {
+                                start: 1,
+                                end: 10,
+                            },
+                            {
+                                start: 20,
+                                end: 30,
+                            },
+                        ],
+                    },
                 },
                 initialOutput: {
                     value: {
@@ -673,6 +750,12 @@ describe("ProcessorRun", () => {
                     ],
                     classificationRules:
                         "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                    advancedOptions: {
+                        pageRanges: [
+                            { start: 1, end: 10 },
+                            { start: 20, end: 30 },
+                        ],
+                    },
                 },
                 initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                 reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
@@ -766,6 +849,18 @@ describe("ProcessorRun", () => {
                     ],
                     classificationRules:
                         "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                    advancedOptions: {
+                        pageRanges: [
+                            {
+                                start: 1,
+                                end: 10,
+                            },
+                            {
+                                start: 20,
+                                end: 30,
+                            },
+                        ],
+                    },
                 },
                 initialOutput: {
                     value: {
