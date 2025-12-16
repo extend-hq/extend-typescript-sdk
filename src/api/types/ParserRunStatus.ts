@@ -8,6 +8,8 @@ import * as Extend from "../index";
  * Minimal parser run status object without parser results.
  */
 export interface ParserRunStatus {
+    /** The type of object. Will always be `"parser_run_status"`. */
+    object: "parser_run_status";
     /**
      * A unique identifier for the parser run. Will always start with `"parser_run_"`
      *

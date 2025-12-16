@@ -8,6 +8,8 @@ import * as Extend from "../index";
  * Full parser run object with complete parsing results
  */
 export interface ParserRun {
+    /** The type of object. Will always be `"parser_run"`. */
+    object: "parser_run";
     /**
      * A unique identifier for the parser run. Will always start with `"parser_run_"`
      *
