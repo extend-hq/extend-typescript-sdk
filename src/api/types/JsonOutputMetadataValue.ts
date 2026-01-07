@@ -9,6 +9,18 @@ export interface JsonOutputMetadataValue {
     ocrConfidence?: number;
     /** Confidence score based on model logprobs */
     logprobsConfidence?: number;
+    /**
+     * A 1-5 score indicating the review agent's confidence in the extracted value.
+     * - 5: High confidence, no issues detected
+     * - 4: Good confidence, minor observations
+     * - 3: Moderate confidence, some uncertainty
+     * - 2: Low confidence, likely issues
+     * - 1: Very low confidence, significant problems detected
+     *
+     * These scores will be present when the `reviewAgent.enabled` flag is set to `true` in the processor config.
+     * To learn more, view the [Review Agent Documentation](https://docs.extend.ai/product/extraction/review-agent)
+     */
+    reviewAgentScore?: number;
     citations?: Extend.JsonOutputMetadataValueCitationsItem[];
-    insights?: Extend.JsonOutputMetadataValueInsightsItem[];
+    insights?: Extend.Insight[];
 }

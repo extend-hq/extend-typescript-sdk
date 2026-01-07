@@ -19,6 +19,15 @@ export interface ExtractionAdvancedOptions {
     arrayCitationStrategy?: Extend.ExtractionAdvancedOptionsArrayCitationStrategy;
     /** Whether to enable advanced figure parsing. */
     advancedFigureParsingEnabled?: boolean;
+    /**
+     * Configuration for the review agent that analyzes extraction results.
+     * When enabled, each field in the output metadata will include a `reviewAgentScore` (1-5)
+     * and may include additional `insights` of type `issue` or `review_summary` to help identify
+     * fields that may need manual review.
+     *
+     * To learn more, view the [Review Agent Documentation](https://docs.extend.ai/product/extraction/review-agent)
+     */
+    reviewAgent?: Extend.ExtractionAdvancedOptionsReviewAgent;
     /** Strategy for handling large arrays in documents. */
     arrayStrategy?: Extend.ArrayStrategy;
     chunkingOptions?: Extend.ExtractChunkingOptions;
