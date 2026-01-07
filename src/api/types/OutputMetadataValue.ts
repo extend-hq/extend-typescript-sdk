@@ -9,6 +9,15 @@ export interface OutputMetadataValue {
     ocrConfidence?: number;
     /** Confidence score based on model logprobs */
     logprobsConfidence?: number;
+    /**
+     * A 1-5 score indicating the review agent's confidence in the extracted value.
+     * - 5: High confidence, no issues detected
+     * - 4: Good confidence, minor observations
+     * - 3: Moderate confidence, some uncertainty
+     * - 2: Low confidence, likely issues
+     * - 1: Very low confidence, significant problems detected
+     */
+    reviewAgentScore?: number;
     citations?: Extend.Citation[];
     insights?: Extend.Insight[];
 }
