@@ -1,2 +1,9 @@
 # Specify files that shouldn't be modified by Fern
 README.md
+
+# Custom code
+src/wrapper
+src/index.ts
+
+# Modified tests (Node.js only SDK - no browser bundling)
+tests/unit/fetcher/stream-wrappers/webpack.test.ts

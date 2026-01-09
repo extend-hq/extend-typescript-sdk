@@ -1,11 +1,13 @@
 import webpack from "webpack";
 
+// This SDK is Node.js only - test Node.js bundling (not browser)
 describe("test env compatibility", () => {
-    test("webpack", () => {
+    test("webpack node", () => {
         return new Promise<void>((resolve, reject) => {
             webpack(
                 {
                     mode: "production",
+                    target: "node", // Node.js target - uses built-in modules directly
                     entry: "./src/index.ts",
                     module: {
                         rules: [
