@@ -16,6 +16,7 @@ export interface OutputMetadataValue {
      * - 3: Moderate confidence, some uncertainty
      * - 2: Low confidence, likely issues
      * - 1: Very low confidence, significant problems detected
+     * If the review agent is enabled but a score is not returned for a field, this value will be `null`.
      */
     reviewAgentScore?: number;
     citations?: Extend.Citation[];
