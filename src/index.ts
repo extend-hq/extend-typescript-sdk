@@ -6,8 +6,21 @@ export { ExtendEnvironment } from "./environments";
 export { ExtendClient } from "./wrapper/ExtendClient";
 
 // Webhook utilities
-export { Webhooks, WebhookSignatureVerificationError } from "./wrapper";
-export type { WebhookHeaders, UnwrapOptions } from "./wrapper";
+export {
+    Webhooks,
+    WebhookSignatureVerificationError,
+    WebhookPayloadFetchError,
+    SignedUrlNotAllowedError,
+} from "./wrapper";
+export type {
+    WebhookHeaders,
+    VerifyOptions,
+    VerifyAndParseOptions,
+    SignedDataUrlPayload,
+    WebhookEventWithSignedUrl,
+    WebhookEventType,
+    RawWebhookEvent,
+} from "./wrapper";
 
 // Polling utilities
 export { PollingTimeoutError } from "./wrapper";

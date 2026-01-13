@@ -1,7 +1,20 @@
 export { ExtendClient } from "./ExtendClient";
 
-export { Webhooks, WebhookSignatureVerificationError } from "./Webhooks";
-export type { WebhookHeaders, UnwrapOptions } from "./Webhooks";
+export {
+    Webhooks,
+    WebhookSignatureVerificationError,
+    WebhookPayloadFetchError,
+    SignedUrlNotAllowedError,
+} from "./Webhooks";
+export type {
+    WebhookHeaders,
+    VerifyOptions,
+    VerifyAndParseOptions,
+    SignedDataUrlPayload,
+    WebhookEventWithSignedUrl,
+    WebhookEventType,
+    RawWebhookEvent,
+} from "./Webhooks";
 
 export { pollUntilDone, calculateBackoffDelay, PollingTimeoutError } from "./Polling";
 export type { PollingOptions } from "./Polling";

@@ -12,7 +12,7 @@ export default {
                 "^(\\.\\./.*)\\.js$": "$1",
                 "^(\\./.*)\\.js$": "$1",
             },
-            roots: ["<rootDir>/tests"],
+            roots: ["<rootDir>/tests", "<rootDir>/src/wrapper"],
             testPathIgnorePatterns: ["/tests/wire/"],
             setupFilesAfterEnv: [],
         },
