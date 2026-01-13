@@ -8,7 +8,9 @@ export default {
             preset: "ts-jest",
             testEnvironment: "node",
             moduleNameMapper: {
-                "^(\.{1,2}/.*)\.js$": "$1",
+                // Only apply to src files, not node_modules (Zod 4 compatibility)
+                "^(\\.\\./.*)\\.js$": "$1",
+                "^(\\./.*)\\.js$": "$1",
             },
             roots: ["<rootDir>/tests"],
             testPathIgnorePatterns: ["/tests/wire/"],
@@ -20,7 +22,9 @@ export default {
             preset: "ts-jest",
             testEnvironment: "node",
             moduleNameMapper: {
-                "^(\.{1,2}/.*)\.js$": "$1",
+                // Only apply to src files, not node_modules (Zod 4 compatibility)
+                "^(\\.\\./.*)\\.js$": "$1",
+                "^(\\./.*)\\.js$": "$1",
             },
             roots: ["<rootDir>/tests/wire"],
             setupFilesAfterEnv: ["<rootDir>/tests/mock-server/setup.ts"],

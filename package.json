@@ -1,6 +1,6 @@
 {
     "name": "extend-ai",
-    "version": "0.0.15",
+    "version": "0.0.16",
     "private": false,
     "repository": "github:extend-hq/extend-typescript-sdk",
     "main": "./index.js",
@@ -20,6 +20,14 @@
         "readable-stream": "^4.5.2",
         "form-data-encoder": "^4.0.2"
     },
+    "peerDependencies": {
+        "zod": "^4.0.0"
+    },
+    "peerDependenciesMeta": {
+        "zod": {
+            "optional": true
+        }
+    },
     "devDependencies": {
         "@types/node-fetch": "^2.6.12",
         "@types/readable-stream": "^4.0.18",
@@ -33,7 +41,8 @@
         "msw": "2.11.2",
         "@types/node": "^18.19.70",
         "prettier": "^3.4.2",
-        "typescript": "~5.7.2"
+        "typescript": "~5.7.2",
+        "zod": "^4.0.0"
     },
     "browser": {
         "fs": false,
