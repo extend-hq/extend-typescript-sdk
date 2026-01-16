@@ -62,6 +62,9 @@ jobs:
             - name: Build
               run: yarn build
 
+            - name: Upgrade npm for trusted publishers
+              run: npm install -g npm@latest
+
             - name: Publish to npm
               run: |
                   if [[ ${GITHUB_REF} == *alpha* ]]; then
