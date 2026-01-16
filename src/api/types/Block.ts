@@ -9,6 +9,8 @@ export interface Block {
     object: string;
     /** A unique identifier for the block, deterministically generated as a hash of the block content. */
     id: string;
+    /** The ID of the parent block. For example, for a table cell block, this would be the ID of the parent table block. Only set if this is a child block. */
+    parentBlockId?: string;
     /**
      * The type of block:
      * * `"text"` - Regular text content
@@ -30,4 +32,6 @@ export interface Block {
     polygon: Extend.BlockPolygonItem[];
     /** A simplified bounding box for the block. */
     boundingBox: Extend.BlockBoundingBox;
+    /** An array of child blocks. For example, a table block may contain table cell blocks as children when `cellBlocksEnabled` is set to true. */
+    children?: Extend.Block[];
 }

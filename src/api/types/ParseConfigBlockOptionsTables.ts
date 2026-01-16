@@ -18,4 +18,6 @@ export interface ParseConfigBlockOptionsTables {
     targetFormat?: Extend.ParseConfigBlockOptionsTablesTargetFormat;
     /** Whether to automatically copy table headers to headerless tables on subsequent pages when they have matching column counts. Useful for multi-page tables. */
     tableHeaderContinuationEnabled?: boolean;
+    /** Whether to include individual table cell blocks in the output. When enabled, each cell in a table will be represented as a separate block with its own bounding box and content and will be `children` of the table block. */
+    cellBlocksEnabled?: boolean;
 }

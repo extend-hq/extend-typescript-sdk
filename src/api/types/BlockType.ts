@@ -12,11 +12,13 @@
  * * `"table_cell"` - Table body cells
  * * `"figure"` - Images, charts, diagrams, or logos
  */
-export type BlockType = "text" | "heading" | "section_heading" | "table" | "figure";
+export type BlockType = "text" | "heading" | "section_heading" | "table" | "figure" | "table_head" | "table_cell";
 export const BlockType = {
     Text: "text",
     Heading: "heading",
     SectionHeading: "section_heading",
     Table: "table",
     Figure: "figure",
+    TableHead: "table_head",
+    TableCell: "table_cell",
 } as const;

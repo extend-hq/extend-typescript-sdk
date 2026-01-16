@@ -41,6 +41,7 @@ describe("ExtendClient", () => {
             config: {
                 target: "markdown",
                 chunkingStrategy: { type: "page", options: { minCharacters: 100, maxCharacters: 1000 } },
+                engine: "parse_performance",
                 advancedOptions: {
                     pageRotationEnabled: true,
                     agenticOcrEnabled: true,
@@ -124,6 +125,7 @@ describe("ExtendClient", () => {
                         maxCharacters: 1000,
                     },
                 },
+                engine: "parse_performance",
                 advancedOptions: {
                     pageRotationEnabled: true,
                     agenticOcrEnabled: true,

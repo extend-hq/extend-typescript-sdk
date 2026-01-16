@@ -12,4 +12,6 @@ export interface ParseConfigAdvancedOptions {
     pageRanges?: Extend.PageRanges;
     /** Multiplier for the Y-axis threshold used to determine if text blocks should be placed on the same line or not (0.1-5.0, default 1.0). Higher values group elements that are further apart vertically. Only applies when the spatial target is set. */
     verticalGroupingThreshold?: number;
+    /** Options for returning raw OCR data in the response. */
+    returnOcr?: Extend.ParseConfigAdvancedOptionsReturnOcr;
 }
