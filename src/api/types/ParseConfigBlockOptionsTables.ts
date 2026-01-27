@@ -8,7 +8,7 @@ import * as Extend from "../index";
  * Options for table blocks.
  */
 export interface ParseConfigBlockOptionsTables {
-    /** Whether to include tables in the output. */
+    /** This option is deprecated and will have no effect. It will be removed in the next API version. */
     enabled?: boolean;
     /**
      * The target format for the table blocks. Supported values:
@@ -20,4 +20,6 @@ export interface ParseConfigBlockOptionsTables {
     tableHeaderContinuationEnabled?: boolean;
     /** Whether to include individual table cell blocks in the output. When enabled, each cell in a table will be represented as a separate block with its own bounding box and content and will be `children` of the table block. */
     cellBlocksEnabled?: boolean;
+    /** Options for agentic table processing using VLM-based review and correction. */
+    agentic?: Extend.ParseConfigBlockOptionsTablesAgentic;
 }
