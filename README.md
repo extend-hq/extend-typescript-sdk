@@ -29,6 +29,65 @@ await client.workflowRun.create({
 });
 ```
 
+## SDK Helpers
+
+The SDK includes convenient helpers for common patterns. See the dedicated documentation for each:
+
+### [Polling (`createAndPoll`)](./docs/polling.md)
+
+Create a run and wait for completion with automatic exponential backoff:
+
+```typescript
+const result = await client.extractRuns.createAndPoll({
+    file: { url: "https://example.com/invoice.pdf" },
+    extractor: { id: "extractor_abc123" },
+});
+
+if (result.extractRun.status === "PROCESSED") {
+    console.log(result.extractRun.output);
+}
+```
+
+**Features:**
+- Exponential backoff with jitter
+- Typed responses with Zod schemas
+- Custom field types (`extendDate`, `extendCurrency`, `extendSignature`)
+
+### [Webhooks](./docs/webhooks.md)
+
+Verify and parse webhook events securely:
+
+```typescript
+import { ExtendClient, WebhookSignatureVerificationError } from "extend-ai";
+
+app.post("/webhook", (req, res) => {
+    try {
+        const event = client.webhooks.verifyAndParse(
+            req.body.toString(),
+            req.headers,
+            process.env.EXTEND_WEBHOOK_SECRET!,
+        );
+
+        switch (event.eventType) {
+            case "workflow_run.completed":
+                console.log("Done:", event.payload.id);
+                break;
+        }
+        res.status(200).send("OK");
+    } catch (err) {
+        if (err instanceof WebhookSignatureVerificationError) {
+            res.status(401).send("Invalid signature");
+        }
+    }
+});
+```
+
+**Features:**
+- HMAC-SHA256 signature verification
+- Timestamp validation (replay attack protection)
+- Signed URL payload support for large payloads
+- Full TypeScript types for all event types
+
 ## Request And Response Types
 
 The SDK exports all request and response types as TypeScript interfaces. Simply import them with the
