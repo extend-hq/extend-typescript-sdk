@@ -44,7 +44,6 @@ describe("ExtendClient", () => {
                 engine: "parse_performance",
                 advancedOptions: {
                     pageRotationEnabled: true,
-                    agenticOcrEnabled: true,
                     pageRanges: [
                         { start: 1, end: 10 },
                         { start: 20, end: 30 },
@@ -128,7 +127,6 @@ describe("ExtendClient", () => {
                 engine: "parse_performance",
                 advancedOptions: {
                     pageRotationEnabled: true,
-                    agenticOcrEnabled: true,
                     pageRanges: [
                         {
                             start: 1,
