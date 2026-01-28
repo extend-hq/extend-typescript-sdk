@@ -8,7 +8,7 @@ import * as Extend from "../../../index";
 import { mergeHeaders, mergeOnlyDefinedHeaders } from "../../../../core/headers";
 import * as errors from "../../../../errors/index";
 
-export declare namespace BatchProcessorRuns {
+export declare namespace BatchProcessorRun {
     export interface Options {
         environment?: core.Supplier<environments.ExtendEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
@@ -37,10 +37,10 @@ export declare namespace BatchProcessorRuns {
     }
 }
 
-export class BatchProcessorRuns {
-    protected readonly _options: BatchProcessorRuns.Options;
+export class BatchProcessorRun {
+    protected readonly _options: BatchProcessorRun.Options;
 
-    constructor(_options: BatchProcessorRuns.Options) {
+    constructor(_options: BatchProcessorRun.Options) {
         this._options = _options;
     }
 
@@ -52,31 +52,26 @@ export class BatchProcessorRuns {
      * @param {string} id - The unique identifier of the batch processor run to retrieve.
      *
      *                      Example: `"bpr_Xj8mK2pL9nR4vT7qY5wZ"`
-     * @param {BatchProcessorRuns.RequestOptions} requestOptions - Request-specific configuration.
+     * @param {BatchProcessorRun.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
      * @throws {@link Extend.UnauthorizedError}
-     * @throws {@link Extend.PaymentRequiredError}
-     * @throws {@link Extend.ForbiddenError}
      * @throws {@link Extend.NotFoundError}
-     * @throws {@link Extend.UnprocessableEntityError}
-     * @throws {@link Extend.TooManyRequestsError}
-     * @throws {@link Extend.InternalServerError}
      *
      * @example
-     *     await client.batchProcessorRuns.retrieve("bpr_id_here")
+     *     await client.batchProcessorRun.get("bpr_id_here")
      */
-    public retrieve(
+    public get(
         id: string,
-        requestOptions?: BatchProcessorRuns.RequestOptions,
-    ): core.HttpResponsePromise<Extend.BatchProcessorRunsRetrieveResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, requestOptions));
+        requestOptions?: BatchProcessorRun.RequestOptions,
+    ): core.HttpResponsePromise<Extend.BatchProcessorRunGetResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__get(id, requestOptions));
     }
 
-    private async __retrieve(
+    private async __get(
         id: string,
-        requestOptions?: BatchProcessorRuns.RequestOptions,
-    ): Promise<core.WithRawResponse<Extend.BatchProcessorRunsRetrieveResponse>> {
+        requestOptions?: BatchProcessorRun.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.BatchProcessorRunGetResponse>> {
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
@@ -100,10 +95,7 @@ export class BatchProcessorRuns {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: _response.body as Extend.BatchProcessorRunsRetrieveResponse,
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Extend.BatchProcessorRunGetResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -112,18 +104,8 @@ export class BatchProcessorRuns {
                     throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
                     throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
-                case 402:
-                    throw new Extend.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
-                case 403:
-                    throw new Extend.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
-                case 422:
-                    throw new Extend.UnprocessableEntityError(_response.error.body as unknown, _response.rawResponse);
-                case 429:
-                    throw new Extend.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
-                case 500:
-                    throw new Extend.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,

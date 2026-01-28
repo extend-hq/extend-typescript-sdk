@@ -22,7 +22,7 @@ import { WorkflowRuns } from "./api/resources/workflowRuns/client/Client";
 import { ProcessorRun } from "./api/resources/processorRun/client/Client";
 import { Processor } from "./api/resources/processor/client/Client";
 import { ProcessorVersion } from "./api/resources/processorVersion/client/Client";
-import { BatchProcessorRuns } from "./api/resources/batchProcessorRuns/client/Client";
+import { BatchProcessorRun } from "./api/resources/batchProcessorRun/client/Client";
 import { EvaluationSets } from "./api/resources/evaluationSets/client/Client";
 import { EvaluationSetItems } from "./api/resources/evaluationSetItems/client/Client";
 import { EvaluationSetRuns } from "./api/resources/evaluationSetRuns/client/Client";
@@ -75,7 +75,7 @@ export class ExtendClient {
     protected _processorRun: ProcessorRun | undefined;
     protected _processor: Processor | undefined;
     protected _processorVersion: ProcessorVersion | undefined;
-    protected _batchProcessorRuns: BatchProcessorRuns | undefined;
+    protected _batchProcessorRun: BatchProcessorRun | undefined;
     protected _evaluationSets: EvaluationSets | undefined;
     protected _evaluationSetItems: EvaluationSetItems | undefined;
     protected _evaluationSetRuns: EvaluationSetRuns | undefined;
@@ -166,8 +166,8 @@ export class ExtendClient {
         return (this._processorVersion ??= new ProcessorVersion(this._options));
     }
 
-    public get batchProcessorRuns(): BatchProcessorRuns {
-        return (this._batchProcessorRuns ??= new BatchProcessorRuns(this._options));
+    public get batchProcessorRun(): BatchProcessorRun {
+        return (this._batchProcessorRun ??= new BatchProcessorRun(this._options));
     }
 
     public get evaluationSets(): EvaluationSets {

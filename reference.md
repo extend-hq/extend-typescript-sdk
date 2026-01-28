@@ -4705,9 +4705,9 @@ Example: `"dpv_QYk6jgHA_8CsO8rVWhyNC"`
 </dl>
 </details>
 
-## BatchProcessorRuns
+## BatchProcessorRun
 
-<details><summary><code>client.batchProcessorRuns.<a href="/src/api/resources/batchProcessorRuns/client/Client.ts">retrieve</a>(id) -> Extend.BatchProcessorRunsRetrieveResponse</code></summary>
+<details><summary><code>client.batchProcessorRun.<a href="/src/api/resources/batchProcessorRun/client/Client.ts">get</a>(id) -> Extend.BatchProcessorRunGetResponse</code></summary>
 <dl>
 <dd>
 
@@ -4737,7 +4737,7 @@ Retrieve details about a batch processor run, including evaluation runs.
 <dd>
 
 ```typescript
-await client.batchProcessorRuns.retrieve("bpr_id_here");
+await client.batchProcessorRun.get("bpr_id_here");
 ```
 
 </dd>
@@ -4765,7 +4765,7 @@ Example: `"bpr_Xj8mK2pL9nR4vT7qY5wZ"`
 <dl>
 <dd>
 
-**requestOptions:** `BatchProcessorRuns.RequestOptions`
+**requestOptions:** `BatchProcessorRun.RequestOptions`
 
 </dd>
 </dl>

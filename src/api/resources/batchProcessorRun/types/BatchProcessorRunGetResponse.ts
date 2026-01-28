@@ -4,7 +4,7 @@
 
 import * as Extend from "../../../index";
 
-export interface BatchProcessorRunsRetrieveResponse {
+export interface BatchProcessorRunGetResponse {
     success: boolean;
-    batchProcessorRun: Extend.BatchProcessorRun;
+    batchProcessorRun: Extend.LegacyBatchProcessorRun;
 }

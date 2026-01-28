@@ -31,13 +31,13 @@ describe("BatchProcessorRun", () => {
         };
         server
             .mockEndpoint()
-            .get("/batch_processor_runs/batch_processor_run_id_here")
+            .get("/batch_processor_runs/bpr_id_here")
             .respondWith()
             .statusCode(200)
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.batchProcessorRun.get("batch_processor_run_id_here");
+        const response = await client.batchProcessorRun.get("bpr_id_here");
         expect(response).toEqual({
             success: true,
             batchProcessorRun: {
@@ -86,7 +86,7 @@ describe("BatchProcessorRun", () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { success: undefined, error: undefined };
+        const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
             .get("/batch_processor_runs/id")
