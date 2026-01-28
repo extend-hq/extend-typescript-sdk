@@ -14,7 +14,17 @@ export default {
             testPathIgnorePatterns: ["/tests/wire/"],
             setupFilesAfterEnv: [],
         },
-        ,
+        {
+            displayName: "wrapper",
+            preset: "ts-jest",
+            testEnvironment: "node",
+            moduleNameMapper: {
+                "^(\.{1,2}/.*)\.js$": "$1",
+            },
+            roots: ["<rootDir>/src/wrapper"],
+            testMatch: ["**/*.test.ts"],
+            setupFilesAfterEnv: [],
+        },
         {
             displayName: "wire",
             preset: "ts-jest",
