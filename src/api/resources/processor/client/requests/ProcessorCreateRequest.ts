@@ -14,7 +14,7 @@ import * as Extend from "../../../../index";
 export interface ProcessorCreateRequest {
     /** The name of the new processor */
     name: string;
-    type: Extend.ProcessorType;
+    type: Extend.LegacyProcessorType;
     /**
      * The ID of an existing processor to clone. One of `cloneProcessorId` or `config` must be provided.
      *

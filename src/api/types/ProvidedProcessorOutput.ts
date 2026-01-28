@@ -5,6 +5,6 @@
 import * as Extend from "../index";
 
 export type ProvidedProcessorOutput =
-    | Extend.ProvidedExtractionOutput
-    | Extend.ProvidedClassifierOutput
-    | Extend.ProvidedSplitterOutput;
+    | Extend.ProvidedExtractOutput
+    | Extend.ProvidedClassifyOutput
+    | Extend.ProvidedSplitOutput;

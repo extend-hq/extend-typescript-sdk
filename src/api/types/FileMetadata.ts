@@ -7,6 +7,5 @@ import * as Extend from "../index";
 export interface FileMetadata {
     /** The number of pages in the file. This is only set for PDF/DOCX files. */
     pageCount?: number;
-    /** The split metadata details. Only included if this file is a derivative of another file, for instance if it was created via a Splitter in a workflow. */
-    parentSplit?: Extend.FileMetadataParentSplit;
+    parentSplit?: Extend.ParentSplit;
 }

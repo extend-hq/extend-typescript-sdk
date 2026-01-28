@@ -5,10 +5,9 @@
 import * as Extend from "../index";
 
 export interface Citation {
-    /** Page number where the citation was found */
-    page?: number;
+    page?: Extend.CitationPage;
     /** The text that was referenced */
     referenceText?: string;
-    /** Array of points defining the polygon */
+    /** Array of points defining the polygon around the referenced text */
     polygon?: Extend.Polygon[];
 }

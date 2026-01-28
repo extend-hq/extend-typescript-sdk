@@ -6,5 +6,5 @@ import * as Extend from "../../../index";
 
 export interface ProcessorCreateResponse {
     success: boolean;
-    processor: Extend.Processor;
+    processor: Extend.LegacyProcessor;
 }

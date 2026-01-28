@@ -13,9 +13,9 @@ export declare namespace ProcessorRun {
         environment?: core.Supplier<environments.ExtendEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token?: core.Supplier<core.BearerToken | undefined>;
+        token: core.Supplier<core.BearerToken>;
         /** Override the x-extend-api-version header */
-        extendApiVersion?: "2025-04-21";
+        extendApiVersion?: "2026-01-01";
         /** Additional headers to include in requests. */
         headers?: Record<string, string | core.Supplier<string | null | undefined> | null | undefined>;
         fetcher?: core.FetchFunction;
@@ -29,7 +29,7 @@ export declare namespace ProcessorRun {
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
         /** Override the x-extend-api-version header */
-        extendApiVersion?: "2025-04-21";
+        extendApiVersion?: "2026-01-01";
         /** Additional query string parameters to include in the request. */
         queryParams?: Record<string, unknown>;
         /** Additional headers to include in the request. */
@@ -40,7 +40,7 @@ export declare namespace ProcessorRun {
 export class ProcessorRun {
     protected readonly _options: ProcessorRun.Options;
 
-    constructor(_options: ProcessorRun.Options = {}) {
+    constructor(_options: ProcessorRun.Options) {
         this._options = _options;
     }
 
@@ -135,7 +135,7 @@ export class ProcessorRun {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-01-01",
             }),
             requestOptions?.headers,
         );
@@ -162,7 +162,7 @@ export class ProcessorRun {
                 case 400:
                     throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.ExtendError({
                         statusCode: _response.error.statusCode,
@@ -197,7 +197,7 @@ export class ProcessorRun {
      * - **Synchronous**: Set `sync: true` to wait for completion and get final results in the response (5-minute timeout).
      *
      * **For asynchronous processing:**
-     * - You can [configure webhooks](https://docs.extend.ai/2025-04-21/developers/webhooks/configuration) to receive notifications when a processor run is complete or failed.
+     * - You can [configure webhooks](https://docs.extend.ai/product/webhooks/configuration) to receive notifications when a processor run is complete or failed.
      * - Or you can [poll the get endpoint](https://docs.extend.ai/2025-04-21/developers/api-reference/processor-endpoints/get-processor-run) for updates on the status of the processor run.
      *
      * @param {Extend.ProcessorRunCreateRequest} request
@@ -228,7 +228,7 @@ export class ProcessorRun {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-01-01",
             }),
             requestOptions?.headers,
         );
@@ -258,7 +258,7 @@ export class ProcessorRun {
                 case 400:
                     throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
@@ -321,7 +321,7 @@ export class ProcessorRun {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-01-01",
             }),
             requestOptions?.headers,
         );
@@ -348,7 +348,7 @@ export class ProcessorRun {
                 case 400:
                     throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
@@ -408,7 +408,7 @@ export class ProcessorRun {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-01-01",
             }),
             requestOptions?.headers,
         );
@@ -494,7 +494,7 @@ export class ProcessorRun {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-01-01",
             }),
             requestOptions?.headers,
         );
@@ -521,7 +521,7 @@ export class ProcessorRun {
                 case 400:
                     throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
@@ -550,12 +550,7 @@ export class ProcessorRun {
         }
     }
 
-    protected async _getAuthorizationHeader(): Promise<string | undefined> {
-        const bearer = await core.Supplier.get(this._options.token);
-        if (bearer != null) {
-            return `Bearer ${bearer}`;
-        }
-
-        return undefined;
+    protected async _getAuthorizationHeader(): Promise<string> {
+        return `Bearer ${await core.Supplier.get(this._options.token)}`;
     }
 }

@@ -3,5 +3,23 @@
  */
 
 export interface TooManyRequestsErrorBody {
-    error: string;
+    /** Error code for programmatic handling. */
+    code: string;
+    /**
+     * Human-readable error message suitable for displaying to developers.
+     * Do not rely on the exact text of this message as it may change.
+     */
+    message: string;
+    /**
+     * Whether the request can be retried. When true, retry with exponential backoff.
+     * When false, fix the underlying issue before retrying.
+     */
+    retryable: boolean;
+    /** Link to documentation about this error. */
+    docUrl?: string;
+    /**
+     * Unique request identifier for support purposes. Always include this
+     * when contacting Extend support about an error.
+     */
+    requestId?: string;
 }

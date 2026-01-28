@@ -5,8 +5,9 @@
 /**
  * The strategy to use for chunking the document.
  */
-export type ExtractChunkingOptionsChunkingStrategy = "standard" | "semantic";
+export type ExtractChunkingOptionsChunkingStrategy = "standard" | "semantic" | "contextual";
 export const ExtractChunkingOptionsChunkingStrategy = {
     Standard: "standard",
     Semantic: "semantic",
+    Contextual: "contextual",
 } as const;

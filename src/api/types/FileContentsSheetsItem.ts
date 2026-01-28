@@ -5,6 +5,6 @@
 export interface FileContentsSheetsItem {
     /** The name of the sheet. */
     sheetName: string;
-    /** The raw text content of the sheet. */
+    /** The raw text content of the sheet in CSV format. */
     rawText?: string;
 }

@@ -16,15 +16,15 @@ export type ProcessorUpdateRequestConfig =
     | Extend.ProcessorUpdateRequestConfig.Splitter;
 
 export namespace ProcessorUpdateRequestConfig {
-    export interface Classify extends Extend.ClassificationConfig {
+    export interface Classify extends Extend.LegacyClassificationConfig {
         type: "CLASSIFY";
     }
 
-    export interface Extract extends Extend.ExtractionConfig {
+    export interface Extract extends Extend.LegacyExtractionConfig {
         type: "EXTRACT";
     }
 
-    export interface Splitter extends Extend.SplitterConfig {
+    export interface Splitter extends Extend.LegacySplitterConfig {
         type: "SPLITTER";
     }
 }
