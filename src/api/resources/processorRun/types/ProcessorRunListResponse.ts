@@ -6,6 +6,6 @@ import * as Extend from "../../../index";
 
 export interface ProcessorRunListResponse {
     success: boolean;
-    processorRuns: Extend.ProcessorRunSummary[];
-    nextPageToken?: Extend.NextPageToken;
+    processorRuns: Extend.LegacyProcessorRunSummary[];
+    nextPageToken?: Extend.LegacyNextPageToken;
 }

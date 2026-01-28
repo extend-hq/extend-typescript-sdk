@@ -3,20 +3,14 @@
  */
 
 export interface Workflow {
-    /** The type of response. In this case, it will always be `"workflow"`. */
-    object: string;
+    /** The type of object. In this case, it will always be `"workflow"`. */
+    object: "workflow";
     /**
      * The ID of the workflow.
      *
      * Example: `"workflow_BMlfq_yWM3sT-ZzvCnA3f"`
      */
     id: string;
-    /**
-     * The version of the workflow.
-     *
-     * Examples: `"3"`, `"draft"`
-     */
-    version: string;
     /**
      * The name of the workflow.
      *

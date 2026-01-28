@@ -3,7 +3,7 @@
  */
 
 /**
- * The type of the file
+ * The type of the file based on the file extension or content type.
  */
 export type FileType = "PDF" | "CSV" | "IMG" | "TXT" | "DOCX" | "EXCEL" | "XML" | "HTML";
 export const FileType = {

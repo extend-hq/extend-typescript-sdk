@@ -13,9 +13,9 @@ export declare namespace Processor {
         environment?: core.Supplier<environments.ExtendEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token?: core.Supplier<core.BearerToken | undefined>;
+        token: core.Supplier<core.BearerToken>;
         /** Override the x-extend-api-version header */
-        extendApiVersion?: "2025-04-21";
+        extendApiVersion?: "2026-01-01";
         /** Additional headers to include in requests. */
         headers?: Record<string, string | core.Supplier<string | null | undefined> | null | undefined>;
         fetcher?: core.FetchFunction;
@@ -29,7 +29,7 @@ export declare namespace Processor {
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
         /** Override the x-extend-api-version header */
-        extendApiVersion?: "2025-04-21";
+        extendApiVersion?: "2026-01-01";
         /** Additional query string parameters to include in the request. */
         queryParams?: Record<string, unknown>;
         /** Additional headers to include in the request. */
@@ -40,7 +40,7 @@ export declare namespace Processor {
 export class Processor {
     protected readonly _options: Processor.Options;
 
-    constructor(_options: Processor.Options = {}) {
+    constructor(_options: Processor.Options) {
         this._options = _options;
     }
 
@@ -67,14 +67,14 @@ export class Processor {
     public list(
         request: Extend.ProcessorListRequest = {},
         requestOptions?: Processor.RequestOptions,
-    ): core.HttpResponsePromise<Extend.ListProcessorsResponse> {
+    ): core.HttpResponsePromise<Extend.LegacyListProcessorsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
     private async __list(
         request: Extend.ProcessorListRequest = {},
         requestOptions?: Processor.RequestOptions,
-    ): Promise<core.WithRawResponse<Extend.ListProcessorsResponse>> {
+    ): Promise<core.WithRawResponse<Extend.LegacyListProcessorsResponse>> {
         const { type: type_, nextPageToken, maxPageSize, sortBy, sortDir } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (type_ != null) {
@@ -101,7 +101,7 @@ export class Processor {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-01-01",
             }),
             requestOptions?.headers,
         );
@@ -120,7 +120,7 @@ export class Processor {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Extend.ListProcessorsResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Extend.LegacyListProcessorsResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -128,7 +128,7 @@ export class Processor {
                 case 400:
                     throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
                     throw new Extend.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
@@ -190,7 +190,7 @@ export class Processor {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-01-01",
             }),
             requestOptions?.headers,
         );
@@ -220,7 +220,7 @@ export class Processor {
                 case 400:
                     throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
@@ -282,7 +282,7 @@ export class Processor {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-01-01",
             }),
             requestOptions?.headers,
         );
@@ -312,7 +312,7 @@ export class Processor {
                 case 400:
                     throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
@@ -341,12 +341,7 @@ export class Processor {
         }
     }
 
-    protected async _getAuthorizationHeader(): Promise<string | undefined> {
-        const bearer = await core.Supplier.get(this._options.token);
-        if (bearer != null) {
-            return `Bearer ${bearer}`;
-        }
-
-        return undefined;
+    protected async _getAuthorizationHeader(): Promise<string> {
+        return `Bearer ${await core.Supplier.get(this._options.token)}`;
     }
 }

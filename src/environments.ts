@@ -4,6 +4,11 @@
 
 export const ExtendEnvironment = {
     Production: "https://api.extend.ai",
+    ProductionUs2: "https://api.us2.extend.app",
+    ProductionEu1: "https://api.eu1.extend.ai",
 } as const;
 
-export type ExtendEnvironment = typeof ExtendEnvironment.Production;
+export type ExtendEnvironment =
+    | typeof ExtendEnvironment.Production
+    | typeof ExtendEnvironment.ProductionUs2
+    | typeof ExtendEnvironment.ProductionEu1;
