@@ -26,32 +26,89 @@ function createValidHeaders(body: string, secret: string, timestamp?: number): W
     };
 }
 
-// Sample webhook events
+// Sample webhook events with complete valid payloads
+const sampleWorkflowRunPayload: Extend.WorkflowRun = {
+    object: "workflow_run",
+    id: "workflow_run_abc123",
+    workflow: {
+        object: "workflow_summary",
+        id: "workflow_123",
+        name: "Test Workflow",
+    },
+    workflowVersion: {
+        object: "workflow_version_summary",
+        id: "workflow_version_456",
+        version: "1",
+        name: "Test Workflow v1",
+    },
+    dashboardUrl: "https://dashboard.extend.ai/workflows/workflow_run_abc123",
+    status: "PROCESSED",
+    metadata: {},
+    files: [
+        {
+            object: "file_summary",
+            id: "file_789",
+            name: "test.pdf",
+            type: "application/pdf",
+            metadata: {},
+            createdAt: "2024-01-01T00:00:00Z",
+            updatedAt: "2024-01-01T00:00:00Z",
+        },
+    ],
+    reviewed: false,
+    stepRuns: [],
+};
+
 const sampleWorkflowRunEvent: Extend.WebhookEvent = {
     eventId: "evt_123",
     eventType: "workflow_run.completed",
-    payload: {
-        id: "wr_abc",
-        object: "workflow_run",
-        status: "PROCESSED",
-        workflowId: "wf_123",
-        workflowVersionId: "wfv_123",
+    payload: sampleWorkflowRunPayload,
+};
+
+const sampleExtractRunPayload: Extend.ExtractRun = {
+    object: "extract_run",
+    id: "extract_run_def456",
+    extractor: {
+        object: "extractor_summary",
+        id: "extractor_123",
+        name: "Test Extractor",
         createdAt: "2024-01-01T00:00:00Z",
         updatedAt: "2024-01-01T00:00:00Z",
-    } as unknown as Extend.WorkflowRun,
+    },
+    extractorVersion: {
+        object: "extractor_version_summary",
+        id: "extractor_version_456",
+        version: "1",
+        extractorId: "extractor_123",
+        createdAt: "2024-01-01T00:00:00Z",
+    },
+    status: "PROCESSED",
+    output: { value: { field: "value" }, metadata: {} },
+    initialOutput: { value: { field: "value" }, metadata: {} },
+    reviewedOutput: { value: { field: "value" }, metadata: {} },
+    metadata: {},
+    reviewed: false,
+    edited: false,
+    config: { schema: { type: "object", properties: {} } },
+    file: {
+        object: "file_summary",
+        id: "file_789",
+        name: "test.pdf",
+        type: "application/pdf",
+        metadata: {},
+        createdAt: "2024-01-01T00:00:00Z",
+        updatedAt: "2024-01-01T00:00:00Z",
+    },
+    dashboardUrl: "https://dashboard.extend.ai/extract-runs/extract_run_def456",
+    usage: { credits: 1 },
+    createdAt: "2024-01-01T00:00:00Z",
+    updatedAt: "2024-01-01T00:00:00Z",
 };
 
 const sampleExtractRunEvent: Extend.WebhookEvent = {
     eventId: "evt_456",
     eventType: "extract_run.processed",
-    payload: {
-        id: "er_def",
-        object: "extract_run",
-        status: "PROCESSED",
-        fileId: "file_123",
-        createdAt: "2024-01-01T00:00:00Z",
-        updatedAt: "2024-01-01T00:00:00Z",
-    } as unknown as Extend.ExtractRun,
+    payload: sampleExtractRunPayload,
 };
 
 const sampleSignedUrlEvent = {
@@ -453,7 +510,7 @@ describe("Webhooks", () => {
 
             if (!webhooks.isSignedUrlEvent(event)) {
                 // TypeScript should know this is WebhookEvent
-                expect((event.payload as Extend.WorkflowRun).id).toBe("wr_abc");
+                expect((event.payload as Extend.WorkflowRun).id).toBe(sampleWorkflowRunPayload.id);
             } else {
                 fail("Expected isSignedUrlEvent to return false");
             }
