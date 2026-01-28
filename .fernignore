@@ -1,2 +1,14 @@
 # Specify files that shouldn't be modified by Fern
 README.md
+
+# Custom wrapper code (polling, webhooks, typed schemas)
+src/wrapper/
+
+# Custom index.ts exports the wrapper client
+src/index.ts
+
+# Jest config with wrapper tests
+jest.config.mjs
+
+# Documentation
+docs/
