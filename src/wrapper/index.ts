@@ -1,11 +1,12 @@
 export { ExtendClient } from "./ExtendClient";
 
+// Webhooks
 export {
     Webhooks,
     WebhookSignatureVerificationError,
     WebhookPayloadFetchError,
     SignedUrlNotAllowedError,
-} from "./Webhooks";
+} from "./webhooks";
 export type {
     WebhookHeaders,
     VerifyOptions,
@@ -14,12 +15,14 @@ export type {
     WebhookEventWithSignedUrl,
     WebhookEventType,
     RawWebhookEvent,
-} from "./Webhooks";
+} from "./webhooks";
 
-export { pollUntilDone, calculateBackoffDelay, PollingTimeoutError } from "./Polling";
-export type { PollingOptions } from "./Polling";
+// Polling utilities
+export { pollUntilDone, calculateBackoffDelay, PollingTimeoutError } from "./utilities/polling";
+export type { PollingOptions } from "./utilities/polling";
 
-export { ExtractRunsWrapper } from "./ExtractRunsWrapper";
+// Run wrappers with createAndPoll methods
+export { ExtractRunsWrapper } from "./resources/extractRuns";
 export type {
     CreateAndPollOptions,
     TypedExtractConfig,
@@ -30,7 +33,22 @@ export type {
     TypedExtractOutput,
     TypedExtractRun,
     TypedExtractRunsRetrieveResponse,
-} from "./ExtractRunsWrapper";
+} from "./resources/extractRuns";
+
+export { ClassifyRunsWrapper } from "./resources/classifyRuns";
+export type { CreateAndPollOptions as ClassifyRunsCreateAndPollOptions } from "./resources/classifyRuns";
+
+export { SplitRunsWrapper } from "./resources/splitRuns";
+export type { CreateAndPollOptions as SplitRunsCreateAndPollOptions } from "./resources/splitRuns";
+
+export { WorkflowRunsWrapper } from "./resources/workflowRuns";
+export type { CreateAndPollOptions as WorkflowRunsCreateAndPollOptions } from "./resources/workflowRuns";
+
+export { EditRunsWrapper } from "./resources/editRuns";
+export type { CreateAndPollOptions as EditRunsCreateAndPollOptions } from "./resources/editRuns";
+
+export { ParseRunsWrapper } from "./resources/parseRuns";
+export type { CreateAndPollOptions as ParseRunsCreateAndPollOptions } from "./resources/parseRuns";
 
 // Schema utilities for typed extraction
 export {
