@@ -7,7 +7,7 @@ import {
     WebhookHeaders,
     RawWebhookEvent,
 } from "./Webhooks";
-import * as Extend from "../api";
+import * as Extend from "../../api";
 
 // ============================================================================
 // Test Helpers
@@ -49,7 +49,7 @@ const sampleWorkflowRunPayload: Extend.WorkflowRun = {
             object: "file_summary",
             id: "file_789",
             name: "test.pdf",
-            type: "application/pdf",
+            type: "PDF",
             metadata: {},
             createdAt: "2024-01-01T00:00:00Z",
             updatedAt: "2024-01-01T00:00:00Z",
@@ -94,7 +94,7 @@ const sampleExtractRunPayload: Extend.ExtractRun = {
         object: "file_summary",
         id: "file_789",
         name: "test.pdf",
-        type: "application/pdf",
+        type: "PDF",
         metadata: {},
         createdAt: "2024-01-01T00:00:00Z",
         updatedAt: "2024-01-01T00:00:00Z",

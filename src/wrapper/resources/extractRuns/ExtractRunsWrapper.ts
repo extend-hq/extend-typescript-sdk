@@ -43,10 +43,10 @@
  */
 
 import { z } from "zod";
-import { ExtractRuns } from "../api/resources/extractRuns/client/Client";
-import * as Extend from "../api";
-import { pollUntilDone, PollingOptions, PollingTimeoutError } from "./Polling";
-import { ExtendSchemaWrapper, InferExtendSchema, EXTEND_SCHEMA_MARKER } from "./schema/types";
+import { ExtractRuns } from "../../../api/resources/extractRuns/client/Client";
+import * as Extend from "../../../api";
+import { pollUntilDone, PollingOptions, PollingTimeoutError } from "../../utilities/polling";
+import { ExtendSchemaWrapper, InferExtendSchema, EXTEND_SCHEMA_MARKER } from "../../schema/types";
 
 export { PollingTimeoutError };
 
@@ -58,16 +58,36 @@ export interface CreateAndPollOptions extends PollingOptions {
 }
 
 /**
- * Config type that includes an ExtendSchemaWrapper via the schema property.
+ * Typed extraction config that uses an ExtendSchemaWrapper for the schema property.
+ * This provides full TypeScript inference for extraction output based on your Zod schema.
  */
 export interface TypedExtractConfig<T extends z.ZodRawShape> {
-    /** The typed schema for extraction output. */
+    /**
+     * Typed JSON Schema definition of the data to extract, created with `extendSchema()`.
+     * The extraction output will be fully typed based on this schema.
+     *
+     * @example
+     * ```typescript
+     * const schema = extendSchema({
+     *   invoice_number: z.string().nullable(),
+     *   total: extendCurrency(),
+     * });
+     * ```
+     */
     schema: ExtendSchemaWrapper<T>;
-    /** The base processor to use. */
+    /**
+     * The base processor to use. For extractors, this can be either `"extraction_performance"` or `"extraction_light"`.
+     * Defaults to `"extraction_performance"` if not provided.
+     * See [Extraction Changelog](https://docs.extend.ai/2026-01-01/changelog/extraction/extraction-performance) for more details.
+     */
     baseProcessor: Extend.ExtractConfigJsonBaseProcessor;
-    /** The version of the processor to use. */
+    /**
+     * The version of the `"extraction_performance"` or `"extraction_light"` processor to use.
+     * If not provided, the latest stable version for the selected `baseProcessor` will be used automatically.
+     * See [Extraction Changelog](https://docs.extend.ai/2026-01-01/changelog/extraction/extraction-performance) for more details.
+     */
     baseVersion?: string;
-    /** Custom rules to guide the extraction process. */
+    /** Custom rules to guide the extraction process in natural language. */
     extractionRules?: string;
     /** Advanced configuration options. */
     advancedOptions?: Extend.ExtractAdvancedOptions;
@@ -77,30 +97,55 @@ export interface TypedExtractConfig<T extends z.ZodRawShape> {
 
 /**
  * Extractor reference with typed overrideConfig.
+ * Use this when overriding an existing extractor's config with a typed schema.
  */
 export interface TypedExtractorReference<T extends z.ZodRawShape> {
-    /** The ID of the extractor to use. */
+    /** The ID of the extractor to use (e.g., "extractor_abc123"). */
     id: string;
-    /** Optional version string. */
+    /**
+     * Optional version of the extractor to use.
+     * If not provided, the latest published version will be used.
+     */
     version?: Extend.ProcessorVersionString;
-    /** Typed configuration override. */
+    /**
+     * Typed configuration override for this extractor.
+     * The extraction output will be fully typed based on the schema you provide.
+     */
     overrideConfig: TypedExtractConfig<T>;
 }
 
 /**
  * Request type for typed extraction with inline config.
+ * Use this when providing a typed schema directly via `config.schema`.
  */
 export interface TypedExtractRunsCreateRequestWithConfig<T extends z.ZodRawShape>
     extends Omit<Extend.ExtractRunsCreateRequest, "config" | "extractor"> {
+    /**
+     * Inline extract configuration with typed schema.
+     * The extraction output will be fully typed based on the schema you provide.
+     *
+     * @example
+     * ```typescript
+     * config: {
+     *   schema: extendSchema({ invoice_number: z.string().nullable() }),
+     *   baseProcessor: "extraction_performance",
+     * }
+     * ```
+     */
     config: TypedExtractConfig<T>;
     extractor?: never;
 }
 
 /**
  * Request type for typed extraction with extractor.overrideConfig.
+ * Use this when overriding an existing extractor's config with a typed schema.
  */
 export interface TypedExtractRunsCreateRequestWithExtractor<T extends z.ZodRawShape>
     extends Omit<Extend.ExtractRunsCreateRequest, "config" | "extractor"> {
+    /**
+     * Reference to an existing extractor with typed configuration override.
+     * The extraction output will be fully typed based on the schema in overrideConfig.
+     */
     extractor: TypedExtractorReference<T>;
     config?: never;
 }

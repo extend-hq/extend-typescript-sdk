@@ -30,7 +30,7 @@
  */
 
 import * as crypto from "crypto";
-import * as Extend from "../api";
+import * as Extend from "../../api";
 
 // ============================================================================
 // Types
