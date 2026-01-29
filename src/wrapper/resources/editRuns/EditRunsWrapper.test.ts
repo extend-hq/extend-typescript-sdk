@@ -30,10 +30,16 @@ function createMockEditRun(overrides: Partial<Extend.EditRun> = {}): Extend.Edit
             id: "file_789",
             name: "test.pdf",
             type: "PDF",
+            parentFileId: null,
             metadata: {},
             createdAt: "2024-01-01T00:00:00Z",
             updatedAt: "2024-01-01T00:00:00Z",
         },
+        failureReason: null,
+        failureMessage: null,
+        output: null,
+        metrics: null,
+        usage: null,
         ...overrides,
     };
 }
