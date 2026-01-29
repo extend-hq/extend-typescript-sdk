@@ -30,10 +30,17 @@ function createMockParseRun(overrides: Partial<Extend.ParseRun> = {}): Extend.Pa
             id: "file_789",
             name: "test.pdf",
             type: "PDF",
+            parentFileId: null,
             metadata: {},
             createdAt: "2024-01-01T00:00:00Z",
             updatedAt: "2024-01-01T00:00:00Z",
         },
+        failureReason: null,
+        failureMessage: null,
+        output: null,
+        outputUrl: null,
+        metrics: null,
+        usage: null,
         ...overrides,
     };
 }

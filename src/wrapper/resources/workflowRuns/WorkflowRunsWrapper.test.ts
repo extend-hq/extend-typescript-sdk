@@ -40,6 +40,16 @@ function createMockWorkflowRun(overrides: Partial<Extend.WorkflowRun> = {}): Ext
         files: [],
         stepRuns: [],
         reviewed: false,
+        batchId: null,
+        failureReason: null,
+        failureMessage: null,
+        initialRunAt: null,
+        reviewedByUser: null,
+        rejectionNote: null,
+        reviewedAt: null,
+        startTime: null,
+        endTime: null,
+        usage: null,
         ...overrides,
     };
 }
