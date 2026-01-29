@@ -56,13 +56,7 @@ export class Processor {
      * @throws {@link Extend.InternalServerError}
      *
      * @example
-     *     await client.processor.list({
-     *         type: "EXTRACT",
-     *         nextPageToken: "nextPageToken",
-     *         maxPageSize: 1,
-     *         sortBy: "createdAt",
-     *         sortDir: "asc"
-     *     })
+     *     await client.processor.list()
      */
     public list(
         request: Extend.ProcessorListRequest = {},
@@ -77,23 +71,23 @@ export class Processor {
     ): Promise<core.WithRawResponse<Extend.LegacyListProcessorsResponse>> {
         const { type: type_, nextPageToken, maxPageSize, sortBy, sortDir } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (type_ !== undefined) {
+        if (type_ != null) {
             _queryParams["type"] = type_;
         }
 
-        if (nextPageToken !== undefined) {
+        if (nextPageToken != null) {
             _queryParams["nextPageToken"] = nextPageToken;
         }
 
-        if (maxPageSize !== undefined) {
-            _queryParams["maxPageSize"] = maxPageSize?.toString() ?? null;
+        if (maxPageSize != null) {
+            _queryParams["maxPageSize"] = maxPageSize.toString();
         }
 
-        if (sortBy !== undefined) {
+        if (sortBy != null) {
             _queryParams["sortBy"] = sortBy;
         }
 
-        if (sortDir !== undefined) {
+        if (sortDir != null) {
             _queryParams["sortDir"] = sortDir;
         }
 

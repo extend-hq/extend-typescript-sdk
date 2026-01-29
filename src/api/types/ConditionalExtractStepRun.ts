@@ -7,5 +7,5 @@ import * as Extend from "../index";
 export interface ConditionalExtractStepRun extends Extend.StepRunBase {
     step: Extend.ConditionalExtractStepRunStep;
     /** The conditional extract result. Will be null if the conditional extract step was not successful. */
-    result?: Extend.ConditionalExtractResult | null;
+    result: Extend.ConditionalExtractResult | null;
 }

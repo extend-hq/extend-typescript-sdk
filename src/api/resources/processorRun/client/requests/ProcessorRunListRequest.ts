@@ -7,16 +7,7 @@ import * as Extend from "../../../../index";
 /**
  * @example
  *     {
- *         status: "PENDING",
- *         processorId: "processorId",
- *         processorType: "EXTRACT",
- *         sourceId: "sourceId",
- *         source: "ADMIN",
- *         fileNameContains: "fileNameContains",
- *         sortBy: "updatedAt",
- *         sortDir: "asc",
- *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
- *         maxPageSize: 1
+ *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
  *     }
  */
 export interface ProcessorRunListRequest {
@@ -30,25 +21,25 @@ export interface ProcessorRunListRequest {
      *  * `"FAILED"` - The processor run encountered an error
      *  * `"CANCELLED"` - The processor run was cancelled
      */
-    status?: Extend.LegacyProcessorStatus | null;
+    status?: Extend.LegacyProcessorStatus;
     /**
      * Filters processor runs by the processor ID. If not provided, runs for all processors are returned.
      *
      * Example: `"dp_BMdfq_yWM3sT-ZzvCnA3f"`
      */
-    processorId?: string | null;
+    processorId?: string;
     /**
      * Filters processor runs by the processor type. If not provided, runs for all processor types are returned.
      *
      * Example: `"EXTRACT"`
      */
-    processorType?: Extend.LegacyProcessorType | null;
+    processorType?: Extend.LegacyProcessorType;
     /**
      * Filters processor runs by the source ID. The source ID corresponds to the entity that created the processor run.
      *
      * Example: `"workflow_run_123"`
      */
-    sourceId?: string | null;
+    sourceId?: string;
     /**
      * Filters processor runs by the source that created them. If not provided, runs from all sources are returned.
      *
@@ -61,17 +52,17 @@ export interface ProcessorRunListRequest {
      * * `"STUDIO"` - Created from Studio
      * * `"API"` - Created via API
      */
-    source?: Extend.ProcessorRunListRequestSource | null;
+    source?: Extend.ProcessorRunListRequestSource;
     /**
      * Filters processor runs by the name of the file. Only returns processor runs where the file name contains this string.
      *
      * Example: `"invoice"`
      */
-    fileNameContains?: string | null;
+    fileNameContains?: string;
     /** Sorts the processor runs by the given field. */
-    sortBy?: Extend.LegacySortByEnum | null;
+    sortBy?: Extend.LegacySortByEnum;
     /** Sorts the processor runs in ascending or descending order. Ascending order means the earliest processor run is returned first. */
-    sortDir?: Extend.LegacySortDirEnum | null;
-    nextPageToken?: Extend.LegacyNextPageToken | null;
-    maxPageSize?: Extend.LegacyMaxPageSize | null;
+    sortDir?: Extend.LegacySortDirEnum;
+    nextPageToken?: Extend.LegacyNextPageToken;
+    maxPageSize?: Extend.LegacyMaxPageSize;
 }

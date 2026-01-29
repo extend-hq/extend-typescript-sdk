@@ -4,11 +4,7 @@
 
 /**
  * @example
- *     {
- *         rawText: true,
- *         markdown: true,
- *         html: true
- *     }
+ *     {}
  */
 export interface FilesRetrieveRequest {
     /**
@@ -16,7 +12,7 @@ export interface FilesRetrieveRequest {
      *
      * If set to true, the raw text content of the file will be included in the response.
      */
-    rawText?: boolean | null;
+    rawText?: boolean;
     /**
      * **Deprecated:** Use `POST /parse_runs` instead to parse file contents.
      *
@@ -24,7 +20,7 @@ export interface FilesRetrieveRequest {
      *
      * Only available for files with a type of PDF, IMG, or DOCX files that were auto-converted to PDFs.
      */
-    markdown?: boolean | null;
+    markdown?: boolean;
     /**
      * **Deprecated:** Use `POST /parse_runs` instead to parse file contents.
      *
@@ -32,5 +28,5 @@ export interface FilesRetrieveRequest {
      *
      * Only available for files with a type of DOCX.
      */
-    html?: boolean | null;
+    html?: boolean;
 }

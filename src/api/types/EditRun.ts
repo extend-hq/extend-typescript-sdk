@@ -45,13 +45,13 @@ export interface EditRun {
      *
      * **Note:** Additional failure reasons may be added in the future. Your integration should handle unknown values gracefully.
      */
-    failureReason?: string | null;
+    failureReason: string | null;
     /**
      * A human-readable description of the failure.
      *
      * **Availability:** Present when `status` is `"FAILED"`.
      */
-    failureMessage?: string | null;
+    failureMessage: string | null;
     /** The configuration used for this edit run, including any default values that were applied. */
     config: Extend.EditConfig;
     /**
@@ -59,17 +59,17 @@ export interface EditRun {
      *
      * **Availability:** Present when `status` is `"PROCESSED"`.
      */
-    output?: Extend.EditRunOutput | null;
+    output: Extend.EditRunOutput | null;
     /**
      * Metrics about the editing process.
      *
      * **Availability:** Present when `status` is `"PROCESSED"`.
      */
-    metrics?: Extend.EditRunMetrics | null;
+    metrics: Extend.EditRunMetrics | null;
     /**
      * Usage credits consumed by this run.
      *
      * **Availability:** Present when `status` is `"PROCESSED"`, the run was created after October 7, 2025, and the customer is on the current billing system.
      */
-    usage?: Extend.RunUsage | null;
+    usage: Extend.RunUsage | null;
 }

@@ -63,10 +63,7 @@ export class Files {
      *
      * @example
      *     await client.files.list({
-     *         nameContains: "nameContains",
-     *         sortDir: "asc",
-     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
-     *         maxPageSize: 1
+     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
      *     })
      */
     public list(
@@ -82,20 +79,20 @@ export class Files {
     ): Promise<core.WithRawResponse<Extend.FilesListResponse>> {
         const { nameContains, sortDir, nextPageToken, maxPageSize } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (nameContains !== undefined) {
+        if (nameContains != null) {
             _queryParams["nameContains"] = nameContains;
         }
 
-        if (sortDir !== undefined) {
+        if (sortDir != null) {
             _queryParams["sortDir"] = sortDir;
         }
 
-        if (nextPageToken !== undefined) {
+        if (nextPageToken != null) {
             _queryParams["nextPageToken"] = nextPageToken;
         }
 
-        if (maxPageSize !== undefined) {
-            _queryParams["maxPageSize"] = maxPageSize?.toString() ?? null;
+        if (maxPageSize != null) {
+            _queryParams["maxPageSize"] = maxPageSize.toString();
         }
 
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -187,11 +184,7 @@ export class Files {
      * @throws {@link Extend.InternalServerError}
      *
      * @example
-     *     await client.files.retrieve("file_id_here", {
-     *         rawText: true,
-     *         markdown: true,
-     *         html: true
-     *     })
+     *     await client.files.retrieve("file_id_here")
      */
     public retrieve(
         id: string,
@@ -208,16 +201,16 @@ export class Files {
     ): Promise<core.WithRawResponse<Extend.FilesRetrieveResponse>> {
         const { rawText, markdown, html } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (rawText !== undefined) {
-            _queryParams["rawText"] = rawText?.toString() ?? null;
+        if (rawText != null) {
+            _queryParams["rawText"] = rawText.toString();
         }
 
-        if (markdown !== undefined) {
-            _queryParams["markdown"] = markdown?.toString() ?? null;
+        if (markdown != null) {
+            _queryParams["markdown"] = markdown.toString();
         }
 
-        if (html !== undefined) {
-            _queryParams["html"] = html?.toString() ?? null;
+        if (html != null) {
+            _queryParams["html"] = html.toString();
         }
 
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

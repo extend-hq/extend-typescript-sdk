@@ -29,7 +29,7 @@ export interface ParseRunStatus {
      *
      * **Availability:** Present when `status` is `"FAILED"`.
      */
-    failureReason?: string | null;
+    failureReason: string | null;
     /**
      * A human-readable description of the failure.
      *

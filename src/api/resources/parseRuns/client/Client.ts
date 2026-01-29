@@ -175,9 +175,7 @@ export class ParseRuns {
      * @throws {@link Extend.InternalServerError}
      *
      * @example
-     *     await client.parseRuns.retrieve("parse_run_id_here", {
-     *         responseType: "json"
-     *     })
+     *     await client.parseRuns.retrieve("parse_run_id_here")
      */
     public retrieve(
         id: string,
@@ -194,7 +192,7 @@ export class ParseRuns {
     ): Promise<core.WithRawResponse<Extend.ParseRunsRetrieveResponse>> {
         const { responseType } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (responseType !== undefined) {
+        if (responseType != null) {
             _queryParams["responseType"] = responseType;
         }
 

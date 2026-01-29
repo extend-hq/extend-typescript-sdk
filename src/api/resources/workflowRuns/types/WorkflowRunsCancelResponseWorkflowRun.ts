@@ -29,24 +29,24 @@ export interface WorkflowRunsCancelResponseWorkflowRun {
      *
      * Example: `"batch_7Ws31-F5"`
      */
-    batchId?: string | null;
+    batchId: string | null;
     files: Extend.FileSummary[];
     /** The reason why the workflow run failed. Will only be included if the workflow run status is "FAILED". */
-    failureReason?: string | null;
+    failureReason: string | null;
     /** A more detailed message about the failure. Will only be included if the workflow run status is "FAILED". */
-    failureMessage?: string | null;
+    failureMessage: string | null;
     /**
      * The time (in UTC) at which the workflow run was created. Will follow the RFC 3339 format. Will be null if the run hasn't started yet.
      *
      * Example: `"2025-04-28T17:01:39.285Z"`
      */
-    initialRunAt?: string | null;
+    initialRunAt: string | null;
     /**
      * The email address of the person who reviewed the workflow run. Will be null if the workflow run has not been reviewed.
      *
      * Example: `"jane.doe@example.com"`
      */
-    reviewedByUser?: string | null;
+    reviewedByUser: string | null;
     /** Whether the workflow run has been reviewed. */
     reviewed: boolean;
     /**
@@ -54,26 +54,26 @@ export interface WorkflowRunsCancelResponseWorkflowRun {
      *
      * Example: `"Invalid invoice format"`
      */
-    rejectionNote?: string | null;
+    rejectionNote: string | null;
     /**
      * The time (in UTC) at which the workflow run was reviewed. Will follow the RFC 3339 format. Will be null if the workflow run has not been reviewed.
      *
      * Example: `"2024-03-21T16:45:00Z"`
      */
-    reviewedAt?: string | null;
+    reviewedAt: string | null;
     /**
      * The time (in UTC) at which the workflow run started executing. This will always be after the `initialRunAt` time. Will follow the RFC 3339 format. Will be null if the workflow run has not started executing.
      *
      * Example: `"2024-03-21T15:30:00Z"`
      */
-    startTime?: string | null;
+    startTime: string | null;
     /**
      * The time (in UTC) that the workflow finished executing. Will follow the RFC 3339 format. Will be null if the workflow run has not finished executing.
      *
      * Example: `"2024-03-21T15:35:00Z"`
      */
-    endTime?: string | null;
+    endTime: string | null;
     /** An array of WorkflowStepRun objects. Each WorkflowStepRun represents a single run of a WorkflowStep and contains details about the step's execution and result. */
     stepRuns: Extend.StepRun[];
-    usage?: Extend.RunUsage | null;
+    usage: Extend.RunUsage | null;
 }

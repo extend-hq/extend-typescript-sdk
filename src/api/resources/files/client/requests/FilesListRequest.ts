@@ -7,10 +7,7 @@ import * as Extend from "../../../../index";
 /**
  * @example
  *     {
- *         nameContains: "nameContains",
- *         sortDir: "asc",
- *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
- *         maxPageSize: 1
+ *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
  *     }
  */
 export interface FilesListRequest {
@@ -19,8 +16,8 @@ export interface FilesListRequest {
      *
      * Example: `"invoice"`
      */
-    nameContains?: string | null;
-    sortDir?: Extend.SortDir | null;
-    nextPageToken?: Extend.NextPageToken | null;
-    maxPageSize?: Extend.MaxPageSize | null;
+    nameContains?: string;
+    sortDir?: Extend.SortDir;
+    nextPageToken?: Extend.NextPageToken;
+    maxPageSize?: Extend.MaxPageSize;
 }

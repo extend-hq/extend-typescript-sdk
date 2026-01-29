@@ -24,13 +24,13 @@ export interface FileSummary {
      *
      * **Availability:** Present when the file type could be determined.
      */
-    type?: Extend.FileType | null;
+    type: Extend.FileType | null;
     /**
      * ID of the parent file.
      *
      * **Availability:** Present for files created via a Splitter in a workflow.
      */
-    parentFileId?: string | null;
+    parentFileId: string | null;
     metadata: Extend.FileMetadata;
     createdAt: Extend.CreatedAt;
     updatedAt: Extend.UpdatedAt;

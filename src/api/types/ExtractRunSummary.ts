@@ -17,32 +17,32 @@ export interface ExtractRunSummary {
      *
      * **Availability:** Present when an extractor reference was provided. Not present when using inline `config`.
      */
-    extractor?: Extend.ExtractorSummary | null;
+    extractor: Extend.ExtractorSummary | null;
     /**
      * The version of the extractor that was used for this run.
      *
      * **Availability:** Present when an extractor reference was provided. Not present when using inline `config`.
      */
-    extractorVersion?: Extend.ExtractorVersionSummary | null;
+    extractorVersion: Extend.ExtractorVersionSummary | null;
     status: Extend.ProcessorRunStatus;
     /**
      * The reason for failure.
      *
      * **Availability:** Present when `status` is `"FAILED"`.
      */
-    failureReason?: string | null;
+    failureReason: string | null;
     /**
      * A detailed message about the failure.
      *
      * **Availability:** Present when `status` is `"FAILED"`.
      */
-    failureMessage?: string | null;
+    failureMessage: string | null;
     /**
      * Any metadata that was provided when creating the extract run.
      *
      * **Availability:** Present when metadata was provided during creation.
      */
-    metadata?: Extend.RunMetadata | null;
+    metadata: Extend.RunMetadata | null;
     /** Indicates whether the run has been reviewed by a human. */
     reviewed: boolean;
     /** Indicates whether the run results have been edited during review. */
@@ -54,7 +54,7 @@ export interface ExtractRunSummary {
      *
      * **Availability:** Present when a parse run was created.
      */
-    parseRunId?: string | null;
+    parseRunId: string | null;
     /** The URL to view the extract run in the Extend dashboard. */
     dashboardUrl: string;
     /**
@@ -62,7 +62,7 @@ export interface ExtractRunSummary {
      *
      * **Availability:** Present when `status` is `"PROCESSED"`.
      */
-    usage?: Extend.RunUsage | null;
+    usage: Extend.RunUsage | null;
     createdAt: Extend.CreatedAt;
     updatedAt: Extend.UpdatedAt;
 }

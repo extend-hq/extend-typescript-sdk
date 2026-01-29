@@ -61,14 +61,7 @@ export class WorkflowRuns {
      *
      * @example
      *     await client.workflowRuns.list({
-     *         status: "PENDING",
-     *         workflowId: "workflowId",
-     *         batchId: "batchId",
-     *         fileNameContains: "fileNameContains",
-     *         sortBy: "updatedAt",
-     *         sortDir: "asc",
-     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
-     *         maxPageSize: 1
+     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
      *     })
      */
     public list(
@@ -84,36 +77,36 @@ export class WorkflowRuns {
     ): Promise<core.WithRawResponse<Extend.WorkflowRunsListResponse>> {
         const { status, workflowId, batchId, fileNameContains, sortBy, sortDir, nextPageToken, maxPageSize } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (status !== undefined) {
+        if (status != null) {
             _queryParams["status"] = status;
         }
 
-        if (workflowId !== undefined) {
+        if (workflowId != null) {
             _queryParams["workflowId"] = workflowId;
         }
 
-        if (batchId !== undefined) {
+        if (batchId != null) {
             _queryParams["batchId"] = batchId;
         }
 
-        if (fileNameContains !== undefined) {
+        if (fileNameContains != null) {
             _queryParams["fileNameContains"] = fileNameContains;
         }
 
-        if (sortBy !== undefined) {
+        if (sortBy != null) {
             _queryParams["sortBy"] = sortBy;
         }
 
-        if (sortDir !== undefined) {
+        if (sortDir != null) {
             _queryParams["sortDir"] = sortDir;
         }
 
-        if (nextPageToken !== undefined) {
+        if (nextPageToken != null) {
             _queryParams["nextPageToken"] = nextPageToken;
         }
 
-        if (maxPageSize !== undefined) {
-            _queryParams["maxPageSize"] = maxPageSize?.toString() ?? null;
+        if (maxPageSize != null) {
+            _queryParams["maxPageSize"] = maxPageSize.toString();
         }
 
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

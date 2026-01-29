@@ -7,5 +7,5 @@ import * as Extend from "../index";
 export interface ExtractStepRun extends Extend.StepRunBase {
     step: Extend.ExtractStepRunStep;
     /** The extract run that was executed. Will be null if the extract step was not successful. */
-    result?: Extend.ExtractRun | null;
+    result: Extend.ExtractRun | null;
 }

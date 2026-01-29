@@ -6,23 +6,17 @@ import * as Extend from "../../../../index";
 
 /**
  * @example
- *     {
- *         type: "EXTRACT",
- *         nextPageToken: "nextPageToken",
- *         maxPageSize: 1,
- *         sortBy: "createdAt",
- *         sortDir: "asc"
- *     }
+ *     {}
  */
 export interface ProcessorListRequest {
     /** Filter processors by type */
-    type?: Extend.LegacyProcessorType | null;
+    type?: Extend.LegacyProcessorType;
     /** Token for retrieving the next page of results */
-    nextPageToken?: string | null;
+    nextPageToken?: string;
     /** Maximum number of processors to return per page */
-    maxPageSize?: number | null;
+    maxPageSize?: number;
     /** Field to sort by */
-    sortBy?: Extend.ProcessorListRequestSortBy | null;
+    sortBy?: Extend.ProcessorListRequestSortBy;
     /** Sort direction */
-    sortDir?: Extend.ProcessorListRequestSortDir | null;
+    sortDir?: Extend.ProcessorListRequestSortDir;
 }

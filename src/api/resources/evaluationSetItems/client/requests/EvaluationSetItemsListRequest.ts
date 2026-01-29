@@ -7,15 +7,12 @@ import * as Extend from "../../../../index";
 /**
  * @example
  *     {
- *         sortBy: "updatedAt",
- *         sortDir: "asc",
- *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
- *         maxPageSize: 1
+ *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
  *     }
  */
 export interface EvaluationSetItemsListRequest {
-    sortBy?: Extend.SortBy | null;
-    sortDir?: Extend.SortDir | null;
-    nextPageToken?: Extend.NextPageToken | null;
-    maxPageSize?: Extend.MaxPageSize | null;
+    sortBy?: Extend.SortBy;
+    sortDir?: Extend.SortDir;
+    nextPageToken?: Extend.NextPageToken;
+    maxPageSize?: Extend.MaxPageSize;
 }

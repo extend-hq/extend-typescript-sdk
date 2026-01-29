@@ -63,15 +63,7 @@ export class SplitRuns {
      *
      * @example
      *     await client.splitRuns.list({
-     *         status: "PROCESSING",
-     *         splitterId: "splitterId",
-     *         sourceId: "sourceId",
-     *         source: "ADMIN",
-     *         fileNameContains: "fileNameContains",
-     *         sortBy: "updatedAt",
-     *         sortDir: "asc",
-     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
-     *         maxPageSize: 1
+     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
      *     })
      */
     public list(
@@ -88,40 +80,40 @@ export class SplitRuns {
         const { status, splitterId, sourceId, source, fileNameContains, sortBy, sortDir, nextPageToken, maxPageSize } =
             request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (status !== undefined) {
+        if (status != null) {
             _queryParams["status"] = status;
         }
 
-        if (splitterId !== undefined) {
+        if (splitterId != null) {
             _queryParams["splitterId"] = splitterId;
         }
 
-        if (sourceId !== undefined) {
+        if (sourceId != null) {
             _queryParams["sourceId"] = sourceId;
         }
 
-        if (source !== undefined) {
+        if (source != null) {
             _queryParams["source"] = source;
         }
 
-        if (fileNameContains !== undefined) {
+        if (fileNameContains != null) {
             _queryParams["fileNameContains"] = fileNameContains;
         }
 
-        if (sortBy !== undefined) {
+        if (sortBy != null) {
             _queryParams["sortBy"] = sortBy;
         }
 
-        if (sortDir !== undefined) {
+        if (sortDir != null) {
             _queryParams["sortDir"] = sortDir;
         }
 
-        if (nextPageToken !== undefined) {
+        if (nextPageToken != null) {
             _queryParams["nextPageToken"] = nextPageToken;
         }
 
-        if (maxPageSize !== undefined) {
-            _queryParams["maxPageSize"] = maxPageSize?.toString() ?? null;
+        if (maxPageSize != null) {
+            _queryParams["maxPageSize"] = maxPageSize.toString();
         }
 
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

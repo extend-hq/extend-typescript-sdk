@@ -8,7 +8,7 @@ export interface LegacyJsonOutputMetadataValue {
     /** Confidence score from OCR processing, if applicable */
     ocrConfidence?: number | null;
     /** Confidence score based on model logprobs */
-    logprobsConfidence?: number | null;
+    logprobsConfidence: number | null;
     /**
      * A 1-5 score indicating the review agent's confidence in the extracted value.
      * - 5: High confidence, no issues detected

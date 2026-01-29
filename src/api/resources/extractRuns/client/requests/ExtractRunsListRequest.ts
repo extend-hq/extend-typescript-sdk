@@ -7,37 +7,29 @@ import * as Extend from "../../../../index";
 /**
  * @example
  *     {
- *         status: "PROCESSING",
- *         extractorId: "extractorId",
- *         sourceId: "sourceId",
- *         source: "ADMIN",
- *         fileNameContains: "fileNameContains",
- *         sortBy: "updatedAt",
- *         sortDir: "asc",
- *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
- *         maxPageSize: 1
+ *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
  *     }
  */
 export interface ExtractRunsListRequest {
-    status?: Extend.ProcessorRunStatus | null;
+    status?: Extend.ProcessorRunStatus;
     /**
      * Filters extract runs by the extractor ID. If not provided, all extract runs are returned.
      *
      * Example: `"extractor_BMdfq_yWM3sT-ZzvCnA3f"`
      */
-    extractorId?: string | null;
+    extractorId?: string;
     /** Filters runs by the source ID. */
-    sourceId?: Extend.RunSourceId | null;
+    sourceId?: Extend.RunSourceId;
     /** Filters runs by the source that created them. If not provided, runs from all sources are returned. */
-    source?: Extend.RunSource | null;
+    source?: Extend.RunSource;
     /**
      * Filters runs by the name of the file. Only returns runs where the file name contains this string.
      *
      * Example: `"invoice"`
      */
-    fileNameContains?: string | null;
-    sortBy?: Extend.SortBy | null;
-    sortDir?: Extend.SortDir | null;
-    nextPageToken?: Extend.NextPageToken | null;
-    maxPageSize?: Extend.MaxPageSize | null;
+    fileNameContains?: string;
+    sortBy?: Extend.SortBy;
+    sortDir?: Extend.SortDir;
+    nextPageToken?: Extend.NextPageToken;
+    maxPageSize?: Extend.MaxPageSize;
 }

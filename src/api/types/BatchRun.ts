@@ -18,13 +18,13 @@ export interface BatchRun {
      *
      * **Availability:** Present when an entity was provided when creating the batch run.
      */
-    entity?: Extend.BatchRunEntity | null;
+    entity: Extend.BatchRunEntity | null;
     /**
      * The version of the extractor, classifier, or splitter that was run.
      *
      * **Availability:** Present when an entity was provided when creating the batch run.
      */
-    entityVersion?: Extend.BatchRunEntityVersion | null;
+    entityVersion: Extend.BatchRunEntityVersion | null;
     status: Extend.BatchRunStatus;
     metrics: Extend.BatchRunMetrics;
     createdAt: Extend.CreatedAt;

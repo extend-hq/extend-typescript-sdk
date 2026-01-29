@@ -24,19 +24,19 @@ export interface File_ {
      *
      * **Availability:** Present when the file type could be determined.
      */
-    type?: Extend.FileType | null;
+    type: Extend.FileType | null;
     /**
      * A presigned URL to download the file. Expires after 15 minutes.
      *
      * **Availability:** Present on `GET /files/{id}`. Not present on `POST /files/upload` or when the file is embedded in other resources (e.g., in run responses).
      */
-    presignedUrl?: string | null;
+    presignedUrl: string | null;
     /**
      * ID of the parent file.
      *
      * **Availability:** Present for files created via a Splitter in a workflow.
      */
-    parentFileId?: string | null;
+    parentFileId: string | null;
     /**
      * **Deprecated:** Use the `POST /parse_runs` endpoint instead to parse and retrieve file contents. The parse runs endpoint provides more control over parsing configuration and better performance.
      *
@@ -44,7 +44,7 @@ export interface File_ {
      *
      * **Availability:** Only present and populated on `GET /files/{id}` when the file has been previously parsed and the corresponding query parameters are set to true. Will be `null` on `POST /files/upload` and for files that haven't been parsed. The structure varies based on file type.
      */
-    contents?: Extend.FileContents | null;
+    contents: Extend.FileContents | null;
     metadata: Extend.FileMetadata;
     createdAt: Extend.CreatedAt;
     updatedAt: Extend.UpdatedAt;

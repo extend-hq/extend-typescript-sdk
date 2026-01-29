@@ -6,8 +6,8 @@
  * A simplified bounding box for the block.
  */
 export interface BlockBoundingBox {
-    left?: number | null;
-    right?: number | null;
-    top?: number | null;
-    bottom?: number | null;
+    left: number | null;
+    right: number | null;
+    top: number | null;
+    bottom: number | null;
 }

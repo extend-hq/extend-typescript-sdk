@@ -18,7 +18,7 @@ export interface SplitterVersion {
      *
      * Example: `"Updated split rules for multi-invoice packets"`
      */
-    description?: string | null;
+    description: string | null;
     /**
      * The version number or identifier for this specific version of the splitter. The draft version will have version="draft".
      *

@@ -47,31 +47,31 @@ export interface ParseRun {
      *
      * **Note:** Additional failure reasons may be added in the future. Your integration should handle unknown values gracefully.
      */
-    failureReason?: string | null;
+    failureReason: string | null;
     /**
      * A human-readable description of the failure.
      *
      * **Availability:** Present when `status` is `"FAILED"`.
      */
-    failureMessage?: string | null;
+    failureMessage: string | null;
     /**
      * The parse run output.
      *
      * **Availability:** Present when `status` is `"PROCESSED"` and the request was made without the `responseType=url` query parameter. Contains the parsed chunks.
      */
-    output?: Extend.ParseRunOutput | null;
+    output: Extend.ParseRunOutput | null;
     /**
      * A presigned URL to download the parse run output as a JSON file. The object shape is the same as the `output` field. Expires after 15 minutes.
      *
      * **Availability:** Present when `status` is `"PROCESSED"` and the request was made with `responseType=url` query parameter.
      */
-    outputUrl?: string | null;
+    outputUrl: string | null;
     /**
      * Metrics about the parsing process.
      *
      * **Availability:** Present when `status` is `"PROCESSED"`.
      */
-    metrics?: Extend.ParseRunMetrics | null;
+    metrics: Extend.ParseRunMetrics | null;
     /** The configuration used for the parsing process, including any default values that were applied. */
     config: Extend.ParseConfig;
     /**
@@ -79,5 +79,5 @@ export interface ParseRun {
      *
      * **Availability:** Present when `status` is `"PROCESSED"`, the run was created after October 7, 2025, and the customer is on the current billing system.
      */
-    usage?: Extend.RunUsage | null;
+    usage: Extend.RunUsage | null;
 }

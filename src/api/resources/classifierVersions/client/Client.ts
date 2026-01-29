@@ -66,9 +66,7 @@ export class ClassifierVersions {
      *
      * @example
      *     await client.classifierVersions.list("classifier_id_here", {
-     *         sortDir: "asc",
-     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
-     *         maxPageSize: 1
+     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
      *     })
      */
     public list(
@@ -86,16 +84,16 @@ export class ClassifierVersions {
     ): Promise<core.WithRawResponse<Extend.ClassifierVersionsListResponse>> {
         const { sortDir, nextPageToken, maxPageSize } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (sortDir !== undefined) {
+        if (sortDir != null) {
             _queryParams["sortDir"] = sortDir;
         }
 
-        if (nextPageToken !== undefined) {
+        if (nextPageToken != null) {
             _queryParams["nextPageToken"] = nextPageToken;
         }
 
-        if (maxPageSize !== undefined) {
-            _queryParams["maxPageSize"] = maxPageSize?.toString() ?? null;
+        if (maxPageSize != null) {
+            _queryParams["maxPageSize"] = maxPageSize.toString();
         }
 
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

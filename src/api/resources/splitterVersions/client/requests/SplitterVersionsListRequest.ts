@@ -7,13 +7,11 @@ import * as Extend from "../../../../index";
 /**
  * @example
  *     {
- *         sortDir: "asc",
- *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
- *         maxPageSize: 1
+ *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
  *     }
  */
 export interface SplitterVersionsListRequest {
-    sortDir?: Extend.SortDir | null;
-    nextPageToken?: Extend.NextPageToken | null;
-    maxPageSize?: Extend.MaxPageSize | null;
+    sortDir?: Extend.SortDir;
+    nextPageToken?: Extend.NextPageToken;
+    maxPageSize?: Extend.MaxPageSize;
 }

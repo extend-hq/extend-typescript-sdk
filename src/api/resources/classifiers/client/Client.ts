@@ -63,10 +63,7 @@ export class Classifiers {
      *
      * @example
      *     await client.classifiers.list({
-     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
-     *         maxPageSize: 1,
-     *         sortBy: "updatedAt",
-     *         sortDir: "asc"
+     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
      *     })
      */
     public list(
@@ -82,19 +79,19 @@ export class Classifiers {
     ): Promise<core.WithRawResponse<Extend.ClassifiersListResponse>> {
         const { nextPageToken, maxPageSize, sortBy, sortDir } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (nextPageToken !== undefined) {
+        if (nextPageToken != null) {
             _queryParams["nextPageToken"] = nextPageToken;
         }
 
-        if (maxPageSize !== undefined) {
-            _queryParams["maxPageSize"] = maxPageSize?.toString() ?? null;
+        if (maxPageSize != null) {
+            _queryParams["maxPageSize"] = maxPageSize.toString();
         }
 
-        if (sortBy !== undefined) {
+        if (sortBy != null) {
             _queryParams["sortBy"] = sortBy;
         }
 
-        if (sortDir !== undefined) {
+        if (sortDir != null) {
             _queryParams["sortDir"] = sortDir;
         }
 

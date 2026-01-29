@@ -15,5 +15,5 @@ export interface ConditionalExtractResult {
      */
     ruleName: string;
     /** The extract run that was executed based on the matched rule. Will be null if the conditional extract step was not successful. */
-    extractRun?: Extend.ExtractRun | null;
+    extractRun: Extend.ExtractRun | null;
 }
