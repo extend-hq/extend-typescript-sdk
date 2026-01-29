@@ -13,7 +13,7 @@ import * as Extend from "../../../../index";
  *     }
  */
 export interface SplitterVersionsListRequest {
-    sortDir?: Extend.SortDir;
-    nextPageToken?: Extend.NextPageToken;
-    maxPageSize?: Extend.MaxPageSize;
+    sortDir?: Extend.SortDir | null;
+    nextPageToken?: Extend.NextPageToken | null;
+    maxPageSize?: Extend.MaxPageSize | null;
 }

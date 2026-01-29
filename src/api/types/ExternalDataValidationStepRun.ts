@@ -7,5 +7,5 @@ import * as Extend from "../index";
 export interface ExternalDataValidationStepRun extends Extend.StepRunBase {
     step: Extend.ExternalDataValidationStepRunStep;
     /** The external data validation result. Will be null if the external data validation step was not successful. */
-    result: Extend.ExternalDataValidationResult;
+    result?: Extend.ExternalDataValidationResult | null;
 }

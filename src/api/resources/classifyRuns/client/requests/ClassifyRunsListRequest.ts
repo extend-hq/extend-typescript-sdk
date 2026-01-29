@@ -19,25 +19,25 @@ import * as Extend from "../../../../index";
  *     }
  */
 export interface ClassifyRunsListRequest {
-    status?: Extend.ProcessorRunStatus;
+    status?: Extend.ProcessorRunStatus | null;
     /**
      * Filters classify runs by the classifier ID. If not provided, all classify runs are returned.
      *
      * Example: `"classifier_BMdfq_yWM3sT-ZzvCnA3f"`
      */
-    classifierId?: string;
+    classifierId?: string | null;
     /** Filters runs by the source ID. */
-    sourceId?: Extend.RunSourceId;
+    sourceId?: Extend.RunSourceId | null;
     /** Filters runs by the source that created them. If not provided, runs from all sources are returned. */
-    source?: Extend.RunSource;
+    source?: Extend.RunSource | null;
     /**
      * Filters runs by the name of the file. Only returns runs where the file name contains this string.
      *
      * Example: `"invoice"`
      */
-    fileNameContains?: string;
-    sortBy?: Extend.SortBy;
-    sortDir?: Extend.SortDir;
-    nextPageToken?: Extend.NextPageToken;
-    maxPageSize?: Extend.MaxPageSize;
+    fileNameContains?: string | null;
+    sortBy?: Extend.SortBy | null;
+    sortDir?: Extend.SortDir | null;
+    nextPageToken?: Extend.NextPageToken | null;
+    maxPageSize?: Extend.MaxPageSize | null;
 }

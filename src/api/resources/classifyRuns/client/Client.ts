@@ -97,40 +97,40 @@ export class ClassifyRuns {
             maxPageSize,
         } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (status != null) {
+        if (status !== undefined) {
             _queryParams["status"] = status;
         }
 
-        if (classifierId != null) {
+        if (classifierId !== undefined) {
             _queryParams["classifierId"] = classifierId;
         }
 
-        if (sourceId != null) {
+        if (sourceId !== undefined) {
             _queryParams["sourceId"] = sourceId;
         }
 
-        if (source != null) {
+        if (source !== undefined) {
             _queryParams["source"] = source;
         }
 
-        if (fileNameContains != null) {
+        if (fileNameContains !== undefined) {
             _queryParams["fileNameContains"] = fileNameContains;
         }
 
-        if (sortBy != null) {
+        if (sortBy !== undefined) {
             _queryParams["sortBy"] = sortBy;
         }
 
-        if (sortDir != null) {
+        if (sortDir !== undefined) {
             _queryParams["sortDir"] = sortDir;
         }
 
-        if (nextPageToken != null) {
+        if (nextPageToken !== undefined) {
             _queryParams["nextPageToken"] = nextPageToken;
         }
 
-        if (maxPageSize != null) {
-            _queryParams["maxPageSize"] = maxPageSize.toString();
+        if (maxPageSize !== undefined) {
+            _queryParams["maxPageSize"] = maxPageSize?.toString() ?? null;
         }
 
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

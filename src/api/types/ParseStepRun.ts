@@ -7,5 +7,5 @@ import * as Extend from "../index";
 export interface ParseStepRun extends Extend.StepRunBase {
     step: Extend.ParseStepRunStep;
     /** The parse run that was executed. Will be null if the parse step was not successful. */
-    result: Extend.ParseRun;
+    result?: Extend.ParseRun | null;
 }

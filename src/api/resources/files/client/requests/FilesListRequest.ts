@@ -19,8 +19,8 @@ export interface FilesListRequest {
      *
      * Example: `"invoice"`
      */
-    nameContains?: string;
-    sortDir?: Extend.SortDir;
-    nextPageToken?: Extend.NextPageToken;
-    maxPageSize?: Extend.MaxPageSize;
+    nameContains?: string | null;
+    sortDir?: Extend.SortDir | null;
+    nextPageToken?: Extend.NextPageToken | null;
+    maxPageSize?: Extend.MaxPageSize | null;
 }

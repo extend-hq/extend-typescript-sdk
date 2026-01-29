@@ -8,9 +8,9 @@ export interface LegacyListProcessorsResponse {
     /** Indicates the request was successful */
     success: boolean;
     /** Optional warning message */
-    warning?: string;
+    warning?: string | null;
     /** Array of processors */
     processors: Extend.LegacyListProcessorsProcessor[];
     /** Token for retrieving the next page of results. Will be null if there are no more results. */
-    nextPageToken?: string;
+    nextPageToken?: string | null;
 }

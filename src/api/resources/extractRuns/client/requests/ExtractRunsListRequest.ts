@@ -19,25 +19,25 @@ import * as Extend from "../../../../index";
  *     }
  */
 export interface ExtractRunsListRequest {
-    status?: Extend.ProcessorRunStatus;
+    status?: Extend.ProcessorRunStatus | null;
     /**
      * Filters extract runs by the extractor ID. If not provided, all extract runs are returned.
      *
      * Example: `"extractor_BMdfq_yWM3sT-ZzvCnA3f"`
      */
-    extractorId?: string;
+    extractorId?: string | null;
     /** Filters runs by the source ID. */
-    sourceId?: Extend.RunSourceId;
+    sourceId?: Extend.RunSourceId | null;
     /** Filters runs by the source that created them. If not provided, runs from all sources are returned. */
-    source?: Extend.RunSource;
+    source?: Extend.RunSource | null;
     /**
      * Filters runs by the name of the file. Only returns runs where the file name contains this string.
      *
      * Example: `"invoice"`
      */
-    fileNameContains?: string;
-    sortBy?: Extend.SortBy;
-    sortDir?: Extend.SortDir;
-    nextPageToken?: Extend.NextPageToken;
-    maxPageSize?: Extend.MaxPageSize;
+    fileNameContains?: string | null;
+    sortBy?: Extend.SortBy | null;
+    sortDir?: Extend.SortDir | null;
+    nextPageToken?: Extend.NextPageToken | null;
+    maxPageSize?: Extend.MaxPageSize | null;
 }

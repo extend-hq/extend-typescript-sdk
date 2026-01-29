@@ -21,32 +21,32 @@ export interface ExtractRun {
      *
      * **Availability:** Present when an extractor reference was provided. Not present when using inline `config`.
      */
-    extractor: Extend.ExtractorSummary;
+    extractor?: Extend.ExtractorSummary | null;
     /**
      * The version of the extractor that was used for this run.
      *
      * **Availability:** Present when an extractor reference was provided. Not present when using inline `config`.
      */
-    extractorVersion: Extend.ExtractorVersionSummary;
+    extractorVersion?: Extend.ExtractorVersionSummary | null;
     status: Extend.ProcessorRunStatus;
     /**
      * The final output, either reviewed or initial.
      *
      * **Availability:** Present when `status` is `"PROCESSED"`.
      */
-    output: Extend.ExtractOutput;
+    output?: Extend.ExtractOutput | null;
     /**
      * The initial output from the extract run, before any review edits.
      *
      * **Availability:** Present when `reviewed` is `true`.
      */
-    initialOutput: Extend.ExtractOutput;
+    initialOutput?: Extend.ExtractOutput | null;
     /**
      * The output after human review.
      *
      * **Availability:** Present when `reviewed` is `true`.
      */
-    reviewedOutput: Extend.ExtractOutput;
+    reviewedOutput?: Extend.ExtractOutput | null;
     /**
      * The reason for failure.
      *
@@ -65,19 +65,19 @@ export interface ExtractRun {
      *
      * **Note:** Additional failure reasons may be added in the future. Your integration should handle unknown values gracefully.
      */
-    failureReason?: string;
+    failureReason?: string | null;
     /**
      * A detailed message about the failure.
      *
      * **Availability:** Present when `status` is `"FAILED"`.
      */
-    failureMessage?: string;
+    failureMessage?: string | null;
     /**
      * Any metadata that was provided when creating the extract run.
      *
      * **Availability:** Present when metadata was provided during creation.
      */
-    metadata: Extend.RunMetadata;
+    metadata?: Extend.RunMetadata | null;
     /** Indicates whether the run has been reviewed by a human. */
     reviewed: boolean;
     /** Indicates whether the run results have been edited during review. */
@@ -87,7 +87,7 @@ export interface ExtractRun {
      *
      * **Availability:** Present when `edited` is `true`.
      */
-    edits?: Record<string, Extend.ExtractOutputEdits | undefined>;
+    edits?: Record<string, (Extend.ExtractOutputEdits | null) | undefined> | null;
     /** The configuration used for this extract run. */
     config: Extend.ExtractConfig;
     /** The file that was processed. */
@@ -97,7 +97,7 @@ export interface ExtractRun {
      *
      * **Availability:** Present when a parse run was created.
      */
-    parseRunId?: string;
+    parseRunId?: string | null;
     /** The URL to view the extract run in the Extend dashboard. */
     dashboardUrl: string;
     /**
@@ -105,7 +105,7 @@ export interface ExtractRun {
      *
      * **Availability:** Present when `status` is `"PROCESSED"`.
      */
-    usage: Extend.RunUsage;
+    usage?: Extend.RunUsage | null;
     createdAt: Extend.CreatedAt;
     updatedAt: Extend.UpdatedAt;
 }

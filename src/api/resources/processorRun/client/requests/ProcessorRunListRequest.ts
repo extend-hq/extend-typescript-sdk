@@ -30,25 +30,25 @@ export interface ProcessorRunListRequest {
      *  * `"FAILED"` - The processor run encountered an error
      *  * `"CANCELLED"` - The processor run was cancelled
      */
-    status?: Extend.LegacyProcessorStatus;
+    status?: Extend.LegacyProcessorStatus | null;
     /**
      * Filters processor runs by the processor ID. If not provided, runs for all processors are returned.
      *
      * Example: `"dp_BMdfq_yWM3sT-ZzvCnA3f"`
      */
-    processorId?: string;
+    processorId?: string | null;
     /**
      * Filters processor runs by the processor type. If not provided, runs for all processor types are returned.
      *
      * Example: `"EXTRACT"`
      */
-    processorType?: Extend.LegacyProcessorType;
+    processorType?: Extend.LegacyProcessorType | null;
     /**
      * Filters processor runs by the source ID. The source ID corresponds to the entity that created the processor run.
      *
      * Example: `"workflow_run_123"`
      */
-    sourceId?: string;
+    sourceId?: string | null;
     /**
      * Filters processor runs by the source that created them. If not provided, runs from all sources are returned.
      *
@@ -61,17 +61,17 @@ export interface ProcessorRunListRequest {
      * * `"STUDIO"` - Created from Studio
      * * `"API"` - Created via API
      */
-    source?: Extend.ProcessorRunListRequestSource;
+    source?: Extend.ProcessorRunListRequestSource | null;
     /**
      * Filters processor runs by the name of the file. Only returns processor runs where the file name contains this string.
      *
      * Example: `"invoice"`
      */
-    fileNameContains?: string;
+    fileNameContains?: string | null;
     /** Sorts the processor runs by the given field. */
-    sortBy?: Extend.LegacySortByEnum;
+    sortBy?: Extend.LegacySortByEnum | null;
     /** Sorts the processor runs in ascending or descending order. Ascending order means the earliest processor run is returned first. */
-    sortDir?: Extend.LegacySortDirEnum;
-    nextPageToken?: Extend.LegacyNextPageToken;
-    maxPageSize?: Extend.LegacyMaxPageSize;
+    sortDir?: Extend.LegacySortDirEnum | null;
+    nextPageToken?: Extend.LegacyNextPageToken | null;
+    maxPageSize?: Extend.LegacyMaxPageSize | null;
 }

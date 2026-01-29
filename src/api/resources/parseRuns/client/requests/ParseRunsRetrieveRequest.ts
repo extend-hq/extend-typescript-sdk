@@ -16,5 +16,5 @@ export interface ParseRunsRetrieveRequest {
      * * `json` - Returns the output directly in the `output` field of the response body.
      * * `url` - Returns a presigned URL in the `outputUrl` field to download the output as a JSON file. The URL expires after 15 minutes. Useful for large outputs.
      */
-    responseType?: Extend.ParseRunsRetrieveRequestResponseType;
+    responseType?: Extend.ParseRunsRetrieveRequestResponseType | null;
 }

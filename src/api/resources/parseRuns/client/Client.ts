@@ -194,7 +194,7 @@ export class ParseRuns {
     ): Promise<core.WithRawResponse<Extend.ParseRunsRetrieveResponse>> {
         const { responseType } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (responseType != null) {
+        if (responseType !== undefined) {
             _queryParams["responseType"] = responseType;
         }
 

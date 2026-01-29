@@ -7,5 +7,5 @@ import * as Extend from "../index";
 export interface ClassifyStepRun extends Extend.StepRunBase {
     step: Extend.ClassifyStepRunStep;
     /** The classify run that was executed. Will be null if the classify step was not successful. */
-    result: Extend.ClassifyRun;
+    result?: Extend.ClassifyRun | null;
 }

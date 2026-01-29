@@ -5,6 +5,6 @@
 import * as Extend from "../../../index";
 
 export interface ClassifierVersionsListResponse {
-    classifierVersions: Extend.ClassifierVersion[];
+    classifierVersions: Extend.ClassifierVersionSummary[];
     nextPageToken?: Extend.NextPageToken;
 }

@@ -8,7 +8,7 @@ export interface LegacyJsonOutputMetadataValueCitationsItem {
     /** Page number where the citation was found */
     page?: number;
     /** The text that was referenced */
-    referenceText?: string;
+    referenceText?: string | null;
     /** Array of points defining the polygon around the referenced text */
     polygon?: Extend.LegacyJsonOutputMetadataValueCitationsItemPolygonItem[];
 }

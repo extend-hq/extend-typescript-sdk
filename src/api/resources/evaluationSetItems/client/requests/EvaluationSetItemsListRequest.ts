@@ -14,8 +14,8 @@ import * as Extend from "../../../../index";
  *     }
  */
 export interface EvaluationSetItemsListRequest {
-    sortBy?: Extend.SortBy;
-    sortDir?: Extend.SortDir;
-    nextPageToken?: Extend.NextPageToken;
-    maxPageSize?: Extend.MaxPageSize;
+    sortBy?: Extend.SortBy | null;
+    sortDir?: Extend.SortDir | null;
+    nextPageToken?: Extend.NextPageToken | null;
+    maxPageSize?: Extend.MaxPageSize | null;
 }

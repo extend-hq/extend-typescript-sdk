@@ -7,5 +7,5 @@ import * as Extend from "../index";
 export interface RuleValidationStepRun extends Extend.StepRunBase {
     step: Extend.RuleValidationStepRunStep;
     /** The rule validation result. Will be null if the rule validation step was not successful. */
-    result: Extend.RuleValidationResult;
+    result?: Extend.RuleValidationResult | null;
 }

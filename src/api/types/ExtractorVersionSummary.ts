@@ -18,7 +18,7 @@ export interface ExtractorVersionSummary {
      *
      * Example: `"Updated extraction fields for new invoice format"`
      */
-    description?: string;
+    description?: string | null;
     /**
      * The version number or identifier for this specific version of the extractor. The draft version will have version="draft".
      *

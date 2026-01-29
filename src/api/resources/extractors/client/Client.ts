@@ -82,19 +82,19 @@ export class Extractors {
     ): Promise<core.WithRawResponse<Extend.ExtractorsListResponse>> {
         const { nextPageToken, maxPageSize, sortBy, sortDir } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (nextPageToken != null) {
+        if (nextPageToken !== undefined) {
             _queryParams["nextPageToken"] = nextPageToken;
         }
 
-        if (maxPageSize != null) {
-            _queryParams["maxPageSize"] = maxPageSize.toString();
+        if (maxPageSize !== undefined) {
+            _queryParams["maxPageSize"] = maxPageSize?.toString() ?? null;
         }
 
-        if (sortBy != null) {
+        if (sortBy !== undefined) {
             _queryParams["sortBy"] = sortBy;
         }
 
-        if (sortDir != null) {
+        if (sortDir !== undefined) {
             _queryParams["sortDir"] = sortDir;
         }
 

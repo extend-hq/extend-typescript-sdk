@@ -7,5 +7,5 @@ import * as Extend from "../index";
 export interface MergeExtractStepRun extends Extend.StepRunBase {
     step: Extend.MergeExtractStepRunStep;
     /** The merge extract result. Will be null if the merge extract step was not successful. */
-    result: Extend.MergeExtractResult;
+    result?: Extend.MergeExtractResult | null;
 }

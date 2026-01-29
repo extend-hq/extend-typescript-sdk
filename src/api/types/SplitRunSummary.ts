@@ -17,32 +17,32 @@ export interface SplitRunSummary {
      *
      * **Availability:** Present when a splitter reference was provided. Not present when using inline `config`.
      */
-    splitter: Extend.SplitterSummary;
+    splitter?: Extend.SplitterSummary | null;
     /**
      * The version of the splitter that was used for this run.
      *
      * **Availability:** Present when a splitter reference was provided. Not present when using inline `config`.
      */
-    splitterVersion: Extend.SplitterVersionSummary;
+    splitterVersion?: Extend.SplitterVersionSummary | null;
     status: Extend.ProcessorRunStatus;
     /**
      * The reason for failure.
      *
      * **Availability:** Present when `status` is `"FAILED"`.
      */
-    failureReason?: string;
+    failureReason?: string | null;
     /**
      * A detailed message about the failure.
      *
      * **Availability:** Present when `status` is `"FAILED"`.
      */
-    failureMessage?: string;
+    failureMessage?: string | null;
     /**
      * Any metadata that was provided when creating the split run.
      *
      * **Availability:** Present when metadata was provided during creation.
      */
-    metadata: Extend.RunMetadata;
+    metadata?: Extend.RunMetadata | null;
     /** Indicates whether the run has been reviewed by a human. */
     reviewed: boolean;
     /** Indicates whether the run results have been edited during review. */
@@ -54,7 +54,7 @@ export interface SplitRunSummary {
      *
      * **Availability:** Present when a parse run was created.
      */
-    parseRunId?: string;
+    parseRunId?: string | null;
     /** The URL to view the split run in the Extend dashboard. */
     dashboardUrl: string;
     /**
@@ -62,7 +62,7 @@ export interface SplitRunSummary {
      *
      * **Availability:** Present when `status` is `"PROCESSED"`.
      */
-    usage: Extend.RunUsage;
+    usage?: Extend.RunUsage | null;
     createdAt: Extend.CreatedAt;
     updatedAt: Extend.UpdatedAt;
 }

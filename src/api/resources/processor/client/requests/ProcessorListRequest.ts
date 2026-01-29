@@ -16,13 +16,13 @@ import * as Extend from "../../../../index";
  */
 export interface ProcessorListRequest {
     /** Filter processors by type */
-    type?: Extend.LegacyProcessorType;
+    type?: Extend.LegacyProcessorType | null;
     /** Token for retrieving the next page of results */
-    nextPageToken?: string;
+    nextPageToken?: string | null;
     /** Maximum number of processors to return per page */
-    maxPageSize?: number;
+    maxPageSize?: number | null;
     /** Field to sort by */
-    sortBy?: Extend.ProcessorListRequestSortBy;
+    sortBy?: Extend.ProcessorListRequestSortBy | null;
     /** Sort direction */
-    sortDir?: Extend.ProcessorListRequestSortDir;
+    sortDir?: Extend.ProcessorListRequestSortDir | null;
 }

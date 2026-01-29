@@ -6,9 +6,9 @@ import * as Extend from "../index";
 
 export interface LegacyJsonOutputMetadataValue {
     /** Confidence score from OCR processing, if applicable */
-    ocrConfidence?: number;
+    ocrConfidence?: number | null;
     /** Confidence score based on model logprobs */
-    logprobsConfidence?: number;
+    logprobsConfidence?: number | null;
     /**
      * A 1-5 score indicating the review agent's confidence in the extracted value.
      * - 5: High confidence, no issues detected
@@ -21,7 +21,7 @@ export interface LegacyJsonOutputMetadataValue {
      * If the review agent is enabled but a score is not returned for a field, this value will be `null`.
      * To learn more, view the [Review Agent Documentation](https://docs.extend.ai/product/extraction/review-agent)
      */
-    reviewAgentScore?: number;
+    reviewAgentScore?: number | null;
     citations?: Extend.LegacyJsonOutputMetadataValueCitationsItem[];
     insights?: Extend.Insight[];
 }

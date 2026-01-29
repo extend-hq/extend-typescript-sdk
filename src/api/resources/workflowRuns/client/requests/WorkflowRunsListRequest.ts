@@ -18,27 +18,27 @@ import * as Extend from "../../../../index";
  *     }
  */
 export interface WorkflowRunsListRequest {
-    status?: Extend.WorkflowRunStatus;
+    status?: Extend.WorkflowRunStatus | null;
     /**
      * Filters workflow runs by the workflow ID. If not provided, runs for all workflows are returned.
      *
      * Example: `"workflow_BMdfq_yWM3sT-ZzvCnA3f"`
      */
-    workflowId?: string;
+    workflowId?: string | null;
     /**
      * Filters workflow runs by the batch ID. This is useful for fetching all runs for a given batch created via the [Batch Run Workflow](https://docs.extend.ai/2026-01-01/developers/api-reference/endpoints/workflow/batch-run-workflow) endpoint.
      *
      * Example: `"batch_7Ws31-F5"`
      */
-    batchId?: string;
+    batchId?: string | null;
     /**
      * Filters runs by the name of the file. Only returns runs where the file name contains this string.
      *
      * Example: `"invoice"`
      */
-    fileNameContains?: string;
-    sortBy?: Extend.SortBy;
-    sortDir?: Extend.SortDir;
-    nextPageToken?: Extend.NextPageToken;
-    maxPageSize?: Extend.MaxPageSize;
+    fileNameContains?: string | null;
+    sortBy?: Extend.SortBy | null;
+    sortDir?: Extend.SortDir | null;
+    nextPageToken?: Extend.NextPageToken | null;
+    maxPageSize?: Extend.MaxPageSize | null;
 }

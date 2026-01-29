@@ -29,11 +29,11 @@ export interface ParseRunStatus {
      *
      * **Availability:** Present when `status` is `"FAILED"`.
      */
-    failureReason?: string;
+    failureReason?: string | null;
     /**
      * A human-readable description of the failure.
      *
      * **Availability:** Present when `status` is `"FAILED"`.
      */
-    failureMessage?: string;
+    failureMessage?: string | null;
 }

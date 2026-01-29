@@ -18,7 +18,7 @@ export interface ClassifierVersion {
      *
      * Example: `"Added new document types for Q4 processing"`
      */
-    description?: string;
+    description?: string | null;
     /**
      * The version number or identifier for this specific version of the classifier. The draft version will have version="draft".
      *

@@ -21,32 +21,32 @@ export interface SplitRun {
      *
      * **Availability:** Present when a splitter reference was provided. Not present when using inline `config`.
      */
-    splitter: Extend.SplitterSummary;
+    splitter?: Extend.SplitterSummary | null;
     /**
      * The version of the splitter that was used for this run.
      *
      * **Availability:** Present when a splitter reference was provided. Not present when using inline `config`.
      */
-    splitterVersion: Extend.SplitterVersionSummary;
+    splitterVersion?: Extend.SplitterVersionSummary | null;
     status: Extend.ProcessorRunStatus;
     /**
      * The final output, either reviewed or initial.
      *
      * **Availability:** Present when `status` is `"PROCESSED"`.
      */
-    output: Extend.SplitOutput;
+    output?: Extend.SplitOutput | null;
     /**
      * The initial output from the split run, before any review edits.
      *
      * **Availability:** Present when `reviewed` is `true`.
      */
-    initialOutput: Extend.SplitOutput;
+    initialOutput?: Extend.SplitOutput | null;
     /**
      * The output after human review.
      *
      * **Availability:** Present when `reviewed` is `true`.
      */
-    reviewedOutput: Extend.SplitOutput;
+    reviewedOutput?: Extend.SplitOutput | null;
     /**
      * The reason for failure.
      *
@@ -65,19 +65,19 @@ export interface SplitRun {
      *
      * **Note:** Additional failure reasons may be added in the future. Your integration should handle unknown values gracefully.
      */
-    failureReason?: string;
+    failureReason?: string | null;
     /**
      * A detailed message about the failure.
      *
      * **Availability:** Present when `status` is `"FAILED"`.
      */
-    failureMessage?: string;
+    failureMessage?: string | null;
     /**
      * Any metadata that was provided when creating the split run.
      *
      * **Availability:** Present when metadata was provided during creation.
      */
-    metadata: Extend.RunMetadata;
+    metadata?: Extend.RunMetadata | null;
     /** Indicates whether the run has been reviewed by a human. */
     reviewed: boolean;
     /** Indicates whether the run results have been edited during review. */
@@ -91,7 +91,7 @@ export interface SplitRun {
      *
      * **Availability:** Present when a parse run was created.
      */
-    parseRunId?: string;
+    parseRunId?: string | null;
     /** The URL to view the split run in the Extend dashboard. */
     dashboardUrl: string;
     /**
@@ -99,7 +99,7 @@ export interface SplitRun {
      *
      * **Availability:** Present when `status` is `"PROCESSED"`.
      */
-    usage: Extend.RunUsage;
+    usage?: Extend.RunUsage | null;
     createdAt: Extend.CreatedAt;
     updatedAt: Extend.UpdatedAt;
 }

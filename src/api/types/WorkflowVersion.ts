@@ -22,5 +22,5 @@ export interface WorkflowVersion {
      *
      * Example: `"Invoice Processing"`
      */
-    name: string;
+    name?: string | null;
 }

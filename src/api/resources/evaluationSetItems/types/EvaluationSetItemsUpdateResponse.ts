@@ -5,6 +5,5 @@
 import * as Extend from "../../../index";
 
 export interface EvaluationSetItemsUpdateResponse {
-    success: boolean;
     evaluationSetItem: Extend.EvaluationSetItem;
 }

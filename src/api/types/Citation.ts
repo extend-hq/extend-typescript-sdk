@@ -7,7 +7,7 @@ import * as Extend from "../index";
 export interface Citation {
     page?: Extend.CitationPage;
     /** The text that was referenced */
-    referenceText?: string;
+    referenceText?: string | null;
     /** Array of points defining the polygon around the referenced text */
     polygon?: Extend.Polygon[];
 }

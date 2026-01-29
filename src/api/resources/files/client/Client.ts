@@ -82,20 +82,20 @@ export class Files {
     ): Promise<core.WithRawResponse<Extend.FilesListResponse>> {
         const { nameContains, sortDir, nextPageToken, maxPageSize } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (nameContains != null) {
+        if (nameContains !== undefined) {
             _queryParams["nameContains"] = nameContains;
         }
 
-        if (sortDir != null) {
+        if (sortDir !== undefined) {
             _queryParams["sortDir"] = sortDir;
         }
 
-        if (nextPageToken != null) {
+        if (nextPageToken !== undefined) {
             _queryParams["nextPageToken"] = nextPageToken;
         }
 
-        if (maxPageSize != null) {
-            _queryParams["maxPageSize"] = maxPageSize.toString();
+        if (maxPageSize !== undefined) {
+            _queryParams["maxPageSize"] = maxPageSize?.toString() ?? null;
         }
 
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -208,16 +208,16 @@ export class Files {
     ): Promise<core.WithRawResponse<Extend.FilesRetrieveResponse>> {
         const { rawText, markdown, html } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (rawText != null) {
-            _queryParams["rawText"] = rawText.toString();
+        if (rawText !== undefined) {
+            _queryParams["rawText"] = rawText?.toString() ?? null;
         }
 
-        if (markdown != null) {
-            _queryParams["markdown"] = markdown.toString();
+        if (markdown !== undefined) {
+            _queryParams["markdown"] = markdown?.toString() ?? null;
         }
 
-        if (html != null) {
-            _queryParams["html"] = html.toString();
+        if (html !== undefined) {
+            _queryParams["html"] = html?.toString() ?? null;
         }
 
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

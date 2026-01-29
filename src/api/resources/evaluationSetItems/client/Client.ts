@@ -87,20 +87,20 @@ export class EvaluationSetItems {
     ): Promise<core.WithRawResponse<Extend.EvaluationSetItemsListResponse>> {
         const { sortBy, sortDir, nextPageToken, maxPageSize } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (sortBy != null) {
+        if (sortBy !== undefined) {
             _queryParams["sortBy"] = sortBy;
         }
 
-        if (sortDir != null) {
+        if (sortDir !== undefined) {
             _queryParams["sortDir"] = sortDir;
         }
 
-        if (nextPageToken != null) {
+        if (nextPageToken !== undefined) {
             _queryParams["nextPageToken"] = nextPageToken;
         }
 
-        if (maxPageSize != null) {
-            _queryParams["maxPageSize"] = maxPageSize.toString();
+        if (maxPageSize !== undefined) {
+            _queryParams["maxPageSize"] = maxPageSize?.toString() ?? null;
         }
 
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

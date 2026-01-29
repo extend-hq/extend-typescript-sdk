@@ -27,44 +27,44 @@ export interface WorkflowRunSummary {
      *
      * Example: `"jane.doe@example.com"`
      */
-    reviewedByUser?: string;
+    reviewedByUser?: string | null;
     /**
      * The time (in UTC) at which the workflow run was reviewed. Will follow the RFC 3339 format. Will be null if the workflow run has not been reviewed.
      *
      * Example: `"2024-03-21T16:45:00Z"`
      */
-    reviewedAt?: string;
+    reviewedAt?: string | null;
     /**
      * The time (in UTC) at which the workflow was initially created. Will follow the RFC 3339 format. Will be null if the run hasn't started yet.
      *
      * Example: `"2024-03-21T15:30:00Z"`
      */
-    initialRunAt?: string;
+    initialRunAt?: string | null;
     /**
      * The start time (in UTC) that the workflow actually started executing. This occurs after the `initialRunAt` time. Will follow the RFC 3339 format. Will be null if not started.
      *
      * Example: `"2024-03-21T15:30:00Z"`
      */
-    startTime?: string;
+    startTime?: string | null;
     /**
      * The end time (in UTC) that the workflow finished. Will follow the RFC 3339 format. Will be null if not finished.
      *
      * Example: `"2024-03-21T15:35:00Z"`
      */
-    endTime?: string;
+    endTime?: string | null;
     /**
      * The batch ID of the workflow run. If that workflow run was created from a batch of files, all runs in that batch will have the same batch ID.
      *
      * Example: `"batch_7Ws31-F5"`
      */
-    batchId?: string;
+    batchId?: string | null;
     /**
      * The note that was added when the workflow run was rejected.
      *
      * Example: `"Invalid invoice format"`
      */
-    rejectionNote?: string;
+    rejectionNote?: string | null;
     createdAt: Extend.CreatedAt;
     updatedAt: Extend.UpdatedAt;
-    usage?: Extend.RunUsage;
+    usage?: Extend.RunUsage | null;
 }

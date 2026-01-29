@@ -20,9 +20,9 @@ export interface EvaluationSetsListRequest {
      *
      * Example: `"extractor_Xj8mK2pL9nR4vT7qY5wZ"`
      */
-    entityId?: string;
-    sortBy?: Extend.SortBy;
-    sortDir?: Extend.SortDir;
-    nextPageToken?: Extend.NextPageToken;
-    maxPageSize?: Extend.MaxPageSize;
+    entityId?: string | null;
+    sortBy?: Extend.SortBy | null;
+    sortDir?: Extend.SortDir | null;
+    nextPageToken?: Extend.NextPageToken | null;
+    maxPageSize?: Extend.MaxPageSize | null;
 }

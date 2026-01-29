@@ -21,32 +21,32 @@ export interface ClassifyRun {
      *
      * **Availability:** Present when a classifier reference was provided. Not present when using inline `config`.
      */
-    classifier: Extend.ClassifierSummary;
+    classifier?: Extend.ClassifierSummary | null;
     /**
      * The version of the classifier that was used for this run.
      *
      * **Availability:** Present when a classifier reference was provided. Not present when using inline `config`.
      */
-    classifierVersion: Extend.ClassifierVersionSummary;
+    classifierVersion?: Extend.ClassifierVersionSummary | null;
     status: Extend.ProcessorRunStatus;
     /**
      * The final output, either reviewed or initial.
      *
      * **Availability:** Present when `status` is `"PROCESSED"`.
      */
-    output: Extend.ClassifyOutput;
+    output?: Extend.ClassifyOutput | null;
     /**
      * The initial output from the classify run, before any review edits.
      *
      * **Availability:** Present when `reviewed` is `true`.
      */
-    initialOutput: Extend.ClassifyOutput;
+    initialOutput?: Extend.ClassifyOutput | null;
     /**
      * The output after human review.
      *
      * **Availability:** Present when `reviewed` is `true`.
      */
-    reviewedOutput: Extend.ClassifyOutput;
+    reviewedOutput?: Extend.ClassifyOutput | null;
     /**
      * The reason for failure.
      *
@@ -65,19 +65,19 @@ export interface ClassifyRun {
      *
      * **Note:** Additional failure reasons may be added in the future. Your integration should handle unknown values gracefully.
      */
-    failureReason?: string;
+    failureReason?: string | null;
     /**
      * A detailed message about the failure.
      *
      * **Availability:** Present when `status` is `"FAILED"`.
      */
-    failureMessage?: string;
+    failureMessage?: string | null;
     /**
      * Any metadata that was provided when creating the classify run.
      *
      * **Availability:** Present when metadata was provided during creation.
      */
-    metadata: Extend.RunMetadata;
+    metadata?: Extend.RunMetadata | null;
     /** Indicates whether the run has been reviewed by a human. */
     reviewed: boolean;
     /** Indicates whether the run results have been edited during review. */
@@ -91,7 +91,7 @@ export interface ClassifyRun {
      *
      * **Availability:** Present when a parse run was created.
      */
-    parseRunId?: string;
+    parseRunId?: string | null;
     /** The URL to view the classify run in the Extend dashboard. */
     dashboardUrl: string;
     /**
@@ -101,7 +101,7 @@ export interface ClassifyRun {
      * * Runs created before October 7, 2025
      * * Customers on legacy billing systems
      */
-    usage: Extend.RunUsage;
+    usage?: Extend.RunUsage | null;
     createdAt: Extend.CreatedAt;
     updatedAt: Extend.UpdatedAt;
 }

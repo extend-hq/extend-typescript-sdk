@@ -5,5 +5,5 @@
 import * as Extend from "../../../index";
 
 export interface ClassifierVersionsCreateResponse {
-    classifierVersion: Extend.ClassifierVersionSummary;
+    classifierVersion: Extend.ClassifierVersion;
 }

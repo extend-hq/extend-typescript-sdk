@@ -13,5 +13,5 @@ export interface LegacyProvidedExtractionFieldResult {
     /** A value between 0 and 1 indicating confidence in the extraction. Will be set to 1 if not provided. */
     confidence?: number;
     /** The page number where this field was extracted from */
-    page?: number;
+    page?: number | null;
 }

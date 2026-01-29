@@ -7,5 +7,5 @@ import * as Extend from "../index";
 export interface SplitStepRun extends Extend.StepRunBase {
     step: Extend.SplitStepRunStep;
     /** The split run that was executed. Will be null if the split step was not successful. */
-    result: Extend.SplitRun;
+    result?: Extend.SplitRun | null;
 }
