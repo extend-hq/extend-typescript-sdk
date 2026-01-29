@@ -15,14 +15,14 @@ describe("ProcessorRun", () => {
             success: true,
             processorRuns: [
                 {
-                    id: "dpr_Zk9mNP12Qw4-yTv8BdR3H",
-                    status: "PROCESSED",
-                    processorId: "dp_BMdfq_yWM3sT-ZzvCnA3f",
-                    processorName: "Invoice Extractor",
-                    processorVersionId: "dpv_Zk9mNP12Qw4-yTv8BdR3H",
+                    id: "id",
+                    status: "PENDING",
+                    processorId: "processorId",
+                    processorName: "processorName",
+                    processorVersionId: "processorVersionId",
                     type: "EXTRACT",
-                    createdAt: "2024-03-21T15:29:55Z",
-                    updatedAt: "2024-03-21T16:45:00Z",
+                    createdAt: "2024-01-15T09:30:00Z",
+                    updatedAt: "2024-01-15T09:30:00Z",
                     usage: { credits: 3.5 },
                 },
             ],
@@ -46,14 +46,14 @@ describe("ProcessorRun", () => {
             success: true,
             processorRuns: [
                 {
-                    id: "dpr_Zk9mNP12Qw4-yTv8BdR3H",
-                    status: "PROCESSED",
-                    processorId: "dp_BMdfq_yWM3sT-ZzvCnA3f",
-                    processorName: "Invoice Extractor",
-                    processorVersionId: "dpv_Zk9mNP12Qw4-yTv8BdR3H",
+                    id: "id",
+                    status: "PENDING",
+                    processorId: "processorId",
+                    processorName: "processorName",
+                    processorVersionId: "processorVersionId",
                     type: "EXTRACT",
-                    createdAt: "2024-03-21T15:29:55Z",
-                    updatedAt: "2024-03-21T16:45:00Z",
+                    createdAt: "2024-01-15T09:30:00Z",
+                    updatedAt: "2024-01-15T09:30:00Z",
                     usage: {
                         credits: 3.5,
                     },
@@ -79,7 +79,7 @@ describe("ProcessorRun", () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { success: undefined, error: undefined };
+        const rawResponseBody = { key: "value" };
         server.mockEndpoint().get("/processor_runs").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -95,25 +95,33 @@ describe("ProcessorRun", () => {
             success: true,
             processorRun: {
                 object: "document_processor_run",
-                id: "dpr_l39vTgFDiB13heVuMQnUa",
-                processorId: "dp_SmJyN3LMx9kW_YmFTxTha",
-                processorVersionId: "dpv_YrgxmNn83sAO0JChhmLpa",
-                processorName: "My Processor",
-                status: "PROCESSING",
-                output: {},
+                id: "dpr_Xj8mK2pL9nR4vT7qY5wZ",
+                processorId: "dp_Xj8mK2pL9nR4vT7qY5wZ",
+                processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
+                processorName: "Invoice Processor",
+                status: "PENDING",
+                output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                 failureReason: "failureReason",
                 failureMessage: "failureMessage",
                 metadata: { key: "value" },
                 reviewed: false,
                 edited: false,
                 edits: { key: { notes: "This is a note about the edit.", page: 15, fieldType: "string" } },
-                type: "EXTRACT",
+                type: "CLASSIFY",
                 config: {
-                    type: "EXTRACT",
-                    baseProcessor: "extraction_performance",
-                    baseVersion: "baseVersion",
-                    extractionRules: "extractionRules",
-                    schema: { key: "value" },
+                    type: "CLASSIFY",
+                    baseProcessor: "classification_performance",
+                    baseVersion: "3.2.0",
+                    classifications: [
+                        {
+                            id: "my_unique_id",
+                            type: "invoice",
+                            description:
+                                "An invoice is a document that lists the items purchased and the total amount due.",
+                        },
+                    ],
+                    classificationRules:
+                        "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
                     advancedOptions: {
                         pageRanges: [
                             { start: 1, end: 10 },
@@ -121,15 +129,17 @@ describe("ProcessorRun", () => {
                         ],
                     },
                 },
+                initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                 reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                 files: [
                     {
                         object: "file",
-                        id: "file_0QyyVL9rrOd0_WllDDCNa",
-                        name: "My File",
-                        type: "PDF",
+                        id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                        name: "Invoices.pdf",
+                        type: undefined,
                         presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                         parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                        contents: undefined,
                         metadata: {
                             pageCount: 30,
                             parentSplit: {
@@ -140,9 +150,8 @@ describe("ProcessorRun", () => {
                                 endPage: 10,
                             },
                         },
-                        createdAt: "2025-05-12T21:22:37Z",
-                        updatedAt: "2025-05-12T21:22:37Z",
-                        usage: { credits: 10 },
+                        createdAt: "2024-03-21T16:45:00Z",
+                        updatedAt: "2024-03-21T16:45:00Z",
                     },
                 ],
                 mergedProcessors: [
@@ -152,7 +161,7 @@ describe("ProcessorRun", () => {
                         processorName: "Invoice Line Items Processor",
                     },
                 ],
-                url: "https://dashboard.extend.ai/runs/dpr_l39vTgFDiB13heVuMQnUa",
+                url: "https://dashboard.extend.ai/runs/dpr_Xj8mK2pL9nR4vT7qY5wZ",
                 usage: { credits: 3.5 },
             },
         };
@@ -172,12 +181,21 @@ describe("ProcessorRun", () => {
             success: true,
             processorRun: {
                 object: "document_processor_run",
-                id: "dpr_l39vTgFDiB13heVuMQnUa",
-                processorId: "dp_SmJyN3LMx9kW_YmFTxTha",
-                processorVersionId: "dpv_YrgxmNn83sAO0JChhmLpa",
-                processorName: "My Processor",
-                status: "PROCESSING",
-                output: {},
+                id: "dpr_Xj8mK2pL9nR4vT7qY5wZ",
+                processorId: "dp_Xj8mK2pL9nR4vT7qY5wZ",
+                processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
+                processorName: "Invoice Processor",
+                status: "PENDING",
+                output: {
+                    value: {
+                        key: "value",
+                    },
+                    metadata: {
+                        key: {
+                            logprobsConfidence: undefined,
+                        },
+                    },
+                },
                 failureReason: "failureReason",
                 failureMessage: "failureMessage",
                 metadata: {
@@ -192,15 +210,21 @@ describe("ProcessorRun", () => {
                         fieldType: "string",
                     },
                 },
-                type: "EXTRACT",
+                type: "CLASSIFY",
                 config: {
-                    type: "EXTRACT",
-                    baseProcessor: "extraction_performance",
-                    baseVersion: "baseVersion",
-                    extractionRules: "extractionRules",
-                    schema: {
-                        key: "value",
-                    },
+                    type: "CLASSIFY",
+                    baseProcessor: "classification_performance",
+                    baseVersion: "3.2.0",
+                    classifications: [
+                        {
+                            id: "my_unique_id",
+                            type: "invoice",
+                            description:
+                                "An invoice is a document that lists the items purchased and the total amount due.",
+                        },
+                    ],
+                    classificationRules:
+                        "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
                     advancedOptions: {
                         pageRanges: [
                             {
@@ -212,6 +236,16 @@ describe("ProcessorRun", () => {
                                 end: 30,
                             },
                         ],
+                    },
+                },
+                initialOutput: {
+                    value: {
+                        key: "value",
+                    },
+                    metadata: {
+                        key: {
+                            logprobsConfidence: undefined,
+                        },
                     },
                 },
                 reviewedOutput: {
@@ -227,11 +261,12 @@ describe("ProcessorRun", () => {
                 files: [
                     {
                         object: "file",
-                        id: "file_0QyyVL9rrOd0_WllDDCNa",
-                        name: "My File",
-                        type: "PDF",
+                        id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                        name: "Invoices.pdf",
+                        type: undefined,
                         presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                         parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                        contents: undefined,
                         metadata: {
                             pageCount: 30,
                             parentSplit: {
@@ -242,11 +277,8 @@ describe("ProcessorRun", () => {
                                 endPage: 10,
                             },
                         },
-                        createdAt: "2025-05-12T21:22:37Z",
-                        updatedAt: "2025-05-12T21:22:37Z",
-                        usage: {
-                            credits: 10,
-                        },
+                        createdAt: "2024-03-21T16:45:00Z",
+                        updatedAt: "2024-03-21T16:45:00Z",
                     },
                 ],
                 mergedProcessors: [
@@ -256,7 +288,7 @@ describe("ProcessorRun", () => {
                         processorName: "Invoice Line Items Processor",
                     },
                 ],
-                url: "https://dashboard.extend.ai/runs/dpr_l39vTgFDiB13heVuMQnUa",
+                url: "https://dashboard.extend.ai/runs/dpr_Xj8mK2pL9nR4vT7qY5wZ",
                 usage: {
                     credits: 3.5,
                 },
@@ -314,7 +346,7 @@ describe("ProcessorRun", () => {
             metadata: undefined,
             config: undefined,
         };
-        const rawResponseBody = { success: undefined, error: undefined };
+        const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
             .post("/processor_runs")
@@ -461,8 +493,10 @@ describe("ProcessorRun", () => {
                         object: "file",
                         id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                         name: "Invoices.pdf",
+                        type: undefined,
                         presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                         parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                        contents: undefined,
                         metadata: {
                             pageCount: 30,
                             parentSplit: {
@@ -473,9 +507,8 @@ describe("ProcessorRun", () => {
                                 endPage: 10,
                             },
                         },
-                        createdAt: "2024-03-21T15:30:00Z",
+                        createdAt: "2024-03-21T16:45:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
-                        usage: { credits: 10 },
                     },
                 ],
                 mergedProcessors: [
@@ -584,8 +617,10 @@ describe("ProcessorRun", () => {
                         object: "file",
                         id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                         name: "Invoices.pdf",
+                        type: undefined,
                         presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                         parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                        contents: undefined,
                         metadata: {
                             pageCount: 30,
                             parentSplit: {
@@ -596,11 +631,8 @@ describe("ProcessorRun", () => {
                                 endPage: 10,
                             },
                         },
-                        createdAt: "2024-03-21T15:30:00Z",
+                        createdAt: "2024-03-21T16:45:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
-                        usage: {
-                            credits: 10,
-                        },
                     },
                 ],
                 mergedProcessors: [
@@ -634,7 +666,7 @@ describe("ProcessorRun", () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { success: undefined, error: undefined };
+        const rawResponseBody = { key: "value" };
         server.mockEndpoint().get("/processor_runs/id").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -724,10 +756,10 @@ describe("ProcessorRun", () => {
             processorRun: {
                 object: "document_processor_run",
                 id: "dpr_Xj8mK2pL9nR4vT7qY5wZ",
-                processorId: "dp_SmJyN3LMx9kW_YmFTxTha",
-                processorVersionId: "dpv_YrgxmNn83sAO0JChhmLpa",
-                processorName: "My Processor",
-                status: "CANCELLED",
+                processorId: "dp_Xj8mK2pL9nR4vT7qY5wZ",
+                processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
+                processorName: "Invoice Processor",
+                status: "PENDING",
                 output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                 failureReason: "failureReason",
                 failureMessage: "failureMessage",
@@ -764,8 +796,10 @@ describe("ProcessorRun", () => {
                         object: "file",
                         id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                         name: "Invoices.pdf",
+                        type: undefined,
                         presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                         parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                        contents: undefined,
                         metadata: {
                             pageCount: 30,
                             parentSplit: {
@@ -776,9 +810,8 @@ describe("ProcessorRun", () => {
                                 endPage: 10,
                             },
                         },
-                        createdAt: "2024-03-21T15:30:00Z",
+                        createdAt: "2024-03-21T16:45:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
-                        usage: { credits: 10 },
                     },
                 ],
                 mergedProcessors: [
@@ -806,10 +839,10 @@ describe("ProcessorRun", () => {
             processorRun: {
                 object: "document_processor_run",
                 id: "dpr_Xj8mK2pL9nR4vT7qY5wZ",
-                processorId: "dp_SmJyN3LMx9kW_YmFTxTha",
-                processorVersionId: "dpv_YrgxmNn83sAO0JChhmLpa",
-                processorName: "My Processor",
-                status: "CANCELLED",
+                processorId: "dp_Xj8mK2pL9nR4vT7qY5wZ",
+                processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
+                processorName: "Invoice Processor",
+                status: "PENDING",
                 output: {
                     value: {
                         key: "value",
@@ -887,8 +920,10 @@ describe("ProcessorRun", () => {
                         object: "file",
                         id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                         name: "Invoices.pdf",
+                        type: undefined,
                         presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                         parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                        contents: undefined,
                         metadata: {
                             pageCount: 30,
                             parentSplit: {
@@ -899,11 +934,8 @@ describe("ProcessorRun", () => {
                                 endPage: 10,
                             },
                         },
-                        createdAt: "2024-03-21T15:30:00Z",
+                        createdAt: "2024-03-21T16:45:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
-                        usage: {
-                            credits: 10,
-                        },
                     },
                 ],
                 mergedProcessors: [
@@ -943,7 +975,7 @@ describe("ProcessorRun", () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { success: undefined, error: undefined };
+        const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
             .post("/processor_runs/id/cancel")

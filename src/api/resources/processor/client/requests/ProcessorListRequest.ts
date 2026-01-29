@@ -6,17 +6,11 @@ import * as Extend from "../../../../index";
 
 /**
  * @example
- *     {
- *         type: "EXTRACT",
- *         nextPageToken: "nextPageToken",
- *         maxPageSize: 1,
- *         sortBy: "createdAt",
- *         sortDir: "asc"
- *     }
+ *     {}
  */
 export interface ProcessorListRequest {
     /** Filter processors by type */
-    type?: Extend.ProcessorType;
+    type?: Extend.LegacyProcessorType;
     /** Token for retrieving the next page of results */
     nextPageToken?: string;
     /** Maximum number of processors to return per page */

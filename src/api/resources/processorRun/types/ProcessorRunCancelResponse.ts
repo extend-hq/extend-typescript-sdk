@@ -6,5 +6,5 @@ import * as Extend from "../../../index";
 
 export interface ProcessorRunCancelResponse {
     success: boolean;
-    processorRun: Extend.ProcessorRun;
+    processorRun: Extend.LegacyProcessorRun;
 }

@@ -75,7 +75,7 @@ describe("Processor", () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { success: undefined, error: undefined };
+        const rawResponseBody = { key: "value" };
         server.mockEndpoint().get("/processors").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -226,7 +226,7 @@ describe("Processor", () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name", type: "EXTRACT", cloneProcessorId: undefined, config: undefined };
-        const rawResponseBody = { success: undefined, error: undefined };
+        const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
             .post("/processors")
@@ -384,7 +384,7 @@ describe("Processor", () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: undefined, config: undefined };
-        const rawResponseBody = { success: undefined, error: undefined };
+        const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
             .post("/processors/id")

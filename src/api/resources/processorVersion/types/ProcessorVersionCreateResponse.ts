@@ -6,5 +6,5 @@ import * as Extend from "../../../index";
 
 export interface ProcessorVersionCreateResponse {
     success: boolean;
-    processorVersion: Extend.ProcessorVersion;
+    processorVersion: Extend.LegacyProcessorVersion;
 }

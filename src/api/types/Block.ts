@@ -6,7 +6,7 @@ import * as Extend from "../index";
 
 export interface Block {
     /** The type of object. In this case, it will always be `"block"`. */
-    object: string;
+    object: "block";
     /** A unique identifier for the block, deterministically generated as a hash of the block content. */
     id: string;
     /** The ID of the parent block. For example, for a table cell block, this would be the ID of the parent table block. Only set if this is a child block. */

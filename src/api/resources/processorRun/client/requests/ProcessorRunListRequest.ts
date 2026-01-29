@@ -7,16 +7,7 @@ import * as Extend from "../../../../index";
 /**
  * @example
  *     {
- *         status: "PENDING",
- *         processorId: "processorId",
- *         processorType: "EXTRACT",
- *         sourceId: "sourceId",
- *         source: "ADMIN",
- *         fileNameContains: "fileNameContains",
- *         sortBy: "updatedAt",
- *         sortDir: "asc",
- *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
- *         maxPageSize: 1
+ *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
  *     }
  */
 export interface ProcessorRunListRequest {
@@ -30,7 +21,7 @@ export interface ProcessorRunListRequest {
      *  * `"FAILED"` - The processor run encountered an error
      *  * `"CANCELLED"` - The processor run was cancelled
      */
-    status?: Extend.ProcessorStatus;
+    status?: Extend.LegacyProcessorStatus;
     /**
      * Filters processor runs by the processor ID. If not provided, runs for all processors are returned.
      *
@@ -42,7 +33,7 @@ export interface ProcessorRunListRequest {
      *
      * Example: `"EXTRACT"`
      */
-    processorType?: Extend.ProcessorType;
+    processorType?: Extend.LegacyProcessorType;
     /**
      * Filters processor runs by the source ID. The source ID corresponds to the entity that created the processor run.
      *
@@ -69,9 +60,9 @@ export interface ProcessorRunListRequest {
      */
     fileNameContains?: string;
     /** Sorts the processor runs by the given field. */
-    sortBy?: Extend.SortByEnum;
+    sortBy?: Extend.LegacySortByEnum;
     /** Sorts the processor runs in ascending or descending order. Ascending order means the earliest processor run is returned first. */
-    sortDir?: Extend.SortDirEnum;
-    nextPageToken?: Extend.NextPageToken;
-    maxPageSize?: Extend.MaxPageSize;
+    sortDir?: Extend.LegacySortDirEnum;
+    nextPageToken?: Extend.LegacyNextPageToken;
+    maxPageSize?: Extend.LegacyMaxPageSize;
 }

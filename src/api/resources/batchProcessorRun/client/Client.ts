@@ -13,9 +13,9 @@ export declare namespace BatchProcessorRun {
         environment?: core.Supplier<environments.ExtendEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token?: core.Supplier<core.BearerToken | undefined>;
+        token: core.Supplier<core.BearerToken>;
         /** Override the x-extend-api-version header */
-        extendApiVersion?: "2025-04-21";
+        extendApiVersion?: "2026-01-01";
         /** Additional headers to include in requests. */
         headers?: Record<string, string | core.Supplier<string | null | undefined> | null | undefined>;
         fetcher?: core.FetchFunction;
@@ -29,7 +29,7 @@ export declare namespace BatchProcessorRun {
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
         /** Override the x-extend-api-version header */
-        extendApiVersion?: "2025-04-21";
+        extendApiVersion?: "2026-01-01";
         /** Additional query string parameters to include in the request. */
         queryParams?: Record<string, unknown>;
         /** Additional headers to include in the request. */
@@ -40,14 +40,16 @@ export declare namespace BatchProcessorRun {
 export class BatchProcessorRun {
     protected readonly _options: BatchProcessorRun.Options;
 
-    constructor(_options: BatchProcessorRun.Options = {}) {
+    constructor(_options: BatchProcessorRun.Options) {
         this._options = _options;
     }
 
     /**
-     * Retrieve details about a batch processor run, including evaluation runs
+     * Retrieve details about a batch processor run, including evaluation runs.
      *
-     * @param {string} id - The unique identifier of the batch processor run to retrieve. The ID will always start with "bpr_".
+     * **Deprecated:** This endpoint is maintained for backwards compatibility only and will be replaced in a future API version. Use [Get Evaluation Set Run](/2026-01-01/developers/api-reference/endpoints/evaluation/get-evaluation-set-run) for interacting with evaluation set runs.
+     *
+     * @param {string} id - The unique identifier of the batch processor run to retrieve.
      *
      *                      Example: `"bpr_Xj8mK2pL9nR4vT7qY5wZ"`
      * @param {BatchProcessorRun.RequestOptions} requestOptions - Request-specific configuration.
@@ -57,7 +59,7 @@ export class BatchProcessorRun {
      * @throws {@link Extend.NotFoundError}
      *
      * @example
-     *     await client.batchProcessorRun.get("batch_processor_run_id_here")
+     *     await client.batchProcessorRun.get("bpr_id_here")
      */
     public get(
         id: string,
@@ -74,7 +76,7 @@ export class BatchProcessorRun {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-01-01",
             }),
             requestOptions?.headers,
         );
@@ -101,7 +103,7 @@ export class BatchProcessorRun {
                 case 400:
                     throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                    throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
@@ -130,12 +132,7 @@ export class BatchProcessorRun {
         }
     }
 
-    protected async _getAuthorizationHeader(): Promise<string | undefined> {
-        const bearer = await core.Supplier.get(this._options.token);
-        if (bearer != null) {
-            return `Bearer ${bearer}`;
-        }
-
-        return undefined;
+    protected async _getAuthorizationHeader(): Promise<string> {
+        return `Bearer ${await core.Supplier.get(this._options.token)}`;
     }
 }

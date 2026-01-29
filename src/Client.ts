@@ -4,31 +4,37 @@
 
 import * as environments from "./environments";
 import * as core from "./core";
-import { mergeHeaders, mergeOnlyDefinedHeaders } from "./core/headers";
-import * as Extend from "./api/index";
-import * as errors from "./errors/index";
-import { WorkflowRun } from "./api/resources/workflowRun/client/Client";
-import { BatchWorkflowRun } from "./api/resources/batchWorkflowRun/client/Client";
+import { mergeHeaders } from "./core/headers";
+import { Files } from "./api/resources/files/client/Client";
+import { ParseRuns } from "./api/resources/parseRuns/client/Client";
+import { EditRuns } from "./api/resources/editRuns/client/Client";
+import { ExtractRuns } from "./api/resources/extractRuns/client/Client";
+import { Extractors } from "./api/resources/extractors/client/Client";
+import { ExtractorVersions } from "./api/resources/extractorVersions/client/Client";
+import { ClassifyRuns } from "./api/resources/classifyRuns/client/Client";
+import { Classifiers } from "./api/resources/classifiers/client/Client";
+import { ClassifierVersions } from "./api/resources/classifierVersions/client/Client";
+import { SplitRuns } from "./api/resources/splitRuns/client/Client";
+import { Splitters } from "./api/resources/splitters/client/Client";
+import { SplitterVersions } from "./api/resources/splitterVersions/client/Client";
+import { Workflows } from "./api/resources/workflows/client/Client";
+import { WorkflowRuns } from "./api/resources/workflowRuns/client/Client";
 import { ProcessorRun } from "./api/resources/processorRun/client/Client";
 import { Processor } from "./api/resources/processor/client/Client";
 import { ProcessorVersion } from "./api/resources/processorVersion/client/Client";
-import { ParserRun } from "./api/resources/parserRun/client/Client";
-import { Edit } from "./api/resources/edit/client/Client";
-import { File_ } from "./api/resources/file/client/Client";
-import { EvaluationSet } from "./api/resources/evaluationSet/client/Client";
-import { EvaluationSetItem } from "./api/resources/evaluationSetItem/client/Client";
-import { WorkflowRunOutput } from "./api/resources/workflowRunOutput/client/Client";
 import { BatchProcessorRun } from "./api/resources/batchProcessorRun/client/Client";
-import { Workflow } from "./api/resources/workflow/client/Client";
+import { EvaluationSets } from "./api/resources/evaluationSets/client/Client";
+import { EvaluationSetItems } from "./api/resources/evaluationSetItems/client/Client";
+import { EvaluationSetRuns } from "./api/resources/evaluationSetRuns/client/Client";
 
 export declare namespace ExtendClient {
     export interface Options {
         environment?: core.Supplier<environments.ExtendEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token?: core.Supplier<core.BearerToken | undefined>;
+        token: core.Supplier<core.BearerToken>;
         /** Override the x-extend-api-version header */
-        extendApiVersion?: "2025-04-21";
+        extendApiVersion?: "2026-01-01";
         /** Additional headers to include in requests. */
         headers?: Record<string, string | core.Supplier<string | null | undefined> | null | undefined>;
         fetcher?: core.FetchFunction;
@@ -42,7 +48,7 @@ export declare namespace ExtendClient {
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
         /** Override the x-extend-api-version header */
-        extendApiVersion?: "2025-04-21";
+        extendApiVersion?: "2026-01-01";
         /** Additional query string parameters to include in the request. */
         queryParams?: Record<string, unknown>;
         /** Additional headers to include in the request. */
@@ -52,26 +58,34 @@ export declare namespace ExtendClient {
 
 export class ExtendClient {
     protected readonly _options: ExtendClient.Options;
-    protected _workflowRun: WorkflowRun | undefined;
-    protected _batchWorkflowRun: BatchWorkflowRun | undefined;
+    protected _files: Files | undefined;
+    protected _parseRuns: ParseRuns | undefined;
+    protected _editRuns: EditRuns | undefined;
+    protected _extractRuns: ExtractRuns | undefined;
+    protected _extractors: Extractors | undefined;
+    protected _extractorVersions: ExtractorVersions | undefined;
+    protected _classifyRuns: ClassifyRuns | undefined;
+    protected _classifiers: Classifiers | undefined;
+    protected _classifierVersions: ClassifierVersions | undefined;
+    protected _splitRuns: SplitRuns | undefined;
+    protected _splitters: Splitters | undefined;
+    protected _splitterVersions: SplitterVersions | undefined;
+    protected _workflows: Workflows | undefined;
+    protected _workflowRuns: WorkflowRuns | undefined;
     protected _processorRun: ProcessorRun | undefined;
     protected _processor: Processor | undefined;
     protected _processorVersion: ProcessorVersion | undefined;
-    protected _parserRun: ParserRun | undefined;
-    protected _edit: Edit | undefined;
-    protected _file: File_ | undefined;
-    protected _evaluationSet: EvaluationSet | undefined;
-    protected _evaluationSetItem: EvaluationSetItem | undefined;
-    protected _workflowRunOutput: WorkflowRunOutput | undefined;
     protected _batchProcessorRun: BatchProcessorRun | undefined;
-    protected _workflow: Workflow | undefined;
+    protected _evaluationSets: EvaluationSets | undefined;
+    protected _evaluationSetItems: EvaluationSetItems | undefined;
+    protected _evaluationSetRuns: EvaluationSetRuns | undefined;
 
-    constructor(_options: ExtendClient.Options = {}) {
+    constructor(_options: ExtendClient.Options) {
         this._options = {
             ..._options,
             headers: mergeHeaders(
                 {
-                    "x-extend-api-version": _options?.extendApiVersion ?? "2025-04-21",
+                    "x-extend-api-version": _options?.extendApiVersion ?? "2026-01-01",
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "extend-ai",
                     "X-Fern-SDK-Version": "0.0.16",
@@ -84,12 +98,60 @@ export class ExtendClient {
         };
     }
 
-    public get workflowRun(): WorkflowRun {
-        return (this._workflowRun ??= new WorkflowRun(this._options));
+    public get files(): Files {
+        return (this._files ??= new Files(this._options));
     }
 
-    public get batchWorkflowRun(): BatchWorkflowRun {
-        return (this._batchWorkflowRun ??= new BatchWorkflowRun(this._options));
+    public get parseRuns(): ParseRuns {
+        return (this._parseRuns ??= new ParseRuns(this._options));
+    }
+
+    public get editRuns(): EditRuns {
+        return (this._editRuns ??= new EditRuns(this._options));
+    }
+
+    public get extractRuns(): ExtractRuns {
+        return (this._extractRuns ??= new ExtractRuns(this._options));
+    }
+
+    public get extractors(): Extractors {
+        return (this._extractors ??= new Extractors(this._options));
+    }
+
+    public get extractorVersions(): ExtractorVersions {
+        return (this._extractorVersions ??= new ExtractorVersions(this._options));
+    }
+
+    public get classifyRuns(): ClassifyRuns {
+        return (this._classifyRuns ??= new ClassifyRuns(this._options));
+    }
+
+    public get classifiers(): Classifiers {
+        return (this._classifiers ??= new Classifiers(this._options));
+    }
+
+    public get classifierVersions(): ClassifierVersions {
+        return (this._classifierVersions ??= new ClassifierVersions(this._options));
+    }
+
+    public get splitRuns(): SplitRuns {
+        return (this._splitRuns ??= new SplitRuns(this._options));
+    }
+
+    public get splitters(): Splitters {
+        return (this._splitters ??= new Splitters(this._options));
+    }
+
+    public get splitterVersions(): SplitterVersions {
+        return (this._splitterVersions ??= new SplitterVersions(this._options));
+    }
+
+    public get workflows(): Workflows {
+        return (this._workflows ??= new Workflows(this._options));
+    }
+
+    public get workflowRuns(): WorkflowRuns {
+        return (this._workflowRuns ??= new WorkflowRuns(this._options));
     }
 
     public get processorRun(): ProcessorRun {
@@ -104,252 +166,19 @@ export class ExtendClient {
         return (this._processorVersion ??= new ProcessorVersion(this._options));
     }
 
-    public get parserRun(): ParserRun {
-        return (this._parserRun ??= new ParserRun(this._options));
-    }
-
-    public get edit(): Edit {
-        return (this._edit ??= new Edit(this._options));
-    }
-
-    public get file(): File_ {
-        return (this._file ??= new File_(this._options));
-    }
-
-    public get evaluationSet(): EvaluationSet {
-        return (this._evaluationSet ??= new EvaluationSet(this._options));
-    }
-
-    public get evaluationSetItem(): EvaluationSetItem {
-        return (this._evaluationSetItem ??= new EvaluationSetItem(this._options));
-    }
-
-    public get workflowRunOutput(): WorkflowRunOutput {
-        return (this._workflowRunOutput ??= new WorkflowRunOutput(this._options));
-    }
-
     public get batchProcessorRun(): BatchProcessorRun {
         return (this._batchProcessorRun ??= new BatchProcessorRun(this._options));
     }
 
-    public get workflow(): Workflow {
-        return (this._workflow ??= new Workflow(this._options));
+    public get evaluationSets(): EvaluationSets {
+        return (this._evaluationSets ??= new EvaluationSets(this._options));
     }
 
-    /**
-     * Parse files to get cleaned, chunked target content (e.g. markdown).
-     *
-     * The Parse endpoint allows you to convert documents into structured, machine-readable formats with fine-grained control over the parsing process. This endpoint is ideal for extracting cleaned document content to be used as context for downstream processing, e.g. RAG pipelines, custom ingestion pipelines, embeddings classification, etc.
-     *
-     * For more details, see the [Parse File guide](/product/parsing/parse).
-     *
-     * @param {Extend.ParseRequest} request
-     * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Extend.BadRequestError}
-     * @throws {@link Extend.UnauthorizedError}
-     * @throws {@link Extend.PaymentRequiredError}
-     * @throws {@link Extend.NotFoundError}
-     * @throws {@link Extend.UnprocessableEntityError}
-     * @throws {@link Extend.InternalServerError}
-     *
-     * @example
-     *     await client.parse({
-     *         responseType: "json",
-     *         file: {}
-     *     })
-     */
-    public parse(
-        request: Extend.ParseRequest,
-        requestOptions?: ExtendClient.RequestOptions,
-    ): core.HttpResponsePromise<Extend.ParserRun> {
-        return core.HttpResponsePromise.fromPromise(this.__parse(request, requestOptions));
+    public get evaluationSetItems(): EvaluationSetItems {
+        return (this._evaluationSetItems ??= new EvaluationSetItems(this._options));
     }
 
-    private async __parse(
-        request: Extend.ParseRequest,
-        requestOptions?: ExtendClient.RequestOptions,
-    ): Promise<core.WithRawResponse<Extend.ParserRun>> {
-        const { responseType, ..._body } = request;
-        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (responseType != null) {
-            _queryParams["responseType"] = responseType;
-        }
-
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            this._options?.headers,
-            mergeOnlyDefinedHeaders({
-                Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
-            }),
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.ExtendEnvironment.Production,
-                "parse",
-            ),
-            method: "POST",
-            headers: _headers,
-            contentType: "application/json",
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
-            requestType: "json",
-            body: _body,
-            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
-            maxRetries: requestOptions?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-        });
-        if (_response.ok) {
-            return { data: _response.body as Extend.ParserRun, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
-                case 402:
-                    throw new Extend.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
-                case 404:
-                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
-                case 422:
-                    throw new Extend.UnprocessableEntityError(
-                        _response.error.body as Extend.ExtendError,
-                        _response.rawResponse,
-                    );
-                case 500:
-                    throw new Extend.InternalServerError(_response.error.body as unknown, _response.rawResponse);
-                default:
-                    throw new errors.ExtendError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
-        }
-
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.ExtendError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /parse.");
-            case "unknown":
-                throw new errors.ExtendError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
-    }
-
-    /**
-     * Parse files **asynchronously** to get cleaned, chunked target content (e.g. markdown).
-     *
-     * The Parse Async endpoint allows you to convert documents into structured, machine-readable formats with fine-grained control over the parsing process. This endpoint is ideal for extracting cleaned document content to be used as context for downstream processing, e.g. RAG pipelines, custom ingestion pipelines, embeddings classification, etc.
-     *
-     * Parse files asynchronously and get a parser run ID that can be used to check status and retrieve results with the [Get Parser Run](https://docs.extend.ai/2025-04-21/developers/api-reference/parse-endpoints/get-parser-run) endpoint.
-     *
-     * This is useful for:
-     * * Large files that may take longer to process
-     * * Avoiding timeout issues with synchronous parsing.
-     *
-     * For more details, see the [Parse File guide](/product/parsing/parse).
-     *
-     * @param {Extend.ParseAsyncRequest} request
-     * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Extend.BadRequestError}
-     * @throws {@link Extend.UnauthorizedError}
-     *
-     * @example
-     *     await client.parseAsync({
-     *         file: {}
-     *     })
-     */
-    public parseAsync(
-        request: Extend.ParseAsyncRequest,
-        requestOptions?: ExtendClient.RequestOptions,
-    ): core.HttpResponsePromise<Extend.ParserRunStatus> {
-        return core.HttpResponsePromise.fromPromise(this.__parseAsync(request, requestOptions));
-    }
-
-    private async __parseAsync(
-        request: Extend.ParseAsyncRequest,
-        requestOptions?: ExtendClient.RequestOptions,
-    ): Promise<core.WithRawResponse<Extend.ParserRunStatus>> {
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            this._options?.headers,
-            mergeOnlyDefinedHeaders({
-                Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
-            }),
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.ExtendEnvironment.Production,
-                "parse/async",
-            ),
-            method: "POST",
-            headers: _headers,
-            contentType: "application/json",
-            queryParameters: requestOptions?.queryParams,
-            requestType: "json",
-            body: request,
-            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
-            maxRetries: requestOptions?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-        });
-        if (_response.ok) {
-            return { data: _response.body as Extend.ParserRunStatus, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
-                default:
-                    throw new errors.ExtendError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
-        }
-
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.ExtendError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /parse/async.");
-            case "unknown":
-                throw new errors.ExtendError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
-    }
-
-    protected async _getAuthorizationHeader(): Promise<string | undefined> {
-        const bearer = await core.Supplier.get(this._options.token);
-        if (bearer != null) {
-            return `Bearer ${bearer}`;
-        }
-
-        return undefined;
+    public get evaluationSetRuns(): EvaluationSetRuns {
+        return (this._evaluationSetRuns ??= new EvaluationSetRuns(this._options));
     }
 }

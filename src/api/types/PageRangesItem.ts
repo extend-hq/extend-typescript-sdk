@@ -4,7 +4,7 @@
 
 export interface PageRangesItem {
     /** The start page of the range. */
-    start?: number;
+    start: number;
     /** The end page of the range. */
-    end?: number;
+    end: number;
 }

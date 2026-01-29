@@ -6,7 +6,7 @@ import * as Extend from "../index";
 
 export interface Chunk {
     /** The type of object. In this case, it will always be `"chunk"`. */
-    object: string;
+    object: "chunk";
     /** The type of chunk. */
     type: Extend.ChunkType;
     /** The parsed content of the chunk. */
