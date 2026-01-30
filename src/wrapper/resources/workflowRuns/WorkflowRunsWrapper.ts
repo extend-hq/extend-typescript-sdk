@@ -25,12 +25,6 @@ import { pollUntilDone, PollingOptions, PollingTimeoutError } from "../../utilit
 
 export { PollingTimeoutError };
 
-/**
- * Default maximum wait time for workflow runs (2 hours).
- * Workflow runs can take significantly longer than other run types.
- */
-const DEFAULT_WORKFLOW_MAX_WAIT_MS = 2 * 60 * 60 * 1000;
-
 export interface CreateAndPollOptions extends PollingOptions {
     /**
      * Request options passed to both create and retrieve calls.
@@ -59,13 +53,10 @@ export class WorkflowRunsWrapper extends WorkflowRuns {
      *
      * Terminal states: PROCESSED, FAILED, CANCELLED, NEEDS_REVIEW, REJECTED
      *
-     * Note: Workflow runs can take significantly longer than other run types.
-     * The default maxWaitMs is 2 hours. Consider increasing this for complex workflows.
-     *
      * @param request - The workflow run creation request
      * @param options - Polling and request options
      * @returns The final workflow run response when processing is complete
-     * @throws {PollingTimeoutError} If the run doesn't complete within maxWaitMs
+     * @throws {PollingTimeoutError} If maxWaitMs is set and exceeded
      *
      * @example
      * ```typescript
@@ -91,13 +82,7 @@ export class WorkflowRunsWrapper extends WorkflowRuns {
         request: Extend.WorkflowRunsCreateRequest,
         options: CreateAndPollOptions = {},
     ): Promise<Extend.WorkflowRunsRetrieveResponse> {
-        const {
-            maxWaitMs = DEFAULT_WORKFLOW_MAX_WAIT_MS,
-            initialDelayMs,
-            maxDelayMs,
-            jitterFraction,
-            requestOptions,
-        } = options;
+        const { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction, requestOptions } = options;
 
         // Create the workflow run
         const createResponse = await this.create(request, requestOptions);
