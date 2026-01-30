@@ -3,10 +3,17 @@
  *
  * @example
  * ```typescript
+ * // Polls until complete
+ * const result = await pollUntilDone(
+ *   () => client.extractRuns.retrieve(id),
+ *   (res) => res.extractRun.status !== "PROCESSING"
+ * );
+ *
+ * // With custom timeout
  * const result = await pollUntilDone(
  *   () => client.extractRuns.retrieve(id),
  *   (res) => res.extractRun.status !== "PROCESSING",
- *   { maxWaitMs: 60000 }
+ *   { maxWaitMs: 300000 } // 5 minute timeout
  * );
  * ```
  */
@@ -14,24 +21,19 @@
 export interface PollingOptions {
     /**
      * Maximum total wait time in milliseconds.
-     * @default 300000 (5 minutes)
-     *
-   * Note: Workflow runs can take significantly longer.
-   * Consider increasing this value for workflow runs.
+     * @default undefined (polls indefinitely)
      */
     maxWaitMs?: number;
 
     /**
      * Initial delay between polls in milliseconds.
      * @default 1000 (1 second)
-     *
-   * 1 second provides a good balance between responsiveness and efficiency.
      */
     initialDelayMs?: number;
 
     /**
      * Maximum delay between polls in milliseconds.
-     * @default 30000 (30 seconds)
+     * @default 60000 (60 seconds)
      */
     maxDelayMs?: number;
 
@@ -91,18 +93,28 @@ export function calculateBackoffDelay(
  * Uses exponential backoff with proportional jitter to avoid thundering herd
  * problems and reduce load on the server.
  *
+ * By default, polls indefinitely until a terminal state is reached.
+ * For production use, it's recommended to set an explicit `maxWaitMs` timeout.
+ *
  * @param retrieve - Async function that fetches the current state
  * @param isTerminal - Predicate that returns true when polling should stop
  * @param options - Polling configuration options
  * @returns The final result when isTerminal returns true
- * @throws {PollingTimeoutError} If maxWaitMs is exceeded
+ * @throws {PollingTimeoutError} If maxWaitMs is set and exceeded
  *
  * @example
  * ```typescript
+ * // Polls indefinitely (suitable for development/testing)
+ * const result = await pollUntilDone(
+ *   () => client.extractRuns.retrieve(runId),
+ *   (res) => res.extractRun.status !== "PROCESSING"
+ * );
+ *
+ * // With timeout (recommended for production)
  * const result = await pollUntilDone(
  *   () => client.extractRuns.retrieve(runId),
  *   (res) => res.extractRun.status !== "PROCESSING",
- *   { maxWaitMs: 60000, initialDelayMs: 1000 }
+ *   { maxWaitMs: 300000 } // 5 minute timeout
  * );
  * ```
  */
@@ -111,7 +123,7 @@ export async function pollUntilDone<T>(
     isTerminal: (result: T) => boolean,
     options: PollingOptions = {},
 ): Promise<T> {
-    const { maxWaitMs = 300000, initialDelayMs = 1000, maxDelayMs = 30000, jitterFraction = 0.25 } = options;
+    const { maxWaitMs, initialDelayMs = 1000, maxDelayMs = 60000, jitterFraction = 0.25 } = options;
 
     const startTime = Date.now();
     let attempt = 0;
@@ -125,7 +137,8 @@ export async function pollUntilDone<T>(
 
         const elapsedMs = Date.now() - startTime;
 
-        if (elapsedMs >= maxWaitMs) {
+        // Only check timeout if maxWaitMs is set
+        if (maxWaitMs !== undefined && elapsedMs >= maxWaitMs) {
             throw new PollingTimeoutError(
                 `Polling timed out after ${elapsedMs}ms (max: ${maxWaitMs}ms)`,
                 elapsedMs,
@@ -135,9 +148,8 @@ export async function pollUntilDone<T>(
 
         const delay = calculateBackoffDelay(attempt, initialDelayMs, maxDelayMs, jitterFraction);
 
-        // Don't wait longer than the remaining time
-        const remainingMs = maxWaitMs - elapsedMs;
-        const actualDelay = Math.min(delay, remainingMs);
+        // If timeout is set, don't wait longer than remaining time
+        const actualDelay = maxWaitMs !== undefined ? Math.min(delay, maxWaitMs - elapsedMs) : delay;
 
         await sleep(actualDelay);
         attempt++;

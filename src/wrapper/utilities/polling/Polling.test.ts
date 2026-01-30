@@ -152,7 +152,7 @@ describe("pollUntilDone", () => {
     });
 
     describe("timeout behavior", () => {
-        it("should throw PollingTimeoutError when maxWaitMs is exceeded", async () => {
+        it("should throw PollingTimeoutError when maxWaitMs is set and exceeded", async () => {
             const retrieve = jest.fn().mockResolvedValue({ status: "PROCESSING" });
             const isTerminal = jest.fn().mockReturnValue(false);
 
@@ -202,6 +202,24 @@ describe("pollUntilDone", () => {
             // Should have timed out around 100ms
             expect(elapsed).toBeGreaterThanOrEqual(100);
             expect(elapsed).toBeLessThan(500); // Reasonable upper bound
+        });
+
+        it("should poll indefinitely when maxWaitMs is not set", async () => {
+            let callCount = 0;
+            const retrieve = jest.fn().mockImplementation(() => {
+                callCount++;
+                return Promise.resolve({ done: callCount >= 3 });
+            });
+            const isTerminal = jest.fn().mockImplementation((r) => r.done);
+
+            // No maxWaitMs - should complete without timeout
+            const result = await pollUntilDone(retrieve, isTerminal, {
+                initialDelayMs: 1,
+                jitterFraction: 0,
+            });
+
+            expect(callCount).toBe(3);
+            expect(result.done).toBe(true);
         });
     });
 
