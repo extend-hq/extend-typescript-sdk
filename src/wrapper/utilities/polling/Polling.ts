@@ -16,8 +16,8 @@ export interface PollingOptions {
      * Maximum total wait time in milliseconds.
      * @default 300000 (5 minutes)
      *
-     * Note: Workflow runs can take significantly longer (p99 ~2.5 hours).
-     * Consider increasing this value for workflow runs.
+   * Note: Workflow runs can take significantly longer.
+   * Consider increasing this value for workflow runs.
      */
     maxWaitMs?: number;
 
@@ -25,8 +25,7 @@ export interface PollingOptions {
      * Initial delay between polls in milliseconds.
      * @default 1000 (1 second)
      *
-     * Based on p50 processing times of 3-21 seconds across run types,
-     * 1 second provides a good balance between responsiveness and efficiency.
+   * 1 second provides a good balance between responsiveness and efficiency.
      */
     initialDelayMs?: number;
 
