@@ -1,9 +1,14 @@
 /**
- * Polling utilities with exponential backoff and proportional jitter.
+ * Polling utilities with hybrid polling strategy: fast initial polls followed
+ * by exponential backoff with proportional jitter.
+ *
+ * The default strategy polls at 1-second intervals for the first 30 seconds,
+ * then gradually increases the interval using exponential backoff (1.15x multiplier)
+ * up to a maximum of 30 seconds between polls.
  *
  * @example
  * ```typescript
- * // Polls until complete
+ * // Polls until complete (uses hybrid strategy by default)
  * const result = await pollUntilDone(
  *   () => client.extractRuns.retrieve(id),
  *   (res) => res.extractRun.status !== "PROCESSING"
@@ -14,6 +19,16 @@
  *   () => client.extractRuns.retrieve(id),
  *   (res) => res.extractRun.status !== "PROCESSING",
  *   { maxWaitMs: 300000 } // 5 minute timeout
+ * );
+ *
+ * // Custom fast polling phase
+ * const result = await pollUntilDone(
+ *   () => client.extractRuns.retrieve(id),
+ *   (res) => res.extractRun.status !== "PROCESSING",
+ *   {
+ *     fastPollDurationMs: 60000,  // Fast poll for 60 seconds
+ *     fastPollIntervalMs: 500,    // Poll every 500ms during fast phase
+ *   }
  * );
  * ```
  */
@@ -26,16 +41,36 @@ export interface PollingOptions {
     maxWaitMs?: number;
 
     /**
-     * Initial delay between polls in milliseconds.
+     * Duration of the fast polling phase in milliseconds.
+     * During this phase, polls occur at a fixed interval (fastPollIntervalMs).
+     * @default 30000 (30 seconds)
+     */
+    fastPollDurationMs?: number;
+
+    /**
+     * Interval between polls during the fast polling phase in milliseconds.
+     * @default 1000 (1 second)
+     */
+    fastPollIntervalMs?: number;
+
+    /**
+     * Initial delay for the backoff phase (after fast polling ends) in milliseconds.
      * @default 1000 (1 second)
      */
     initialDelayMs?: number;
 
     /**
      * Maximum delay between polls in milliseconds.
-     * @default 60000 (60 seconds)
+     * @default 30000 (30 seconds)
      */
     maxDelayMs?: number;
+
+    /**
+     * Multiplier for exponential backoff during the backoff phase.
+     * A value of 1.15 means each delay is 1.15x the previous delay.
+     * @default 1.15
+     */
+    backoffMultiplier?: number;
 
     /**
      * Jitter fraction for randomization. A value of 0.25 means delays
@@ -66,6 +101,7 @@ export class PollingTimeoutError extends Error {
  * @param initialDelayMs - The base delay for the first attempt
  * @param maxDelayMs - The maximum delay cap
  * @param jitterFraction - The fraction of delay to randomize (+/-)
+ * @param backoffMultiplier - The multiplier for exponential backoff (default: 2)
  * @returns The delay in milliseconds
  */
 export function calculateBackoffDelay(
@@ -73,9 +109,10 @@ export function calculateBackoffDelay(
     initialDelayMs: number,
     maxDelayMs: number,
     jitterFraction: number,
+    backoffMultiplier: number = 2,
 ): number {
-    // Exponential backoff: initialDelay * 2^attempt
-    const exponentialDelay = initialDelayMs * Math.pow(2, attempt);
+    // Exponential backoff: initialDelay * multiplier^attempt
+    const exponentialDelay = initialDelayMs * Math.pow(backoffMultiplier, attempt);
 
     // Cap at maxDelay
     const cappedDelay = Math.min(exponentialDelay, maxDelayMs);
@@ -88,13 +125,84 @@ export function calculateBackoffDelay(
 }
 
 /**
+ * Configuration options for calculating hybrid delay.
+ */
+export interface HybridDelayOptions {
+    /** Duration of fast polling phase in milliseconds */
+    fastPollDurationMs: number;
+    /** Interval between polls during fast phase in milliseconds */
+    fastPollIntervalMs: number;
+    /** Initial delay for backoff phase in milliseconds */
+    initialDelayMs: number;
+    /** Maximum delay cap in milliseconds */
+    maxDelayMs: number;
+    /** Multiplier for exponential backoff */
+    backoffMultiplier: number;
+    /** Jitter fraction for randomization */
+    jitterFraction: number;
+}
+
+/**
+ * Calculates the delay for a hybrid polling strategy based on elapsed time.
+ *
+ * During the fast polling phase (elapsed < fastPollDurationMs), returns a fixed
+ * interval with jitter. After the fast phase ends, switches to exponential backoff.
+ *
+ * @param elapsedMs - Total elapsed time since polling started
+ * @param options - Configuration options for the hybrid strategy
+ * @returns The delay in milliseconds until the next poll
+ */
+export function calculateHybridDelay(elapsedMs: number, options: HybridDelayOptions): number {
+    const { fastPollDurationMs, fastPollIntervalMs, initialDelayMs, maxDelayMs, backoffMultiplier, jitterFraction } =
+        options;
+
+    // Fast polling phase: use fixed interval with jitter
+    if (elapsedMs < fastPollDurationMs) {
+        const jitter = (Math.random() * 2 - 1) * jitterFraction;
+        return Math.round(fastPollIntervalMs * (1 + jitter));
+    }
+
+    // Backoff phase: calculate attempt number based on time since fast phase ended
+    // We estimate the attempt number by solving for n in the geometric series sum
+    const timeSinceBackoffStart = elapsedMs - fastPollDurationMs;
+
+    // Calculate which "attempt" we're on based on elapsed time in backoff phase
+    // Sum of geometric series: S = a * (r^n - 1) / (r - 1)
+    // Solving for n: n = log((S * (r - 1) / a) + 1) / log(r)
+    let attempt: number;
+    if (backoffMultiplier === 1) {
+        // Linear case: attempt = timeSinceBackoffStart / initialDelayMs
+        attempt = Math.floor(timeSinceBackoffStart / initialDelayMs);
+    } else {
+        const r = backoffMultiplier;
+        const a = initialDelayMs;
+        const S = timeSinceBackoffStart;
+
+        // Estimate attempt from geometric series sum formula
+        const innerValue = (S * (r - 1)) / a + 1;
+        if (innerValue <= 0) {
+            attempt = 0;
+        } else {
+            attempt = Math.floor(Math.log(innerValue) / Math.log(r));
+        }
+    }
+
+    return calculateBackoffDelay(attempt, initialDelayMs, maxDelayMs, jitterFraction, backoffMultiplier);
+}
+
+/**
  * Polls a retrieve function until a terminal condition is met.
  *
- * Uses exponential backoff with proportional jitter to avoid thundering herd
- * problems and reduce load on the server.
+ * Uses a hybrid polling strategy: fast polling at fixed intervals for an initial
+ * period, then exponential backoff with proportional jitter. This provides low
+ * latency for quick operations while still reducing server load for longer ones.
+ *
+ * Default behavior:
+ * - Fast phase: Poll every 1 second for the first 30 seconds
+ * - Backoff phase: Exponential backoff with 1.15x multiplier, max 30 second delay
  *
  * By default, polls indefinitely until a terminal state is reached.
- * For production use, it's recommended to set an explicit `maxWaitMs` timeout.
+ * Use `maxWaitMs` to set an explicit timeout if desired.
  *
  * @param retrieve - Async function that fetches the current state
  * @param isTerminal - Predicate that returns true when polling should stop
@@ -110,11 +218,18 @@ export function calculateBackoffDelay(
  *   (res) => res.extractRun.status !== "PROCESSING"
  * );
  *
- * // With timeout (recommended for production)
+ * // With timeout
  * const result = await pollUntilDone(
  *   () => client.extractRuns.retrieve(runId),
  *   (res) => res.extractRun.status !== "PROCESSING",
  *   { maxWaitMs: 300000 } // 5 minute timeout
+ * );
+ *
+ * // Pure exponential backoff (disable fast polling phase)
+ * const result = await pollUntilDone(
+ *   () => client.extractRuns.retrieve(runId),
+ *   (res) => res.extractRun.status !== "PROCESSING",
+ *   { fastPollDurationMs: 0 }
  * );
  * ```
  */
@@ -123,10 +238,17 @@ export async function pollUntilDone<T>(
     isTerminal: (result: T) => boolean,
     options: PollingOptions = {},
 ): Promise<T> {
-    const { maxWaitMs, initialDelayMs = 1000, maxDelayMs = 60000, jitterFraction = 0.25 } = options;
+    const {
+        maxWaitMs,
+        fastPollDurationMs = 30000,
+        fastPollIntervalMs = 1000,
+        initialDelayMs = 1000,
+        maxDelayMs = 30000,
+        backoffMultiplier = 1.15,
+        jitterFraction = 0.25,
+    } = options;
 
     const startTime = Date.now();
-    let attempt = 0;
 
     while (true) {
         const result = await retrieve();
@@ -146,13 +268,19 @@ export async function pollUntilDone<T>(
             );
         }
 
-        const delay = calculateBackoffDelay(attempt, initialDelayMs, maxDelayMs, jitterFraction);
+        const delay = calculateHybridDelay(elapsedMs, {
+            fastPollDurationMs,
+            fastPollIntervalMs,
+            initialDelayMs,
+            maxDelayMs,
+            backoffMultiplier,
+            jitterFraction,
+        });
 
         // If timeout is set, don't wait longer than remaining time
         const actualDelay = maxWaitMs !== undefined ? Math.min(delay, maxWaitMs - elapsedMs) : delay;
 
         await sleep(actualDelay);
-        attempt++;
     }
 }
 

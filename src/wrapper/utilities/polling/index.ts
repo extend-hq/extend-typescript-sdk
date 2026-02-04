@@ -1,2 +1,2 @@
-export { pollUntilDone, calculateBackoffDelay, PollingTimeoutError } from "./Polling";
-export type { PollingOptions } from "./Polling";
+export { pollUntilDone, calculateBackoffDelay, calculateHybridDelay, PollingTimeoutError } from "./Polling";
+export type { PollingOptions, HybridDelayOptions } from "./Polling";
