@@ -78,13 +78,6 @@ export interface PollingOptions {
      * @default 0.25
      */
     jitterFraction?: number;
-
-    /**
-     * If true, throws a RunFailedError when the run reaches a FAILED status.
-     * If false (default), returns the response regardless of status.
-     * @default false
-     */
-    throwOnFailure?: boolean;
 }
 
 /**

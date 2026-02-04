@@ -21,17 +21,6 @@ export type {
 export { pollUntilDone, calculateBackoffDelay, PollingTimeoutError } from "./utilities/polling";
 export type { PollingOptions } from "./utilities/polling";
 
-// Run failure errors
-export {
-    RunFailedError,
-    ParseRunFailedError,
-    ExtractRunFailedError,
-    ClassifyRunFailedError,
-    SplitRunFailedError,
-    EditRunFailedError,
-    WorkflowRunFailedError,
-} from "./errors";
-
 // Run wrappers with createAndPoll methods
 export { ExtractRunsWrapper } from "./resources/extractRuns";
 export type {
