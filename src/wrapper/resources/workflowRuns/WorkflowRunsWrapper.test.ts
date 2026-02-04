@@ -1,5 +1,4 @@
 import { WorkflowRunsWrapper, PollingTimeoutError } from "./WorkflowRunsWrapper";
-import { WorkflowRunFailedError } from "../../errors";
 import * as Extend from "../../../api";
 
 // ============================================================================
@@ -348,86 +347,6 @@ describe("WorkflowRunsWrapper", () => {
 
             expect(mockCreate).toHaveBeenCalledWith(expect.anything(), requestOptions);
             expect(mockRetrieve).toHaveBeenCalledWith(expect.anything(), requestOptions);
-        });
-
-        describe("with throwOnFailure", () => {
-            it("should throw WorkflowRunFailedError when status is FAILED and throwOnFailure is true", async () => {
-                const createResponse: Extend.WorkflowRunsCreateResponse = {
-                    workflowRun: createMockWorkflowRun({ status: "PROCESSING" }),
-                };
-
-                const retrieveResponse: Extend.WorkflowRunsRetrieveResponse = {
-                    workflowRun: createMockWorkflowRun({
-                        status: "FAILED",
-                        failureReason: "CORRUPT_FILE",
-                        failureMessage: "File is corrupted",
-                    }),
-                };
-
-                mockCreate.mockResolvedValue(createResponse);
-                mockRetrieve.mockResolvedValue(retrieveResponse);
-
-                await expect(
-                    wrapper.createAndPoll(
-                        { file: { url: "https://example.com/doc.pdf" }, workflow: { id: "workflow_123" } },
-                        { throwOnFailure: true },
-                    ),
-                ).rejects.toThrow(WorkflowRunFailedError);
-            });
-
-            it("should return response when status is FAILED and throwOnFailure is false", async () => {
-                const createResponse: Extend.WorkflowRunsCreateResponse = {
-                    workflowRun: createMockWorkflowRun({ status: "PROCESSING" }),
-                };
-
-                const retrieveResponse: Extend.WorkflowRunsRetrieveResponse = {
-                    workflowRun: createMockWorkflowRun({
-                        status: "FAILED",
-                        failureReason: "CORRUPT_FILE",
-                        failureMessage: "File is corrupted",
-                    }),
-                };
-
-                mockCreate.mockResolvedValue(createResponse);
-                mockRetrieve.mockResolvedValue(retrieveResponse);
-
-                const result = await wrapper.createAndPoll(
-                    { file: { url: "https://example.com/doc.pdf" }, workflow: { id: "workflow_123" } },
-                    { throwOnFailure: false },
-                );
-
-                expect(result.workflowRun.status).toBe("FAILED");
-            });
-
-            it("should include full response in error", async () => {
-                const createResponse: Extend.WorkflowRunsCreateResponse = {
-                    workflowRun: createMockWorkflowRun({ status: "PROCESSING" }),
-                };
-
-                const retrieveResponse: Extend.WorkflowRunsRetrieveResponse = {
-                    workflowRun: createMockWorkflowRun({
-                        status: "FAILED",
-                        failureReason: "CORRUPT_FILE",
-                        failureMessage: "File is corrupted",
-                    }),
-                };
-
-                mockCreate.mockResolvedValue(createResponse);
-                mockRetrieve.mockResolvedValue(retrieveResponse);
-
-                try {
-                    await wrapper.createAndPoll(
-                        { file: { url: "https://example.com/doc.pdf" }, workflow: { id: "workflow_123" } },
-                        { throwOnFailure: true },
-                    );
-                } catch (error) {
-                    expect(error).toBeInstanceOf(WorkflowRunFailedError);
-                    const failedError = error as WorkflowRunFailedError;
-                    expect(failedError.response).toBeDefined();
-                    expect(failedError.runId).toBe("workflow_run_test123");
-                    expect(failedError.failureReason).toBe("CORRUPT_FILE");
-                }
-            });
         });
     });
 });

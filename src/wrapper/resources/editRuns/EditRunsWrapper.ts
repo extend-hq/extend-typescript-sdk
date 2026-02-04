@@ -25,7 +25,6 @@
 import { EditRuns } from "../../../api/resources/editRuns/client/Client";
 import * as Extend from "../../../api";
 import { pollUntilDone, PollingOptions, PollingTimeoutError } from "../../utilities/polling";
-import { EditRunFailedError } from "../../errors";
 
 export { PollingTimeoutError };
 
@@ -57,10 +56,8 @@ export class EditRunsWrapper extends EditRuns {
      *
      * @param request - The edit run creation request
      * @param options - Polling and request options
-     * @param options.throwOnFailure - If true, throws EditRunFailedError on FAILED status
      * @returns The final edit run response when processing is complete
      * @throws {PollingTimeoutError} If the run doesn't complete within maxWaitMs
-     * @throws {EditRunFailedError} If throwOnFailure is true and status is FAILED
      *
      * @example
      * ```typescript
@@ -76,43 +73,22 @@ export class EditRunsWrapper extends EditRuns {
      *   console.log(result.editRun.output);
      * }
      * ```
-     *
-     * @example
-     * ```typescript
-     * try {
-     *   const result = await client.editRuns.createAndPoll(
-     *     { file: { url: "https://example.com/form.pdf" }, config: { schema: {}, instructions: "Fill in" } },
-     *     { throwOnFailure: true },
-     *   );
-     *   console.log(result.editRun.output);
-     * } catch (error) {
-     *   if (error instanceof EditRunFailedError) {
-     *     console.log(error.failureReason);
-     *   }
-     * }
-     * ```
      */
     public async createAndPoll(
         request: Extend.EditRunsCreateRequest,
         options: CreateAndPollOptions = {},
     ): Promise<Extend.EditRunsRetrieveResponse> {
-        const { requestOptions, throwOnFailure, ...pollingOptions } = options;
+        const { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction, requestOptions } = options;
 
         // Create the edit run
         const createResponse = await this.create(request, requestOptions);
         const runId = createResponse.editRun.id;
 
         // Poll until terminal state
-        const result = await pollUntilDone(
+        return pollUntilDone(
             () => this.retrieve(runId, requestOptions),
             (response) => isTerminalStatus(response.editRun.status),
-            pollingOptions,
+            { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction },
         );
-
-        if (throwOnFailure && result.editRun.status === "FAILED") {
-            throw new EditRunFailedError(result);
-        }
-
-        return result;
     }
 }

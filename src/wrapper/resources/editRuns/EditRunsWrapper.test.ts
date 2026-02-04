@@ -1,5 +1,4 @@
 import { EditRunsWrapper, PollingTimeoutError } from "./EditRunsWrapper";
-import { EditRunFailedError } from "../../errors";
 import * as Extend from "../../../api";
 
 // ============================================================================
@@ -180,83 +179,6 @@ describe("EditRunsWrapper", () => {
 
             expect(mockCreate).toHaveBeenCalledWith(expect.anything(), requestOptions);
             expect(mockRetrieve).toHaveBeenCalledWith(expect.anything(), requestOptions);
-        });
-
-        describe("with throwOnFailure", () => {
-            it("should throw EditRunFailedError when status is FAILED and throwOnFailure is true", async () => {
-                const createResponse: Extend.EditRunsCreateResponse = {
-                    editRun: createMockEditRun({ status: "PROCESSING" }),
-                };
-
-                const retrieveResponse: Extend.EditRunsRetrieveResponse = {
-                    editRun: createMockEditRun({
-                        status: "FAILED",
-                        failureReason: "CORRUPT_FILE",
-                        failureMessage: "File is corrupted",
-                    }),
-                };
-
-                mockCreate.mockResolvedValue(createResponse);
-                mockRetrieve.mockResolvedValue(retrieveResponse);
-
-                await expect(
-                    wrapper.createAndPoll({ file: { url: "https://example.com/doc.pdf" } }, { throwOnFailure: true }),
-                ).rejects.toThrow(EditRunFailedError);
-            });
-
-            it("should return response when status is FAILED and throwOnFailure is false", async () => {
-                const createResponse: Extend.EditRunsCreateResponse = {
-                    editRun: createMockEditRun({ status: "PROCESSING" }),
-                };
-
-                const retrieveResponse: Extend.EditRunsRetrieveResponse = {
-                    editRun: createMockEditRun({
-                        status: "FAILED",
-                        failureReason: "CORRUPT_FILE",
-                        failureMessage: "File is corrupted",
-                    }),
-                };
-
-                mockCreate.mockResolvedValue(createResponse);
-                mockRetrieve.mockResolvedValue(retrieveResponse);
-
-                const result = await wrapper.createAndPoll(
-                    { file: { url: "https://example.com/doc.pdf" } },
-                    { throwOnFailure: false },
-                );
-
-                expect(result.editRun.status).toBe("FAILED");
-            });
-
-            it("should include full response in error", async () => {
-                const createResponse: Extend.EditRunsCreateResponse = {
-                    editRun: createMockEditRun({ status: "PROCESSING" }),
-                };
-
-                const retrieveResponse: Extend.EditRunsRetrieveResponse = {
-                    editRun: createMockEditRun({
-                        status: "FAILED",
-                        failureReason: "CORRUPT_FILE",
-                        failureMessage: "File is corrupted",
-                    }),
-                };
-
-                mockCreate.mockResolvedValue(createResponse);
-                mockRetrieve.mockResolvedValue(retrieveResponse);
-
-                try {
-                    await wrapper.createAndPoll(
-                        { file: { url: "https://example.com/doc.pdf" } },
-                        { throwOnFailure: true },
-                    );
-                } catch (error) {
-                    expect(error).toBeInstanceOf(EditRunFailedError);
-                    const failedError = error as EditRunFailedError;
-                    expect(failedError.response).toBeDefined();
-                    expect(failedError.runId).toBe("edit_run_test123");
-                    expect(failedError.failureReason).toBe("CORRUPT_FILE");
-                }
-            });
         });
     });
 });
