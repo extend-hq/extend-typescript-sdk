@@ -22,6 +22,7 @@
 import { WorkflowRuns } from "../../../api/resources/workflowRuns/client/Client";
 import * as Extend from "../../../api";
 import { pollUntilDone, PollingOptions, PollingTimeoutError } from "../../utilities/polling";
+import { WorkflowRunFailedError } from "../../errors";
 
 export { PollingTimeoutError };
 
@@ -55,8 +56,10 @@ export class WorkflowRunsWrapper extends WorkflowRuns {
      *
      * @param request - The workflow run creation request
      * @param options - Polling and request options
+     * @param options.throwOnFailure - If true, throws WorkflowRunFailedError on FAILED status
      * @returns The final workflow run response when processing is complete
      * @throws {PollingTimeoutError} If maxWaitMs is set and exceeded
+     * @throws {WorkflowRunFailedError} If throwOnFailure is true and status is FAILED
      *
      * @example
      * ```typescript
@@ -77,22 +80,43 @@ export class WorkflowRunsWrapper extends WorkflowRuns {
      *     break;
      * }
      * ```
+     *
+     * @example
+     * ```typescript
+     * try {
+     *   const result = await client.workflowRuns.createAndPoll(
+     *     { file: { url: "https://example.com/doc.pdf" }, workflow: { id: "workflow_abc123" } },
+     *     { throwOnFailure: true },
+     *   );
+     *   console.log(result.workflowRun.status);
+     * } catch (error) {
+     *   if (error instanceof WorkflowRunFailedError) {
+     *     console.log(error.failureReason);
+     *   }
+     * }
+     * ```
      */
     public async createAndPoll(
         request: Extend.WorkflowRunsCreateRequest,
         options: CreateAndPollOptions = {},
     ): Promise<Extend.WorkflowRunsRetrieveResponse> {
-        const { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction, requestOptions } = options;
+        const { requestOptions, throwOnFailure, ...pollingOptions } = options;
 
         // Create the workflow run
         const createResponse = await this.create(request, requestOptions);
         const runId = createResponse.workflowRun.id;
 
         // Poll until terminal state
-        return pollUntilDone(
+        const result = await pollUntilDone(
             () => this.retrieve(runId, requestOptions),
             (response) => isTerminalStatus(response.workflowRun.status),
-            { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction },
+            pollingOptions,
         );
+
+        if (throwOnFailure && result.workflowRun.status === "FAILED") {
+            throw new WorkflowRunFailedError(result);
+        }
+
+        return result;
     }
 }

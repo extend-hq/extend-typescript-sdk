@@ -21,6 +21,7 @@
 import { ParseRuns } from "../../../api/resources/parseRuns/client/Client";
 import * as Extend from "../../../api";
 import { pollUntilDone, PollingOptions, PollingTimeoutError } from "../../utilities/polling";
+import { ParseRunFailedError } from "../../errors";
 
 export { PollingTimeoutError };
 
@@ -52,8 +53,10 @@ export class ParseRunsWrapper extends ParseRuns {
      *
      * @param request - The parse run creation request
      * @param options - Polling and request options
+     * @param options.throwOnFailure - If true, throws ParseRunFailedError on FAILED status
      * @returns The final parse run response when processing is complete
      * @throws {PollingTimeoutError} If the run doesn't complete within maxWaitMs
+     * @throws {ParseRunFailedError} If throwOnFailure is true and status is FAILED
      *
      * @example
      * ```typescript
@@ -71,12 +74,27 @@ export class ParseRunsWrapper extends ParseRuns {
      *   console.log(result.parseRun.output);
      * }
      * ```
+     *
+     * @example
+     * ```typescript
+     * try {
+     *   const result = await client.parseRuns.createAndPoll(
+     *     { file: { url: "https://example.com/doc.pdf" } },
+     *     { throwOnFailure: true },
+     *   );
+     *   console.log(result.parseRun.output);
+     * } catch (error) {
+     *   if (error instanceof ParseRunFailedError) {
+     *     console.log(error.failureReason);
+     *   }
+     * }
+     * ```
      */
     public async createAndPoll(
         request: Extend.ParseRunsCreateRequest,
         options: CreateAndPollOptions = {},
     ): Promise<Extend.ParseRunsRetrieveResponse> {
-        const { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction, requestOptions } = options;
+        const { requestOptions, throwOnFailure, ...pollingOptions } = options;
 
         // Create the parse run
         const createResponse = await this.create(request, requestOptions);
@@ -84,10 +102,16 @@ export class ParseRunsWrapper extends ParseRuns {
 
         // Poll until terminal state
         // Note: parseRuns.retrieve takes an optional request object as the second parameter
-        return pollUntilDone(
+        const result = await pollUntilDone(
             () => this.retrieve(runId, {}, requestOptions),
             (response) => isTerminalStatus(response.parseRun.status),
-            { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction },
+            pollingOptions,
         );
+
+        if (throwOnFailure && result.parseRun.status === "FAILED") {
+            throw new ParseRunFailedError(result);
+        }
+
+        return result;
     }
 }
