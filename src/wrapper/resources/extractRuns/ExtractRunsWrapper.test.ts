@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { ExtractRunsWrapper, PollingTimeoutError } from "./ExtractRunsWrapper";
+import { ExtractRunFailedError } from "../../errors";
 import { extendSchema, extendDate, extendCurrency } from "../../schema";
 import * as Extend from "../../../api";
 
@@ -238,6 +239,86 @@ describe("ExtractRunsWrapper", () => {
 
                 expect(mockCreate).toHaveBeenCalledWith(expect.anything(), requestOptions);
                 expect(mockRetrieve).toHaveBeenCalledWith(expect.anything(), requestOptions);
+            });
+        });
+
+        describe("with throwOnFailure", () => {
+            it("should throw ExtractRunFailedError when status is FAILED and throwOnFailure is true", async () => {
+                const createResponse: Extend.ExtractRunsCreateResponse = {
+                    extractRun: createMockExtractRun({ status: "PROCESSING" }),
+                };
+
+                const retrieveResponse: Extend.ExtractRunsRetrieveResponse = {
+                    extractRun: createMockExtractRun({
+                        status: "FAILED",
+                        failureReason: "CORRUPT_FILE",
+                        failureMessage: "File is corrupted",
+                    }),
+                };
+
+                mockCreate.mockResolvedValue(createResponse);
+                mockRetrieve.mockResolvedValue(retrieveResponse);
+
+                await expect(
+                    wrapper.createAndPoll(
+                        { file: { url: "https://example.com/doc.pdf" }, extractor: { id: "extractor_123" } },
+                        { throwOnFailure: true },
+                    ),
+                ).rejects.toThrow(ExtractRunFailedError);
+            });
+
+            it("should return response when status is FAILED and throwOnFailure is false", async () => {
+                const createResponse: Extend.ExtractRunsCreateResponse = {
+                    extractRun: createMockExtractRun({ status: "PROCESSING" }),
+                };
+
+                const retrieveResponse: Extend.ExtractRunsRetrieveResponse = {
+                    extractRun: createMockExtractRun({
+                        status: "FAILED",
+                        failureReason: "CORRUPT_FILE",
+                        failureMessage: "File is corrupted",
+                    }),
+                };
+
+                mockCreate.mockResolvedValue(createResponse);
+                mockRetrieve.mockResolvedValue(retrieveResponse);
+
+                const result = await wrapper.createAndPoll(
+                    { file: { url: "https://example.com/doc.pdf" }, extractor: { id: "extractor_123" } },
+                    { throwOnFailure: false },
+                );
+
+                expect(result.extractRun.status).toBe("FAILED");
+            });
+
+            it("should include full response in error", async () => {
+                const createResponse: Extend.ExtractRunsCreateResponse = {
+                    extractRun: createMockExtractRun({ status: "PROCESSING" }),
+                };
+
+                const retrieveResponse: Extend.ExtractRunsRetrieveResponse = {
+                    extractRun: createMockExtractRun({
+                        status: "FAILED",
+                        failureReason: "CORRUPT_FILE",
+                        failureMessage: "File is corrupted",
+                    }),
+                };
+
+                mockCreate.mockResolvedValue(createResponse);
+                mockRetrieve.mockResolvedValue(retrieveResponse);
+
+                try {
+                    await wrapper.createAndPoll(
+                        { file: { url: "https://example.com/doc.pdf" }, extractor: { id: "extractor_123" } },
+                        { throwOnFailure: true },
+                    );
+                } catch (error) {
+                    expect(error).toBeInstanceOf(ExtractRunFailedError);
+                    const failedError = error as ExtractRunFailedError;
+                    expect(failedError.response).toBeDefined();
+                    expect(failedError.runId).toBe("extract_run_test123");
+                    expect(failedError.failureReason).toBe("CORRUPT_FILE");
+                }
             });
         });
 

@@ -1,4 +1,5 @@
 import { ClassifyRunsWrapper, PollingTimeoutError } from "./ClassifyRunsWrapper";
+import { ClassifyRunFailedError } from "../../errors";
 import * as Extend from "../../../api";
 
 // ============================================================================
@@ -227,6 +228,86 @@ describe("ClassifyRunsWrapper", () => {
 
             expect(mockCreate).toHaveBeenCalledWith(expect.anything(), requestOptions);
             expect(mockRetrieve).toHaveBeenCalledWith(expect.anything(), requestOptions);
+        });
+
+        describe("with throwOnFailure", () => {
+            it("should throw ClassifyRunFailedError when status is FAILED and throwOnFailure is true", async () => {
+                const createResponse: Extend.ClassifyRunsCreateResponse = {
+                    classifyRun: createMockClassifyRun({ status: "PROCESSING" }),
+                };
+
+                const retrieveResponse: Extend.ClassifyRunsRetrieveResponse = {
+                    classifyRun: createMockClassifyRun({
+                        status: "FAILED",
+                        failureReason: "CORRUPT_FILE",
+                        failureMessage: "File is corrupted",
+                    }),
+                };
+
+                mockCreate.mockResolvedValue(createResponse);
+                mockRetrieve.mockResolvedValue(retrieveResponse);
+
+                await expect(
+                    wrapper.createAndPoll(
+                        { file: { url: "https://example.com/doc.pdf" }, classifier: { id: "classifier_123" } },
+                        { throwOnFailure: true },
+                    ),
+                ).rejects.toThrow(ClassifyRunFailedError);
+            });
+
+            it("should return response when status is FAILED and throwOnFailure is false", async () => {
+                const createResponse: Extend.ClassifyRunsCreateResponse = {
+                    classifyRun: createMockClassifyRun({ status: "PROCESSING" }),
+                };
+
+                const retrieveResponse: Extend.ClassifyRunsRetrieveResponse = {
+                    classifyRun: createMockClassifyRun({
+                        status: "FAILED",
+                        failureReason: "CORRUPT_FILE",
+                        failureMessage: "File is corrupted",
+                    }),
+                };
+
+                mockCreate.mockResolvedValue(createResponse);
+                mockRetrieve.mockResolvedValue(retrieveResponse);
+
+                const result = await wrapper.createAndPoll(
+                    { file: { url: "https://example.com/doc.pdf" }, classifier: { id: "classifier_123" } },
+                    { throwOnFailure: false },
+                );
+
+                expect(result.classifyRun.status).toBe("FAILED");
+            });
+
+            it("should include full response in error", async () => {
+                const createResponse: Extend.ClassifyRunsCreateResponse = {
+                    classifyRun: createMockClassifyRun({ status: "PROCESSING" }),
+                };
+
+                const retrieveResponse: Extend.ClassifyRunsRetrieveResponse = {
+                    classifyRun: createMockClassifyRun({
+                        status: "FAILED",
+                        failureReason: "CORRUPT_FILE",
+                        failureMessage: "File is corrupted",
+                    }),
+                };
+
+                mockCreate.mockResolvedValue(createResponse);
+                mockRetrieve.mockResolvedValue(retrieveResponse);
+
+                try {
+                    await wrapper.createAndPoll(
+                        { file: { url: "https://example.com/doc.pdf" }, classifier: { id: "classifier_123" } },
+                        { throwOnFailure: true },
+                    );
+                } catch (error) {
+                    expect(error).toBeInstanceOf(ClassifyRunFailedError);
+                    const failedError = error as ClassifyRunFailedError;
+                    expect(failedError.response).toBeDefined();
+                    expect(failedError.runId).toBe("classify_run_test123");
+                    expect(failedError.failureReason).toBe("CORRUPT_FILE");
+                }
+            });
         });
     });
 });

@@ -22,6 +22,7 @@
 import { ClassifyRuns } from "../../../api/resources/classifyRuns/client/Client";
 import * as Extend from "../../../api";
 import { pollUntilDone, PollingOptions, PollingTimeoutError } from "../../utilities/polling";
+import { ClassifyRunFailedError } from "../../errors";
 
 export { PollingTimeoutError };
 
@@ -53,8 +54,10 @@ export class ClassifyRunsWrapper extends ClassifyRuns {
      *
      * @param request - The classify run creation request
      * @param options - Polling and request options
+     * @param options.throwOnFailure - If true, throws ClassifyRunFailedError on FAILED status
      * @returns The final classify run response when processing is complete
      * @throws {PollingTimeoutError} If the run doesn't complete within maxWaitMs
+     * @throws {ClassifyRunFailedError} If throwOnFailure is true and status is FAILED
      *
      * @example
      * ```typescript
@@ -67,22 +70,43 @@ export class ClassifyRunsWrapper extends ClassifyRuns {
      *   console.log(result.classifyRun.output);
      * }
      * ```
+     *
+     * @example
+     * ```typescript
+     * try {
+     *   const result = await client.classifyRuns.createAndPoll(
+     *     { file: { url: "https://example.com/doc.pdf" }, classifier: { id: "classifier_abc123" } },
+     *     { throwOnFailure: true },
+     *   );
+     *   console.log(result.classifyRun.output);
+     * } catch (error) {
+     *   if (error instanceof ClassifyRunFailedError) {
+     *     console.log(error.failureReason);
+     *   }
+     * }
+     * ```
      */
     public async createAndPoll(
         request: Extend.ClassifyRunsCreateRequest,
         options: CreateAndPollOptions = {},
     ): Promise<Extend.ClassifyRunsRetrieveResponse> {
-        const { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction, requestOptions } = options;
+        const { requestOptions, throwOnFailure, ...pollingOptions } = options;
 
         // Create the classify run
         const createResponse = await this.create(request, requestOptions);
         const runId = createResponse.classifyRun.id;
 
         // Poll until terminal state
-        return pollUntilDone(
+        const result = await pollUntilDone(
             () => this.retrieve(runId, requestOptions),
             (response) => isTerminalStatus(response.classifyRun.status),
-            { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction },
+            pollingOptions,
         );
+
+        if (throwOnFailure && result.classifyRun.status === "FAILED") {
+            throw new ClassifyRunFailedError(result);
+        }
+
+        return result;
     }
 }

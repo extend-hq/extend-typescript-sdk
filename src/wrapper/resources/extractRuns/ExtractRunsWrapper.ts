@@ -47,6 +47,7 @@ import { ExtractRuns } from "../../../api/resources/extractRuns/client/Client";
 import * as Extend from "../../../api";
 import { pollUntilDone, PollingOptions, PollingTimeoutError } from "../../utilities/polling";
 import { ExtendSchemaWrapper, InferExtendSchema, EXTEND_SCHEMA_MARKER } from "../../schema/types";
+import { ExtractRunFailedError } from "../../errors";
 
 export { PollingTimeoutError };
 
@@ -241,8 +242,10 @@ export class ExtractRunsWrapper extends ExtractRuns {
      *
      * @param request - The extract run creation request
      * @param options - Polling and request options
+     * @param options.throwOnFailure - If true, throws ExtractRunFailedError on FAILED status
      * @returns The final extract run response when processing is complete
      * @throws {PollingTimeoutError} If the run doesn't complete within maxWaitMs
+     * @throws {ExtractRunFailedError} If throwOnFailure is true and status is FAILED
      *
      * @example
      * ```typescript
@@ -280,6 +283,21 @@ export class ExtractRunsWrapper extends ExtractRuns {
      *
      * // result.extractRun.output.value is typed in both cases!
      * ```
+     *
+     * @example
+     * ```typescript
+     * try {
+     *   const result = await client.extractRuns.createAndPoll(
+     *     { file: { url: "https://example.com/doc.pdf" }, extractor: { id: "extractor_abc123" } },
+     *     { throwOnFailure: true },
+     *   );
+     *   console.log(result.extractRun.output.value);
+     * } catch (error) {
+     *   if (error instanceof ExtractRunFailedError) {
+     *     console.log(error.failureReason);
+     *   }
+     * }
+     * ```
      */
 
     // Overload 1: Typed inline config - returns typed response
@@ -307,7 +325,7 @@ export class ExtractRunsWrapper extends ExtractRuns {
     ): Promise<
         TypedExtractRunsRetrieveResponse<InferExtendSchema<ExtendSchemaWrapper<T>>> | Extend.ExtractRunsRetrieveResponse
     > {
-        const { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction, requestOptions } = options;
+        const { requestOptions, throwOnFailure, ...pollingOptions } = options;
 
         // Convert typed schema to API format if needed
         const apiRequest = this.convertToApiRequest(request);
@@ -320,8 +338,12 @@ export class ExtractRunsWrapper extends ExtractRuns {
         const result = await pollUntilDone(
             () => this.retrieve(runId, requestOptions),
             (response) => isTerminalStatus(response.extractRun.status),
-            { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction },
+            pollingOptions,
         );
+
+        if (throwOnFailure && result.extractRun.status === "FAILED") {
+            throw new ExtractRunFailedError(result as Extend.ExtractRunsRetrieveResponse);
+        }
 
         // Return result - TypeScript will infer the correct type based on the overload
         return result as TypedExtractRunsRetrieveResponse<InferExtendSchema<ExtendSchemaWrapper<T>>>;

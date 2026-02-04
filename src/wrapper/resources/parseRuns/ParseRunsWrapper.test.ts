@@ -1,4 +1,5 @@
 import { ParseRunsWrapper, PollingTimeoutError } from "./ParseRunsWrapper";
+import { ParseRunFailedError } from "../../errors";
 import * as Extend from "../../../api";
 
 // ============================================================================
@@ -129,6 +130,83 @@ describe("ParseRunsWrapper", () => {
             });
 
             expect(result.parseRun.status).toBe("FAILED");
+        });
+
+        describe("with throwOnFailure", () => {
+            it("should throw ParseRunFailedError when status is FAILED and throwOnFailure is true", async () => {
+                const createResponse: Extend.ParseRunsCreateResponse = {
+                    parseRun: createMockParseRun({ status: "PROCESSING" }),
+                };
+
+                const retrieveResponse: Extend.ParseRunsRetrieveResponse = {
+                    parseRun: createMockParseRun({
+                        status: "FAILED",
+                        failureReason: "CORRUPT_FILE",
+                        failureMessage: "File is corrupted",
+                    }),
+                };
+
+                mockCreate.mockResolvedValue(createResponse);
+                mockRetrieve.mockResolvedValue(retrieveResponse);
+
+                await expect(
+                    wrapper.createAndPoll({ file: { url: "https://example.com/doc.pdf" } }, { throwOnFailure: true }),
+                ).rejects.toThrow(ParseRunFailedError);
+            });
+
+            it("should return response when status is FAILED and throwOnFailure is false", async () => {
+                const createResponse: Extend.ParseRunsCreateResponse = {
+                    parseRun: createMockParseRun({ status: "PROCESSING" }),
+                };
+
+                const retrieveResponse: Extend.ParseRunsRetrieveResponse = {
+                    parseRun: createMockParseRun({
+                        status: "FAILED",
+                        failureReason: "CORRUPT_FILE",
+                        failureMessage: "File is corrupted",
+                    }),
+                };
+
+                mockCreate.mockResolvedValue(createResponse);
+                mockRetrieve.mockResolvedValue(retrieveResponse);
+
+                const result = await wrapper.createAndPoll(
+                    { file: { url: "https://example.com/doc.pdf" } },
+                    { throwOnFailure: false },
+                );
+
+                expect(result.parseRun.status).toBe("FAILED");
+            });
+
+            it("should include full response in error", async () => {
+                const createResponse: Extend.ParseRunsCreateResponse = {
+                    parseRun: createMockParseRun({ status: "PROCESSING" }),
+                };
+
+                const retrieveResponse: Extend.ParseRunsRetrieveResponse = {
+                    parseRun: createMockParseRun({
+                        status: "FAILED",
+                        failureReason: "CORRUPT_FILE",
+                        failureMessage: "File is corrupted",
+                    }),
+                };
+
+                mockCreate.mockResolvedValue(createResponse);
+                mockRetrieve.mockResolvedValue(retrieveResponse);
+
+                try {
+                    await wrapper.createAndPoll(
+                        { file: { url: "https://example.com/doc.pdf" } },
+                        { throwOnFailure: true },
+                    );
+                } catch (error) {
+                    expect(error).toBeInstanceOf(ParseRunFailedError);
+                    const failedError = error as ParseRunFailedError;
+                    expect(failedError.response).toBeDefined();
+                    expect(failedError.runId).toBe("parse_run_test123");
+                    expect(failedError.failureReason).toBe("CORRUPT_FILE");
+                }
+            });
         });
 
         it("should throw PollingTimeoutError when timeout exceeded", async () => {

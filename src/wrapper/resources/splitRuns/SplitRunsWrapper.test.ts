@@ -1,4 +1,5 @@
 import { SplitRunsWrapper, PollingTimeoutError } from "./SplitRunsWrapper";
+import { SplitRunFailedError } from "../../errors";
 import * as Extend from "../../../api";
 
 // ============================================================================
@@ -227,6 +228,86 @@ describe("SplitRunsWrapper", () => {
 
             expect(mockCreate).toHaveBeenCalledWith(expect.anything(), requestOptions);
             expect(mockRetrieve).toHaveBeenCalledWith(expect.anything(), requestOptions);
+        });
+
+        describe("with throwOnFailure", () => {
+            it("should throw SplitRunFailedError when status is FAILED and throwOnFailure is true", async () => {
+                const createResponse: Extend.SplitRunsCreateResponse = {
+                    splitRun: createMockSplitRun({ status: "PROCESSING" }),
+                };
+
+                const retrieveResponse: Extend.SplitRunsRetrieveResponse = {
+                    splitRun: createMockSplitRun({
+                        status: "FAILED",
+                        failureReason: "CORRUPT_FILE",
+                        failureMessage: "File is corrupted",
+                    }),
+                };
+
+                mockCreate.mockResolvedValue(createResponse);
+                mockRetrieve.mockResolvedValue(retrieveResponse);
+
+                await expect(
+                    wrapper.createAndPoll(
+                        { file: { url: "https://example.com/doc.pdf" }, splitter: { id: "splitter_123" } },
+                        { throwOnFailure: true },
+                    ),
+                ).rejects.toThrow(SplitRunFailedError);
+            });
+
+            it("should return response when status is FAILED and throwOnFailure is false", async () => {
+                const createResponse: Extend.SplitRunsCreateResponse = {
+                    splitRun: createMockSplitRun({ status: "PROCESSING" }),
+                };
+
+                const retrieveResponse: Extend.SplitRunsRetrieveResponse = {
+                    splitRun: createMockSplitRun({
+                        status: "FAILED",
+                        failureReason: "CORRUPT_FILE",
+                        failureMessage: "File is corrupted",
+                    }),
+                };
+
+                mockCreate.mockResolvedValue(createResponse);
+                mockRetrieve.mockResolvedValue(retrieveResponse);
+
+                const result = await wrapper.createAndPoll(
+                    { file: { url: "https://example.com/doc.pdf" }, splitter: { id: "splitter_123" } },
+                    { throwOnFailure: false },
+                );
+
+                expect(result.splitRun.status).toBe("FAILED");
+            });
+
+            it("should include full response in error", async () => {
+                const createResponse: Extend.SplitRunsCreateResponse = {
+                    splitRun: createMockSplitRun({ status: "PROCESSING" }),
+                };
+
+                const retrieveResponse: Extend.SplitRunsRetrieveResponse = {
+                    splitRun: createMockSplitRun({
+                        status: "FAILED",
+                        failureReason: "CORRUPT_FILE",
+                        failureMessage: "File is corrupted",
+                    }),
+                };
+
+                mockCreate.mockResolvedValue(createResponse);
+                mockRetrieve.mockResolvedValue(retrieveResponse);
+
+                try {
+                    await wrapper.createAndPoll(
+                        { file: { url: "https://example.com/doc.pdf" }, splitter: { id: "splitter_123" } },
+                        { throwOnFailure: true },
+                    );
+                } catch (error) {
+                    expect(error).toBeInstanceOf(SplitRunFailedError);
+                    const failedError = error as SplitRunFailedError;
+                    expect(failedError.response).toBeDefined();
+                    expect(failedError.runId).toBe("split_run_test123");
+                    expect(failedError.failureReason).toBe("CORRUPT_FILE");
+                }
+            });
         });
     });
 });

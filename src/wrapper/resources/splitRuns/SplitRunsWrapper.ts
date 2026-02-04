@@ -22,6 +22,7 @@
 import { SplitRuns } from "../../../api/resources/splitRuns/client/Client";
 import * as Extend from "../../../api";
 import { pollUntilDone, PollingOptions, PollingTimeoutError } from "../../utilities/polling";
+import { SplitRunFailedError } from "../../errors";
 
 export { PollingTimeoutError };
 
@@ -53,8 +54,10 @@ export class SplitRunsWrapper extends SplitRuns {
      *
      * @param request - The split run creation request
      * @param options - Polling and request options
+     * @param options.throwOnFailure - If true, throws SplitRunFailedError on FAILED status
      * @returns The final split run response when processing is complete
      * @throws {PollingTimeoutError} If the run doesn't complete within maxWaitMs
+     * @throws {SplitRunFailedError} If throwOnFailure is true and status is FAILED
      *
      * @example
      * ```typescript
@@ -67,22 +70,43 @@ export class SplitRunsWrapper extends SplitRuns {
      *   console.log(result.splitRun.output);
      * }
      * ```
+     *
+     * @example
+     * ```typescript
+     * try {
+     *   const result = await client.splitRuns.createAndPoll(
+     *     { file: { url: "https://example.com/doc.pdf" }, splitter: { id: "splitter_abc123" } },
+     *     { throwOnFailure: true },
+     *   );
+     *   console.log(result.splitRun.output);
+     * } catch (error) {
+     *   if (error instanceof SplitRunFailedError) {
+     *     console.log(error.failureReason);
+     *   }
+     * }
+     * ```
      */
     public async createAndPoll(
         request: Extend.SplitRunsCreateRequest,
         options: CreateAndPollOptions = {},
     ): Promise<Extend.SplitRunsRetrieveResponse> {
-        const { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction, requestOptions } = options;
+        const { requestOptions, throwOnFailure, ...pollingOptions } = options;
 
         // Create the split run
         const createResponse = await this.create(request, requestOptions);
         const runId = createResponse.splitRun.id;
 
         // Poll until terminal state
-        return pollUntilDone(
+        const result = await pollUntilDone(
             () => this.retrieve(runId, requestOptions),
             (response) => isTerminalStatus(response.splitRun.status),
-            { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction },
+            pollingOptions,
         );
+
+        if (throwOnFailure && result.splitRun.status === "FAILED") {
+            throw new SplitRunFailedError(result);
+        }
+
+        return result;
     }
 }
