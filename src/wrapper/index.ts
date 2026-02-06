@@ -58,18 +58,11 @@ export type { CreateAndPollOptions as EditRunsCreateAndPollOptions } from "./res
 export { ParseRunsWrapper } from "./resources/parseRuns";
 export type { CreateAndPollOptions as ParseRunsCreateAndPollOptions } from "./resources/parseRuns";
 
-// Schema utilities for typed extraction
+// Custom type helpers for zod schemas
 export {
-  extendSchema,
   extendDate,
   extendCurrency,
   extendSignature,
-  isExtendSchema,
-  getJsonSchema,
   SchemaConversionError,
 } from "./schema";
-export type {
-  ExtendSchemaWrapper,
-  ExtendRootJSONSchema,
-  InferExtendSchema,
-} from "./schema";
+export type { CurrencyValue, SignatureValue } from "./schema";

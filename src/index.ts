@@ -26,6 +26,6 @@ export type {
 export { PollingTimeoutError } from "./wrapper";
 export type { PollingOptions, CreateAndPollOptions } from "./wrapper";
 
-// Schema utilities for typed extraction
-export { extendSchema, extendDate, extendCurrency, extendSignature, SchemaConversionError } from "./wrapper";
-export type { ExtendSchemaWrapper, InferExtendSchema } from "./wrapper";
+// Custom type helpers for typed extraction with zod schemas
+export { extendDate, extendCurrency, extendSignature, SchemaConversionError } from "./wrapper";
+export type { CurrencyValue, SignatureValue } from "./wrapper";

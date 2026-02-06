@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { ExtractRunsWrapper, PollingTimeoutError } from "./ExtractRunsWrapper";
-import { extendSchema, extendDate, extendCurrency } from "../../schema";
+import { extendDate, extendCurrency } from "../../schema";
 import * as Extend from "../../../api";
 
 // ============================================================================
@@ -256,9 +256,9 @@ describe("ExtractRunsWrapper", () => {
       });
     });
 
-    describe("with typed inline config", () => {
-      it("should convert typed schema to API format", async () => {
-        const schema = extendSchema({
+    describe("with typed inline config (raw zod schema)", () => {
+      it("should convert zod schema to API format", async () => {
+        const schema = z.object({
           invoice_number: z.string().nullable(),
           total: extendCurrency(),
         });
@@ -316,7 +316,7 @@ describe("ExtractRunsWrapper", () => {
       });
 
       it("should pass all config options through", async () => {
-        const schema = extendSchema({
+        const schema = z.object({
           name: z.string().nullable(),
         });
 
@@ -362,7 +362,7 @@ describe("ExtractRunsWrapper", () => {
 
     describe("with typed extractor.overrideConfig", () => {
       it("should convert typed overrideConfig schema to API format", async () => {
-        const schema = extendSchema({
+        const schema = z.object({
           date: extendDate(),
           amount: z.number().nullable(),
         });
@@ -424,7 +424,7 @@ describe("ExtractRunsWrapper", () => {
       });
 
       it("should pass extractor version when provided", async () => {
-        const schema = extendSchema({
+        const schema = z.object({
           field: z.string().nullable(),
         });
 
@@ -494,7 +494,7 @@ describe("ExtractRunsWrapper", () => {
 
     describe("priority and metadata passthrough", () => {
       it("should pass priority and metadata with typed config", async () => {
-        const schema = extendSchema({
+        const schema = z.object({
           field: z.string().nullable(),
         });
 
@@ -539,15 +539,15 @@ describe("Type inference (compile-time)", () => {
   // These tests primarily verify that TypeScript types are correct.
   // They will pass at runtime but serve as documentation for expected types.
 
-  it("should infer correct types from extendSchema", () => {
-    const schema = extendSchema({
+  it("should infer correct types from zod schema", () => {
+    const schema = z.object({
       name: z.string().nullable(),
       age: z.number().nullable(),
       active: z.boolean().nullable(),
     });
 
-    // TypeScript should infer _output type
-    type OutputType = typeof schema._output;
+    // TypeScript should infer the type from z.infer
+    type OutputType = z.infer<typeof schema>;
 
     // This would cause a compile error if types were wrong:
     const validOutput: OutputType = {
@@ -560,11 +560,11 @@ describe("Type inference (compile-time)", () => {
   });
 
   it("should infer currency type correctly", () => {
-    const schema = extendSchema({
+    const schema = z.object({
       total: extendCurrency(),
     });
 
-    type OutputType = typeof schema._output;
+    type OutputType = z.infer<typeof schema>;
 
     const validOutput: OutputType = {
       total: {
@@ -577,7 +577,7 @@ describe("Type inference (compile-time)", () => {
   });
 
   it("should infer array types correctly", () => {
-    const schema = extendSchema({
+    const schema = z.object({
       items: z.array(
         z.object({
           name: z.string().nullable(),
@@ -586,7 +586,7 @@ describe("Type inference (compile-time)", () => {
       ),
     });
 
-    type OutputType = typeof schema._output;
+    type OutputType = z.infer<typeof schema>;
 
     const validOutput: OutputType = {
       items: [
