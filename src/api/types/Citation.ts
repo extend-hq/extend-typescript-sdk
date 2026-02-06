@@ -11,4 +11,8 @@ export interface Citation {
     referenceText?: string;
     /** Array of points defining the polygon */
     polygon?: Extend.Polygon[];
+    /** Width of the page in points */
+    pageWidth?: number;
+    /** Height of the page in points */
+    pageHeight?: number;
 }

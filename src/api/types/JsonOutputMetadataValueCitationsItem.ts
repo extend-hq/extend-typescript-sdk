@@ -11,4 +11,8 @@ export interface JsonOutputMetadataValueCitationsItem {
     referenceText?: string;
     /** Array of points defining the polygon around the referenced text */
     polygon?: Extend.JsonOutputMetadataValueCitationsItemPolygonItem[];
+    /** Width of the page in points */
+    pageWidth?: number;
+    /** Height of the page in points */
+    pageHeight?: number;
 }
