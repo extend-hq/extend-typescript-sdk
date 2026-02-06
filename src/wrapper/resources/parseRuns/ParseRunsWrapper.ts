@@ -12,13 +12,13 @@
  *   file: { url: "https://example.com/document.pdf" },
  * });
  *
- * if (result.parseRun.status === "PROCESSED") {
- *   console.log(result.parseRun.output);
+ * if (result.status === "PROCESSED") {
+ *   console.log(result.output);
  * }
  * ```
  */
 
-import { ParseRuns } from "../../../api/resources/parseRuns/client/Client";
+import { ParseRunsClient } from "../../../api/resources/parseRuns/client/Client";
 import * as Extend from "../../../api";
 import { pollUntilDone, PollingOptions, PollingTimeoutError } from "../../utilities/polling";
 
@@ -28,7 +28,7 @@ export interface CreateAndPollOptions extends PollingOptions {
     /**
      * Request options passed to both create and retrieve calls.
      */
-    requestOptions?: ParseRuns.RequestOptions;
+    requestOptions?: ParseRunsClient.RequestOptions;
 }
 
 /**
@@ -37,11 +37,10 @@ export interface CreateAndPollOptions extends PollingOptions {
  * if new terminal states are added, polling will still complete.
  */
 function isTerminalStatus(status: Extend.ParseRunStatusEnum): boolean {
-    // @ts-expect-error PENDING and CANCELLING statuses may not exist in the API yet but we want to be future-proof
     return status !== "PROCESSING" && status !== "PENDING" && status !== "CANCELLING";
 }
 
-export class ParseRunsWrapper extends ParseRuns {
+export class ParseRunsWrapper extends ParseRunsClient {
     /**
      * Creates a parse run and polls until it reaches a terminal state.
      *
@@ -52,7 +51,7 @@ export class ParseRunsWrapper extends ParseRuns {
      *
      * @param request - The parse run creation request
      * @param options - Polling and request options
-     * @returns The final parse run response when processing is complete
+     * @returns The final parse run when processing is complete
      * @throws {PollingTimeoutError} If the run doesn't complete within maxWaitMs
      *
      * @example
@@ -67,26 +66,26 @@ export class ParseRunsWrapper extends ParseRuns {
      *   },
      * });
      *
-     * if (result.parseRun.status === "PROCESSED") {
-     *   console.log(result.parseRun.output);
+     * if (result.status === "PROCESSED") {
+     *   console.log(result.output);
      * }
      * ```
      */
     public async createAndPoll(
         request: Extend.ParseRunsCreateRequest,
         options: CreateAndPollOptions = {},
-    ): Promise<Extend.ParseRunsRetrieveResponse> {
+    ): Promise<Extend.ParseRun> {
         const { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction, requestOptions } = options;
 
         // Create the parse run
         const createResponse = await this.create(request, requestOptions);
-        const runId = createResponse.parseRun.id;
+        const runId = createResponse.id;
 
         // Poll until terminal state
         // Note: parseRuns.retrieve takes an optional request object as the second parameter
         return pollUntilDone(
             () => this.retrieve(runId, {}, requestOptions),
-            (response) => isTerminalStatus(response.parseRun.status),
+            (response) => isTerminalStatus(response.status),
             { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction },
         );
     }

@@ -13,13 +13,13 @@
  *   splitter: { id: "splitter_abc123" },
  * });
  *
- * if (result.splitRun.status === "PROCESSED") {
- *   console.log(result.splitRun.output);
+ * if (result.status === "PROCESSED") {
+ *   console.log(result.output);
  * }
  * ```
  */
 
-import { SplitRuns } from "../../../api/resources/splitRuns/client/Client";
+import { SplitRunsClient } from "../../../api/resources/splitRuns/client/Client";
 import * as Extend from "../../../api";
 import { pollUntilDone, PollingOptions, PollingTimeoutError } from "../../utilities/polling";
 
@@ -29,7 +29,7 @@ export interface CreateAndPollOptions extends PollingOptions {
     /**
      * Request options passed to both create and retrieve calls.
      */
-    requestOptions?: SplitRuns.RequestOptions;
+    requestOptions?: SplitRunsClient.RequestOptions;
 }
 
 /**
@@ -38,11 +38,10 @@ export interface CreateAndPollOptions extends PollingOptions {
  * if new terminal states are added, polling will still complete.
  */
 function isTerminalStatus(status: Extend.ProcessorRunStatus): boolean {
-    // @ts-expect-error PENDING and CANCELLING statuses may not exist in the API yet but we want to be future-proof
     return status !== "PROCESSING" && status !== "PENDING" && status !== "CANCELLING";
 }
 
-export class SplitRunsWrapper extends SplitRuns {
+export class SplitRunsWrapper extends SplitRunsClient {
     /**
      * Creates a split run and polls until it reaches a terminal state.
      *
@@ -53,7 +52,7 @@ export class SplitRunsWrapper extends SplitRuns {
      *
      * @param request - The split run creation request
      * @param options - Polling and request options
-     * @returns The final split run response when processing is complete
+     * @returns The final split run when processing is complete
      * @throws {PollingTimeoutError} If the run doesn't complete within maxWaitMs
      *
      * @example
@@ -63,25 +62,25 @@ export class SplitRunsWrapper extends SplitRuns {
      *   splitter: { id: "splitter_abc123" },
      * });
      *
-     * if (result.splitRun.status === "PROCESSED") {
-     *   console.log(result.splitRun.output);
+     * if (result.status === "PROCESSED") {
+     *   console.log(result.output);
      * }
      * ```
      */
     public async createAndPoll(
         request: Extend.SplitRunsCreateRequest,
         options: CreateAndPollOptions = {},
-    ): Promise<Extend.SplitRunsRetrieveResponse> {
+    ): Promise<Extend.SplitRun> {
         const { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction, requestOptions } = options;
 
         // Create the split run
         const createResponse = await this.create(request, requestOptions);
-        const runId = createResponse.splitRun.id;
+        const runId = createResponse.id;
 
         // Poll until terminal state
         return pollUntilDone(
             () => this.retrieve(runId, requestOptions),
-            (response) => isTerminalStatus(response.splitRun.status),
+            (response) => isTerminalStatus(response.status),
             { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction },
         );
     }

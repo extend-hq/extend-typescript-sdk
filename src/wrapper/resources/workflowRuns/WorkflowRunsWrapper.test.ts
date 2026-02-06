@@ -9,7 +9,7 @@ const mockCreate = jest.fn();
 const mockRetrieve = jest.fn();
 
 jest.mock("../../../api/resources/workflowRuns/client/Client", () => ({
-    WorkflowRuns: jest.fn().mockImplementation(() => ({
+    WorkflowRunsClient: jest.fn().mockImplementation(() => ({
         create: mockCreate,
         retrieve: mockRetrieve,
     })),
@@ -24,12 +24,12 @@ function createMockWorkflowRun(overrides: Partial<Extend.WorkflowRun> = {}): Ext
         object: "workflow_run",
         id: "workflow_run_test123",
         workflow: {
-            object: "workflow_summary",
+            object: "workflow",
             id: "workflow_123",
             name: "Test Workflow",
         },
         workflowVersion: {
-            object: "workflow_version_summary",
+            object: "workflow_version",
             id: "workflow_version_456",
             version: "1",
             name: "Test Workflow v1",
@@ -71,17 +71,11 @@ describe("WorkflowRunsWrapper", () => {
 
     describe("createAndPoll", () => {
         it("should create and poll until processed", async () => {
-            const createResponse: Extend.WorkflowRunsCreateResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "PROCESSING" });
 
-            const retrieveResponse1: Extend.WorkflowRunsRetrieveResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PROCESSING" }),
-            };
+            const retrieveResponse1: Extend.WorkflowRun = createMockWorkflowRun({ status: "PROCESSING" });
 
-            const retrieveResponse2: Extend.WorkflowRunsRetrieveResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PROCESSED" }),
-            };
+            const retrieveResponse2: Extend.WorkflowRun = createMockWorkflowRun({ status: "PROCESSED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValueOnce(retrieveResponse1).mockResolvedValueOnce(retrieveResponse2);
@@ -99,17 +93,13 @@ describe("WorkflowRunsWrapper", () => {
 
             expect(mockCreate).toHaveBeenCalledWith(request, undefined);
             expect(mockRetrieve).toHaveBeenCalledWith("workflow_run_test123", undefined);
-            expect(result.workflowRun.status).toBe("PROCESSED");
+            expect(result.status).toBe("PROCESSED");
         });
 
         it("should return immediately if already processed on first retrieve", async () => {
-            const createResponse: Extend.WorkflowRunsCreateResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.WorkflowRunsRetrieveResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PROCESSED" }),
-            };
+            const retrieveResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "PROCESSED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -119,18 +109,14 @@ describe("WorkflowRunsWrapper", () => {
                 workflow: { id: "workflow_123" },
             });
 
-            expect(result.workflowRun.status).toBe("PROCESSED");
+            expect(result.status).toBe("PROCESSED");
             expect(mockRetrieve).toHaveBeenCalledTimes(1);
         });
 
         it("should handle FAILED status as terminal", async () => {
-            const createResponse: Extend.WorkflowRunsCreateResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.WorkflowRunsRetrieveResponse = {
-                workflowRun: createMockWorkflowRun({ status: "FAILED" }),
-            };
+            const retrieveResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "FAILED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -140,17 +126,13 @@ describe("WorkflowRunsWrapper", () => {
                 workflow: { id: "workflow_123" },
             });
 
-            expect(result.workflowRun.status).toBe("FAILED");
+            expect(result.status).toBe("FAILED");
         });
 
         it("should handle CANCELLED status as terminal", async () => {
-            const createResponse: Extend.WorkflowRunsCreateResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.WorkflowRunsRetrieveResponse = {
-                workflowRun: createMockWorkflowRun({ status: "CANCELLED" }),
-            };
+            const retrieveResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "CANCELLED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -160,17 +142,13 @@ describe("WorkflowRunsWrapper", () => {
                 workflow: { id: "workflow_123" },
             });
 
-            expect(result.workflowRun.status).toBe("CANCELLED");
+            expect(result.status).toBe("CANCELLED");
         });
 
         it("should handle NEEDS_REVIEW status as terminal", async () => {
-            const createResponse: Extend.WorkflowRunsCreateResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.WorkflowRunsRetrieveResponse = {
-                workflowRun: createMockWorkflowRun({ status: "NEEDS_REVIEW" }),
-            };
+            const retrieveResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "NEEDS_REVIEW" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -180,17 +158,13 @@ describe("WorkflowRunsWrapper", () => {
                 workflow: { id: "workflow_123" },
             });
 
-            expect(result.workflowRun.status).toBe("NEEDS_REVIEW");
+            expect(result.status).toBe("NEEDS_REVIEW");
         });
 
         it("should handle REJECTED status as terminal", async () => {
-            const createResponse: Extend.WorkflowRunsCreateResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.WorkflowRunsRetrieveResponse = {
-                workflowRun: createMockWorkflowRun({ status: "REJECTED" }),
-            };
+            const retrieveResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "REJECTED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -200,25 +174,17 @@ describe("WorkflowRunsWrapper", () => {
                 workflow: { id: "workflow_123" },
             });
 
-            expect(result.workflowRun.status).toBe("REJECTED");
+            expect(result.status).toBe("REJECTED");
         });
 
         it("should continue polling during PENDING status", async () => {
-            const createResponse: Extend.WorkflowRunsCreateResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PENDING" }),
-            };
+            const createResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "PENDING" });
 
-            const retrieveResponse1: Extend.WorkflowRunsRetrieveResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PENDING" }),
-            };
+            const retrieveResponse1: Extend.WorkflowRun = createMockWorkflowRun({ status: "PENDING" });
 
-            const retrieveResponse2: Extend.WorkflowRunsRetrieveResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PROCESSING" }),
-            };
+            const retrieveResponse2: Extend.WorkflowRun = createMockWorkflowRun({ status: "PROCESSING" });
 
-            const retrieveResponse3: Extend.WorkflowRunsRetrieveResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PROCESSED" }),
-            };
+            const retrieveResponse3: Extend.WorkflowRun = createMockWorkflowRun({ status: "PROCESSED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve
@@ -238,22 +204,16 @@ describe("WorkflowRunsWrapper", () => {
                 },
             );
 
-            expect(result.workflowRun.status).toBe("PROCESSED");
+            expect(result.status).toBe("PROCESSED");
             expect(mockRetrieve).toHaveBeenCalledTimes(3);
         });
 
         it("should continue polling during CANCELLING status", async () => {
-            const createResponse: Extend.WorkflowRunsCreateResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "PROCESSING" });
 
-            const retrieveResponse1: Extend.WorkflowRunsRetrieveResponse = {
-                workflowRun: createMockWorkflowRun({ status: "CANCELLING" }),
-            };
+            const retrieveResponse1: Extend.WorkflowRun = createMockWorkflowRun({ status: "CANCELLING" });
 
-            const retrieveResponse2: Extend.WorkflowRunsRetrieveResponse = {
-                workflowRun: createMockWorkflowRun({ status: "CANCELLED" }),
-            };
+            const retrieveResponse2: Extend.WorkflowRun = createMockWorkflowRun({ status: "CANCELLED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValueOnce(retrieveResponse1).mockResolvedValueOnce(retrieveResponse2);
@@ -270,18 +230,14 @@ describe("WorkflowRunsWrapper", () => {
                 },
             );
 
-            expect(result.workflowRun.status).toBe("CANCELLED");
+            expect(result.status).toBe("CANCELLED");
             expect(mockRetrieve).toHaveBeenCalledTimes(2);
         });
 
         it("should throw PollingTimeoutError when timeout exceeded", async () => {
-            const createResponse: Extend.WorkflowRunsCreateResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.WorkflowRunsRetrieveResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PROCESSING" }),
-            };
+            const retrieveResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "PROCESSING" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -303,13 +259,9 @@ describe("WorkflowRunsWrapper", () => {
 
         it("should use default maxWaitMs of 2 hours for workflows", async () => {
             // This test verifies the default is set but doesn't actually wait 2 hours
-            const createResponse: Extend.WorkflowRunsCreateResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.WorkflowRunsRetrieveResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PROCESSED" }),
-            };
+            const retrieveResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "PROCESSED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -320,17 +272,13 @@ describe("WorkflowRunsWrapper", () => {
                 workflow: { id: "workflow_123" },
             });
 
-            expect(result.workflowRun.status).toBe("PROCESSED");
+            expect(result.status).toBe("PROCESSED");
         });
 
         it("should pass request options to create and retrieve", async () => {
-            const createResponse: Extend.WorkflowRunsCreateResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.WorkflowRunsRetrieveResponse = {
-                workflowRun: createMockWorkflowRun({ status: "PROCESSED" }),
-            };
+            const retrieveResponse: Extend.WorkflowRun = createMockWorkflowRun({ status: "PROCESSED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);

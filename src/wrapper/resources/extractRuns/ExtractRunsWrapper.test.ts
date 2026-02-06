@@ -7,13 +7,13 @@ import * as Extend from "../../../api";
 // Mock setup
 // ============================================================================
 
-// Create a mock for the ExtractRuns base class
+// Create a mock for the ExtractRunsClient base class
 const mockCreate = jest.fn();
 const mockRetrieve = jest.fn();
 
 // We need to mock the parent class methods
 jest.mock("../../../api/resources/extractRuns/client/Client", () => ({
-    ExtractRuns: jest.fn().mockImplementation(() => ({
+    ExtractRunsClient: jest.fn().mockImplementation(() => ({
         create: mockCreate,
         retrieve: mockRetrieve,
     })),
@@ -28,14 +28,14 @@ function createMockExtractRun(overrides: Partial<Extend.ExtractRun> = {}): Exten
         object: "extract_run",
         id: "extract_run_test123",
         extractor: {
-            object: "extractor_summary",
+            object: "extractor",
             id: "extractor_123",
             name: "Test Extractor",
             createdAt: "2024-01-01T00:00:00Z",
             updatedAt: "2024-01-01T00:00:00Z",
         },
         extractorVersion: {
-            object: "extractor_version_summary",
+            object: "extractor_version",
             id: "extractor_version_456",
             version: "1",
             extractorId: "extractor_123",
@@ -51,7 +51,7 @@ function createMockExtractRun(overrides: Partial<Extend.ExtractRun> = {}): Exten
         edited: false,
         config: { schema: { type: "object", properties: {} } },
         file: {
-            object: "file_summary",
+            object: "file",
             id: "file_789",
             name: "test.pdf",
             type: "PDF",
@@ -93,17 +93,11 @@ describe("ExtractRunsWrapper", () => {
     describe("createAndPoll", () => {
         describe("with standard (untyped) request", () => {
             it("should create and poll until processed", async () => {
-                const createResponse: Extend.ExtractRunsCreateResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSING" }),
-                };
+                const createResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSING" });
 
-                const retrieveResponse1: Extend.ExtractRunsRetrieveResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSING" }),
-                };
+                const retrieveResponse1: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSING" });
 
-                const retrieveResponse2: Extend.ExtractRunsRetrieveResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSED" }),
-                };
+                const retrieveResponse2: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSED" });
 
                 mockCreate.mockResolvedValue(createResponse);
                 mockRetrieve.mockResolvedValueOnce(retrieveResponse1).mockResolvedValueOnce(retrieveResponse2);
@@ -121,17 +115,13 @@ describe("ExtractRunsWrapper", () => {
 
                 expect(mockCreate).toHaveBeenCalledWith(request, undefined);
                 expect(mockRetrieve).toHaveBeenCalledWith("extract_run_test123", undefined);
-                expect(result.extractRun.status).toBe("PROCESSED");
+                expect(result.status).toBe("PROCESSED");
             });
 
             it("should return immediately if already processed on first retrieve", async () => {
-                const createResponse: Extend.ExtractRunsCreateResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSING" }),
-                };
+                const createResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSING" });
 
-                const retrieveResponse: Extend.ExtractRunsRetrieveResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSED" }),
-                };
+                const retrieveResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSED" });
 
                 mockCreate.mockResolvedValue(createResponse);
                 mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -143,18 +133,14 @@ describe("ExtractRunsWrapper", () => {
 
                 const result = await wrapper.createAndPoll(request);
 
-                expect(result.extractRun.status).toBe("PROCESSED");
+                expect(result.status).toBe("PROCESSED");
                 expect(mockRetrieve).toHaveBeenCalledTimes(1);
             });
 
             it("should handle FAILED status as terminal", async () => {
-                const createResponse: Extend.ExtractRunsCreateResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSING" }),
-                };
+                const createResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSING" });
 
-                const retrieveResponse: Extend.ExtractRunsRetrieveResponse = {
-                    extractRun: createMockExtractRun({ status: "FAILED" }),
-                };
+                const retrieveResponse: Extend.ExtractRun = createMockExtractRun({ status: "FAILED" });
 
                 mockCreate.mockResolvedValue(createResponse);
                 mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -164,17 +150,13 @@ describe("ExtractRunsWrapper", () => {
                     extractor: { id: "extractor_123" },
                 });
 
-                expect(result.extractRun.status).toBe("FAILED");
+                expect(result.status).toBe("FAILED");
             });
 
             it("should handle CANCELLED status as terminal", async () => {
-                const createResponse: Extend.ExtractRunsCreateResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSING" }),
-                };
+                const createResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSING" });
 
-                const retrieveResponse: Extend.ExtractRunsRetrieveResponse = {
-                    extractRun: createMockExtractRun({ status: "CANCELLED" }),
-                };
+                const retrieveResponse: Extend.ExtractRun = createMockExtractRun({ status: "CANCELLED" });
 
                 mockCreate.mockResolvedValue(createResponse);
                 mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -184,17 +166,13 @@ describe("ExtractRunsWrapper", () => {
                     extractor: { id: "extractor_123" },
                 });
 
-                expect(result.extractRun.status).toBe("CANCELLED");
+                expect(result.status).toBe("CANCELLED");
             });
 
             it("should throw PollingTimeoutError when timeout exceeded", async () => {
-                const createResponse: Extend.ExtractRunsCreateResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSING" }),
-                };
+                const createResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSING" });
 
-                const retrieveResponse: Extend.ExtractRunsRetrieveResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSING" }),
-                };
+                const retrieveResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSING" });
 
                 mockCreate.mockResolvedValue(createResponse);
                 mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -215,13 +193,9 @@ describe("ExtractRunsWrapper", () => {
             });
 
             it("should pass request options to create and retrieve", async () => {
-                const createResponse: Extend.ExtractRunsCreateResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSING" }),
-                };
+                const createResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSING" });
 
-                const retrieveResponse: Extend.ExtractRunsRetrieveResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSED" }),
-                };
+                const retrieveResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSED" });
 
                 mockCreate.mockResolvedValue(createResponse);
                 mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -248,22 +222,18 @@ describe("ExtractRunsWrapper", () => {
                     total: extendCurrency(),
                 });
 
-                const createResponse: Extend.ExtractRunsCreateResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSING" }),
-                };
+                const createResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSING" });
 
-                const retrieveResponse: Extend.ExtractRunsRetrieveResponse = {
-                    extractRun: createMockExtractRun({
-                        status: "PROCESSED",
-                        output: {
-                            value: {
-                                invoice_number: "INV-001",
-                                total: { amount: 100, iso_4217_currency_code: "USD" },
-                            },
-                            metadata: {},
+                const retrieveResponse: Extend.ExtractRun = createMockExtractRun({
+                    status: "PROCESSED",
+                    output: {
+                        value: {
+                            invoice_number: "INV-001",
+                            total: { amount: 100, iso_4217_currency_code: "USD" },
                         },
-                    }),
-                };
+                        metadata: {},
+                    },
+                });
 
                 mockCreate.mockResolvedValue(createResponse);
                 mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -296,7 +266,7 @@ describe("ExtractRunsWrapper", () => {
                     undefined,
                 );
 
-                expect(result.extractRun.output.value).toEqual({
+                expect(result.output.value).toEqual({
                     invoice_number: "INV-001",
                     total: { amount: 100, iso_4217_currency_code: "USD" },
                 });
@@ -307,13 +277,9 @@ describe("ExtractRunsWrapper", () => {
                     name: z.string().nullable(),
                 });
 
-                const createResponse: Extend.ExtractRunsCreateResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSING" }),
-                };
+                const createResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSING" });
 
-                const retrieveResponse: Extend.ExtractRunsRetrieveResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSED" }),
-                };
+                const retrieveResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSED" });
 
                 mockCreate.mockResolvedValue(createResponse);
                 mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -354,22 +320,18 @@ describe("ExtractRunsWrapper", () => {
                     amount: z.number().nullable(),
                 });
 
-                const createResponse: Extend.ExtractRunsCreateResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSING" }),
-                };
+                const createResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSING" });
 
-                const retrieveResponse: Extend.ExtractRunsRetrieveResponse = {
-                    extractRun: createMockExtractRun({
-                        status: "PROCESSED",
-                        output: {
-                            value: {
-                                date: "2024-01-15",
-                                amount: 99.99,
-                            },
-                            metadata: {},
+                const retrieveResponse: Extend.ExtractRun = createMockExtractRun({
+                    status: "PROCESSED",
+                    output: {
+                        value: {
+                            date: "2024-01-15",
+                            amount: 99.99,
                         },
-                    }),
-                };
+                        metadata: {},
+                    },
+                });
 
                 mockCreate.mockResolvedValue(createResponse);
                 mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -406,7 +368,7 @@ describe("ExtractRunsWrapper", () => {
                     undefined,
                 );
 
-                expect(result.extractRun.output.value).toEqual({
+                expect(result.output.value).toEqual({
                     date: "2024-01-15",
                     amount: 99.99,
                 });
@@ -417,13 +379,9 @@ describe("ExtractRunsWrapper", () => {
                     field: z.string().nullable(),
                 });
 
-                const createResponse: Extend.ExtractRunsCreateResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSING" }),
-                };
+                const createResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSING" });
 
-                const retrieveResponse: Extend.ExtractRunsRetrieveResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSED" }),
-                };
+                const retrieveResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSED" });
 
                 mockCreate.mockResolvedValue(createResponse);
                 mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -454,13 +412,9 @@ describe("ExtractRunsWrapper", () => {
 
         describe("with standard extractor (no typed override)", () => {
             it("should pass through untyped extractor request unchanged", async () => {
-                const createResponse: Extend.ExtractRunsCreateResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSING" }),
-                };
+                const createResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSING" });
 
-                const retrieveResponse: Extend.ExtractRunsRetrieveResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSED" }),
-                };
+                const retrieveResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSED" });
 
                 mockCreate.mockResolvedValue(createResponse);
                 mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -487,13 +441,9 @@ describe("ExtractRunsWrapper", () => {
                     field: z.string().nullable(),
                 });
 
-                const createResponse: Extend.ExtractRunsCreateResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSING" }),
-                };
+                const createResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSING" });
 
-                const retrieveResponse: Extend.ExtractRunsRetrieveResponse = {
-                    extractRun: createMockExtractRun({ status: "PROCESSED" }),
-                };
+                const retrieveResponse: Extend.ExtractRun = createMockExtractRun({ status: "PROCESSED" });
 
                 mockCreate.mockResolvedValue(createResponse);
                 mockRetrieve.mockResolvedValue(retrieveResponse);

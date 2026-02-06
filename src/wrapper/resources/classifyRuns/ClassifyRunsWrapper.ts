@@ -13,13 +13,13 @@
  *   classifier: { id: "classifier_abc123" },
  * });
  *
- * if (result.classifyRun.status === "PROCESSED") {
- *   console.log(result.classifyRun.output);
+ * if (result.status === "PROCESSED") {
+ *   console.log(result.output);
  * }
  * ```
  */
 
-import { ClassifyRuns } from "../../../api/resources/classifyRuns/client/Client";
+import { ClassifyRunsClient } from "../../../api/resources/classifyRuns/client/Client";
 import * as Extend from "../../../api";
 import { pollUntilDone, PollingOptions, PollingTimeoutError } from "../../utilities/polling";
 
@@ -29,7 +29,7 @@ export interface CreateAndPollOptions extends PollingOptions {
     /**
      * Request options passed to both create and retrieve calls.
      */
-    requestOptions?: ClassifyRuns.RequestOptions;
+    requestOptions?: ClassifyRunsClient.RequestOptions;
 }
 
 /**
@@ -38,11 +38,10 @@ export interface CreateAndPollOptions extends PollingOptions {
  * if new terminal states are added, polling will still complete.
  */
 function isTerminalStatus(status: Extend.ProcessorRunStatus): boolean {
-    // @ts-expect-error PENDING and CANCELLING statuses may not exist in the API yet but we want to be future-proof
     return status !== "PROCESSING" && status !== "PENDING" && status !== "CANCELLING";
 }
 
-export class ClassifyRunsWrapper extends ClassifyRuns {
+export class ClassifyRunsWrapper extends ClassifyRunsClient {
     /**
      * Creates a classify run and polls until it reaches a terminal state.
      *
@@ -53,7 +52,7 @@ export class ClassifyRunsWrapper extends ClassifyRuns {
      *
      * @param request - The classify run creation request
      * @param options - Polling and request options
-     * @returns The final classify run response when processing is complete
+     * @returns The final classify run when processing is complete
      * @throws {PollingTimeoutError} If the run doesn't complete within maxWaitMs
      *
      * @example
@@ -63,25 +62,25 @@ export class ClassifyRunsWrapper extends ClassifyRuns {
      *   classifier: { id: "classifier_abc123" },
      * });
      *
-     * if (result.classifyRun.status === "PROCESSED") {
-     *   console.log(result.classifyRun.output);
+     * if (result.status === "PROCESSED") {
+     *   console.log(result.output);
      * }
      * ```
      */
     public async createAndPoll(
         request: Extend.ClassifyRunsCreateRequest,
         options: CreateAndPollOptions = {},
-    ): Promise<Extend.ClassifyRunsRetrieveResponse> {
+    ): Promise<Extend.ClassifyRun> {
         const { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction, requestOptions } = options;
 
         // Create the classify run
         const createResponse = await this.create(request, requestOptions);
-        const runId = createResponse.classifyRun.id;
+        const runId = createResponse.id;
 
         // Poll until terminal state
         return pollUntilDone(
             () => this.retrieve(runId, requestOptions),
-            (response) => isTerminalStatus(response.classifyRun.status),
+            (response) => isTerminalStatus(response.status),
             { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction },
         );
     }

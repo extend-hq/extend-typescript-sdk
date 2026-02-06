@@ -9,7 +9,7 @@ const mockCreate = jest.fn();
 const mockRetrieve = jest.fn();
 
 jest.mock("../../../api/resources/classifyRuns/client/Client", () => ({
-    ClassifyRuns: jest.fn().mockImplementation(() => ({
+    ClassifyRunsClient: jest.fn().mockImplementation(() => ({
         create: mockCreate,
         retrieve: mockRetrieve,
     })),
@@ -24,14 +24,14 @@ function createMockClassifyRun(overrides: Partial<Extend.ClassifyRun> = {}): Ext
         object: "classify_run",
         id: "classify_run_test123",
         classifier: {
-            object: "classifier_summary",
+            object: "classifier",
             id: "classifier_123",
             name: "Test Classifier",
             createdAt: "2024-01-01T00:00:00Z",
             updatedAt: "2024-01-01T00:00:00Z",
         },
         classifierVersion: {
-            object: "classifier_version_summary",
+            object: "classifier_version",
             id: "classifier_version_456",
             version: "1",
             classifierId: "classifier_123",
@@ -47,7 +47,7 @@ function createMockClassifyRun(overrides: Partial<Extend.ClassifyRun> = {}): Ext
         edited: false,
         config: { classifications: [] },
         file: {
-            object: "file_summary",
+            object: "file",
             id: "file_789",
             name: "test.pdf",
             type: "PDF",
@@ -84,17 +84,11 @@ describe("ClassifyRunsWrapper", () => {
 
     describe("createAndPoll", () => {
         it("should create and poll until processed", async () => {
-            const createResponse: Extend.ClassifyRunsCreateResponse = {
-                classifyRun: createMockClassifyRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.ClassifyRun = createMockClassifyRun({ status: "PROCESSING" });
 
-            const retrieveResponse1: Extend.ClassifyRunsRetrieveResponse = {
-                classifyRun: createMockClassifyRun({ status: "PROCESSING" }),
-            };
+            const retrieveResponse1: Extend.ClassifyRun = createMockClassifyRun({ status: "PROCESSING" });
 
-            const retrieveResponse2: Extend.ClassifyRunsRetrieveResponse = {
-                classifyRun: createMockClassifyRun({ status: "PROCESSED" }),
-            };
+            const retrieveResponse2: Extend.ClassifyRun = createMockClassifyRun({ status: "PROCESSED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValueOnce(retrieveResponse1).mockResolvedValueOnce(retrieveResponse2);
@@ -112,17 +106,13 @@ describe("ClassifyRunsWrapper", () => {
 
             expect(mockCreate).toHaveBeenCalledWith(request, undefined);
             expect(mockRetrieve).toHaveBeenCalledWith("classify_run_test123", undefined);
-            expect(result.classifyRun.status).toBe("PROCESSED");
+            expect(result.status).toBe("PROCESSED");
         });
 
         it("should return immediately if already processed on first retrieve", async () => {
-            const createResponse: Extend.ClassifyRunsCreateResponse = {
-                classifyRun: createMockClassifyRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.ClassifyRun = createMockClassifyRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.ClassifyRunsRetrieveResponse = {
-                classifyRun: createMockClassifyRun({ status: "PROCESSED" }),
-            };
+            const retrieveResponse: Extend.ClassifyRun = createMockClassifyRun({ status: "PROCESSED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -132,18 +122,14 @@ describe("ClassifyRunsWrapper", () => {
                 classifier: { id: "classifier_123" },
             });
 
-            expect(result.classifyRun.status).toBe("PROCESSED");
+            expect(result.status).toBe("PROCESSED");
             expect(mockRetrieve).toHaveBeenCalledTimes(1);
         });
 
         it("should handle FAILED status as terminal", async () => {
-            const createResponse: Extend.ClassifyRunsCreateResponse = {
-                classifyRun: createMockClassifyRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.ClassifyRun = createMockClassifyRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.ClassifyRunsRetrieveResponse = {
-                classifyRun: createMockClassifyRun({ status: "FAILED" }),
-            };
+            const retrieveResponse: Extend.ClassifyRun = createMockClassifyRun({ status: "FAILED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -153,17 +139,13 @@ describe("ClassifyRunsWrapper", () => {
                 classifier: { id: "classifier_123" },
             });
 
-            expect(result.classifyRun.status).toBe("FAILED");
+            expect(result.status).toBe("FAILED");
         });
 
         it("should handle CANCELLED status as terminal", async () => {
-            const createResponse: Extend.ClassifyRunsCreateResponse = {
-                classifyRun: createMockClassifyRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.ClassifyRun = createMockClassifyRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.ClassifyRunsRetrieveResponse = {
-                classifyRun: createMockClassifyRun({ status: "CANCELLED" }),
-            };
+            const retrieveResponse: Extend.ClassifyRun = createMockClassifyRun({ status: "CANCELLED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -173,17 +155,13 @@ describe("ClassifyRunsWrapper", () => {
                 classifier: { id: "classifier_123" },
             });
 
-            expect(result.classifyRun.status).toBe("CANCELLED");
+            expect(result.status).toBe("CANCELLED");
         });
 
         it("should throw PollingTimeoutError when timeout exceeded", async () => {
-            const createResponse: Extend.ClassifyRunsCreateResponse = {
-                classifyRun: createMockClassifyRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.ClassifyRun = createMockClassifyRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.ClassifyRunsRetrieveResponse = {
-                classifyRun: createMockClassifyRun({ status: "PROCESSING" }),
-            };
+            const retrieveResponse: Extend.ClassifyRun = createMockClassifyRun({ status: "PROCESSING" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -204,13 +182,9 @@ describe("ClassifyRunsWrapper", () => {
         });
 
         it("should pass request options to create and retrieve", async () => {
-            const createResponse: Extend.ClassifyRunsCreateResponse = {
-                classifyRun: createMockClassifyRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.ClassifyRun = createMockClassifyRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.ClassifyRunsRetrieveResponse = {
-                classifyRun: createMockClassifyRun({ status: "PROCESSED" }),
-            };
+            const retrieveResponse: Extend.ClassifyRun = createMockClassifyRun({ status: "PROCESSED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);

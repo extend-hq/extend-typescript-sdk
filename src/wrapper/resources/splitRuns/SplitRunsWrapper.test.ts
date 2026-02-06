@@ -9,7 +9,7 @@ const mockCreate = jest.fn();
 const mockRetrieve = jest.fn();
 
 jest.mock("../../../api/resources/splitRuns/client/Client", () => ({
-    SplitRuns: jest.fn().mockImplementation(() => ({
+    SplitRunsClient: jest.fn().mockImplementation(() => ({
         create: mockCreate,
         retrieve: mockRetrieve,
     })),
@@ -24,14 +24,14 @@ function createMockSplitRun(overrides: Partial<Extend.SplitRun> = {}): Extend.Sp
         object: "split_run",
         id: "split_run_test123",
         splitter: {
-            object: "splitter_summary",
+            object: "splitter",
             id: "splitter_123",
             name: "Test Splitter",
             createdAt: "2024-01-01T00:00:00Z",
             updatedAt: "2024-01-01T00:00:00Z",
         },
         splitterVersion: {
-            object: "splitter_version_summary",
+            object: "splitter_version",
             id: "splitter_version_456",
             version: "1",
             splitterId: "splitter_123",
@@ -47,7 +47,7 @@ function createMockSplitRun(overrides: Partial<Extend.SplitRun> = {}): Extend.Sp
         edited: false,
         config: { splitClassifications: [] },
         file: {
-            object: "file_summary",
+            object: "file",
             id: "file_789",
             name: "test.pdf",
             type: "PDF",
@@ -84,17 +84,11 @@ describe("SplitRunsWrapper", () => {
 
     describe("createAndPoll", () => {
         it("should create and poll until processed", async () => {
-            const createResponse: Extend.SplitRunsCreateResponse = {
-                splitRun: createMockSplitRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.SplitRun = createMockSplitRun({ status: "PROCESSING" });
 
-            const retrieveResponse1: Extend.SplitRunsRetrieveResponse = {
-                splitRun: createMockSplitRun({ status: "PROCESSING" }),
-            };
+            const retrieveResponse1: Extend.SplitRun = createMockSplitRun({ status: "PROCESSING" });
 
-            const retrieveResponse2: Extend.SplitRunsRetrieveResponse = {
-                splitRun: createMockSplitRun({ status: "PROCESSED" }),
-            };
+            const retrieveResponse2: Extend.SplitRun = createMockSplitRun({ status: "PROCESSED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValueOnce(retrieveResponse1).mockResolvedValueOnce(retrieveResponse2);
@@ -112,17 +106,13 @@ describe("SplitRunsWrapper", () => {
 
             expect(mockCreate).toHaveBeenCalledWith(request, undefined);
             expect(mockRetrieve).toHaveBeenCalledWith("split_run_test123", undefined);
-            expect(result.splitRun.status).toBe("PROCESSED");
+            expect(result.status).toBe("PROCESSED");
         });
 
         it("should return immediately if already processed on first retrieve", async () => {
-            const createResponse: Extend.SplitRunsCreateResponse = {
-                splitRun: createMockSplitRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.SplitRun = createMockSplitRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.SplitRunsRetrieveResponse = {
-                splitRun: createMockSplitRun({ status: "PROCESSED" }),
-            };
+            const retrieveResponse: Extend.SplitRun = createMockSplitRun({ status: "PROCESSED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -132,18 +122,14 @@ describe("SplitRunsWrapper", () => {
                 splitter: { id: "splitter_123" },
             });
 
-            expect(result.splitRun.status).toBe("PROCESSED");
+            expect(result.status).toBe("PROCESSED");
             expect(mockRetrieve).toHaveBeenCalledTimes(1);
         });
 
         it("should handle FAILED status as terminal", async () => {
-            const createResponse: Extend.SplitRunsCreateResponse = {
-                splitRun: createMockSplitRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.SplitRun = createMockSplitRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.SplitRunsRetrieveResponse = {
-                splitRun: createMockSplitRun({ status: "FAILED" }),
-            };
+            const retrieveResponse: Extend.SplitRun = createMockSplitRun({ status: "FAILED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -153,17 +139,13 @@ describe("SplitRunsWrapper", () => {
                 splitter: { id: "splitter_123" },
             });
 
-            expect(result.splitRun.status).toBe("FAILED");
+            expect(result.status).toBe("FAILED");
         });
 
         it("should handle CANCELLED status as terminal", async () => {
-            const createResponse: Extend.SplitRunsCreateResponse = {
-                splitRun: createMockSplitRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.SplitRun = createMockSplitRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.SplitRunsRetrieveResponse = {
-                splitRun: createMockSplitRun({ status: "CANCELLED" }),
-            };
+            const retrieveResponse: Extend.SplitRun = createMockSplitRun({ status: "CANCELLED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -173,17 +155,13 @@ describe("SplitRunsWrapper", () => {
                 splitter: { id: "splitter_123" },
             });
 
-            expect(result.splitRun.status).toBe("CANCELLED");
+            expect(result.status).toBe("CANCELLED");
         });
 
         it("should throw PollingTimeoutError when timeout exceeded", async () => {
-            const createResponse: Extend.SplitRunsCreateResponse = {
-                splitRun: createMockSplitRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.SplitRun = createMockSplitRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.SplitRunsRetrieveResponse = {
-                splitRun: createMockSplitRun({ status: "PROCESSING" }),
-            };
+            const retrieveResponse: Extend.SplitRun = createMockSplitRun({ status: "PROCESSING" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -204,13 +182,9 @@ describe("SplitRunsWrapper", () => {
         });
 
         it("should pass request options to create and retrieve", async () => {
-            const createResponse: Extend.SplitRunsCreateResponse = {
-                splitRun: createMockSplitRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.SplitRun = createMockSplitRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.SplitRunsRetrieveResponse = {
-                splitRun: createMockSplitRun({ status: "PROCESSED" }),
-            };
+            const retrieveResponse: Extend.SplitRun = createMockSplitRun({ status: "PROCESSED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);

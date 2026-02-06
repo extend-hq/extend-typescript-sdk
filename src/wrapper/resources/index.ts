@@ -8,7 +8,6 @@ export type {
     TypedExtractRunsCreateRequestWithExtractor,
     TypedExtractOutput,
     TypedExtractRun,
-    TypedExtractRunsRetrieveResponse,
 } from "./extractRuns";
 
 export { ClassifyRunsWrapper } from "./classifyRuns";

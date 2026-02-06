@@ -32,7 +32,6 @@ export type {
     TypedExtractRunsCreateRequestWithExtractor,
     TypedExtractOutput,
     TypedExtractRun,
-    TypedExtractRunsRetrieveResponse,
 } from "./resources/extractRuns";
 
 export { ClassifyRunsWrapper } from "./resources/classifyRuns";

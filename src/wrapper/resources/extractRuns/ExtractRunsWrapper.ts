@@ -37,13 +37,13 @@
  * });
  *
  * // output.value is fully typed in both cases!
- * console.log(result.extractRun.output.value.invoice_number); // string | null
- * console.log(result.extractRun.output.value.total.amount); // number | null
+ * console.log(result.output.value.invoice_number); // string | null
+ * console.log(result.output.value.total.amount); // number | null
  * ```
  */
 
 import { z } from "zod";
-import { ExtractRuns } from "../../../api/resources/extractRuns/client/Client";
+import { ExtractRunsClient } from "../../../api/resources/extractRuns/client/Client";
 import * as Extend from "../../../api";
 import { pollUntilDone, PollingOptions, PollingTimeoutError } from "../../utilities/polling";
 import { ExtendSchemaWrapper, InferExtendSchema, EXTEND_SCHEMA_MARKER } from "../../schema/types";
@@ -54,7 +54,7 @@ export interface CreateAndPollOptions extends PollingOptions {
     /**
      * Request options passed to both create and retrieve calls.
      */
-    requestOptions?: ExtractRuns.RequestOptions;
+    requestOptions?: ExtractRunsClient.RequestOptions;
 }
 
 /**
@@ -175,13 +175,6 @@ export interface TypedExtractRun<T> extends Omit<Extend.ExtractRun, "output" | "
 }
 
 /**
- * Typed response for createAndPoll when a schema is provided.
- */
-export interface TypedExtractRunsRetrieveResponse<T> {
-    extractRun: TypedExtractRun<T>;
-}
-
-/**
  * Type guard to check if a value is an ExtendSchemaWrapper.
  */
 function isExtendSchemaWrapper(value: unknown): value is ExtendSchemaWrapper<z.ZodRawShape> {
@@ -211,8 +204,6 @@ function isTypedConfig(config: unknown): config is TypedExtractConfig<z.ZodRawSh
  * if new terminal states are added, polling will still complete.
  */
 function isTerminalStatus(status: Extend.ProcessorRunStatus): boolean {
-    // @ts-expect-error PENDING status does not exist in the API yet but we want to be future-proof
-    // Can remove this once PENDING is added to the API
     return status !== "PROCESSING" && status !== "PENDING";
 }
 
@@ -230,7 +221,7 @@ function convertTypedConfigToApiConfig(config: TypedExtractConfig<z.ZodRawShape>
     };
 }
 
-export class ExtractRunsWrapper extends ExtractRuns {
+export class ExtractRunsWrapper extends ExtractRunsClient {
     /**
      * Creates an extract run and polls until it reaches a terminal state.
      *
@@ -241,7 +232,7 @@ export class ExtractRunsWrapper extends ExtractRuns {
      *
      * @param request - The extract run creation request
      * @param options - Polling and request options
-     * @returns The final extract run response when processing is complete
+     * @returns The final extract run when processing is complete
      * @throws {PollingTimeoutError} If the run doesn't complete within maxWaitMs
      *
      * @example
@@ -278,7 +269,7 @@ export class ExtractRunsWrapper extends ExtractRuns {
      *   },
      * });
      *
-     * // result.extractRun.output.value is typed in both cases!
+     * // result.output.value is typed in both cases!
      * ```
      */
 
@@ -286,26 +277,26 @@ export class ExtractRunsWrapper extends ExtractRuns {
     public async createAndPoll<T extends z.ZodRawShape>(
         request: TypedExtractRunsCreateRequestWithConfig<T>,
         options?: CreateAndPollOptions,
-    ): Promise<TypedExtractRunsRetrieveResponse<InferExtendSchema<ExtendSchemaWrapper<T>>>>;
+    ): Promise<TypedExtractRun<InferExtendSchema<ExtendSchemaWrapper<T>>>>;
 
     // Overload 2: Typed extractor.overrideConfig - returns typed response
     public async createAndPoll<T extends z.ZodRawShape>(
         request: TypedExtractRunsCreateRequestWithExtractor<T>,
         options?: CreateAndPollOptions,
-    ): Promise<TypedExtractRunsRetrieveResponse<InferExtendSchema<ExtendSchemaWrapper<T>>>>;
+    ): Promise<TypedExtractRun<InferExtendSchema<ExtendSchemaWrapper<T>>>>;
 
     // Overload 3: Standard request - returns standard response
     public async createAndPoll(
         request: Extend.ExtractRunsCreateRequest,
         options?: CreateAndPollOptions,
-    ): Promise<Extend.ExtractRunsRetrieveResponse>;
+    ): Promise<Extend.ExtractRun>;
 
     // Implementation
     public async createAndPoll<T extends z.ZodRawShape>(
         request: TypedExtractRunsCreateRequest<T> | Extend.ExtractRunsCreateRequest,
         options: CreateAndPollOptions = {},
     ): Promise<
-        TypedExtractRunsRetrieveResponse<InferExtendSchema<ExtendSchemaWrapper<T>>> | Extend.ExtractRunsRetrieveResponse
+        TypedExtractRun<InferExtendSchema<ExtendSchemaWrapper<T>>> | Extend.ExtractRun
     > {
         const { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction, requestOptions } = options;
 
@@ -314,17 +305,17 @@ export class ExtractRunsWrapper extends ExtractRuns {
 
         // Create the extract run
         const createResponse = await this.create(apiRequest, requestOptions);
-        const runId = createResponse.extractRun.id;
+        const runId = createResponse.id;
 
         // Poll until terminal state
         const result = await pollUntilDone(
             () => this.retrieve(runId, requestOptions),
-            (response) => isTerminalStatus(response.extractRun.status),
+            (response) => isTerminalStatus(response.status),
             { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction },
         );
 
         // Return result - TypeScript will infer the correct type based on the overload
-        return result as TypedExtractRunsRetrieveResponse<InferExtendSchema<ExtendSchemaWrapper<T>>>;
+        return result as TypedExtractRun<InferExtendSchema<ExtendSchemaWrapper<T>>>;
     }
 
     /**

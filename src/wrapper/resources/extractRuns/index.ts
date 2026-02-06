@@ -8,5 +8,4 @@ export type {
     TypedExtractRunsCreateRequestWithExtractor,
     TypedExtractOutput,
     TypedExtractRun,
-    TypedExtractRunsRetrieveResponse,
 } from "./ExtractRunsWrapper";
