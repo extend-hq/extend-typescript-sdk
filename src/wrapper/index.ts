@@ -34,7 +34,6 @@ export type { PollingOptions } from "./utilities/polling";
 export { ExtractRunsWrapper } from "./resources/extractRuns";
 export type {
   CreateAndPollOptions,
-  TypedExtractConfig,
   TypedExtractorReference,
   TypedExtractRunsCreateRequest,
   TypedExtractRunsCreateRequestWithConfig,
@@ -42,6 +41,15 @@ export type {
   TypedExtractOutput,
   TypedExtractRun,
 } from "./resources/extractRuns";
+
+export { ExtractorsWrapper } from "./resources/extractors";
+export type {
+  TypedExtractorsCreateRequest,
+  TypedExtractorsUpdateRequest,
+} from "./resources/extractors";
+
+export { ExtractorVersionsWrapper } from "./resources/extractorVersions";
+export type { TypedExtractorVersionsCreateRequest } from "./resources/extractorVersions";
 
 export { ClassifyRunsWrapper } from "./resources/classifyRuns";
 export type { CreateAndPollOptions as ClassifyRunsCreateAndPollOptions } from "./resources/classifyRuns";
@@ -65,4 +73,8 @@ export {
   extendSignature,
   SchemaConversionError,
 } from "./schema";
-export type { CurrencyValue, SignatureValue } from "./schema";
+export type {
+  CurrencyValue,
+  SignatureValue,
+  TypedExtractConfig,
+} from "./schema";

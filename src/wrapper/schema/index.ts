@@ -43,3 +43,11 @@ export type { CurrencyValue, SignatureValue } from "./types";
 
 // Re-export conversion utilities (for internal use)
 export { zodToExtendSchema, SchemaConversionError } from "./zodToExtendSchema";
+
+// Re-export shared config conversion utilities
+export {
+  isZodObject,
+  isTypedConfig,
+  convertTypedConfigToApiConfig,
+} from "./configConversion";
+export type { TypedExtractConfig } from "./configConversion";

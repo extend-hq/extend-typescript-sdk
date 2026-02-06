@@ -1,7 +1,6 @@
 export { ExtractRunsWrapper } from "./extractRuns";
 export type {
   CreateAndPollOptions,
-  TypedExtractConfig,
   TypedExtractorReference,
   TypedExtractRunsCreateRequest,
   TypedExtractRunsCreateRequestWithConfig,
@@ -9,6 +8,15 @@ export type {
   TypedExtractOutput,
   TypedExtractRun,
 } from "./extractRuns";
+
+export { ExtractorsWrapper } from "./extractors";
+export type {
+  TypedExtractorsCreateRequest,
+  TypedExtractorsUpdateRequest,
+} from "./extractors";
+
+export { ExtractorVersionsWrapper } from "./extractorVersions";
+export type { TypedExtractorVersionsCreateRequest } from "./extractorVersions";
 
 export { ClassifyRunsWrapper } from "./classifyRuns";
 export type { CreateAndPollOptions as ClassifyRunsCreateAndPollOptions } from "./classifyRuns";
