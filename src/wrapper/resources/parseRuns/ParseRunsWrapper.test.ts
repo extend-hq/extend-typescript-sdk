@@ -9,7 +9,7 @@ const mockCreate = jest.fn();
 const mockRetrieve = jest.fn();
 
 jest.mock("../../../api/resources/parseRuns/client/Client", () => ({
-    ParseRuns: jest.fn().mockImplementation(() => ({
+    ParseRunsClient: jest.fn().mockImplementation(() => ({
         create: mockCreate,
         retrieve: mockRetrieve,
     })),
@@ -26,7 +26,7 @@ function createMockParseRun(overrides: Partial<Extend.ParseRun> = {}): Extend.Pa
         status: "PROCESSED",
         config: {},
         file: {
-            object: "file_summary",
+            object: "file",
             id: "file_789",
             name: "test.pdf",
             type: "PDF",
@@ -62,17 +62,11 @@ describe("ParseRunsWrapper", () => {
 
     describe("createAndPoll", () => {
         it("should create and poll until processed", async () => {
-            const createResponse: Extend.ParseRunsCreateResponse = {
-                parseRun: createMockParseRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.ParseRun = createMockParseRun({ status: "PROCESSING" });
 
-            const retrieveResponse1: Extend.ParseRunsRetrieveResponse = {
-                parseRun: createMockParseRun({ status: "PROCESSING" }),
-            };
+            const retrieveResponse1: Extend.ParseRun = createMockParseRun({ status: "PROCESSING" });
 
-            const retrieveResponse2: Extend.ParseRunsRetrieveResponse = {
-                parseRun: createMockParseRun({ status: "PROCESSED" }),
-            };
+            const retrieveResponse2: Extend.ParseRun = createMockParseRun({ status: "PROCESSED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValueOnce(retrieveResponse1).mockResolvedValueOnce(retrieveResponse2);
@@ -89,17 +83,13 @@ describe("ParseRunsWrapper", () => {
 
             expect(mockCreate).toHaveBeenCalledWith(request, undefined);
             expect(mockRetrieve).toHaveBeenCalledWith("parse_run_test123", {}, undefined);
-            expect(result.parseRun.status).toBe("PROCESSED");
+            expect(result.status).toBe("PROCESSED");
         });
 
         it("should return immediately if already processed on first retrieve", async () => {
-            const createResponse: Extend.ParseRunsCreateResponse = {
-                parseRun: createMockParseRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.ParseRun = createMockParseRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.ParseRunsRetrieveResponse = {
-                parseRun: createMockParseRun({ status: "PROCESSED" }),
-            };
+            const retrieveResponse: Extend.ParseRun = createMockParseRun({ status: "PROCESSED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -108,18 +98,14 @@ describe("ParseRunsWrapper", () => {
                 file: { url: "https://example.com/doc.pdf" },
             });
 
-            expect(result.parseRun.status).toBe("PROCESSED");
+            expect(result.status).toBe("PROCESSED");
             expect(mockRetrieve).toHaveBeenCalledTimes(1);
         });
 
         it("should handle FAILED status as terminal", async () => {
-            const createResponse: Extend.ParseRunsCreateResponse = {
-                parseRun: createMockParseRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.ParseRun = createMockParseRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.ParseRunsRetrieveResponse = {
-                parseRun: createMockParseRun({ status: "FAILED" }),
-            };
+            const retrieveResponse: Extend.ParseRun = createMockParseRun({ status: "FAILED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -128,17 +114,13 @@ describe("ParseRunsWrapper", () => {
                 file: { url: "https://example.com/doc.pdf" },
             });
 
-            expect(result.parseRun.status).toBe("FAILED");
+            expect(result.status).toBe("FAILED");
         });
 
         it("should throw PollingTimeoutError when timeout exceeded", async () => {
-            const createResponse: Extend.ParseRunsCreateResponse = {
-                parseRun: createMockParseRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.ParseRun = createMockParseRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.ParseRunsRetrieveResponse = {
-                parseRun: createMockParseRun({ status: "PROCESSING" }),
-            };
+            const retrieveResponse: Extend.ParseRun = createMockParseRun({ status: "PROCESSING" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);
@@ -158,13 +140,9 @@ describe("ParseRunsWrapper", () => {
         });
 
         it("should pass request options to create and retrieve", async () => {
-            const createResponse: Extend.ParseRunsCreateResponse = {
-                parseRun: createMockParseRun({ status: "PROCESSING" }),
-            };
+            const createResponse: Extend.ParseRun = createMockParseRun({ status: "PROCESSING" });
 
-            const retrieveResponse: Extend.ParseRunsRetrieveResponse = {
-                parseRun: createMockParseRun({ status: "PROCESSED" }),
-            };
+            const retrieveResponse: Extend.ParseRun = createMockParseRun({ status: "PROCESSED" });
 
             mockCreate.mockResolvedValue(createResponse);
             mockRetrieve.mockResolvedValue(retrieveResponse);

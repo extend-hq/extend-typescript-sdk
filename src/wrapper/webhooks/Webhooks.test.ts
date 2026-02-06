@@ -31,12 +31,12 @@ const sampleWorkflowRunPayload: Extend.WorkflowRun = {
     object: "workflow_run",
     id: "workflow_run_abc123",
     workflow: {
-        object: "workflow_summary",
+        object: "workflow",
         id: "workflow_123",
         name: "Test Workflow",
     },
     workflowVersion: {
-        object: "workflow_version_summary",
+        object: "workflow_version",
         id: "workflow_version_456",
         version: "1",
         name: "Test Workflow v1",
@@ -46,7 +46,7 @@ const sampleWorkflowRunPayload: Extend.WorkflowRun = {
     metadata: {},
     files: [
         {
-            object: "file_summary",
+            object: "file",
             id: "file_789",
             name: "test.pdf",
             type: "PDF",
@@ -80,14 +80,14 @@ const sampleExtractRunPayload: Extend.ExtractRun = {
     object: "extract_run",
     id: "extract_run_def456",
     extractor: {
-        object: "extractor_summary",
+        object: "extractor",
         id: "extractor_123",
         name: "Test Extractor",
         createdAt: "2024-01-01T00:00:00Z",
         updatedAt: "2024-01-01T00:00:00Z",
     },
     extractorVersion: {
-        object: "extractor_version_summary",
+        object: "extractor_version",
         id: "extractor_version_456",
         version: "1",
         extractorId: "extractor_123",
@@ -103,7 +103,7 @@ const sampleExtractRunPayload: Extend.ExtractRun = {
     edited: false,
     config: { schema: { type: "object", properties: {} } },
     file: {
-        object: "file_summary",
+        object: "file",
         id: "file_789",
         name: "test.pdf",
         type: "PDF",

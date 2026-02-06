@@ -16,13 +16,13 @@
  *   },
  * });
  *
- * if (result.editRun.status === "PROCESSED") {
- *   console.log(result.editRun.output);
+ * if (result.status === "PROCESSED") {
+ *   console.log(result.output);
  * }
  * ```
  */
 
-import { EditRuns } from "../../../api/resources/editRuns/client/Client";
+import { EditRunsClient } from "../../../api/resources/editRuns/client/Client";
 import * as Extend from "../../../api";
 import { pollUntilDone, PollingOptions, PollingTimeoutError } from "../../utilities/polling";
 
@@ -32,7 +32,7 @@ export interface CreateAndPollOptions extends PollingOptions {
     /**
      * Request options passed to both create and retrieve calls.
      */
-    requestOptions?: EditRuns.RequestOptions;
+    requestOptions?: EditRunsClient.RequestOptions;
 }
 
 /**
@@ -41,11 +41,10 @@ export interface CreateAndPollOptions extends PollingOptions {
  * if new terminal states are added, polling will still complete.
  */
 function isTerminalStatus(status: Extend.EditRunStatus): boolean {
-    // @ts-expect-error PENDING and CANCELLING statuses may not exist in the API yet but we want to be future-proof
     return status !== "PROCESSING" && status !== "PENDING" && status !== "CANCELLING";
 }
 
-export class EditRunsWrapper extends EditRuns {
+export class EditRunsWrapper extends EditRunsClient {
     /**
      * Creates an edit run and polls until it reaches a terminal state.
      *
@@ -56,7 +55,7 @@ export class EditRunsWrapper extends EditRuns {
      *
      * @param request - The edit run creation request
      * @param options - Polling and request options
-     * @returns The final edit run response when processing is complete
+     * @returns The final edit run when processing is complete
      * @throws {PollingTimeoutError} If the run doesn't complete within maxWaitMs
      *
      * @example
@@ -69,25 +68,25 @@ export class EditRunsWrapper extends EditRuns {
      *   },
      * });
      *
-     * if (result.editRun.status === "PROCESSED") {
-     *   console.log(result.editRun.output);
+     * if (result.status === "PROCESSED") {
+     *   console.log(result.output);
      * }
      * ```
      */
     public async createAndPoll(
         request: Extend.EditRunsCreateRequest,
         options: CreateAndPollOptions = {},
-    ): Promise<Extend.EditRunsRetrieveResponse> {
+    ): Promise<Extend.EditRun> {
         const { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction, requestOptions } = options;
 
         // Create the edit run
         const createResponse = await this.create(request, requestOptions);
-        const runId = createResponse.editRun.id;
+        const runId = createResponse.id;
 
         // Poll until terminal state
         return pollUntilDone(
             () => this.retrieve(runId, requestOptions),
-            (response) => isTerminalStatus(response.editRun.status),
+            (response) => isTerminalStatus(response.status),
             { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction },
         );
     }

@@ -13,13 +13,13 @@
  *   workflow: { id: "workflow_abc123" },
  * });
  *
- * if (result.workflowRun.status === "PROCESSED") {
- *   console.log(result.workflowRun.stepRuns);
+ * if (result.status === "PROCESSED") {
+ *   console.log(result.stepRuns);
  * }
  * ```
  */
 
-import { WorkflowRuns } from "../../../api/resources/workflowRuns/client/Client";
+import { WorkflowRunsClient } from "../../../api/resources/workflowRuns/client/Client";
 import * as Extend from "../../../api";
 import { pollUntilDone, PollingOptions, PollingTimeoutError } from "../../utilities/polling";
 
@@ -29,7 +29,7 @@ export interface CreateAndPollOptions extends PollingOptions {
     /**
      * Request options passed to both create and retrieve calls.
      */
-    requestOptions?: WorkflowRuns.RequestOptions;
+    requestOptions?: WorkflowRunsClient.RequestOptions;
 }
 
 /**
@@ -44,7 +44,7 @@ function isTerminalStatus(status: Extend.WorkflowRunStatus): boolean {
     return status !== "PROCESSING" && status !== "PENDING" && status !== "CANCELLING";
 }
 
-export class WorkflowRunsWrapper extends WorkflowRuns {
+export class WorkflowRunsWrapper extends WorkflowRunsClient {
     /**
      * Creates a workflow run and polls until it reaches a terminal state.
      *
@@ -55,7 +55,7 @@ export class WorkflowRunsWrapper extends WorkflowRuns {
      *
      * @param request - The workflow run creation request
      * @param options - Polling and request options
-     * @returns The final workflow run response when processing is complete
+     * @returns The final workflow run when processing is complete
      * @throws {PollingTimeoutError} If maxWaitMs is set and exceeded
      *
      * @example
@@ -65,15 +65,15 @@ export class WorkflowRunsWrapper extends WorkflowRuns {
      *   workflow: { id: "workflow_abc123" },
      * });
      *
-     * switch (result.workflowRun.status) {
+     * switch (result.status) {
      *   case "PROCESSED":
-     *     console.log("Success:", result.workflowRun.stepRuns);
+     *     console.log("Success:", result.stepRuns);
      *     break;
      *   case "NEEDS_REVIEW":
-     *     console.log("Needs review:", result.workflowRun.dashboardUrl);
+     *     console.log("Needs review:", result.dashboardUrl);
      *     break;
      *   case "FAILED":
-     *     console.log("Failed:", result.workflowRun.failureMessage);
+     *     console.log("Failed:", result.failureMessage);
      *     break;
      * }
      * ```
@@ -81,17 +81,17 @@ export class WorkflowRunsWrapper extends WorkflowRuns {
     public async createAndPoll(
         request: Extend.WorkflowRunsCreateRequest,
         options: CreateAndPollOptions = {},
-    ): Promise<Extend.WorkflowRunsRetrieveResponse> {
+    ): Promise<Extend.WorkflowRun> {
         const { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction, requestOptions } = options;
 
         // Create the workflow run
         const createResponse = await this.create(request, requestOptions);
-        const runId = createResponse.workflowRun.id;
+        const runId = createResponse.id;
 
         // Poll until terminal state
         return pollUntilDone(
             () => this.retrieve(runId, requestOptions),
-            (response) => isTerminalStatus(response.workflowRun.status),
+            (response) => isTerminalStatus(response.status),
             { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction },
         );
     }
