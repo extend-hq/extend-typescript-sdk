@@ -19,11 +19,7 @@ import { WorkflowRunsWrapper } from "./resources/workflowRuns";
 import { EditRunsWrapper } from "./resources/editRuns";
 import { ParseRunsWrapper } from "./resources/parseRuns";
 import { Webhooks } from "./webhooks";
-import {
-  ExtendSchemaWrapper,
-  InferExtendSchema,
-  EXTEND_SCHEMA_MARKER,
-} from "./schema/types";
+import { zodToExtendSchema } from "./schema/zodToExtendSchema";
 
 /**
  * Typed extraction request with inline config for the sync extract() method.
@@ -51,21 +47,14 @@ export type TypedExtractRequest<T extends z.ZodRawShape> =
   | TypedExtractRequestWithExtractor<T>;
 
 /**
- * Type guard to check if a value is an ExtendSchemaWrapper.
+ * Type guard to check if a value is a ZodObject.
  */
-function isExtendSchemaWrapper(
-  value: unknown
-): value is ExtendSchemaWrapper<z.ZodRawShape> {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    EXTEND_SCHEMA_MARKER in value &&
-    (value as Record<symbol, unknown>)[EXTEND_SCHEMA_MARKER] === true
-  );
+function isZodObject(value: unknown): value is z.ZodObject<z.ZodRawShape> {
+  return value instanceof z.ZodObject;
 }
 
 /**
- * Type guard to check if a config has a typed schema property.
+ * Type guard to check if a config has a zod schema property.
  */
 function isTypedConfig(
   config: unknown
@@ -74,7 +63,7 @@ function isTypedConfig(
     typeof config === "object" &&
     config !== null &&
     "schema" in config &&
-    isExtendSchemaWrapper((config as { schema: unknown }).schema)
+    isZodObject((config as { schema: unknown }).schema)
   );
 }
 
@@ -84,13 +73,16 @@ function isTypedConfig(
 function convertTypedConfigToApiConfig(
   config: TypedExtractConfig<z.ZodRawShape>
 ): Extend.ExtractConfigJson {
+  // Convert zod schema to JSON schema at call time
+  const jsonSchema = zodToExtendSchema(config.schema);
+
   return {
     baseProcessor: config.baseProcessor,
     baseVersion: config.baseVersion,
     extractionRules: config.extractionRules,
     advancedOptions: config.advancedOptions,
     parseConfig: config.parseConfig,
-    schema: config.schema.jsonSchema as Extend.JsonObject,
+    schema: jsonSchema as Extend.JsonObject,
   };
 }
 
@@ -104,25 +96,26 @@ export declare namespace ExtendClient {
  *
  * @example
  * ```typescript
- * import { ExtendClient } from "extend-ai";
+ * import { ExtendClient, extendCurrency } from "extend-ai";
+ * import { z } from "zod";
  *
  * const client = new ExtendClient({ token: "your-api-key" });
  *
- * // Use createAndPoll for convenient polling
- * const extractResult = await client.extractRuns.createAndPoll({
- *   file: { url: "https://example.com/doc.pdf" },
- *   extractor: { id: "extractor_123" },
+ * // Typed extraction with zod schema
+ * const result = await client.extract({
+ *   file: { url: "https://example.com/invoice.pdf" },
+ *   config: {
+ *     schema: z.object({
+ *       invoice_number: z.string().nullable(),
+ *       total: extendCurrency(),
+ *     }),
+ *     baseProcessor: "extraction_performance",
+ *   },
  * });
  *
- * const classifyResult = await client.classifyRuns.createAndPoll({
- *   file: { url: "https://example.com/doc.pdf" },
- *   classifier: { id: "classifier_123" },
- * });
- *
- * const workflowResult = await client.workflowRuns.createAndPoll({
- *   file: { url: "https://example.com/doc.pdf" },
- *   workflow: { id: "workflow_123" },
- * });
+ * // result.output.value is fully typed!
+ * console.log(result.output.value.invoice_number); // string | null
+ * console.log(result.output.value.total.amount); // number | null
  *
  * // Verify webhooks
  * const event = client.webhooks.verifyAndParse(body, headers, secret);
@@ -165,28 +158,26 @@ export class ExtendClient extends FernClient {
     /**
      * Extract structured data from a file synchronously with optional typed schema support.
      *
-     * When you pass a typed schema created with `extendSchema()`, the returned
-     * `ExtractRun` will have fully typed `output.value` based on your schema.
+     * When you pass a zod schema via `config.schema`, the returned `ExtractRun`
+     * will have fully typed `output.value` based on your schema.
      *
      * **Note:** This endpoint waits for completion. For production workloads with large files,
      * consider using `extractRuns.create()` with webhooks or `extractRuns.createAndPoll()`.
      *
      * @example
      * ```typescript
-     * import { ExtendClient, extendSchema, extendCurrency } from "extend-ai";
+     * import { ExtendClient, extendCurrency } from "extend-ai";
      * import { z } from "zod";
      *
      * const client = new ExtendClient({ token: "..." });
      *
-     * const InvoiceSchema = extendSchema({
-     *   invoice_number: z.string().nullable(),
-     *   total: extendCurrency(),
-     * });
-     *
      * const result = await client.extract({
      *   file: { url: "https://example.com/invoice.pdf" },
      *   config: {
-     *     schema: InvoiceSchema,
+     *     schema: z.object({
+     *       invoice_number: z.string().nullable(),
+     *       total: extendCurrency(),
+     *     }),
      *     baseProcessor: "extraction_performance",
      *   },
      * });
@@ -201,13 +192,13 @@ export class ExtendClient extends FernClient {
     public override extract<T extends z.ZodRawShape>(
         request: TypedExtractRequestWithConfig<T>,
         requestOptions?: ExtendClient.RequestOptions
-    ): core.HttpResponsePromise<TypedExtractRun<InferExtendSchema<ExtendSchemaWrapper<T>>>>;
+    ): core.HttpResponsePromise<TypedExtractRun<z.infer<z.ZodObject<T>>>>;
 
     // Overload 2: Typed extractor.overrideConfig - returns typed response
     public override extract<T extends z.ZodRawShape>(
         request: TypedExtractRequestWithExtractor<T>,
         requestOptions?: ExtendClient.RequestOptions
-    ): core.HttpResponsePromise<TypedExtractRun<InferExtendSchema<ExtendSchemaWrapper<T>>>>;
+    ): core.HttpResponsePromise<TypedExtractRun<z.infer<z.ZodObject<T>>>>;
 
     // Overload 3: Standard request - returns standard response
     public override extract(
@@ -219,13 +210,13 @@ export class ExtendClient extends FernClient {
     public override extract<T extends z.ZodRawShape>(
         request: TypedExtractRequest<T> | Extend.ExtractRequest,
         requestOptions?: ExtendClient.RequestOptions
-    ): core.HttpResponsePromise<TypedExtractRun<InferExtendSchema<ExtendSchemaWrapper<T>>> | Extend.ExtractRun> {
+    ): core.HttpResponsePromise<TypedExtractRun<z.infer<z.ZodObject<T>>> | Extend.ExtractRun> {
         // Convert typed schema to API format if needed
         const apiRequest = this.convertExtractRequest(request);
 
         // Call the base class extract method
         return super.extract(apiRequest, requestOptions) as core.HttpResponsePromise<
-            TypedExtractRun<InferExtendSchema<ExtendSchemaWrapper<T>>> | Extend.ExtractRun
+            TypedExtractRun<z.infer<z.ZodObject<T>>> | Extend.ExtractRun
         >;
     }
 

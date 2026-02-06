@@ -7,23 +7,20 @@
  *
  * @example
  * ```typescript
- * import { ExtendClient, extendSchema, extendDate, extendCurrency } from "extend-ai";
+ * import { ExtendClient, extendDate, extendCurrency } from "extend-ai";
  * import { z } from "zod";
  *
  * const client = new ExtendClient({ token: "..." });
- *
- * // Define a typed schema
- * const InvoiceSchema = extendSchema({
- *   invoice_number: z.string().nullable().describe("The invoice number"),
- *   invoice_date: extendDate().describe("The invoice date"),
- *   total: extendCurrency().describe("Total amount"),
- * });
  *
  * // Option 1: Use extract() for sync processing (waits for completion)
  * const result = await client.extract({
  *   file: { url: "https://example.com/invoice.pdf" },
  *   config: {
- *     schema: InvoiceSchema,
+ *     schema: z.object({
+ *       invoice_number: z.string().nullable().describe("The invoice number"),
+ *       invoice_date: extendDate().describe("The invoice date"),
+ *       total: extendCurrency().describe("Total amount"),
+ *     }),
  *     baseProcessor: "extraction_performance",
  *   },
  * });
@@ -32,24 +29,15 @@
  * const result = await client.extractRuns.createAndPoll({
  *   file: { url: "https://example.com/invoice.pdf" },
  *   config: {
- *     schema: InvoiceSchema,
+ *     schema: z.object({
+ *       invoice_number: z.string().nullable(),
+ *       total: extendCurrency(),
+ *     }),
  *     baseProcessor: "extraction_performance",
  *   },
  * });
  *
- * // Option 3: Use extractor with overrideConfig
- * const result = await client.extractRuns.createAndPoll({
- *   file: { url: "https://example.com/invoice.pdf" },
- *   extractor: {
- *     id: "extractor_abc123",
- *     overrideConfig: {
- *       schema: InvoiceSchema,
- *       baseProcessor: "extraction_performance",
- *     },
- *   },
- * });
- *
- * // output.value is fully typed in all cases!
+ * // output.value is fully typed!
  * console.log(result.output.value.invoice_number); // string | null
  * console.log(result.output.value.total.amount); // number | null
  * ```
@@ -63,11 +51,7 @@ import {
   PollingOptions,
   PollingTimeoutError,
 } from "../../utilities/polling";
-import {
-  ExtendSchemaWrapper,
-  InferExtendSchema,
-  EXTEND_SCHEMA_MARKER,
-} from "../../schema/types";
+import { zodToExtendSchema } from "../../schema/zodToExtendSchema";
 
 export { PollingTimeoutError };
 
@@ -79,23 +63,26 @@ export interface CreateAndPollOptions extends PollingOptions {
 }
 
 /**
- * Typed extraction config that uses an ExtendSchemaWrapper for the schema property.
+ * Typed extraction config that accepts a Zod object schema directly.
  * This provides full TypeScript inference for extraction output based on your Zod schema.
  */
 export interface TypedExtractConfig<T extends z.ZodRawShape> {
   /**
-   * Typed JSON Schema definition of the data to extract, created with `extendSchema()`.
+   * Zod object schema defining the data to extract.
    * The extraction output will be fully typed based on this schema.
    *
    * @example
    * ```typescript
-   * const schema = extendSchema({
-   *   invoice_number: z.string().nullable(),
-   *   total: extendCurrency(),
-   * });
+   * config: {
+   *   schema: z.object({
+   *     invoice_number: z.string().nullable(),
+   *     total: extendCurrency(),
+   *   }),
+   *   baseProcessor: "extraction_performance",
+   * }
    * ```
    */
-  schema: ExtendSchemaWrapper<T>;
+  schema: z.ZodObject<T>;
   /**
    * The base processor to use. For extractors, this can be either `"extraction_performance"` or `"extraction_light"`.
    * Defaults to `"extraction_performance"` if not provided.
@@ -145,14 +132,6 @@ export interface TypedExtractRunsCreateRequestWithConfig<
   /**
    * Inline extract configuration with typed schema.
    * The extraction output will be fully typed based on the schema you provide.
-   *
-   * @example
-   * ```typescript
-   * config: {
-   *   schema: extendSchema({ invoice_number: z.string().nullable() }),
-   *   baseProcessor: "extraction_performance",
-   * }
-   * ```
    */
   config: TypedExtractConfig<T>;
   extractor?: never;
@@ -202,21 +181,14 @@ export interface TypedExtractRun<T>
 }
 
 /**
- * Type guard to check if a value is an ExtendSchemaWrapper.
+ * Type guard to check if a value is a ZodObject.
  */
-function isExtendSchemaWrapper(
-  value: unknown
-): value is ExtendSchemaWrapper<z.ZodRawShape> {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    EXTEND_SCHEMA_MARKER in value &&
-    (value as Record<symbol, unknown>)[EXTEND_SCHEMA_MARKER] === true
-  );
+function isZodObject(value: unknown): value is z.ZodObject<z.ZodRawShape> {
+  return value instanceof z.ZodObject;
 }
 
 /**
- * Type guard to check if a config has a typed schema property.
+ * Type guard to check if a config has a zod schema property.
  */
 function isTypedConfig(
   config: unknown
@@ -225,7 +197,7 @@ function isTypedConfig(
     typeof config === "object" &&
     config !== null &&
     "schema" in config &&
-    isExtendSchemaWrapper((config as { schema: unknown }).schema)
+    isZodObject((config as { schema: unknown }).schema)
   );
 }
 
@@ -244,13 +216,16 @@ function isTerminalStatus(status: Extend.ProcessorRunStatus): boolean {
 function convertTypedConfigToApiConfig(
   config: TypedExtractConfig<z.ZodRawShape>
 ): Extend.ExtractConfigJson {
+  // Convert zod schema to JSON schema at call time
+  const jsonSchema = zodToExtendSchema(config.schema);
+
   return {
     baseProcessor: config.baseProcessor,
     baseVersion: config.baseVersion,
     extractionRules: config.extractionRules,
     advancedOptions: config.advancedOptions,
     parseConfig: config.parseConfig,
-    schema: config.schema.jsonSchema as Extend.JsonObject,
+    schema: jsonSchema as Extend.JsonObject,
   };
 }
 
@@ -276,33 +251,21 @@ export class ExtractRunsWrapper extends ExtractRunsClient {
    *   extractor: { id: "extractor_abc123" }
    * });
    *
-   * // With typed inline config
-   * const schema = extendSchema({
-   *   name: z.string().nullable(),
-   *   amount: extendCurrency(),
-   * });
-   *
+   * // With typed inline config (zod schema)
    * const result = await client.extractRuns.createAndPoll({
    *   file: { url: "..." },
    *   config: {
-   *     schema,
+   *     schema: z.object({
+   *       name: z.string().nullable(),
+   *       amount: extendCurrency(),
+   *     }),
    *     baseProcessor: "extraction_performance",
    *   },
    * });
    *
-   * // With typed extractor.overrideConfig
-   * const result = await client.extractRuns.createAndPoll({
-   *   file: { url: "..." },
-   *   extractor: {
-   *     id: "extractor_abc123",
-   *     overrideConfig: {
-   *       schema,
-   *       baseProcessor: "extraction_performance",
-   *     },
-   *   },
-   * });
-   *
-   * // result.output.value is typed in both cases!
+   * // result.output.value is typed!
+   * console.log(result.output.value.name); // string | null
+   * console.log(result.output.value.amount.amount); // number | null
    * ```
    */
 
@@ -310,13 +273,13 @@ export class ExtractRunsWrapper extends ExtractRunsClient {
   public async createAndPoll<T extends z.ZodRawShape>(
     request: TypedExtractRunsCreateRequestWithConfig<T>,
     options?: CreateAndPollOptions
-  ): Promise<TypedExtractRun<InferExtendSchema<ExtendSchemaWrapper<T>>>>;
+  ): Promise<TypedExtractRun<z.infer<z.ZodObject<T>>>>;
 
   // Overload 2: Typed extractor.overrideConfig - returns typed response
   public async createAndPoll<T extends z.ZodRawShape>(
     request: TypedExtractRunsCreateRequestWithExtractor<T>,
     options?: CreateAndPollOptions
-  ): Promise<TypedExtractRun<InferExtendSchema<ExtendSchemaWrapper<T>>>>;
+  ): Promise<TypedExtractRun<z.infer<z.ZodObject<T>>>>;
 
   // Overload 3: Standard request - returns standard response
   public async createAndPoll(
@@ -328,10 +291,7 @@ export class ExtractRunsWrapper extends ExtractRunsClient {
   public async createAndPoll<T extends z.ZodRawShape>(
     request: TypedExtractRunsCreateRequest<T> | Extend.ExtractRunsCreateRequest,
     options: CreateAndPollOptions = {}
-  ): Promise<
-    | TypedExtractRun<InferExtendSchema<ExtendSchemaWrapper<T>>>
-    | Extend.ExtractRun
-  > {
+  ): Promise<TypedExtractRun<z.infer<z.ZodObject<T>>> | Extend.ExtractRun> {
     const {
       maxWaitMs,
       initialDelayMs,
@@ -355,7 +315,7 @@ export class ExtractRunsWrapper extends ExtractRunsClient {
     );
 
     // Return result - TypeScript will infer the correct type based on the overload
-    return result as TypedExtractRun<InferExtendSchema<ExtendSchemaWrapper<T>>>;
+    return result as TypedExtractRun<z.infer<z.ZodObject<T>>>;
   }
 
   /**
