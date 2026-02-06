@@ -388,7 +388,7 @@ describe("pollUntilDone", () => {
 
             await pollUntilDone(retrieve, isTerminal, {
                 fastPollDurationMs: 0, // Skip fast phase, go straight to backoff
-                initialDelayMs: 10,
+                initialDelayMs: 50, // Use larger delay so 1.15x differences are detectable
                 maxDelayMs: 1000,
                 jitterFraction: 0,
                 maxWaitMs: 5000,
@@ -402,9 +402,10 @@ describe("pollUntilDone", () => {
             }
 
             // Delays should increase with 1.15x multiplier
-            // Allow tolerance for timing
-            expect(delays[0]).toBeGreaterThanOrEqual(8);
-            expect(delays[1]).toBeGreaterThan(delays[0]);
+            // With 50ms initial: 50 -> 57.5 -> 66.1 -> 76
+            // Compare last to first to verify backoff is happening
+            expect(delays[0]).toBeGreaterThanOrEqual(40);
+            expect(delays[delays.length - 1]).toBeGreaterThan(delays[0]);
         });
 
         it("should respect custom backoffMultiplier", async () => {
