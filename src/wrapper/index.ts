@@ -1,37 +1,46 @@
 export { ExtendClient } from "./ExtendClient";
+export type {
+  TypedExtractRequest,
+  TypedExtractRequestWithConfig,
+  TypedExtractRequestWithExtractor,
+} from "./ExtendClient";
 
 // Webhooks
 export {
-    Webhooks,
-    WebhookSignatureVerificationError,
-    WebhookPayloadFetchError,
-    SignedUrlNotAllowedError,
+  Webhooks,
+  WebhookSignatureVerificationError,
+  WebhookPayloadFetchError,
+  SignedUrlNotAllowedError,
 } from "./webhooks";
 export type {
-    WebhookHeaders,
-    VerifyOptions,
-    VerifyAndParseOptions,
-    SignedDataUrlPayload,
-    WebhookEventWithSignedUrl,
-    WebhookEventType,
-    RawWebhookEvent,
+  WebhookHeaders,
+  VerifyOptions,
+  VerifyAndParseOptions,
+  SignedDataUrlPayload,
+  WebhookEventWithSignedUrl,
+  WebhookEventType,
+  RawWebhookEvent,
 } from "./webhooks";
 
 // Polling utilities
-export { pollUntilDone, calculateBackoffDelay, PollingTimeoutError } from "./utilities/polling";
+export {
+  pollUntilDone,
+  calculateBackoffDelay,
+  PollingTimeoutError,
+} from "./utilities/polling";
 export type { PollingOptions } from "./utilities/polling";
 
 // Run wrappers with createAndPoll methods
 export { ExtractRunsWrapper } from "./resources/extractRuns";
 export type {
-    CreateAndPollOptions,
-    TypedExtractConfig,
-    TypedExtractorReference,
-    TypedExtractRunsCreateRequest,
-    TypedExtractRunsCreateRequestWithConfig,
-    TypedExtractRunsCreateRequestWithExtractor,
-    TypedExtractOutput,
-    TypedExtractRun,
+  CreateAndPollOptions,
+  TypedExtractConfig,
+  TypedExtractorReference,
+  TypedExtractRunsCreateRequest,
+  TypedExtractRunsCreateRequestWithConfig,
+  TypedExtractRunsCreateRequestWithExtractor,
+  TypedExtractOutput,
+  TypedExtractRun,
 } from "./resources/extractRuns";
 
 export { ClassifyRunsWrapper } from "./resources/classifyRuns";
@@ -51,12 +60,16 @@ export type { CreateAndPollOptions as ParseRunsCreateAndPollOptions } from "./re
 
 // Schema utilities for typed extraction
 export {
-    extendSchema,
-    extendDate,
-    extendCurrency,
-    extendSignature,
-    isExtendSchema,
-    getJsonSchema,
-    SchemaConversionError,
+  extendSchema,
+  extendDate,
+  extendCurrency,
+  extendSignature,
+  isExtendSchema,
+  getJsonSchema,
+  SchemaConversionError,
 } from "./schema";
-export type { ExtendSchemaWrapper, ExtendRootJSONSchema, InferExtendSchema } from "./schema";
+export type {
+  ExtendSchemaWrapper,
+  ExtendRootJSONSchema,
+  InferExtendSchema,
+} from "./schema";

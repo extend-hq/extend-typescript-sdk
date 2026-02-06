@@ -21,15 +21,19 @@
 
 import { ClassifyRunsClient } from "../../../api/resources/classifyRuns/client/Client";
 import * as Extend from "../../../api";
-import { pollUntilDone, PollingOptions, PollingTimeoutError } from "../../utilities/polling";
+import {
+  pollUntilDone,
+  PollingOptions,
+  PollingTimeoutError,
+} from "../../utilities/polling";
 
 export { PollingTimeoutError };
 
 export interface CreateAndPollOptions extends PollingOptions {
-    /**
-     * Request options passed to both create and retrieve calls.
-     */
-    requestOptions?: ClassifyRunsClient.RequestOptions;
+  /**
+   * Request options passed to both create and retrieve calls.
+   */
+  requestOptions?: ClassifyRunsClient.RequestOptions;
 }
 
 /**
@@ -38,50 +42,58 @@ export interface CreateAndPollOptions extends PollingOptions {
  * if new terminal states are added, polling will still complete.
  */
 function isTerminalStatus(status: Extend.ProcessorRunStatus): boolean {
-    return status !== "PROCESSING" && status !== "PENDING" && status !== "CANCELLING";
+  return (
+    status !== "PROCESSING" && status !== "PENDING" && status !== "CANCELLING"
+  );
 }
 
 export class ClassifyRunsWrapper extends ClassifyRunsClient {
-    /**
-     * Creates a classify run and polls until it reaches a terminal state.
-     *
-     * This is a convenience method that combines `create()` and polling via
-     * `retrieve()` with exponential backoff and jitter.
-     *
-     * Terminal states: PROCESSED, FAILED, CANCELLED
-     *
-     * @param request - The classify run creation request
-     * @param options - Polling and request options
-     * @returns The final classify run when processing is complete
-     * @throws {PollingTimeoutError} If the run doesn't complete within maxWaitMs
-     *
-     * @example
-     * ```typescript
-     * const result = await client.classifyRuns.createAndPoll({
-     *   file: { url: "https://example.com/doc.pdf" },
-     *   classifier: { id: "classifier_abc123" },
-     * });
-     *
-     * if (result.status === "PROCESSED") {
-     *   console.log(result.output);
-     * }
-     * ```
-     */
-    public async createAndPoll(
-        request: Extend.ClassifyRunsCreateRequest,
-        options: CreateAndPollOptions = {},
-    ): Promise<Extend.ClassifyRun> {
-        const { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction, requestOptions } = options;
+  /**
+   * Creates a classify run and polls until it reaches a terminal state.
+   *
+   * This is a convenience method that combines `create()` and polling via
+   * `retrieve()` with exponential backoff and jitter.
+   *
+   * Terminal states: PROCESSED, FAILED, CANCELLED
+   *
+   * @param request - The classify run creation request
+   * @param options - Polling and request options
+   * @returns The final classify run when processing is complete
+   * @throws {PollingTimeoutError} If the run doesn't complete within maxWaitMs
+   *
+   * @example
+   * ```typescript
+   * const result = await client.classifyRuns.createAndPoll({
+   *   file: { url: "https://example.com/doc.pdf" },
+   *   classifier: { id: "classifier_abc123" },
+   * });
+   *
+   * if (result.status === "PROCESSED") {
+   *   console.log(result.output);
+   * }
+   * ```
+   */
+  public async createAndPoll(
+    request: Extend.ClassifyRunsCreateRequest,
+    options: CreateAndPollOptions = {}
+  ): Promise<Extend.ClassifyRun> {
+    const {
+      maxWaitMs,
+      initialDelayMs,
+      maxDelayMs,
+      jitterFraction,
+      requestOptions,
+    } = options;
 
-        // Create the classify run
-        const createResponse = await this.create(request, requestOptions);
-        const runId = createResponse.id;
+    // Create the classify run
+    const createResponse = await this.create(request, requestOptions);
+    const runId = createResponse.id;
 
-        // Poll until terminal state
-        return pollUntilDone(
-            () => this.retrieve(runId, requestOptions),
-            (response) => isTerminalStatus(response.status),
-            { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction },
-        );
-    }
+    // Poll until terminal state
+    return pollUntilDone(
+      () => this.retrieve(runId, requestOptions),
+      (response) => isTerminalStatus(response.status),
+      { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction }
+    );
+  }
 }
