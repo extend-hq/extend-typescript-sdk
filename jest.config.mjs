@@ -12,9 +12,8 @@ export default {
             },
             roots: ["<rootDir>/tests"],
             testPathIgnorePatterns: ["/tests/wire/"],
-            setupFilesAfterEnv: [],
+            setupFilesAfterEnv: ["<rootDir>/tests/setup.ts"],
         },
-        ,
         {
             displayName: "wire",
             preset: "ts-jest",
