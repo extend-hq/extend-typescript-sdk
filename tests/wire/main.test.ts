@@ -35,6 +35,16 @@ describe("ExtendClient", () => {
                     ],
                 },
             ],
+            ocr: {
+                words: [
+                    {
+                        content: "content",
+                        boundingBox: { left: 1.1, right: 1.1, top: 1.1, bottom: 1.1 },
+                        confidence: 1.1,
+                        pageNumber: 1.1,
+                    },
+                ],
+            },
             status: "PROCESSED",
             failureReason: "failureReason",
             metrics: { processingTimeMs: 1.1, pageCount: 1.1 },
@@ -109,6 +119,21 @@ describe("ExtendClient", () => {
                     ],
                 },
             ],
+            ocr: {
+                words: [
+                    {
+                        content: "content",
+                        boundingBox: {
+                            left: 1.1,
+                            right: 1.1,
+                            top: 1.1,
+                            bottom: 1.1,
+                        },
+                        confidence: 1.1,
+                        pageNumber: 1.1,
+                    },
+                ],
+            },
             status: "PROCESSED",
             failureReason: "failureReason",
             metrics: {
