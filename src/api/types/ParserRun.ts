@@ -20,6 +20,8 @@ export interface ParserRun {
     fileId: string;
     /** An array of chunks that were parsed from the file. */
     chunks: Extend.Chunk[];
+    /** Raw OCR data from the parsing process. Only included when `returnOcr` is configured in the parse config's advanced options. */
+    ocr?: Extend.ParserRunOcr;
     /**
      * The status of the parser run:
      * * `"PROCESSED"` - The file was successfully processed
