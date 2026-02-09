@@ -19,7 +19,7 @@
  * ```
  */
 
-import { SplitRunsClient } from "../../../api/resources/splitRuns/client/Client";
+import { SplitRunsClient as GeneratedSplitRunsClient } from "../../../api/resources/splitRuns/client/Client";
 import * as Extend from "../../../api";
 import {
   pollUntilDone,
@@ -33,7 +33,7 @@ export interface CreateAndPollOptions extends PollingOptions {
   /**
    * Request options passed to both create and retrieve calls.
    */
-  requestOptions?: SplitRunsClient.RequestOptions;
+  requestOptions?: GeneratedSplitRunsClient.RequestOptions;
 }
 
 /**
@@ -47,7 +47,7 @@ function isTerminalStatus(status: Extend.ProcessorRunStatus): boolean {
   );
 }
 
-export class SplitRunsWrapper extends SplitRunsClient {
+export class SplitRunsClient extends GeneratedSplitRunsClient {
   /**
    * Creates a split run and polls until it reaches a terminal state.
    *

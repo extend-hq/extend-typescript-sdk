@@ -19,7 +19,7 @@
  * ```
  */
 
-import { ClassifyRunsClient } from "../../../api/resources/classifyRuns/client/Client";
+import { ClassifyRunsClient as GeneratedClassifyRunsClient } from "../../../api/resources/classifyRuns/client/Client";
 import * as Extend from "../../../api";
 import {
   pollUntilDone,
@@ -33,7 +33,7 @@ export interface CreateAndPollOptions extends PollingOptions {
   /**
    * Request options passed to both create and retrieve calls.
    */
-  requestOptions?: ClassifyRunsClient.RequestOptions;
+  requestOptions?: GeneratedClassifyRunsClient.RequestOptions;
 }
 
 /**
@@ -47,7 +47,7 @@ function isTerminalStatus(status: Extend.ProcessorRunStatus): boolean {
   );
 }
 
-export class ClassifyRunsWrapper extends ClassifyRunsClient {
+export class ClassifyRunsClient extends GeneratedClassifyRunsClient {
   /**
    * Creates a classify run and polls until it reaches a terminal state.
    *

@@ -1,4 +1,4 @@
-export { ExtractorsWrapper } from "./ExtractorsWrapper";
+export { ExtractorsClient } from "./ExtractorsWrapper";
 export type {
   TypedExtractorsCreateRequest,
   TypedExtractorsUpdateRequest,

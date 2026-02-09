@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ExtractRunsWrapper, PollingTimeoutError } from "./ExtractRunsWrapper";
+import { ExtractRunsClient, PollingTimeoutError } from "./ExtractRunsWrapper";
 import { extendDate, extendCurrency } from "../../schema";
 import * as Extend from "../../../api";
 
@@ -79,15 +79,15 @@ function createMockExtractRun(
 // Tests
 // ============================================================================
 
-describe("ExtractRunsWrapper", () => {
-  let wrapper: ExtractRunsWrapper;
+describe("ExtractRunsClient", () => {
+  let wrapper: ExtractRunsClient;
 
   beforeEach(() => {
     jest.clearAllMocks();
 
     // Create a new instance for each test
     // We need to bypass the constructor by creating a plain object
-    wrapper = Object.create(ExtractRunsWrapper.prototype);
+    wrapper = Object.create(ExtractRunsClient.prototype);
     // Attach the mocked methods
     (wrapper as unknown as { create: typeof mockCreate }).create = mockCreate;
     (wrapper as unknown as { retrieve: typeof mockRetrieve }).retrieve =

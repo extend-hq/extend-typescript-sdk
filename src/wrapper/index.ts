@@ -30,8 +30,8 @@ export {
 } from "./utilities/polling";
 export type { PollingOptions } from "./utilities/polling";
 
-// Run wrappers with createAndPoll methods
-export { ExtractRunsWrapper } from "./resources/extractRuns";
+// Run clients with createAndPoll methods
+export { ExtractRunsClient } from "./resources/extractRuns";
 export type {
   CreateAndPollOptions,
   TypedExtractorReference,
@@ -42,28 +42,28 @@ export type {
   TypedExtractRun,
 } from "./resources/extractRuns";
 
-export { ExtractorsWrapper } from "./resources/extractors";
+export { ExtractorsClient } from "./resources/extractors";
 export type {
   TypedExtractorsCreateRequest,
   TypedExtractorsUpdateRequest,
 } from "./resources/extractors";
 
-export { ExtractorVersionsWrapper } from "./resources/extractorVersions";
+export { ExtractorVersionsClient } from "./resources/extractorVersions";
 export type { TypedExtractorVersionsCreateRequest } from "./resources/extractorVersions";
 
-export { ClassifyRunsWrapper } from "./resources/classifyRuns";
+export { ClassifyRunsClient } from "./resources/classifyRuns";
 export type { CreateAndPollOptions as ClassifyRunsCreateAndPollOptions } from "./resources/classifyRuns";
 
-export { SplitRunsWrapper } from "./resources/splitRuns";
+export { SplitRunsClient } from "./resources/splitRuns";
 export type { CreateAndPollOptions as SplitRunsCreateAndPollOptions } from "./resources/splitRuns";
 
-export { WorkflowRunsWrapper } from "./resources/workflowRuns";
+export { WorkflowRunsClient } from "./resources/workflowRuns";
 export type { CreateAndPollOptions as WorkflowRunsCreateAndPollOptions } from "./resources/workflowRuns";
 
-export { EditRunsWrapper } from "./resources/editRuns";
+export { EditRunsClient } from "./resources/editRuns";
 export type { CreateAndPollOptions as EditRunsCreateAndPollOptions } from "./resources/editRuns";
 
-export { ParseRunsWrapper } from "./resources/parseRuns";
+export { ParseRunsClient } from "./resources/parseRuns";
 export type { CreateAndPollOptions as ParseRunsCreateAndPollOptions } from "./resources/parseRuns";
 
 // Custom type helpers for zod schemas

@@ -26,7 +26,7 @@
  */
 
 import { z } from "zod";
-import { ExtractorsClient } from "../../../api/resources/extractors/client/Client";
+import { ExtractorsClient as GeneratedExtractorsClient } from "../../../api/resources/extractors/client/Client";
 import * as Extend from "../../../api";
 import * as core from "../../../core";
 import {
@@ -56,7 +56,7 @@ export interface TypedExtractorsUpdateRequest<T extends z.ZodRawShape>
   config: TypedExtractConfig<T>;
 }
 
-export class ExtractorsWrapper extends ExtractorsClient {
+export class ExtractorsClient extends GeneratedExtractorsClient {
   /**
    * Create a new extractor.
    *
@@ -89,19 +89,19 @@ export class ExtractorsWrapper extends ExtractorsClient {
   // Overload 1: Typed config with Zod schema
   public override create<T extends z.ZodRawShape>(
     request: TypedExtractorsCreateRequest<T>,
-    requestOptions?: ExtractorsClient.RequestOptions
+    requestOptions?: GeneratedExtractorsClient.RequestOptions
   ): core.HttpResponsePromise<Extend.Extractor>;
 
   // Overload 2: Standard request
   public override create(
     request: Extend.ExtractorsCreateRequest,
-    requestOptions?: ExtractorsClient.RequestOptions
+    requestOptions?: GeneratedExtractorsClient.RequestOptions
   ): core.HttpResponsePromise<Extend.Extractor>;
 
   // Implementation
   public override create<T extends z.ZodRawShape>(
     request: TypedExtractorsCreateRequest<T> | Extend.ExtractorsCreateRequest,
-    requestOptions?: ExtractorsClient.RequestOptions
+    requestOptions?: GeneratedExtractorsClient.RequestOptions
   ): core.HttpResponsePromise<Extend.Extractor> {
     const apiRequest = this.convertCreateRequest(request);
     return super.create(apiRequest, requestOptions);
@@ -130,14 +130,14 @@ export class ExtractorsWrapper extends ExtractorsClient {
   public override update<T extends z.ZodRawShape>(
     id: string,
     request: TypedExtractorsUpdateRequest<T>,
-    requestOptions?: ExtractorsClient.RequestOptions
+    requestOptions?: GeneratedExtractorsClient.RequestOptions
   ): core.HttpResponsePromise<Extend.Extractor>;
 
   // Overload 2: Standard request
   public override update(
     id: string,
     request?: Extend.ExtractorsUpdateRequest,
-    requestOptions?: ExtractorsClient.RequestOptions
+    requestOptions?: GeneratedExtractorsClient.RequestOptions
   ): core.HttpResponsePromise<Extend.Extractor>;
 
   // Implementation
@@ -146,7 +146,7 @@ export class ExtractorsWrapper extends ExtractorsClient {
     request:
       | TypedExtractorsUpdateRequest<T>
       | Extend.ExtractorsUpdateRequest = {},
-    requestOptions?: ExtractorsClient.RequestOptions
+    requestOptions?: GeneratedExtractorsClient.RequestOptions
   ): core.HttpResponsePromise<Extend.Extractor> {
     const apiRequest = this.convertUpdateRequest(request);
     return super.update(id, apiRequest, requestOptions);

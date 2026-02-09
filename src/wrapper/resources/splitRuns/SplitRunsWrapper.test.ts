@@ -1,4 +1,4 @@
-import { SplitRunsWrapper, PollingTimeoutError } from "./SplitRunsWrapper";
+import { SplitRunsClient, PollingTimeoutError } from "./SplitRunsWrapper";
 import * as Extend from "../../../api";
 
 // ============================================================================
@@ -73,13 +73,13 @@ function createMockSplitRun(
 // Tests
 // ============================================================================
 
-describe("SplitRunsWrapper", () => {
-  let wrapper: SplitRunsWrapper;
+describe("SplitRunsClient", () => {
+  let wrapper: SplitRunsClient;
 
   beforeEach(() => {
     jest.clearAllMocks();
 
-    wrapper = Object.create(SplitRunsWrapper.prototype);
+    wrapper = Object.create(SplitRunsClient.prototype);
     (wrapper as unknown as { create: typeof mockCreate }).create = mockCreate;
     (wrapper as unknown as { retrieve: typeof mockRetrieve }).retrieve =
       mockRetrieve;

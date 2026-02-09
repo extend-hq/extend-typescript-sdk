@@ -1,2 +1,2 @@
-export { ExtractorVersionsWrapper } from "./ExtractorVersionsWrapper";
+export { ExtractorVersionsClient } from "./ExtractorVersionsWrapper";
 export type { TypedExtractorVersionsCreateRequest } from "./ExtractorVersionsWrapper";

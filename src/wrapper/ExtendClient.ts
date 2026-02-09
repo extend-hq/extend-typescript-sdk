@@ -7,18 +7,18 @@ import { z } from "zod";
 import { ExtendClient as FernClient } from "../Client";
 import * as Extend from "../api";
 import * as core from "../core";
-import { ExtractRunsWrapper } from "./resources/extractRuns";
+import { ExtractRunsClient } from "./resources/extractRuns";
 import {
   TypedExtractRun,
   TypedExtractorReference,
 } from "./resources/extractRuns";
-import { ExtractorsWrapper } from "./resources/extractors";
-import { ExtractorVersionsWrapper } from "./resources/extractorVersions";
-import { ClassifyRunsWrapper } from "./resources/classifyRuns";
-import { SplitRunsWrapper } from "./resources/splitRuns";
-import { WorkflowRunsWrapper } from "./resources/workflowRuns";
-import { EditRunsWrapper } from "./resources/editRuns";
-import { ParseRunsWrapper } from "./resources/parseRuns";
+import { ExtractorsClient } from "./resources/extractors";
+import { ExtractorVersionsClient } from "./resources/extractorVersions";
+import { ClassifyRunsClient } from "./resources/classifyRuns";
+import { SplitRunsClient } from "./resources/splitRuns";
+import { WorkflowRunsClient } from "./resources/workflowRuns";
+import { EditRunsClient } from "./resources/editRuns";
+import { ParseRunsClient } from "./resources/parseRuns";
 import { Webhooks } from "./webhooks";
 import {
   TypedExtractConfig,
@@ -87,53 +87,53 @@ export declare namespace ExtendClient {
  * ```
  */
 export class ExtendClient extends FernClient {
-  protected _extractRunsWrapper: ExtractRunsWrapper | undefined;
-  protected _extractorsWrapper: ExtractorsWrapper | undefined;
-  protected _extractorVersionsWrapper: ExtractorVersionsWrapper | undefined;
-  protected _classifyRunsWrapper: ClassifyRunsWrapper | undefined;
-  protected _splitRunsWrapper: SplitRunsWrapper | undefined;
-  protected _workflowRunsWrapper: WorkflowRunsWrapper | undefined;
-  protected _editRunsWrapper: EditRunsWrapper | undefined;
-  protected _parseRunsWrapper: ParseRunsWrapper | undefined;
+  protected _extractRunsClient: ExtractRunsClient | undefined;
+  protected _extractorsClient: ExtractorsClient | undefined;
+  protected _extractorVersionsClient: ExtractorVersionsClient | undefined;
+  protected _classifyRunsClient: ClassifyRunsClient | undefined;
+  protected _splitRunsClient: SplitRunsClient | undefined;
+  protected _workflowRunsClient: WorkflowRunsClient | undefined;
+  protected _editRunsClient: EditRunsClient | undefined;
+  protected _parseRunsClient: ParseRunsClient | undefined;
 
   public readonly webhooks: Webhooks = new Webhooks();
 
-  public override get extractRuns(): ExtractRunsWrapper {
-    return (this._extractRunsWrapper ??= new ExtractRunsWrapper(this._options));
+  public override get extractRuns(): ExtractRunsClient {
+    return (this._extractRunsClient ??= new ExtractRunsClient(this._options));
   }
 
-  public override get extractors(): ExtractorsWrapper {
-    return (this._extractorsWrapper ??= new ExtractorsWrapper(this._options));
+  public override get extractors(): ExtractorsClient {
+    return (this._extractorsClient ??= new ExtractorsClient(this._options));
   }
 
-  public override get extractorVersions(): ExtractorVersionsWrapper {
-    return (this._extractorVersionsWrapper ??= new ExtractorVersionsWrapper(
+  public override get extractorVersions(): ExtractorVersionsClient {
+    return (this._extractorVersionsClient ??= new ExtractorVersionsClient(
       this._options
     ));
   }
 
-  public override get classifyRuns(): ClassifyRunsWrapper {
-    return (this._classifyRunsWrapper ??= new ClassifyRunsWrapper(
+  public override get classifyRuns(): ClassifyRunsClient {
+    return (this._classifyRunsClient ??= new ClassifyRunsClient(
       this._options
     ));
   }
 
-  public override get splitRuns(): SplitRunsWrapper {
-    return (this._splitRunsWrapper ??= new SplitRunsWrapper(this._options));
+  public override get splitRuns(): SplitRunsClient {
+    return (this._splitRunsClient ??= new SplitRunsClient(this._options));
   }
 
-  public override get workflowRuns(): WorkflowRunsWrapper {
-    return (this._workflowRunsWrapper ??= new WorkflowRunsWrapper(
+  public override get workflowRuns(): WorkflowRunsClient {
+    return (this._workflowRunsClient ??= new WorkflowRunsClient(
       this._options
     ));
   }
 
-  public override get editRuns(): EditRunsWrapper {
-    return (this._editRunsWrapper ??= new EditRunsWrapper(this._options));
+  public override get editRuns(): EditRunsClient {
+    return (this._editRunsClient ??= new EditRunsClient(this._options));
   }
 
-  public override get parseRuns(): ParseRunsWrapper {
-    return (this._parseRunsWrapper ??= new ParseRunsWrapper(this._options));
+  public override get parseRuns(): ParseRunsClient {
+    return (this._parseRunsClient ??= new ParseRunsClient(this._options));
   }
 
   /**

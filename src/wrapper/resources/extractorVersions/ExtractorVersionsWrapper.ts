@@ -27,7 +27,7 @@
  */
 
 import { z } from "zod";
-import { ExtractorVersionsClient } from "../../../api/resources/extractorVersions/client/Client";
+import { ExtractorVersionsClient as GeneratedExtractorVersionsClient } from "../../../api/resources/extractorVersions/client/Client";
 import * as Extend from "../../../api";
 import * as core from "../../../core";
 import {
@@ -45,7 +45,7 @@ export interface TypedExtractorVersionsCreateRequest<T extends z.ZodRawShape>
   config: TypedExtractConfig<T>;
 }
 
-export class ExtractorVersionsWrapper extends ExtractorVersionsClient {
+export class ExtractorVersionsClient extends GeneratedExtractorVersionsClient {
   /**
    * Publish a new version of an existing extractor.
    *
@@ -79,14 +79,14 @@ export class ExtractorVersionsWrapper extends ExtractorVersionsClient {
   public override create<T extends z.ZodRawShape>(
     extractorId: string,
     request: TypedExtractorVersionsCreateRequest<T>,
-    requestOptions?: ExtractorVersionsClient.RequestOptions
+    requestOptions?: GeneratedExtractorVersionsClient.RequestOptions
   ): core.HttpResponsePromise<Extend.ExtractorVersion>;
 
   // Overload 2: Standard request
   public override create(
     extractorId: string,
     request: Extend.ExtractorVersionsCreateRequest,
-    requestOptions?: ExtractorVersionsClient.RequestOptions
+    requestOptions?: GeneratedExtractorVersionsClient.RequestOptions
   ): core.HttpResponsePromise<Extend.ExtractorVersion>;
 
   // Implementation
@@ -95,7 +95,7 @@ export class ExtractorVersionsWrapper extends ExtractorVersionsClient {
     request:
       | TypedExtractorVersionsCreateRequest<T>
       | Extend.ExtractorVersionsCreateRequest,
-    requestOptions?: ExtractorVersionsClient.RequestOptions
+    requestOptions?: GeneratedExtractorVersionsClient.RequestOptions
   ): core.HttpResponsePromise<Extend.ExtractorVersion> {
     const apiRequest = this.convertCreateRequest(request);
     return super.create(extractorId, apiRequest, requestOptions);

@@ -1,4 +1,4 @@
-export { ExtractRunsWrapper, PollingTimeoutError } from "./ExtractRunsWrapper";
+export { ExtractRunsClient, PollingTimeoutError } from "./ExtractRunsWrapper";
 export type {
   CreateAndPollOptions,
   TypedExtractorReference,

@@ -19,7 +19,7 @@
  * ```
  */
 
-import { WorkflowRunsClient } from "../../../api/resources/workflowRuns/client/Client";
+import { WorkflowRunsClient as GeneratedWorkflowRunsClient } from "../../../api/resources/workflowRuns/client/Client";
 import * as Extend from "../../../api";
 import {
   pollUntilDone,
@@ -33,7 +33,7 @@ export interface CreateAndPollOptions extends PollingOptions {
   /**
    * Request options passed to both create and retrieve calls.
    */
-  requestOptions?: WorkflowRunsClient.RequestOptions;
+  requestOptions?: GeneratedWorkflowRunsClient.RequestOptions;
 }
 
 /**
@@ -50,7 +50,7 @@ function isTerminalStatus(status: Extend.WorkflowRunStatus): boolean {
   );
 }
 
-export class WorkflowRunsWrapper extends WorkflowRunsClient {
+export class WorkflowRunsClient extends GeneratedWorkflowRunsClient {
   /**
    * Creates a workflow run and polls until it reaches a terminal state.
    *

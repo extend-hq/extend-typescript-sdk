@@ -44,7 +44,7 @@
  */
 
 import { z } from "zod";
-import { ExtractRunsClient } from "../../../api/resources/extractRuns/client/Client";
+import { ExtractRunsClient as GeneratedExtractRunsClient } from "../../../api/resources/extractRuns/client/Client";
 import * as Extend from "../../../api";
 import {
   pollUntilDone,
@@ -63,7 +63,7 @@ export interface CreateAndPollOptions extends PollingOptions {
   /**
    * Request options passed to both create and retrieve calls.
    */
-  requestOptions?: ExtractRunsClient.RequestOptions;
+  requestOptions?: GeneratedExtractRunsClient.RequestOptions;
 }
 
 /**
@@ -152,7 +152,7 @@ function isTerminalStatus(status: Extend.ProcessorRunStatus): boolean {
   return status !== "PROCESSING" && status !== "PENDING";
 }
 
-export class ExtractRunsWrapper extends ExtractRunsClient {
+export class ExtractRunsClient extends GeneratedExtractRunsClient {
   /**
    * Creates an extract run and polls until it reaches a terminal state.
    *

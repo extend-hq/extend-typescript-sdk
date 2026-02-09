@@ -1,8 +1,8 @@
 /**
  * Shared utilities for detecting and converting typed Zod configs to API format.
  *
- * Used by ExtendClient.extract(), ExtractRunsWrapper.createAndPoll(),
- * ExtractorsWrapper.create()/update(), and ExtractorVersionsWrapper.create().
+ * Used by ExtendClient.extract(), ExtractRunsClient.createAndPoll(),
+ * ExtractorsClient.create()/update(), and ExtractorVersionsClient.create().
  */
 
 import { z } from "zod";

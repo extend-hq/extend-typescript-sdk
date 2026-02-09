@@ -1,5 +1,5 @@
 import {
-  ClassifyRunsWrapper,
+  ClassifyRunsClient,
   PollingTimeoutError,
 } from "./ClassifyRunsWrapper";
 import * as Extend from "../../../api";
@@ -87,13 +87,13 @@ function createMockClassifyRun(
 // Tests
 // ============================================================================
 
-describe("ClassifyRunsWrapper", () => {
-  let wrapper: ClassifyRunsWrapper;
+describe("ClassifyRunsClient", () => {
+  let wrapper: ClassifyRunsClient;
 
   beforeEach(() => {
     jest.clearAllMocks();
 
-    wrapper = Object.create(ClassifyRunsWrapper.prototype);
+    wrapper = Object.create(ClassifyRunsClient.prototype);
     (wrapper as unknown as { create: typeof mockCreate }).create = mockCreate;
     (wrapper as unknown as { retrieve: typeof mockRetrieve }).retrieve =
       mockRetrieve;

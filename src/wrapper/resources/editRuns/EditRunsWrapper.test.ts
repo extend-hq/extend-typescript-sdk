@@ -1,4 +1,4 @@
-import { EditRunsWrapper, PollingTimeoutError } from "./EditRunsWrapper";
+import { EditRunsClient, PollingTimeoutError } from "./EditRunsWrapper";
 import * as Extend from "../../../api";
 
 // ============================================================================
@@ -50,13 +50,13 @@ function createMockEditRun(
 // Tests
 // ============================================================================
 
-describe("EditRunsWrapper", () => {
-  let wrapper: EditRunsWrapper;
+describe("EditRunsClient", () => {
+  let wrapper: EditRunsClient;
 
   beforeEach(() => {
     jest.clearAllMocks();
 
-    wrapper = Object.create(EditRunsWrapper.prototype);
+    wrapper = Object.create(EditRunsClient.prototype);
     (wrapper as unknown as { create: typeof mockCreate }).create = mockCreate;
     (wrapper as unknown as { retrieve: typeof mockRetrieve }).retrieve =
       mockRetrieve;

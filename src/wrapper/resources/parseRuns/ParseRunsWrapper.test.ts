@@ -1,4 +1,4 @@
-import { ParseRunsWrapper, PollingTimeoutError } from "./ParseRunsWrapper";
+import { ParseRunsClient, PollingTimeoutError } from "./ParseRunsWrapper";
 import * as Extend from "../../../api";
 
 // ============================================================================
@@ -51,13 +51,13 @@ function createMockParseRun(
 // Tests
 // ============================================================================
 
-describe("ParseRunsWrapper", () => {
-  let wrapper: ParseRunsWrapper;
+describe("ParseRunsClient", () => {
+  let wrapper: ParseRunsClient;
 
   beforeEach(() => {
     jest.clearAllMocks();
 
-    wrapper = Object.create(ParseRunsWrapper.prototype);
+    wrapper = Object.create(ParseRunsClient.prototype);
     (wrapper as unknown as { create: typeof mockCreate }).create = mockCreate;
     (wrapper as unknown as { retrieve: typeof mockRetrieve }).retrieve =
       mockRetrieve;

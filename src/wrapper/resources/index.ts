@@ -1,4 +1,4 @@
-export { ExtractRunsWrapper } from "./extractRuns";
+export { ExtractRunsClient } from "./extractRuns";
 export type {
   CreateAndPollOptions,
   TypedExtractorReference,
@@ -9,26 +9,26 @@ export type {
   TypedExtractRun,
 } from "./extractRuns";
 
-export { ExtractorsWrapper } from "./extractors";
+export { ExtractorsClient } from "./extractors";
 export type {
   TypedExtractorsCreateRequest,
   TypedExtractorsUpdateRequest,
 } from "./extractors";
 
-export { ExtractorVersionsWrapper } from "./extractorVersions";
+export { ExtractorVersionsClient } from "./extractorVersions";
 export type { TypedExtractorVersionsCreateRequest } from "./extractorVersions";
 
-export { ClassifyRunsWrapper } from "./classifyRuns";
+export { ClassifyRunsClient } from "./classifyRuns";
 export type { CreateAndPollOptions as ClassifyRunsCreateAndPollOptions } from "./classifyRuns";
 
-export { SplitRunsWrapper } from "./splitRuns";
+export { SplitRunsClient } from "./splitRuns";
 export type { CreateAndPollOptions as SplitRunsCreateAndPollOptions } from "./splitRuns";
 
-export { WorkflowRunsWrapper } from "./workflowRuns";
+export { WorkflowRunsClient } from "./workflowRuns";
 export type { CreateAndPollOptions as WorkflowRunsCreateAndPollOptions } from "./workflowRuns";
 
-export { EditRunsWrapper } from "./editRuns";
+export { EditRunsClient } from "./editRuns";
 export type { CreateAndPollOptions as EditRunsCreateAndPollOptions } from "./editRuns";
 
-export { ParseRunsWrapper } from "./parseRuns";
+export { ParseRunsClient } from "./parseRuns";
 export type { CreateAndPollOptions as ParseRunsCreateAndPollOptions } from "./parseRuns";

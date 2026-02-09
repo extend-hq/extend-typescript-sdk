@@ -22,7 +22,7 @@
  * ```
  */
 
-import { EditRunsClient } from "../../../api/resources/editRuns/client/Client";
+import { EditRunsClient as GeneratedEditRunsClient } from "../../../api/resources/editRuns/client/Client";
 import * as Extend from "../../../api";
 import {
   pollUntilDone,
@@ -36,7 +36,7 @@ export interface CreateAndPollOptions extends PollingOptions {
   /**
    * Request options passed to both create and retrieve calls.
    */
-  requestOptions?: EditRunsClient.RequestOptions;
+  requestOptions?: GeneratedEditRunsClient.RequestOptions;
 }
 
 /**
@@ -50,7 +50,7 @@ function isTerminalStatus(status: Extend.EditRunStatus): boolean {
   );
 }
 
-export class EditRunsWrapper extends EditRunsClient {
+export class EditRunsClient extends GeneratedEditRunsClient {
   /**
    * Creates an edit run and polls until it reaches a terminal state.
    *

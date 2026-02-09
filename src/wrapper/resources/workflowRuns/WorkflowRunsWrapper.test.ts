@@ -1,5 +1,5 @@
 import {
-  WorkflowRunsWrapper,
+  WorkflowRunsClient,
   PollingTimeoutError,
 } from "./WorkflowRunsWrapper";
 import * as Extend from "../../../api";
@@ -64,13 +64,13 @@ function createMockWorkflowRun(
 // Tests
 // ============================================================================
 
-describe("WorkflowRunsWrapper", () => {
-  let wrapper: WorkflowRunsWrapper;
+describe("WorkflowRunsClient", () => {
+  let wrapper: WorkflowRunsClient;
 
   beforeEach(() => {
     jest.clearAllMocks();
 
-    wrapper = Object.create(WorkflowRunsWrapper.prototype);
+    wrapper = Object.create(WorkflowRunsClient.prototype);
     (wrapper as unknown as { create: typeof mockCreate }).create = mockCreate;
     (wrapper as unknown as { retrieve: typeof mockRetrieve }).retrieve =
       mockRetrieve;

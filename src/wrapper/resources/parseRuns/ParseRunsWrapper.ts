@@ -18,7 +18,7 @@
  * ```
  */
 
-import { ParseRunsClient } from "../../../api/resources/parseRuns/client/Client";
+import { ParseRunsClient as GeneratedParseRunsClient } from "../../../api/resources/parseRuns/client/Client";
 import * as Extend from "../../../api";
 import {
   pollUntilDone,
@@ -32,7 +32,7 @@ export interface CreateAndPollOptions extends PollingOptions {
   /**
    * Request options passed to both create and retrieve calls.
    */
-  requestOptions?: ParseRunsClient.RequestOptions;
+  requestOptions?: GeneratedParseRunsClient.RequestOptions;
 }
 
 /**
@@ -46,7 +46,7 @@ function isTerminalStatus(status: Extend.ParseRunStatusEnum): boolean {
   );
 }
 
-export class ParseRunsWrapper extends ParseRunsClient {
+export class ParseRunsClient extends GeneratedParseRunsClient {
   /**
    * Creates a parse run and polls until it reaches a terminal state.
    *
