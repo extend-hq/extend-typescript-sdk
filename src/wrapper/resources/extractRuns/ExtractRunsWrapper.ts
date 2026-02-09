@@ -90,7 +90,7 @@ export interface TypedExtractorReference<T extends z.ZodRawShape> {
  * Use this when providing a typed schema directly via `config.schema`.
  */
 export interface TypedExtractRunsCreateRequestWithConfig<
-  T extends z.ZodRawShape
+  T extends z.ZodRawShape,
 > extends Omit<Extend.ExtractRunsCreateRequest, "config" | "extractor"> {
   /**
    * Inline extract configuration with typed schema.
@@ -105,7 +105,7 @@ export interface TypedExtractRunsCreateRequestWithConfig<
  * Use this when overriding an existing extractor's config with a typed schema.
  */
 export interface TypedExtractRunsCreateRequestWithExtractor<
-  T extends z.ZodRawShape
+  T extends z.ZodRawShape,
 > extends Omit<Extend.ExtractRunsCreateRequest, "config" | "extractor"> {
   /**
    * Reference to an existing extractor with typed configuration override.
@@ -133,14 +133,13 @@ export interface TypedExtractOutput<T> {
 /**
  * Typed extract run with output matching the schema.
  */
-export interface TypedExtractRun<T>
-  extends Omit<
-    Extend.ExtractRun,
-    "output" | "initialOutput" | "reviewedOutput"
-  > {
-  output: TypedExtractOutput<T>;
-  initialOutput: TypedExtractOutput<T>;
-  reviewedOutput: TypedExtractOutput<T>;
+export interface TypedExtractRun<T> extends Omit<
+  Extend.ExtractRun,
+  "output" | "initialOutput" | "reviewedOutput"
+> {
+  output: TypedExtractOutput<T> | null;
+  initialOutput: TypedExtractOutput<T> | null;
+  reviewedOutput: TypedExtractOutput<T> | null;
 }
 
 /**
@@ -195,25 +194,25 @@ export class ExtractRunsClient extends GeneratedExtractRunsClient {
   // Overload 1: Typed inline config - returns typed response
   public async createAndPoll<T extends z.ZodRawShape>(
     request: TypedExtractRunsCreateRequestWithConfig<T>,
-    options?: CreateAndPollOptions
+    options?: CreateAndPollOptions,
   ): Promise<TypedExtractRun<z.infer<z.ZodObject<T>>>>;
 
   // Overload 2: Typed extractor.overrideConfig - returns typed response
   public async createAndPoll<T extends z.ZodRawShape>(
     request: TypedExtractRunsCreateRequestWithExtractor<T>,
-    options?: CreateAndPollOptions
+    options?: CreateAndPollOptions,
   ): Promise<TypedExtractRun<z.infer<z.ZodObject<T>>>>;
 
   // Overload 3: Standard request - returns standard response
   public async createAndPoll(
     request: Extend.ExtractRunsCreateRequest,
-    options?: CreateAndPollOptions
+    options?: CreateAndPollOptions,
   ): Promise<Extend.ExtractRun>;
 
   // Implementation
   public async createAndPoll<T extends z.ZodRawShape>(
     request: TypedExtractRunsCreateRequest<T> | Extend.ExtractRunsCreateRequest,
-    options: CreateAndPollOptions = {}
+    options: CreateAndPollOptions = {},
   ): Promise<TypedExtractRun<z.infer<z.ZodObject<T>>> | Extend.ExtractRun> {
     const {
       maxWaitMs,
@@ -234,7 +233,7 @@ export class ExtractRunsClient extends GeneratedExtractRunsClient {
     const result = await pollUntilDone(
       () => this.retrieve(runId, requestOptions),
       (response) => isTerminalStatus(response.status),
-      { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction }
+      { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction },
     );
 
     // Return result - TypeScript will infer the correct type based on the overload
@@ -245,7 +244,7 @@ export class ExtractRunsClient extends GeneratedExtractRunsClient {
    * Converts a potentially typed request to the standard API request format.
    */
   private convertToApiRequest<T extends z.ZodRawShape>(
-    request: TypedExtractRunsCreateRequest<T> | Extend.ExtractRunsCreateRequest
+    request: TypedExtractRunsCreateRequest<T> | Extend.ExtractRunsCreateRequest,
   ): Extend.ExtractRunsCreateRequest {
     // Case 1: Typed inline config
     if (
@@ -277,7 +276,7 @@ export class ExtractRunsClient extends GeneratedExtractRunsClient {
             id: extractor.id,
             version: extractor.version,
             overrideConfig: convertTypedConfigToApiConfig(
-              extractor.overrideConfig
+              extractor.overrideConfig,
             ),
           },
         };

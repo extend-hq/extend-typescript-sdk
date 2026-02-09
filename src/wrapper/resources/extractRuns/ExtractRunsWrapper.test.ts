@@ -309,7 +309,7 @@ describe("ExtractRunsClient", () => {
           undefined
         );
 
-        expect(result.output.value).toEqual({
+        expect(result.output!.value).toEqual({
           invoice_number: "INV-001",
           total: { amount: 100, iso_4217_currency_code: "USD" },
         });
@@ -417,7 +417,7 @@ describe("ExtractRunsClient", () => {
           undefined
         );
 
-        expect(result.output.value).toEqual({
+        expect(result.output!.value).toEqual({
           date: "2024-01-15",
           amount: 99.99,
         });
