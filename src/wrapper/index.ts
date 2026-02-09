@@ -9,6 +9,7 @@ export type {
 export {
   Webhooks,
   WebhookSignatureVerificationError,
+  WebhookParseError,
   WebhookPayloadFetchError,
   SignedUrlNotAllowedError,
 } from "./webhooks";

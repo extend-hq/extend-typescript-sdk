@@ -2,6 +2,7 @@ import * as crypto from "crypto";
 import {
   Webhooks,
   WebhookSignatureVerificationError,
+  WebhookParseError,
   SignedUrlNotAllowedError,
   WebhookPayloadFetchError,
   WebhookHeaders,
@@ -16,7 +17,7 @@ import * as Extend from "../../api";
 function createSignature(
   body: string,
   secret: string,
-  timestamp: number
+  timestamp: number,
 ): string {
   const message = `v0:${timestamp}:${body}`;
   return crypto.createHmac("sha256", secret).update(message).digest("hex");
@@ -25,7 +26,7 @@ function createSignature(
 function createValidHeaders(
   body: string,
   secret: string,
-  timestamp?: number
+  timestamp?: number,
 ): WebhookHeaders {
   const ts = timestamp ?? Math.floor(Date.now() / 1000);
   return {
@@ -219,7 +220,7 @@ describe("Webhooks", () => {
         if (webhooks.isSignedUrlEvent(event)) {
           expect(event.payload.object).toBe("signed_data_url");
           expect(event.payload.data).toBe(
-            "https://storage.example.com/signed-payload?token=abc123"
+            "https://storage.example.com/signed-payload?token=abc123",
           );
           expect(event.payload.metadata?.env).toBe("production");
         }
@@ -254,7 +255,7 @@ describe("Webhooks", () => {
         const body = JSON.stringify(sampleWorkflowRunEvent);
         const headers: WebhookHeaders = {
           "x-extend-request-timestamp": Math.floor(
-            Date.now() / 1000
+            Date.now() / 1000,
           ).toString(),
           "x-extend-request-signature": "invalid_signature",
         };
@@ -282,7 +283,7 @@ describe("Webhooks", () => {
         const body = JSON.stringify(sampleWorkflowRunEvent);
         const headers: WebhookHeaders = {
           "x-extend-request-timestamp": Math.floor(
-            Date.now() / 1000
+            Date.now() / 1000,
           ).toString(),
         };
 
@@ -396,7 +397,7 @@ describe("Webhooks", () => {
         const headers = createValidHeaders(
           body,
           SECRET,
-          slightlyFutureTimestamp
+          slightlyFutureTimestamp,
         );
 
         const event = webhooks.verifyAndParse(body, headers, SECRET);
@@ -417,10 +418,13 @@ describe("Webhooks", () => {
     });
 
     describe("JSON parsing", () => {
-      it("should throw for invalid JSON body", () => {
+      it("should throw WebhookParseError for invalid JSON body", () => {
         const body = "not valid json";
         const headers = createValidHeaders(body, SECRET);
 
+        expect(() => {
+          webhooks.verifyAndParse(body, headers, SECRET);
+        }).toThrow(WebhookParseError);
         expect(() => {
           webhooks.verifyAndParse(body, headers, SECRET);
         }).toThrow("Failed to parse webhook body as JSON");
@@ -434,6 +438,18 @@ describe("Webhooks", () => {
         const headers: WebhookHeaders = {
           "x-extend-request-timestamp": ts.toString(),
           "x-extend-request-signature": createSignature(body, SECRET, ts),
+        };
+
+        const event = webhooks.verifyAndParse(body, headers, SECRET);
+        expect(event.eventId).toBe("evt_123");
+      });
+
+      it("should work with mixed-case header names", () => {
+        const body = JSON.stringify(sampleWorkflowRunEvent);
+        const ts = Math.floor(Date.now() / 1000);
+        const headers: WebhookHeaders = {
+          "X-Extend-Request-Timestamp": ts.toString(),
+          "X-Extend-Request-Signature": createSignature(body, SECRET, ts),
         };
 
         const event = webhooks.verifyAndParse(body, headers, SECRET);
@@ -498,7 +514,7 @@ describe("Webhooks", () => {
 
       expect(webhooks.verify(body, headers, SECRET)).toBe(false);
       expect(
-        webhooks.verify(body, headers, SECRET, { maxAgeSeconds: 900 })
+        webhooks.verify(body, headers, SECRET, { maxAgeSeconds: 900 }),
       ).toBe(true);
     });
   });
@@ -522,10 +538,13 @@ describe("Webhooks", () => {
       expect(webhooks.isSignedUrlEvent(event)).toBe(true);
     });
 
-    it("should throw for invalid JSON", () => {
+    it("should throw WebhookParseError for invalid JSON", () => {
       expect(() => {
         webhooks.parse("not json");
-      }).toThrow();
+      }).toThrow(WebhookParseError);
+      expect(() => {
+        webhooks.parse("not json");
+      }).toThrow("Failed to parse webhook body as JSON");
     });
   });
 
@@ -549,7 +568,7 @@ describe("Webhooks", () => {
         // TypeScript should know this is WebhookEventWithSignedUrl
         expect(event.payload.object).toBe("signed_data_url");
         expect(event.payload.data).toBe(
-          "https://storage.example.com/signed-payload?token=abc123"
+          "https://storage.example.com/signed-payload?token=abc123",
         );
         expect(event.payload.id).toBe("wr_xyz");
       } else {
@@ -563,7 +582,7 @@ describe("Webhooks", () => {
       if (!webhooks.isSignedUrlEvent(event)) {
         // TypeScript should know this is WebhookEvent
         expect((event.payload as Extend.WorkflowRun).id).toBe(
-          sampleWorkflowRunPayload.id
+          sampleWorkflowRunPayload.id,
         );
       } else {
         fail("Expected isSignedUrlEvent to return false");
@@ -597,7 +616,8 @@ describe("Webhooks", () => {
       const result = await webhooks.fetchSignedPayload(sampleSignedUrlEvent);
 
       expect(global.fetch).toHaveBeenCalledWith(
-        sampleSignedUrlEvent.payload.data
+        sampleSignedUrlEvent.payload.data,
+        expect.objectContaining({ signal: expect.any(AbortSignal) }),
       );
       expect(result.eventId).toBe("evt_789");
       expect(result.eventType).toBe("workflow_run.completed");
@@ -612,10 +632,10 @@ describe("Webhooks", () => {
       });
 
       await expect(
-        webhooks.fetchSignedPayload(sampleSignedUrlEvent)
+        webhooks.fetchSignedPayload(sampleSignedUrlEvent),
       ).rejects.toThrow(WebhookPayloadFetchError);
       await expect(
-        webhooks.fetchSignedPayload(sampleSignedUrlEvent)
+        webhooks.fetchSignedPayload(sampleSignedUrlEvent),
       ).rejects.toThrow(/403/);
     });
 
@@ -623,10 +643,10 @@ describe("Webhooks", () => {
       global.fetch = jest.fn().mockRejectedValue(new Error("Network error"));
 
       await expect(
-        webhooks.fetchSignedPayload(sampleSignedUrlEvent)
+        webhooks.fetchSignedPayload(sampleSignedUrlEvent),
       ).rejects.toThrow(WebhookPayloadFetchError);
       await expect(
-        webhooks.fetchSignedPayload(sampleSignedUrlEvent)
+        webhooks.fetchSignedPayload(sampleSignedUrlEvent),
       ).rejects.toThrow(/Network error/);
     });
 
@@ -637,7 +657,32 @@ describe("Webhooks", () => {
       });
 
       await expect(
-        webhooks.fetchSignedPayload(sampleSignedUrlEvent)
+        webhooks.fetchSignedPayload(sampleSignedUrlEvent),
+      ).rejects.toThrow(WebhookPayloadFetchError);
+    });
+
+    it("should throw WebhookPayloadFetchError when response is not a valid JSON object", async () => {
+      global.fetch = jest.fn().mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve("not an object"),
+      });
+
+      await expect(
+        webhooks.fetchSignedPayload(sampleSignedUrlEvent),
+      ).rejects.toThrow(WebhookPayloadFetchError);
+      await expect(
+        webhooks.fetchSignedPayload(sampleSignedUrlEvent),
+      ).rejects.toThrow("not a valid JSON object");
+    });
+
+    it("should throw WebhookPayloadFetchError when response is null", async () => {
+      global.fetch = jest.fn().mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve(null),
+      });
+
+      await expect(
+        webhooks.fetchSignedPayload(sampleSignedUrlEvent),
       ).rejects.toThrow(WebhookPayloadFetchError);
     });
   });
@@ -657,6 +702,14 @@ describe("Webhooks", () => {
       expect(error).toBeInstanceOf(Error);
     });
 
+    it("WebhookParseError should have correct name", () => {
+      const error = new WebhookParseError("parse failed");
+      expect(error.name).toBe("WebhookParseError");
+      expect(error.message).toBe("parse failed");
+      expect(error).toBeInstanceOf(Error);
+      expect(error).toBeInstanceOf(WebhookParseError);
+    });
+
     it("WebhookPayloadFetchError should have correct name", () => {
       const error = new WebhookPayloadFetchError("fetch failed");
       expect(error.name).toBe("WebhookPayloadFetchError");
@@ -674,7 +727,7 @@ describe("Webhooks", () => {
       const event1: Extend.WebhookEvent = webhooks.verifyAndParse(
         body,
         headers,
-        SECRET
+        SECRET,
       );
       expect(event1.eventType).toBe("workflow_run.completed");
 
@@ -683,7 +736,7 @@ describe("Webhooks", () => {
         body,
         headers,
         SECRET,
-        { allowSignedUrl: true }
+        { allowSignedUrl: true },
       );
       expect(event2.eventType).toBe("workflow_run.completed");
 
@@ -694,7 +747,7 @@ describe("Webhooks", () => {
         SECRET,
         {
           allowSignedUrl: false,
-        }
+        },
       );
       expect(event3.eventType).toBe("workflow_run.completed");
     });
