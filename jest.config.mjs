@@ -11,8 +11,8 @@ export default {
                 "^(\.{1,2}/.*)\.js$": "$1",
             },
             roots: ["<rootDir>/tests"],
-            testPathIgnorePatterns: ["/tests/wire/"],
-            setupFilesAfterEnv: [],
+            testPathIgnorePatterns: ["/tests/wire/", "/tests/unit/fetcher/stream-wrappers/webpack.test.ts"],
+            setupFilesAfterEnv: ["<rootDir>/tests/setup.ts"],
         },
         ,
         {
