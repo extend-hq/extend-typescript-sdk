@@ -1,0 +1,26 @@
+{
+    "cliVersion": "3.37.6",
+    "generatorName": "fernapi/fern-typescript-sdk",
+    "generatorVersion": "3.46.3",
+    "generatorConfig": {
+        "namespaceExport": "Extend",
+        "allowCustomFetcher": true,
+        "skipResponseValidation": true,
+        "includeApiReference": true,
+        "noSerdeLayer": true,
+        "timeoutInSeconds": 300,
+        "packageManager": "yarn",
+        "testFramework": "jest",
+        "streamType": "wrapper",
+        "fileResponseType": "stream",
+        "formDataSupport": "Node16",
+        "fetchSupport": "node-fetch",
+        "inlineFileProperties": false,
+        "inlinePathParameters": false,
+        "enableInlineTypes": false,
+        "omitUndefined": false,
+        "useLegacyExports": true,
+        "enableForwardCompatibleEnums": true
+    },
+    "sdkVersion": "1.0.0"
+}
