@@ -5,8 +5,6 @@ import type * as Extend from "../index";
 export interface ParseConfigAdvancedOptions {
     /** Whether to automatically detect and correct page rotation. */
     pageRotationEnabled?: boolean;
-    /** Whether to enable agentic OCR corrections using VLM-based review and correction of OCR errors for messy handwriting and poorly scanned text. Deprecated - use `blockOptions.text.agentic` or `blockOptions.tables.agentic` instead for more granular control. */
-    agenticOcrEnabled?: boolean;
     pageRanges?: Extend.PageRanges;
     /** Multiplier for the Y-axis threshold used to determine if text blocks should be placed on the same line or not (0.1-5.0, default 1.0). Higher values group elements that are further apart vertically. Only applies when the spatial target is set. */
     verticalGroupingThreshold?: number;
