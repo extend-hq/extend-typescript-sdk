@@ -50,10 +50,10 @@ const splitRun = await client.split({
   splitter: { id: "spl_abc123" },
 });
 
-// Fill form fields in a PDF
+// Edit a PDF with instructions
 const editRun = await client.edit({
   file: { url: "https://example.com/form.pdf" },
-  config: { fields: [{ name: "Full Name", value: "Jane Doe" }] },
+  config: { instructions: "Fill out the applicant name as Jane Doe" },
 });
 ```
 
