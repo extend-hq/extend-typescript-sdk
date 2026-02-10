@@ -35,7 +35,7 @@ for (const chunk of result.output.chunks) {
 // Extract structured data
 const extractRun = await client.extract({
   file: { url: "https://example.com/invoice.pdf" },
-  extractor: { id: "ext_abc123" },
+  extractor: { id: "ex_abc123" },
 });
 
 // Classify a document
@@ -114,7 +114,7 @@ const client = new ExtendClient({ token: "YOUR_API_KEY" });
 
 const result = await client.extractRuns.createAndPoll({
   file: { url: "https://example.com/invoice.pdf" },
-  extractor: { id: "ext_abc123" },
+  extractor: { id: "ex_abc123" },
 });
 
 if (result.status === "PROCESSED") {
@@ -160,7 +160,7 @@ import { ExtendClient, type PollingOptions } from "extend-ai";
 const result = await client.extractRuns.createAndPoll(
   {
     file: { url: "https://example.com/invoice.pdf" },
-    extractor: { id: "ext_abc123" },
+    extractor: { id: "ex_abc123" },
   },
   {
     polling: {
@@ -170,6 +170,24 @@ const result = await client.extractRuns.createAndPoll(
     },
   },
 );
+```
+
+## Running workflows
+
+Workflows chain multiple processing steps (extraction, classification, splitting, etc.) into a single pipeline. Run a workflow by passing a workflow ID and a file:
+
+```typescript
+const result = await client.workflowRuns.createAndPoll({
+  file: { url: "https://example.com/invoice.pdf" },
+  workflow: { id: "workflow_abc123" },
+});
+
+console.log(result.status); // "PROCESSED"
+
+for (const stepRun of result.stepRuns ?? []) {
+  console.log(stepRun.step.type);   // "EXTRACT", "CLASSIFY", etc.
+  console.log(stepRun.result);
+}
 ```
 
 ## Webhook verification
@@ -234,7 +252,7 @@ import { Extend } from "extend-ai";
 
 const request: Extend.ExtractRunsCreateRequest = {
   file: { url: "https://example.com/invoice.pdf" },
-  extractor: { id: "ext_abc123" },
+  extractor: { id: "ex_abc123" },
 };
 
 function handleResult(run: Extend.ExtractRun) {
