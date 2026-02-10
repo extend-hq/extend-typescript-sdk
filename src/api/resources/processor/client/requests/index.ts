@@ -1,3 +1,3 @@
-export { type ProcessorListRequest } from "./ProcessorListRequest";
-export { type ProcessorCreateRequest } from "./ProcessorCreateRequest";
-export { type ProcessorUpdateRequest } from "./ProcessorUpdateRequest";
+export type { ProcessorCreateRequest } from "./ProcessorCreateRequest";
+export type { ProcessorListRequest } from "./ProcessorListRequest";
+export type { ProcessorUpdateRequest } from "./ProcessorUpdateRequest";
