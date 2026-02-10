@@ -434,17 +434,6 @@ const client = new ExtendClient({
 });
 ```
 
-### API versioning
-
-The SDK targets a specific API version by default. Override it if needed:
-
-```typescript
-const client = new ExtendClient({
-  token: "YOUR_API_KEY",
-  extendApiVersion: "2026-02-09",
-});
-```
-
 ### Runtime compatibility
 
 The SDK defaults to `node-fetch` but will use the global `fetch` client if present. Supported runtimes:
