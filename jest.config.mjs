@@ -16,6 +16,14 @@ export default {
         },
         ,
         {
+            displayName: "wrapper",
+            preset: "ts-jest",
+            testEnvironment: "node",
+            roots: ["<rootDir>/src/wrapper"],
+            testMatch: ["**/*.test.ts"],
+            setupFilesAfterEnv: [],
+        },
+        {
             displayName: "wire",
             preset: "ts-jest",
             testEnvironment: "node",
