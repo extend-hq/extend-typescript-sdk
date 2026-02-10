@@ -12,3 +12,10 @@ jest.config.mjs
 
 # Documentation
 docs/
+
+# Package management (we maintain our own deps, e.g. zod)
+package.json
+yarn.lock
+
+# Fern-generated webpack test (not needed)
+tests/unit/fetcher/stream-wrappers/webpack.test.ts
