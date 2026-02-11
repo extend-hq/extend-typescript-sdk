@@ -148,7 +148,9 @@ export interface TypedExtractRun<T> extends Omit<
  * if new terminal states are added, polling will still complete.
  */
 function isTerminalStatus(status: Extend.ProcessorRunStatus): boolean {
-  return status !== "PROCESSING" && status !== "PENDING";
+  return (
+    status !== "PROCESSING" && status !== "PENDING" && status !== "CANCELLING"
+  );
 }
 
 export class ExtractRunsClient extends GeneratedExtractRunsClient {
