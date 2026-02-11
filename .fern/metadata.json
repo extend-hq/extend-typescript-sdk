@@ -22,5 +22,5 @@
         "useLegacyExports": true,
         "enableForwardCompatibleEnums": true
     },
-    "sdkVersion": "1.0.2"
+    "sdkVersion": "1.0.3"
 }
