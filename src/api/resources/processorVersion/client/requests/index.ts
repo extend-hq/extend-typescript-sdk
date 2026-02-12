@@ -1,1 +1,1 @@
-export type { ProcessorVersionCreateRequest } from "./ProcessorVersionCreateRequest";
+export { type ProcessorVersionCreateRequest } from "./ProcessorVersionCreateRequest";

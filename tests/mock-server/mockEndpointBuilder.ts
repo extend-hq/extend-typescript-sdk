@@ -1,10 +1,9 @@
-import { type DefaultBodyType, type HttpHandler, HttpResponse, type HttpResponseResolver, http } from "msw";
+import { DefaultBodyType, HttpHandler, HttpResponse, HttpResponseResolver, http } from "msw";
 
 import { url } from "../../src/core";
 import { toJson } from "../../src/core/json";
-import { withFormUrlEncoded } from "./withFormUrlEncoded";
 import { withHeaders } from "./withHeaders";
-import { type WithJsonOptions, withJson } from "./withJson";
+import { withJson } from "./withJson";
 
 type HttpMethod = "all" | "get" | "post" | "put" | "delete" | "patch" | "options" | "head";
 
@@ -26,8 +25,7 @@ interface RequestHeadersStage extends RequestBodyStage, ResponseStage {
 }
 
 interface RequestBodyStage extends ResponseStage {
-    jsonBody(body: unknown, options?: WithJsonOptions): ResponseStage;
-    formUrlEncodedBody(body: unknown): ResponseStage;
+    jsonBody(body: unknown): ResponseStage;
 }
 
 interface ResponseStage {
@@ -129,21 +127,11 @@ class RequestBuilder implements MethodStage, RequestHeadersStage, RequestBodySta
         return this;
     }
 
-    jsonBody(body: unknown, options?: WithJsonOptions): ResponseStage {
+    jsonBody(body: unknown): ResponseStage {
         if (body === undefined) {
             throw new Error("Undefined is not valid JSON. Do not call jsonBody if you want an empty body.");
         }
-        this.predicates.push((resolver) => withJson(body, resolver, options));
-        return this;
-    }
-
-    formUrlEncodedBody(body: unknown): ResponseStage {
-        if (body === undefined) {
-            throw new Error(
-                "Undefined is not valid for form-urlencoded. Do not call formUrlEncodedBody if you want an empty body.",
-            );
-        }
-        this.predicates.push((resolver) => withFormUrlEncoded(body, resolver));
+        this.predicates.push((resolver) => withJson(body, resolver));
         return this;
     }
 
