@@ -15,7 +15,7 @@
  * * Prefer `markdown` for most documents, multi-column reading order, and retrieval use cases
  * * Prefer `spatial` for messy/scanned/handwritten or skewed documents, when you need near 1:1 layout fidelity, or for BOL-like logistics docs
  *
- * See "Markdown vs Spatial" in the Parse guide for details: /2025-04-21/developers/guides/parse#markdown-vs-spatial
+ * See “Markdown vs Spatial” in the Parse guide for details: /2025-04-21/developers/guides/parse#markdown-vs-spatial
  */
 export type ParseConfigTarget = "markdown" | "spatial";
 export const ParseConfigTarget = {

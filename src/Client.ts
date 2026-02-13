@@ -7,26 +7,26 @@ import * as core from "./core";
 import { mergeHeaders, mergeOnlyDefinedHeaders } from "./core/headers";
 import * as Extend from "./api/index";
 import * as errors from "./errors/index";
+import { File_ } from "./api/resources/file/client/Client";
+import { ParserRun } from "./api/resources/parserRun/client/Client";
+import { Edit } from "./api/resources/edit/client/Client";
+import { Workflow } from "./api/resources/workflow/client/Client";
 import { WorkflowRun } from "./api/resources/workflowRun/client/Client";
+import { WorkflowRunOutput } from "./api/resources/workflowRunOutput/client/Client";
 import { BatchWorkflowRun } from "./api/resources/batchWorkflowRun/client/Client";
+import { BatchProcessorRun } from "./api/resources/batchProcessorRun/client/Client";
+import { EvaluationSet } from "./api/resources/evaluationSet/client/Client";
+import { EvaluationSetItem } from "./api/resources/evaluationSetItem/client/Client";
 import { ProcessorRun } from "./api/resources/processorRun/client/Client";
 import { Processor } from "./api/resources/processor/client/Client";
 import { ProcessorVersion } from "./api/resources/processorVersion/client/Client";
-import { ParserRun } from "./api/resources/parserRun/client/Client";
-import { Edit } from "./api/resources/edit/client/Client";
-import { File_ } from "./api/resources/file/client/Client";
-import { EvaluationSet } from "./api/resources/evaluationSet/client/Client";
-import { EvaluationSetItem } from "./api/resources/evaluationSetItem/client/Client";
-import { WorkflowRunOutput } from "./api/resources/workflowRunOutput/client/Client";
-import { BatchProcessorRun } from "./api/resources/batchProcessorRun/client/Client";
-import { Workflow } from "./api/resources/workflow/client/Client";
 
 export declare namespace ExtendClient {
     export interface Options {
         environment?: core.Supplier<environments.ExtendEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token?: core.Supplier<core.BearerToken | undefined>;
+        token: core.Supplier<core.BearerToken>;
         /** Override the x-extend-api-version header */
         extendApiVersion?: "2025-04-21";
         /** Additional headers to include in requests. */
@@ -52,21 +52,21 @@ export declare namespace ExtendClient {
 
 export class ExtendClient {
     protected readonly _options: ExtendClient.Options;
+    protected _file: File_ | undefined;
+    protected _parserRun: ParserRun | undefined;
+    protected _edit: Edit | undefined;
+    protected _workflow: Workflow | undefined;
     protected _workflowRun: WorkflowRun | undefined;
+    protected _workflowRunOutput: WorkflowRunOutput | undefined;
     protected _batchWorkflowRun: BatchWorkflowRun | undefined;
+    protected _batchProcessorRun: BatchProcessorRun | undefined;
+    protected _evaluationSet: EvaluationSet | undefined;
+    protected _evaluationSetItem: EvaluationSetItem | undefined;
     protected _processorRun: ProcessorRun | undefined;
     protected _processor: Processor | undefined;
     protected _processorVersion: ProcessorVersion | undefined;
-    protected _parserRun: ParserRun | undefined;
-    protected _edit: Edit | undefined;
-    protected _file: File_ | undefined;
-    protected _evaluationSet: EvaluationSet | undefined;
-    protected _evaluationSetItem: EvaluationSetItem | undefined;
-    protected _workflowRunOutput: WorkflowRunOutput | undefined;
-    protected _batchProcessorRun: BatchProcessorRun | undefined;
-    protected _workflow: Workflow | undefined;
 
-    constructor(_options: ExtendClient.Options = {}) {
+    constructor(_options: ExtendClient.Options) {
         this._options = {
             ..._options,
             headers: mergeHeaders(
@@ -74,8 +74,8 @@ export class ExtendClient {
                     "x-extend-api-version": _options?.extendApiVersion ?? "2025-04-21",
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "extend-ai",
-                    "X-Fern-SDK-Version": "0.0.18",
-                    "User-Agent": "extend-ai/0.0.18",
+                    "X-Fern-SDK-Version": "0.0.19",
+                    "User-Agent": "extend-ai/0.0.19",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                 },
@@ -84,12 +84,44 @@ export class ExtendClient {
         };
     }
 
+    public get file(): File_ {
+        return (this._file ??= new File_(this._options));
+    }
+
+    public get parserRun(): ParserRun {
+        return (this._parserRun ??= new ParserRun(this._options));
+    }
+
+    public get edit(): Edit {
+        return (this._edit ??= new Edit(this._options));
+    }
+
+    public get workflow(): Workflow {
+        return (this._workflow ??= new Workflow(this._options));
+    }
+
     public get workflowRun(): WorkflowRun {
         return (this._workflowRun ??= new WorkflowRun(this._options));
     }
 
+    public get workflowRunOutput(): WorkflowRunOutput {
+        return (this._workflowRunOutput ??= new WorkflowRunOutput(this._options));
+    }
+
     public get batchWorkflowRun(): BatchWorkflowRun {
         return (this._batchWorkflowRun ??= new BatchWorkflowRun(this._options));
+    }
+
+    public get batchProcessorRun(): BatchProcessorRun {
+        return (this._batchProcessorRun ??= new BatchProcessorRun(this._options));
+    }
+
+    public get evaluationSet(): EvaluationSet {
+        return (this._evaluationSet ??= new EvaluationSet(this._options));
+    }
+
+    public get evaluationSetItem(): EvaluationSetItem {
+        return (this._evaluationSetItem ??= new EvaluationSetItem(this._options));
     }
 
     public get processorRun(): ProcessorRun {
@@ -104,36 +136,90 @@ export class ExtendClient {
         return (this._processorVersion ??= new ProcessorVersion(this._options));
     }
 
-    public get parserRun(): ParserRun {
-        return (this._parserRun ??= new ParserRun(this._options));
+    /**
+     * Create a new file in Extend for use in an evaluation set. This endpoint is deprecated, use /files/upload instead.
+     *
+     * @param {Extend.PostFilesRequest} request
+     * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     *
+     * @example
+     *     await client.createFile({
+     *         name: "name"
+     *     })
+     */
+    public createFile(
+        request: Extend.PostFilesRequest,
+        requestOptions?: ExtendClient.RequestOptions,
+    ): core.HttpResponsePromise<Extend.PostFilesResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__createFile(request, requestOptions));
     }
 
-    public get edit(): Edit {
-        return (this._edit ??= new Edit(this._options));
-    }
+    private async __createFile(
+        request: Extend.PostFilesRequest,
+        requestOptions?: ExtendClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.PostFilesResponse>> {
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+            }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                "files",
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryParameters: requestOptions?.queryParams,
+            requestType: "json",
+            body: request,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.PostFilesResponse, rawResponse: _response.rawResponse };
+        }
 
-    public get file(): File_ {
-        return (this._file ??= new File_(this._options));
-    }
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
 
-    public get evaluationSet(): EvaluationSet {
-        return (this._evaluationSet ??= new EvaluationSet(this._options));
-    }
-
-    public get evaluationSetItem(): EvaluationSetItem {
-        return (this._evaluationSetItem ??= new EvaluationSetItem(this._options));
-    }
-
-    public get workflowRunOutput(): WorkflowRunOutput {
-        return (this._workflowRunOutput ??= new WorkflowRunOutput(this._options));
-    }
-
-    public get batchProcessorRun(): BatchProcessorRun {
-        return (this._batchProcessorRun ??= new BatchProcessorRun(this._options));
-    }
-
-    public get workflow(): Workflow {
-        return (this._workflow ??= new Workflow(this._options));
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ExtendError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /files.");
+            case "unknown":
+                throw new errors.ExtendError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -344,12 +430,7 @@ export class ExtendClient {
         }
     }
 
-    protected async _getAuthorizationHeader(): Promise<string | undefined> {
-        const bearer = await core.Supplier.get(this._options.token);
-        if (bearer != null) {
-            return `Bearer ${bearer}`;
-        }
-
-        return undefined;
+    protected async _getAuthorizationHeader(): Promise<string> {
+        return `Bearer ${await core.Supplier.get(this._options.token)}`;
     }
 }

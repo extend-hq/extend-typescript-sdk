@@ -101,9 +101,6 @@ describe("ProcessorRun", () => {
                 processorName: "My Processor",
                 status: "PROCESSING",
                 output: {},
-                failureReason: "failureReason",
-                failureMessage: "failureMessage",
-                metadata: { key: "value" },
                 reviewed: false,
                 edited: false,
                 edits: { key: { notes: "This is a note about the edit.", page: 15, fieldType: "string" } },
@@ -121,25 +118,13 @@ describe("ProcessorRun", () => {
                         ],
                     },
                 },
-                reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                 files: [
                     {
                         object: "file",
                         id: "file_0QyyVL9rrOd0_WllDDCNa",
                         name: "My File",
                         type: "PDF",
-                        presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-                        parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
-                        metadata: {
-                            pageCount: 30,
-                            parentSplit: {
-                                id: "id",
-                                type: "Invoice",
-                                identifier: "other_2_9",
-                                startPage: 1,
-                                endPage: 10,
-                            },
-                        },
+                        metadata: {},
                         createdAt: "2025-05-12T21:22:37Z",
                         updatedAt: "2025-05-12T21:22:37Z",
                         usage: { credits: 10 },
@@ -178,11 +163,6 @@ describe("ProcessorRun", () => {
                 processorName: "My Processor",
                 status: "PROCESSING",
                 output: {},
-                failureReason: "failureReason",
-                failureMessage: "failureMessage",
-                metadata: {
-                    key: "value",
-                },
                 reviewed: false,
                 edited: false,
                 edits: {
@@ -214,34 +194,13 @@ describe("ProcessorRun", () => {
                         ],
                     },
                 },
-                reviewedOutput: {
-                    value: {
-                        key: "value",
-                    },
-                    metadata: {
-                        key: {
-                            logprobsConfidence: undefined,
-                        },
-                    },
-                },
                 files: [
                     {
                         object: "file",
                         id: "file_0QyyVL9rrOd0_WllDDCNa",
                         name: "My File",
                         type: "PDF",
-                        presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-                        parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
-                        metadata: {
-                            pageCount: 30,
-                            parentSplit: {
-                                id: "id",
-                                type: "Invoice",
-                                identifier: "other_2_9",
-                                startPage: 1,
-                                endPage: 10,
-                            },
-                        },
+                        metadata: {},
                         createdAt: "2025-05-12T21:22:37Z",
                         updatedAt: "2025-05-12T21:22:37Z",
                         usage: {
@@ -724,10 +683,10 @@ describe("ProcessorRun", () => {
             processorRun: {
                 object: "document_processor_run",
                 id: "dpr_Xj8mK2pL9nR4vT7qY5wZ",
-                processorId: "dp_SmJyN3LMx9kW_YmFTxTha",
-                processorVersionId: "dpv_YrgxmNn83sAO0JChhmLpa",
-                processorName: "My Processor",
-                status: "CANCELLED",
+                processorId: "dp_Xj8mK2pL9nR4vT7qY5wZ",
+                processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
+                processorName: "Invoice Processor",
+                status: "PENDING",
                 output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                 failureReason: "failureReason",
                 failureMessage: "failureMessage",
@@ -806,10 +765,10 @@ describe("ProcessorRun", () => {
             processorRun: {
                 object: "document_processor_run",
                 id: "dpr_Xj8mK2pL9nR4vT7qY5wZ",
-                processorId: "dp_SmJyN3LMx9kW_YmFTxTha",
-                processorVersionId: "dpv_YrgxmNn83sAO0JChhmLpa",
-                processorName: "My Processor",
-                status: "CANCELLED",
+                processorId: "dp_Xj8mK2pL9nR4vT7qY5wZ",
+                processorVersionId: "dpv_Xj8mK2pL9nR4vT7qY5wZ",
+                processorName: "Invoice Processor",
+                status: "PENDING",
                 output: {
                     value: {
                         key: "value",

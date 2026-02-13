@@ -4,4 +4,7 @@
 
 import * as Extend from "../index";
 
-export type OutputMetadata = Record<string, Extend.OutputMetadataValue>;
+export interface PostFilesResponse {
+    success?: boolean;
+    file?: Extend.File_;
+}

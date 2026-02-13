@@ -10,6 +10,17 @@ export interface ParseConfigAdvancedOptions {
     /** Whether to enable agentic OCR corrections using VLM-based review and correction of OCR errors for messy handwriting and poorly scanned text. Deprecated - use `blockOptions.text.agentic` or `blockOptions.tables.agentic` instead for more granular control. */
     agenticOcrEnabled?: boolean;
     pageRanges?: Extend.PageRanges;
+    /**
+     * Controls how Excel files are parsed.
+     *
+     * * `basic`: Fast, deterministic parsing.
+     * * `advanced`: Enable layout block detection for complex spreadsheets.
+     *
+     * For `.xls` files, `basic` mode is always used.
+     */
+    excelParsingMode?: Extend.ParseConfigAdvancedOptionsExcelParsingMode;
+    /** Whether to exclude hidden rows, columns, and sheets when parsing Excel files. */
+    excelSkipHiddenContent?: boolean;
     /** Multiplier for the Y-axis threshold used to determine if text blocks should be placed on the same line or not (0.1-5.0, default 1.0). Higher values group elements that are further apart vertically. Only applies when the spatial target is set. */
     verticalGroupingThreshold?: number;
     /** Options for returning raw OCR data in the response. */

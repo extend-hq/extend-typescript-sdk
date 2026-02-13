@@ -7,6 +7,153 @@ import { ExtendClient } from "../../src/Client";
 import * as Extend from "../../src/api/index";
 
 describe("ExtendClient", () => {
+    test("createFile (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: "name" };
+        const rawResponseBody = {
+            success: true,
+            file: {
+                object: "file",
+                id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                name: "Invoices.pdf",
+                type: "PDF",
+                presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                contents: {
+                    rawText: "rawText",
+                    markdown: "markdown",
+                    pages: [
+                        {
+                            pageNumber: 1,
+                            pageHeight: 10,
+                            pageWidth: 10,
+                            rawText: "This is the raw text of the page.",
+                            markdown:
+                                "# Heading\n\nThis is a paragraph with **bold** and *italic* text.\n\n- List item 1\n- List item 2\n\n> This is a blockquote",
+                            html: "<div>This is the html of the page.</div>",
+                        },
+                    ],
+                    sheets: [{ sheetName: "Sheet1", rawText: "This is the raw text of the sheet." }],
+                },
+                metadata: {
+                    pageCount: 30,
+                    parentSplit: { id: "id", type: "Invoice", identifier: "other_2_9", startPage: 1, endPage: 10 },
+                },
+                createdAt: "2024-03-21T15:30:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+                usage: { credits: 10 },
+            },
+        };
+        server
+            .mockEndpoint()
+            .post("/files")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.createFile({
+            name: "name",
+        });
+        expect(response).toEqual({
+            success: true,
+            file: {
+                object: "file",
+                id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                name: "Invoices.pdf",
+                type: "PDF",
+                presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                contents: {
+                    rawText: "rawText",
+                    markdown: "markdown",
+                    pages: [
+                        {
+                            pageNumber: 1,
+                            pageHeight: 10,
+                            pageWidth: 10,
+                            rawText: "This is the raw text of the page.",
+                            markdown:
+                                "# Heading\n\nThis is a paragraph with **bold** and *italic* text.\n\n- List item 1\n- List item 2\n\n> This is a blockquote",
+                            html: "<div>This is the html of the page.</div>",
+                        },
+                    ],
+                    sheets: [
+                        {
+                            sheetName: "Sheet1",
+                            rawText: "This is the raw text of the sheet.",
+                        },
+                    ],
+                },
+                metadata: {
+                    pageCount: 30,
+                    parentSplit: {
+                        id: "id",
+                        type: "Invoice",
+                        identifier: "other_2_9",
+                        startPage: 1,
+                        endPage: 10,
+                    },
+                },
+                createdAt: "2024-03-21T15:30:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+                usage: {
+                    credits: 10,
+                },
+            },
+        });
+    });
+
+    test("createFile (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: "name", url: undefined, rawText: undefined, mediaType: undefined };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/files")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.createFile({
+                name: "name",
+                url: undefined,
+                rawText: undefined,
+                mediaType: undefined,
+            });
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("createFile (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: "name", url: undefined, rawText: undefined, mediaType: undefined };
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .post("/files")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.createFile({
+                name: "name",
+                url: undefined,
+                rawText: undefined,
+                mediaType: undefined,
+            });
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
     test("parse (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
@@ -58,6 +205,8 @@ describe("ExtendClient", () => {
                         { start: 1, end: 10 },
                         { start: 20, end: 30 },
                     ],
+                    excelParsingMode: "basic",
+                    excelSkipHiddenContent: true,
                     verticalGroupingThreshold: 1.1,
                 },
             },
@@ -162,6 +311,8 @@ describe("ExtendClient", () => {
                             end: 30,
                         },
                     ],
+                    excelParsingMode: "basic",
+                    excelSkipHiddenContent: true,
                     verticalGroupingThreshold: 1.1,
                 },
             },

@@ -7,151 +7,6 @@ import { ExtendClient } from "../../src/Client";
 import * as Extend from "../../src/api/index";
 
 describe("ProcessorVersion", () => {
-    test("get (1)", async () => {
-        const server = mockServerPool.createServer();
-        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
-
-        const rawResponseBody = {
-            success: true,
-            version: {
-                object: "document_processor_version",
-                id: "dpv_xK9mLPqRtN3vS8wF5hB2cQ",
-                processorId: "dp_Xj8mK2pL9nR4vT7qY5wZ",
-                processorName: "Invoice Processor",
-                processorType: "EXTRACT",
-                description: "Updated extraction fields for new invoice format",
-                version: "draft",
-                config: {
-                    type: "CLASSIFY",
-                    baseProcessor: "classification_performance",
-                    baseVersion: "3.2.0",
-                    classifications: [
-                        {
-                            id: "my_unique_id",
-                            type: "invoice",
-                            description:
-                                "An invoice is a document that lists the items purchased and the total amount due.",
-                        },
-                    ],
-                    classificationRules:
-                        "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
-                    advancedOptions: {
-                        pageRanges: [
-                            { start: 1, end: 10 },
-                            { start: 20, end: 30 },
-                        ],
-                    },
-                },
-                createdAt: "2024-03-21T15:30:00Z",
-                updatedAt: "2024-03-21T16:45:00Z",
-            },
-        };
-        server
-            .mockEndpoint()
-            .get("/processors/processor_id_here/versions/processor_version_id_here")
-            .respondWith()
-            .statusCode(200)
-            .jsonBody(rawResponseBody)
-            .build();
-
-        const response = await client.processorVersion.get("processor_id_here", "processor_version_id_here");
-        expect(response).toEqual({
-            success: true,
-            version: {
-                object: "document_processor_version",
-                id: "dpv_xK9mLPqRtN3vS8wF5hB2cQ",
-                processorId: "dp_Xj8mK2pL9nR4vT7qY5wZ",
-                processorName: "Invoice Processor",
-                processorType: "EXTRACT",
-                description: "Updated extraction fields for new invoice format",
-                version: "draft",
-                config: {
-                    type: "CLASSIFY",
-                    baseProcessor: "classification_performance",
-                    baseVersion: "3.2.0",
-                    classifications: [
-                        {
-                            id: "my_unique_id",
-                            type: "invoice",
-                            description:
-                                "An invoice is a document that lists the items purchased and the total amount due.",
-                        },
-                    ],
-                    classificationRules:
-                        "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
-                    advancedOptions: {
-                        pageRanges: [
-                            {
-                                start: 1,
-                                end: 10,
-                            },
-                            {
-                                start: 20,
-                                end: 30,
-                            },
-                        ],
-                    },
-                },
-                createdAt: "2024-03-21T15:30:00Z",
-                updatedAt: "2024-03-21T16:45:00Z",
-            },
-        });
-    });
-
-    test("get (2)", async () => {
-        const server = mockServerPool.createServer();
-        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
-
-        const rawResponseBody = { key: "value" };
-        server
-            .mockEndpoint()
-            .get("/processors/processorId/versions/processorVersionId")
-            .respondWith()
-            .statusCode(400)
-            .jsonBody(rawResponseBody)
-            .build();
-
-        await expect(async () => {
-            return await client.processorVersion.get("processorId", "processorVersionId");
-        }).rejects.toThrow(Extend.BadRequestError);
-    });
-
-    test("get (3)", async () => {
-        const server = mockServerPool.createServer();
-        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
-
-        const rawResponseBody = { success: undefined, error: undefined };
-        server
-            .mockEndpoint()
-            .get("/processors/processorId/versions/processorVersionId")
-            .respondWith()
-            .statusCode(401)
-            .jsonBody(rawResponseBody)
-            .build();
-
-        await expect(async () => {
-            return await client.processorVersion.get("processorId", "processorVersionId");
-        }).rejects.toThrow(Extend.UnauthorizedError);
-    });
-
-    test("get (4)", async () => {
-        const server = mockServerPool.createServer();
-        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
-
-        const rawResponseBody = { key: "value" };
-        server
-            .mockEndpoint()
-            .get("/processors/processorId/versions/processorVersionId")
-            .respondWith()
-            .statusCode(404)
-            .jsonBody(rawResponseBody)
-            .build();
-
-        await expect(async () => {
-            return await client.processorVersion.get("processorId", "processorVersionId");
-        }).rejects.toThrow(Extend.NotFoundError);
-    });
-
     test("list (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ token: "test", environment: server.baseUrl });
@@ -419,5 +274,150 @@ describe("ProcessorVersion", () => {
                 config: undefined,
             });
         }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("get (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = {
+            success: true,
+            version: {
+                object: "document_processor_version",
+                id: "dpv_xK9mLPqRtN3vS8wF5hB2cQ",
+                processorId: "dp_Xj8mK2pL9nR4vT7qY5wZ",
+                processorName: "Invoice Processor",
+                processorType: "EXTRACT",
+                description: "Updated extraction fields for new invoice format",
+                version: "draft",
+                config: {
+                    type: "CLASSIFY",
+                    baseProcessor: "classification_performance",
+                    baseVersion: "3.2.0",
+                    classifications: [
+                        {
+                            id: "my_unique_id",
+                            type: "invoice",
+                            description:
+                                "An invoice is a document that lists the items purchased and the total amount due.",
+                        },
+                    ],
+                    classificationRules:
+                        "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                    advancedOptions: {
+                        pageRanges: [
+                            { start: 1, end: 10 },
+                            { start: 20, end: 30 },
+                        ],
+                    },
+                },
+                createdAt: "2024-03-21T15:30:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+        };
+        server
+            .mockEndpoint()
+            .get("/processors/processor_id_here/versions/processor_version_id_here")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.processorVersion.get("processor_id_here", "processor_version_id_here");
+        expect(response).toEqual({
+            success: true,
+            version: {
+                object: "document_processor_version",
+                id: "dpv_xK9mLPqRtN3vS8wF5hB2cQ",
+                processorId: "dp_Xj8mK2pL9nR4vT7qY5wZ",
+                processorName: "Invoice Processor",
+                processorType: "EXTRACT",
+                description: "Updated extraction fields for new invoice format",
+                version: "draft",
+                config: {
+                    type: "CLASSIFY",
+                    baseProcessor: "classification_performance",
+                    baseVersion: "3.2.0",
+                    classifications: [
+                        {
+                            id: "my_unique_id",
+                            type: "invoice",
+                            description:
+                                "An invoice is a document that lists the items purchased and the total amount due.",
+                        },
+                    ],
+                    classificationRules:
+                        "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                    advancedOptions: {
+                        pageRanges: [
+                            {
+                                start: 1,
+                                end: 10,
+                            },
+                            {
+                                start: 20,
+                                end: 30,
+                            },
+                        ],
+                    },
+                },
+                createdAt: "2024-03-21T15:30:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+        });
+    });
+
+    test("get (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/processors/processorId/versions/processorVersionId")
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorVersion.get("processorId", "processorVersionId");
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("get (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { success: undefined, error: undefined };
+        server
+            .mockEndpoint()
+            .get("/processors/processorId/versions/processorVersionId")
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorVersion.get("processorId", "processorVersionId");
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("get (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/processors/processorId/versions/processorVersionId")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.processorVersion.get("processorId", "processorVersionId");
+        }).rejects.toThrow(Extend.NotFoundError);
     });
 });

@@ -7,11 +7,11 @@
  */
 export interface EditBoundingBox {
     /** The left coordinate of the bounding box (pixels) */
-    left?: number;
+    left: number;
     /** The top coordinate of the bounding box (pixels) */
-    top?: number;
+    top: number;
     /** The right coordinate of the bounding box (pixels) */
-    right?: number;
+    right: number;
     /** The bottom coordinate of the bounding box (pixels) */
-    bottom?: number;
+    bottom: number;
 }

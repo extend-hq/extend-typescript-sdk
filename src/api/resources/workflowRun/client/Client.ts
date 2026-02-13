@@ -13,7 +13,7 @@ export declare namespace WorkflowRun {
         environment?: core.Supplier<environments.ExtendEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token?: core.Supplier<core.BearerToken | undefined>;
+        token: core.Supplier<core.BearerToken>;
         /** Override the x-extend-api-version header */
         extendApiVersion?: "2025-04-21";
         /** Additional headers to include in requests. */
@@ -40,7 +40,7 @@ export declare namespace WorkflowRun {
 export class WorkflowRun {
     protected readonly _options: WorkflowRun.Options;
 
-    constructor(_options: WorkflowRun.Options = {}) {
+    constructor(_options: WorkflowRun.Options) {
         this._options = _options;
     }
 
@@ -616,12 +616,7 @@ export class WorkflowRun {
         }
     }
 
-    protected async _getAuthorizationHeader(): Promise<string | undefined> {
-        const bearer = await core.Supplier.get(this._options.token);
-        if (bearer != null) {
-            return `Bearer ${bearer}`;
-        }
-
-        return undefined;
+    protected async _getAuthorizationHeader(): Promise<string> {
+        return `Bearer ${await core.Supplier.get(this._options.token)}`;
     }
 }
