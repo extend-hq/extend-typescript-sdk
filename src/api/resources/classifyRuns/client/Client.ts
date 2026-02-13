@@ -143,7 +143,7 @@ export class ClassifyRunsClient {
     /**
      * Classify a document using an existing classifier or an inline configuration.
      *
-     * The request returns immediately with a `PROCESSING` status. Use webhooks or poll the [Get Classify Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/classify/get-classify-run) endpoint for results.
+     * The request returns immediately with a `PROCESSING` status. Use webhooks or poll the Get Classify Run endpoint for results.
      *
      * @param {Extend.ClassifyRunsCreateRequest} request
      * @param {ClassifyRunsClient.RequestOptions} requestOptions - Request-specific configuration.

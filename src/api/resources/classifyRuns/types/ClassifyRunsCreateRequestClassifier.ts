@@ -9,6 +9,6 @@ export interface ClassifyRunsCreateRequestClassifier {
     /** The ID of the classifier to use. */
     id: string;
     version?: Extend.ProcessorVersionString;
-    /** Optional configuration override. If provided, this configuration will override the classifier's saved configuration. */
-    overrideConfig?: Extend.ClassifyConfig;
+    /** Optional partial configuration override. Only the fields you provide will override the classifier's saved configuration. For example, you can pass only `classificationRules` without providing `classifications`. */
+    overrideConfig?: Extend.ClassifyOverrideConfig;
 }

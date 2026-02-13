@@ -279,7 +279,7 @@ describe("ClassifyRunsClient", () => {
                     },
                 ],
                 classificationRules:
-                    "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                    "Remember, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
@@ -403,7 +403,7 @@ describe("ClassifyRunsClient", () => {
                     },
                 ],
                 classificationRules:
-                    "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                    "Remember, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
@@ -701,7 +701,7 @@ describe("ClassifyRunsClient", () => {
                     },
                 ],
                 classificationRules:
-                    "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                    "Remember, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
@@ -820,7 +820,7 @@ describe("ClassifyRunsClient", () => {
                     },
                 ],
                 classificationRules:
-                    "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                    "Remember, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
@@ -1193,7 +1193,7 @@ describe("ClassifyRunsClient", () => {
                     },
                 ],
                 classificationRules:
-                    "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                    "Remember, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
@@ -1312,7 +1312,7 @@ describe("ClassifyRunsClient", () => {
                     },
                 ],
                 classificationRules:
-                    "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                    "Remember, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
