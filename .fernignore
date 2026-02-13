@@ -13,5 +13,7 @@ jest.config.mjs
 # Documentation
 docs/
 
-# CI workflow — customized to publish v0.x with --tag v0 instead of latest
+# Publish workflow — customized to publish v0.x with --tag v0 instead of latest
+# Keep ci.yml listed so Fern doesn't regenerate it after the rename
 .github/workflows/ci.yml
+.github/workflows/publish.yml
