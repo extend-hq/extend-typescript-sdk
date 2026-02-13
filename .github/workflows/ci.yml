@@ -62,6 +62,8 @@ jobs:
             publish --access public --tag alpha
           elif [[ ${GITHUB_REF} == *beta* ]]; then
             publish --access public --tag beta
+          elif [[ ${GITHUB_REF} == refs/tags/v0* ]] || [[ ${GITHUB_REF} == refs/tags/0.* ]]; then
+            publish --access public --tag v0
           else
             publish --access public
           fi

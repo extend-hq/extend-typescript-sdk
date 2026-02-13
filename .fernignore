@@ -16,3 +16,6 @@ docs/
 # Prevent Fern from adding unnecessary deps (webpack, ts-loader)
 yarn.lock
 tests/unit/fetcher/stream-wrappers/webpack.test.ts
+
+# CI workflow — customized to publish v0.x with --tag v0 instead of latest
+.github/workflows/ci.yml
