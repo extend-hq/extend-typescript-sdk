@@ -2,7 +2,11 @@
 
 import type * as Extend from "../index";
 
-export interface ExtractConfigJson {
+/**
+ * Partial configuration override for an existing extractor. All fields are optional — only the fields you provide will override the extractor's saved configuration.
+ * For example, you can pass only `advancedOptions` or `extractionRules` without providing a `schema`.
+ */
+export interface ExtractOverrideConfigJson {
     baseProcessor?: Extend.ExtractionBaseProcessor;
     /** The version of the `"extraction_performance"` or `"extraction_light"` processor to use. If not provided, the latest stable version for the selected `baseProcessor` will be used automatically. See [Extraction Changelog](https://docs.extend.ai/2026-02-09/changelog/extraction/extraction-performance) for more details. */
     baseVersion?: string;
@@ -13,7 +17,7 @@ export interface ExtractConfigJson {
      *
      * See the [JSON Schema guide](https://docs.extend.ai/2026-02-09/product/extraction/schema/json-schema) for details and examples of schema configuration.
      */
-    schema: Extend.JsonObject;
+    schema?: Extend.JsonObject;
     /** Advanced configuration options. */
     advancedOptions?: Extend.ExtractAdvancedOptions;
     /** Configuration options for the parsing process. */

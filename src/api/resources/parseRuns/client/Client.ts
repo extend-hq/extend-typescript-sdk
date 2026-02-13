@@ -27,7 +27,7 @@ export class ParseRunsClient {
      *
      * The Parse endpoint allows you to convert documents into structured, machine-readable formats with fine-grained control over the parsing process. This endpoint is ideal for extracting cleaned document content to be used as context for downstream processing, e.g. RAG pipelines, custom ingestion pipelines, embeddings classification, etc.
      *
-     * For more details, see the [Parse File guide](https://docs.extend.ai/2026-02-09/product/parsing/parse).
+     * The request returns immediately with a `PROCESSING` status. Use webhooks or poll the Get Parse Run endpoint for results.
      *
      * @param {Extend.ParseRunsCreateRequest} request
      * @param {ParseRunsClient.RequestOptions} requestOptions - Request-specific configuration.

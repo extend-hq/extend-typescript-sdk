@@ -32,7 +32,7 @@ describe("ProcessorVersionClient", () => {
                             },
                         ],
                         classificationRules:
-                            "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                            "Remember, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
                     },
                     createdAt: "2024-03-21T15:30:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
@@ -71,7 +71,7 @@ describe("ProcessorVersionClient", () => {
                             },
                         ],
                         classificationRules:
-                            "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                            "Remember, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
                     },
                     createdAt: "2024-03-21T15:30:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
@@ -161,7 +161,7 @@ describe("ProcessorVersionClient", () => {
                         },
                     ],
                     classificationRules:
-                        "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                        "Remember, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
                     advancedOptions: {
                         pageRanges: [
                             { start: 1, end: 10 },
@@ -208,7 +208,7 @@ describe("ProcessorVersionClient", () => {
                         },
                     ],
                     classificationRules:
-                        "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                        "Remember, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
                     advancedOptions: {
                         pageRanges: [
                             {
@@ -297,7 +297,7 @@ describe("ProcessorVersionClient", () => {
                         },
                     ],
                     classificationRules:
-                        "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                        "Remember, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
                     advancedOptions: {
                         pageRanges: [
                             { start: 1, end: 10 },
@@ -341,7 +341,7 @@ describe("ProcessorVersionClient", () => {
                         },
                     ],
                     classificationRules:
-                        "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                        "Remember, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
                     advancedOptions: {
                         pageRanges: [
                             {
