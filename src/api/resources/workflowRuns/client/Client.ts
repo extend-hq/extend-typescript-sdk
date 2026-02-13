@@ -128,7 +128,49 @@ export class WorkflowRunsClient {
     }
 
     /**
-     * Run a workflow with a file. A workflow is a sequence of steps that process files and data in a specific order to achieve a desired outcome.
+     * Run a workflow with a file. A workflow is a sequence of steps that process files and data in a specific order to achieve a desired outcome. See [Async Processing](https://docs.extend.ai/2026-02-09/developers/async-processing) for a full guide on polling helpers and webhooks.
+     *
+     * ## Polling with the SDK
+     *
+     * The SDK provides a `createAndPoll` / `create_and_poll` method that handles polling automatically, returning when the run reaches a terminal state (`PROCESSED`, `FAILED`, `CANCELLED`, `NEEDS_REVIEW`, or `REJECTED`):
+     *
+     * <Tabs>
+     * <Tab title="TypeScript">
+     * ```typescript
+     * const result = await client.workflowRuns.createAndPoll({
+     *   workflow: { id: "wf_abc123" },
+     *   file: { url: "https://..." }
+     * });
+     * // Returns when the workflow run reaches a terminal state
+     * console.log(result.status);
+     * console.log(result.stepRuns);
+     * ```
+     * </Tab>
+     * <Tab title="Python">
+     * ```python
+     * result = client.workflow_runs.create_and_poll(
+     *     workflow={"id": "wf_abc123"},
+     *     file={"url": "https://..."}
+     * )
+     * # Returns when the workflow run reaches a terminal state
+     * print(result.status)
+     * print(result.step_runs)
+     * ```
+     * </Tab>
+     * <Tab title="Java">
+     * ```java
+     * var result = client.workflowRuns().createAndPoll(WorkflowRunCreateRequest.builder()
+     *     .workflow(WorkflowReference.builder().id("wf_abc123").build())
+     *     .file(FileInput.builder().url("https://...").build())
+     *     .build());
+     * // Returns when the workflow run reaches a terminal state
+     * System.out.println(result.getStatus());
+     * System.out.println(result.getStepRuns());
+     * ```
+     * </Tab>
+     * </Tabs>
+     *
+     * <Warning>Workflow runs can take a long time. Complex workflows may run for hours. For long-running workflows, consider using [webhooks](/product/webhooks/configuration) instead of polling.</Warning>
      *
      * @param {Extend.WorkflowRunsCreateRequest} request
      * @param {WorkflowRunsClient.RequestOptions} requestOptions - Request-specific configuration.

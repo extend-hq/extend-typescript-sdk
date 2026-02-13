@@ -143,7 +143,44 @@ export class ClassifyRunsClient {
     /**
      * Classify a document using an existing classifier or an inline configuration.
      *
-     * The request returns immediately with a `PROCESSING` status. Use webhooks or poll the [Get Classify Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/classify/get-classify-run) endpoint for results.
+     * The request returns immediately with a `PROCESSING` status. Use webhooks or poll the [Get Classify Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/classify/get-classify-run) endpoint for results. See [Async Processing](https://docs.extend.ai/2026-02-09/developers/async-processing) for a full guide on polling helpers and webhooks.
+     *
+     * ## Polling with the SDK
+     *
+     * The SDK provides a `createAndPoll` / `create_and_poll` method that handles polling automatically, returning when the run reaches a terminal state (`PROCESSED`, `FAILED`, or `CANCELLED`):
+     *
+     * <Tabs>
+     * <Tab title="TypeScript">
+     * ```typescript
+     * const result = await client.classifyRuns.createAndPoll({
+     *   classifier: { id: "cl_abc123" },
+     *   file: { url: "https://..." }
+     * });
+     * // Returns when the run reaches a terminal state
+     * console.log(result.output);
+     * ```
+     * </Tab>
+     * <Tab title="Python">
+     * ```python
+     * result = client.classify_runs.create_and_poll(
+     *     classifier={"id": "cl_abc123"},
+     *     file={"url": "https://..."}
+     * )
+     * # Returns when the run reaches a terminal state
+     * print(result.output)
+     * ```
+     * </Tab>
+     * <Tab title="Java">
+     * ```java
+     * var result = client.classifyRuns().createAndPoll(ClassifyRunCreateRequest.builder()
+     *     .classifier(ClassifierInput.builder().id("cl_abc123").build())
+     *     .file(FileInput.builder().url("https://...").build())
+     *     .build());
+     * // Returns when the run reaches a terminal state
+     * System.out.println(result.getOutput());
+     * ```
+     * </Tab>
+     * </Tabs>
      *
      * @param {Extend.ClassifyRunsCreateRequest} request
      * @param {ClassifyRunsClient.RequestOptions} requestOptions - Request-specific configuration.
