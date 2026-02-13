@@ -59,6 +59,8 @@ jobs:
                     npm publish --access public --tag alpha
                   elif [[ ${GITHUB_REF} == *beta* ]]; then
                     npm publish --access public --tag beta
+                  elif [[ ${GITHUB_REF} == refs/tags/v0* ]] || [[ ${GITHUB_REF} == refs/tags/0.* ]]; then
+                    npm publish --access public --tag v0
                   else
                     npm publish --access public
                   fi
