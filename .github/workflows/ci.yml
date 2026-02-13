@@ -54,15 +54,23 @@ jobs:
 
             - name: Publish to npm
               run: |
+                  set -euo pipefail
                   npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+
+                  TAG_NAME="${GITHUB_REF#refs/tags/}"
+                  echo "Publishing tag: $TAG_NAME"
+
                   if [[ ${GITHUB_REF} == *alpha* ]]; then
                     npm publish --access public --tag alpha
                   elif [[ ${GITHUB_REF} == *beta* ]]; then
                     npm publish --access public --tag beta
                   elif [[ ${GITHUB_REF} == refs/tags/v0* ]] || [[ ${GITHUB_REF} == refs/tags/0.* ]]; then
                     npm publish --access public --tag v0
-                  else
+                  elif [[ ${GITHUB_REF} == refs/tags/v1* ]] || [[ ${GITHUB_REF} == refs/tags/1.* ]]; then
                     npm publish --access public
+                  else
+                    echo "::error::Unexpected tag format '$TAG_NAME'. Expected v0.x.x, v1.x.x, or pre-release (alpha/beta)."
+                    exit 1
                   fi
               env:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
