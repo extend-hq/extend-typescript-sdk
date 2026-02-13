@@ -9,6 +9,6 @@ export interface SplitRunsCreateRequestSplitter {
     /** The ID of the splitter to use. */
     id: string;
     version?: Extend.ProcessorVersionString;
-    /** Optional configuration override. If provided, this configuration will override the splitter's saved configuration. */
-    overrideConfig?: Extend.SplitConfig;
+    /** Optional partial configuration override. Only the fields you provide will override the splitter's saved configuration. For example, you can pass only `splitRules` without providing `splitClassifications`. */
+    overrideConfig?: Extend.SplitOverrideConfig;
 }
