@@ -66,6 +66,7 @@ describe("ExtendClient", () => {
                 target: "markdown",
                 chunkingStrategy: { type: "page", options: { minCharacters: 500, maxCharacters: 10000 } },
                 engine: "parse_performance",
+                engineVersion: "engineVersion",
                 advancedOptions: {
                     pageRotationEnabled: true,
                     pageRanges: [
@@ -189,6 +190,7 @@ describe("ExtendClient", () => {
                     },
                 },
                 engine: "parse_performance",
+                engineVersion: "engineVersion",
                 advancedOptions: {
                     pageRotationEnabled: true,
                     pageRanges: [
@@ -767,6 +769,7 @@ describe("ExtendClient", () => {
                 parseConfig: {
                     target: "markdown",
                     engine: "parse_performance",
+                    engineVersion: "engineVersion",
                     advancedOptions: {
                         pageRanges: [
                             { start: 1, end: 10 },
@@ -913,6 +916,7 @@ describe("ExtendClient", () => {
                 parseConfig: {
                     target: "markdown",
                     engine: "parse_performance",
+                    engineVersion: "engineVersion",
                     advancedOptions: {
                         pageRanges: [
                             {
@@ -1205,6 +1209,7 @@ describe("ExtendClient", () => {
                 parseConfig: {
                     target: "markdown",
                     engine: "parse_performance",
+                    engineVersion: "engineVersion",
                     advancedOptions: {
                         pageRanges: [
                             { start: 1, end: 10 },
@@ -1335,6 +1340,7 @@ describe("ExtendClient", () => {
                 parseConfig: {
                     target: "markdown",
                     engine: "parse_performance",
+                    engineVersion: "engineVersion",
                     advancedOptions: {
                         pageRanges: [
                             {
@@ -1660,6 +1666,7 @@ describe("ExtendClient", () => {
                 parseConfig: {
                     target: "markdown",
                     engine: "parse_performance",
+                    engineVersion: "engineVersion",
                     advancedOptions: {
                         pageRanges: [
                             { start: 1, end: 10 },
@@ -1803,6 +1810,7 @@ describe("ExtendClient", () => {
                 parseConfig: {
                     target: "markdown",
                     engine: "parse_performance",
+                    engineVersion: "engineVersion",
                     advancedOptions: {
                         pageRanges: [
                             {

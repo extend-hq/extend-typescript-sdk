@@ -30,6 +30,8 @@ export interface ParseConfig {
      * * `parse_light`: Lightweight parsing engine optimized for speed. This does not have robust layout support and does not support markdown layout target.
      */
     engine?: Extend.ParseConfigEngine;
+    /** Pin a specific parser engine version for reproducibility. When set to `latest`, the most recent stable version of the selected engine is used. */
+    engineVersion?: string;
     /** Options for controlling how different block types are processed. */
     blockOptions?: Extend.ParseConfigBlockOptions;
     advancedOptions?: Extend.ParseConfigAdvancedOptions;

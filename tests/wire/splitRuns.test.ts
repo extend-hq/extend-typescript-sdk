@@ -324,6 +324,7 @@ describe("SplitRunsClient", () => {
                 parseConfig: {
                     target: "markdown",
                     engine: "parse_performance",
+                    engineVersion: "engineVersion",
                     advancedOptions: {
                         pageRanges: [
                             { start: 1, end: 10 },
@@ -467,6 +468,7 @@ describe("SplitRunsClient", () => {
                 parseConfig: {
                     target: "markdown",
                     engine: "parse_performance",
+                    engineVersion: "engineVersion",
                     advancedOptions: {
                         pageRanges: [
                             {
@@ -792,6 +794,7 @@ describe("SplitRunsClient", () => {
                 parseConfig: {
                     target: "markdown",
                     engine: "parse_performance",
+                    engineVersion: "engineVersion",
                     advancedOptions: {
                         pageRanges: [
                             { start: 1, end: 10 },
@@ -930,6 +933,7 @@ describe("SplitRunsClient", () => {
                 parseConfig: {
                     target: "markdown",
                     engine: "parse_performance",
+                    engineVersion: "engineVersion",
                     advancedOptions: {
                         pageRanges: [
                             {
@@ -1276,6 +1280,7 @@ describe("SplitRunsClient", () => {
                 parseConfig: {
                     target: "markdown",
                     engine: "parse_performance",
+                    engineVersion: "engineVersion",
                     advancedOptions: {
                         pageRanges: [
                             { start: 1, end: 10 },
@@ -1414,6 +1419,7 @@ describe("SplitRunsClient", () => {
                 parseConfig: {
                     target: "markdown",
                     engine: "parse_performance",
+                    engineVersion: "engineVersion",
                     advancedOptions: {
                         pageRanges: [
                             {

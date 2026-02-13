@@ -224,6 +224,7 @@ describe("ExtractorVersionsClient", () => {
                 parseConfig: {
                     target: "markdown",
                     engine: "parse_performance",
+                    engineVersion: "engineVersion",
                     advancedOptions: {
                         pageRanges: [
                             { start: 1, end: 10 },
@@ -288,6 +289,7 @@ describe("ExtractorVersionsClient", () => {
                 parseConfig: {
                     target: "markdown",
                     engine: "parse_performance",
+                    engineVersion: "engineVersion",
                     advancedOptions: {
                         pageRanges: [
                             {
@@ -505,6 +507,7 @@ describe("ExtractorVersionsClient", () => {
                 parseConfig: {
                     target: "markdown",
                     engine: "parse_performance",
+                    engineVersion: "engineVersion",
                     advancedOptions: {
                         pageRanges: [
                             { start: 1, end: 10 },
@@ -566,6 +569,7 @@ describe("ExtractorVersionsClient", () => {
                 parseConfig: {
                     target: "markdown",
                     engine: "parse_performance",
+                    engineVersion: "engineVersion",
                     advancedOptions: {
                         pageRanges: [
                             {
