@@ -12,3 +12,6 @@ jest.config.mjs
 
 # Documentation
 docs/
+
+# CI workflow — customized to publish v0.x with --tag v0 instead of latest
+.github/workflows/ci.yml
