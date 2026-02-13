@@ -9,6 +9,6 @@ export interface ExtractRequestExtractor {
     /** The ID of the extractor to use. */
     id: string;
     version?: Extend.ProcessorVersionString;
-    /** Optional configuration override. If provided, this configuration will override the extractor's saved configuration. */
-    overrideConfig?: Extend.ExtractConfigJson;
+    /** Optional partial configuration override. Only the fields you provide will override the extractor's saved configuration. For example, you can pass only `advancedOptions` or `extractionRules` without providing a `schema`. */
+    overrideConfig?: Extend.ExtractOverrideConfigJson;
 }

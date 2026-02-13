@@ -134,7 +134,7 @@ export class SplitRunsClient {
     /**
      * Split a document into multiple parts using an existing splitter or an inline configuration.
      *
-     * The request returns immediately with a `PROCESSING` status. Use webhooks or poll the [Get Split Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/split/get-split-run) endpoint for results.
+     * The request returns immediately with a `PROCESSING` status. Use webhooks or poll the Get Split Run endpoint for results.
      *
      * @param {Extend.SplitRunsCreateRequest} request
      * @param {SplitRunsClient.RequestOptions} requestOptions - Request-specific configuration.

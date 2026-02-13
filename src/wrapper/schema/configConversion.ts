@@ -26,28 +26,13 @@ import { zodToExtendSchema } from "./zodToExtendSchema";
  * }
  * ```
  */
-export interface TypedExtractConfig<T extends z.ZodRawShape> {
+export interface TypedExtractConfig<T extends z.ZodRawShape>
+  extends Omit<Extend.ExtractConfigJson, "schema"> {
   /**
    * Zod object schema defining the data to extract.
    * The extraction output will be fully typed based on this schema.
    */
   schema: z.ZodObject<T>;
-  /**
-   * The base processor to use. For extractors, this can be either `"extraction_performance"` or `"extraction_light"`.
-   * Defaults to `"extraction_performance"` if not provided.
-   */
-  baseProcessor?: Extend.ExtractConfigJsonBaseProcessor;
-  /**
-   * The version of the `"extraction_performance"` or `"extraction_light"` processor to use.
-   * If not provided, the latest stable version for the selected `baseProcessor` will be used automatically.
-   */
-  baseVersion?: string;
-  /** Custom rules to guide the extraction process in natural language. */
-  extractionRules?: string;
-  /** Advanced configuration options. */
-  advancedOptions?: Extend.ExtractAdvancedOptions;
-  /** Configuration options for the parsing process. */
-  parseConfig?: Extend.ParseConfig;
 }
 
 /**
@@ -80,14 +65,11 @@ export function convertTypedConfigToApiConfig(
   config: TypedExtractConfig<z.ZodRawShape>
 ): Extend.ExtractConfigJson {
   // Convert zod schema to JSON schema at call time
-  const jsonSchema = zodToExtendSchema(config.schema);
+  const { schema, ...rest } = config;
+  const jsonSchema = zodToExtendSchema(schema);
 
   return {
-    baseProcessor: config.baseProcessor,
-    baseVersion: config.baseVersion,
-    extractionRules: config.extractionRules,
-    advancedOptions: config.advancedOptions,
-    parseConfig: config.parseConfig,
+    ...rest,
     schema: jsonSchema as Extend.JsonObject,
   };
 }
