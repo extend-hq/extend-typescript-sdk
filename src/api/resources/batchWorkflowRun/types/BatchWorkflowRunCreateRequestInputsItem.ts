@@ -11,6 +11,6 @@ export interface BatchWorkflowRunCreateRequestInputsItem {
     rawText?: string;
     /** An optional object containing arbitrary key-value pairs to associate with this specific workflow run. This metadata will be included in webhook payloads and responses when fetching the workflow run details. */
     metadata?: Extend.JsonObject;
-    /** An optional object containing secrets to be used by processors within the workflow for this specific run. Secrets provided here override any globally configured secrets for the workflow. */
+    /** An optional object containing secrets to be used by processors within the workflow for this specific run. */
     secrets?: Record<string, unknown>;
 }

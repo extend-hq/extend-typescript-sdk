@@ -13,7 +13,7 @@ export declare namespace ProcessorVersion {
         environment?: core.Supplier<environments.ExtendEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token?: core.Supplier<core.BearerToken | undefined>;
+        token: core.Supplier<core.BearerToken>;
         /** Override the x-extend-api-version header */
         extendApiVersion?: "2025-04-21";
         /** Additional headers to include in requests. */
@@ -40,101 +40,8 @@ export declare namespace ProcessorVersion {
 export class ProcessorVersion {
     protected readonly _options: ProcessorVersion.Options;
 
-    constructor(_options: ProcessorVersion.Options = {}) {
+    constructor(_options: ProcessorVersion.Options) {
         this._options = _options;
-    }
-
-    /**
-     * Retrieve a specific version of a processor in Extend
-     *
-     * @param {string} processorId - The ID of the processor.
-     *
-     *                               Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
-     * @param {string} processorVersionId - The ID of the specific processor version to retrieve.
-     *
-     *                                      Example: `"dpv_QYk6jgHA_8CsO8rVWhyNC"`
-     * @param {ProcessorVersion.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Extend.BadRequestError}
-     * @throws {@link Extend.UnauthorizedError}
-     * @throws {@link Extend.NotFoundError}
-     *
-     * @example
-     *     await client.processorVersion.get("processor_id_here", "processor_version_id_here")
-     */
-    public get(
-        processorId: string,
-        processorVersionId: string,
-        requestOptions?: ProcessorVersion.RequestOptions,
-    ): core.HttpResponsePromise<Extend.ProcessorVersionGetResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__get(processorId, processorVersionId, requestOptions));
-    }
-
-    private async __get(
-        processorId: string,
-        processorVersionId: string,
-        requestOptions?: ProcessorVersion.RequestOptions,
-    ): Promise<core.WithRawResponse<Extend.ProcessorVersionGetResponse>> {
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            this._options?.headers,
-            mergeOnlyDefinedHeaders({
-                Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
-            }),
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.ExtendEnvironment.Production,
-                `processors/${encodeURIComponent(processorId)}/versions/${encodeURIComponent(processorVersionId)}`,
-            ),
-            method: "GET",
-            headers: _headers,
-            queryParameters: requestOptions?.queryParams,
-            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
-            maxRetries: requestOptions?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-        });
-        if (_response.ok) {
-            return { data: _response.body as Extend.ProcessorVersionGetResponse, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
-                case 404:
-                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
-                default:
-                    throw new errors.ExtendError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
-        }
-
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.ExtendError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.ExtendTimeoutError(
-                    "Timeout exceeded when calling GET /processors/{processorId}/versions/{processorVersionId}.",
-                );
-            case "unknown":
-                throw new errors.ExtendError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
     }
 
     /**
@@ -322,12 +229,100 @@ export class ProcessorVersion {
         }
     }
 
-    protected async _getAuthorizationHeader(): Promise<string | undefined> {
-        const bearer = await core.Supplier.get(this._options.token);
-        if (bearer != null) {
-            return `Bearer ${bearer}`;
+    /**
+     * Retrieve a specific version of a processor in Extend
+     *
+     * @param {string} processorId - The ID of the processor.
+     *
+     *                               Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {string} processorVersionId - The ID of the specific processor version to retrieve.
+     *
+     *                                      Example: `"dpv_QYk6jgHA_8CsO8rVWhyNC"`
+     * @param {ProcessorVersion.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.NotFoundError}
+     *
+     * @example
+     *     await client.processorVersion.get("processor_id_here", "processor_version_id_here")
+     */
+    public get(
+        processorId: string,
+        processorVersionId: string,
+        requestOptions?: ProcessorVersion.RequestOptions,
+    ): core.HttpResponsePromise<Extend.ProcessorVersionGetResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__get(processorId, processorVersionId, requestOptions));
+    }
+
+    private async __get(
+        processorId: string,
+        processorVersionId: string,
+        requestOptions?: ProcessorVersion.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.ProcessorVersionGetResponse>> {
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({
+                Authorization: await this._getAuthorizationHeader(),
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
+            }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                `processors/${encodeURIComponent(processorId)}/versions/${encodeURIComponent(processorVersionId)}`,
+            ),
+            method: "GET",
+            headers: _headers,
+            queryParameters: requestOptions?.queryParams,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.ProcessorVersionGetResponse, rawResponse: _response.rawResponse };
         }
 
-        return undefined;
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ExtendError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.ExtendTimeoutError(
+                    "Timeout exceeded when calling GET /processors/{processorId}/versions/{processorVersionId}.",
+                );
+            case "unknown":
+                throw new errors.ExtendError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    protected async _getAuthorizationHeader(): Promise<string> {
+        return `Bearer ${await core.Supplier.get(this._options.token)}`;
     }
 }

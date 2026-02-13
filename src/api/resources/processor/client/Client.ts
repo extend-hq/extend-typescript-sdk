@@ -13,7 +13,7 @@ export declare namespace Processor {
         environment?: core.Supplier<environments.ExtendEnvironment | string>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token?: core.Supplier<core.BearerToken | undefined>;
+        token: core.Supplier<core.BearerToken>;
         /** Override the x-extend-api-version header */
         extendApiVersion?: "2025-04-21";
         /** Additional headers to include in requests. */
@@ -40,7 +40,7 @@ export declare namespace Processor {
 export class Processor {
     protected readonly _options: Processor.Options;
 
-    constructor(_options: Processor.Options = {}) {
+    constructor(_options: Processor.Options) {
         this._options = _options;
     }
 
@@ -341,12 +341,7 @@ export class Processor {
         }
     }
 
-    protected async _getAuthorizationHeader(): Promise<string | undefined> {
-        const bearer = await core.Supplier.get(this._options.token);
-        if (bearer != null) {
-            return `Bearer ${bearer}`;
-        }
-
-        return undefined;
+    protected async _getAuthorizationHeader(): Promise<string> {
+        return `Bearer ${await core.Supplier.get(this._options.token)}`;
     }
 }
