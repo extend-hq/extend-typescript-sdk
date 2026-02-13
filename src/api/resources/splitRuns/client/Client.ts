@@ -134,7 +134,44 @@ export class SplitRunsClient {
     /**
      * Split a document into multiple parts using an existing splitter or an inline configuration.
      *
-     * The request returns immediately with a `PROCESSING` status. Use webhooks or poll the [Get Split Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/split/get-split-run) endpoint for results.
+     * The request returns immediately with a `PROCESSING` status. Use webhooks or poll the [Get Split Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/split/get-split-run) endpoint for results. See [Async Processing](https://docs.extend.ai/2026-02-09/developers/async-processing) for a full guide on polling helpers and webhooks.
+     *
+     * ## Polling with the SDK
+     *
+     * The SDK provides a `createAndPoll` / `create_and_poll` method that handles polling automatically, returning when the run reaches a terminal state (`PROCESSED`, `FAILED`, or `CANCELLED`):
+     *
+     * <Tabs>
+     * <Tab title="TypeScript">
+     * ```typescript
+     * const result = await client.splitRuns.createAndPoll({
+     *   splitter: { id: "spl_abc123" },
+     *   file: { url: "https://..." }
+     * });
+     * // Returns when the run reaches a terminal state
+     * console.log(result.output);
+     * ```
+     * </Tab>
+     * <Tab title="Python">
+     * ```python
+     * result = client.split_runs.create_and_poll(
+     *     splitter={"id": "spl_abc123"},
+     *     file={"url": "https://..."}
+     * )
+     * # Returns when the run reaches a terminal state
+     * print(result.output)
+     * ```
+     * </Tab>
+     * <Tab title="Java">
+     * ```java
+     * var result = client.splitRuns().createAndPoll(SplitRunCreateRequest.builder()
+     *     .splitter(SplitterInput.builder().id("spl_abc123").build())
+     *     .file(FileInput.builder().url("https://...").build())
+     *     .build());
+     * // Returns when the run reaches a terminal state
+     * System.out.println(result.getOutput());
+     * ```
+     * </Tab>
+     * </Tabs>
      *
      * @param {Extend.SplitRunsCreateRequest} request
      * @param {SplitRunsClient.RequestOptions} requestOptions - Request-specific configuration.

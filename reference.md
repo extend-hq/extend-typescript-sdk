@@ -13,7 +13,7 @@
 
 Parse a file synchronously, waiting for the result before returning. This endpoint has a **5-minute timeout** — if processing takes longer, the request will fail.
 
-**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /parse_runs` with webhooks or polling instead, as it provides better reliability for large files and avoids timeout issues.
+**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /parse_runs` with [polling or webhooks](https://docs.extend.ai/2026-02-09/developers/async-processing) instead, as it provides better reliability for large files and avoids timeout issues.
 
 The Parse endpoint allows you to convert documents into structured, machine-readable formats with fine-grained control over the parsing process. This endpoint is ideal for extracting cleaned document content to be used as context for downstream processing, e.g. RAG pipelines, custom ingestion pipelines, embeddings classification, etc.
 
@@ -86,7 +86,7 @@ await client.parse({
 
 Edit a file synchronously, waiting for the result before returning. This endpoint has a **5-minute timeout** — if processing takes longer, the request will fail.
 
-**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /edit_runs` with webhooks or polling instead, as it provides better reliability for large files and avoids timeout issues.
+**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /edit_runs` with [polling or webhooks](https://docs.extend.ai/2026-02-09/developers/async-processing) instead, as it provides better reliability for large files and avoids timeout issues.
 
 The Edit endpoint allows you to detect and fill form fields in PDF documents.
 
@@ -159,7 +159,7 @@ await client.edit({
 
 Extract structured data from a file synchronously, waiting for the result before returning. This endpoint has a **5-minute timeout** — if processing takes longer, the request will fail.
 
-**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /extract_runs` with webhooks or polling instead, as it provides better reliability for large files and avoids timeout issues.
+**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /extract_runs` with [polling or webhooks](https://docs.extend.ai/2026-02-09/developers/async-processing) instead, as it provides better reliability for large files and avoids timeout issues.
 
 The Extract endpoint allows you to extract structured data from files using an existing extractor or an inline configuration.
 
@@ -232,7 +232,7 @@ await client.extract({
 
 Classify a document synchronously, waiting for the result before returning. This endpoint has a **5-minute timeout** — if processing takes longer, the request will fail.
 
-**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /classify_runs` with webhooks or polling instead, as it provides better reliability for large files and avoids timeout issues.
+**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /classify_runs` with [polling or webhooks](https://docs.extend.ai/2026-02-09/developers/async-processing) instead, as it provides better reliability for large files and avoids timeout issues.
 
 The Classify endpoint allows you to classify documents using an existing classifier or an inline configuration.
 
@@ -305,7 +305,7 @@ await client.classify({
 
 Split a document synchronously, waiting for the result before returning. This endpoint has a **5-minute timeout** — if processing takes longer, the request will fail.
 
-**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /split_runs` with webhooks or polling instead, as it provides better reliability for large files and avoids timeout issues.
+**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /split_runs` with [polling or webhooks](https://docs.extend.ai/2026-02-09/developers/async-processing) instead, as it provides better reliability for large files and avoids timeout issues.
 
 The Split endpoint allows you to split documents into multiple parts using an existing splitter or an inline configuration.
 
@@ -662,7 +662,41 @@ Parse files to get cleaned, chunked target content (e.g. markdown).
 
 The Parse endpoint allows you to convert documents into structured, machine-readable formats with fine-grained control over the parsing process. This endpoint is ideal for extracting cleaned document content to be used as context for downstream processing, e.g. RAG pipelines, custom ingestion pipelines, embeddings classification, etc.
 
-For more details, see the [Parse File guide](https://docs.extend.ai/2026-02-09/product/parsing/parse).
+For more details, see the [Parse File guide](https://docs.extend.ai/2026-02-09/product/parsing/parse). See [Async Processing](https://docs.extend.ai/2026-02-09/developers/async-processing) for a full guide on polling helpers and webhooks.
+
+## Polling with the SDK
+
+The SDK provides a `createAndPoll` / `create_and_poll` method that handles polling automatically, returning when the run reaches a terminal state (`PROCESSED` or `FAILED`):
+
+<Tabs>
+<Tab title="TypeScript">
+```typescript
+const result = await client.parseRuns.createAndPoll({
+  file: { url: "https://..." }
+});
+// Returns when the run reaches a terminal state
+console.log(result.output);
+```
+</Tab>
+<Tab title="Python">
+```python
+result = client.parse_runs.create_and_poll(
+    file={"url": "https://..."}
+)
+# Returns when the run reaches a terminal state
+print(result.output)
+```
+</Tab>
+<Tab title="Java">
+```java
+var result = client.parseRuns().createAndPoll(ParseRunCreateRequest.builder()
+    .file(FileInput.builder().url("https://...").build())
+    .build());
+// Returns when the run reaches a terminal state
+System.out.println(result.getOutput());
+```
+</Tab>
+</Tabs>
 </dd>
 </dl>
 </dd>
@@ -880,7 +914,44 @@ Edit and manipulate PDF documents by detecting and filling form fields.
 
 The Edit Runs endpoint allows you to convert and edit documents and get an edit run ID that can be used to check status and retrieve results with the [Get Edit Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/edit/get-edit-run) endpoint.
 
-For more details, see the [Edit File guide](https://docs.extend.ai/2026-02-09/product/editing/edit).
+For more details, see the [Edit File guide](https://docs.extend.ai/2026-02-09/product/editing/edit). See [Async Processing](https://docs.extend.ai/2026-02-09/developers/async-processing) for a full guide on polling helpers and webhooks.
+
+## Polling with the SDK
+
+The SDK provides a `createAndPoll` / `create_and_poll` method that handles polling automatically, returning when the run reaches a terminal state (`PROCESSED` or `FAILED`):
+
+<Tabs>
+<Tab title="TypeScript">
+```typescript
+const result = await client.editRuns.createAndPoll({
+  file: { url: "https://..." },
+  config: { /* edit config * / }
+});
+// Returns when the run reaches a terminal state
+console.log(result.output);
+```
+</Tab>
+<Tab title="Python">
+```python
+result = client.edit_runs.create_and_poll(
+    file={"url": "https://..."},
+    config={ ... }  # edit config
+)
+# Returns when the run reaches a terminal state
+print(result.output)
+```
+</Tab>
+<Tab title="Java">
+```java
+var result = client.editRuns().createAndPoll(EditRunCreateRequest.builder()
+    .file(FileInput.builder().url("https://...").build())
+    .config(EditConfig.builder().build())
+    .build());
+// Returns when the run reaches a terminal state
+System.out.println(result.getOutput());
+```
+</Tab>
+</Tabs>
 </dd>
 </dl>
 </dd>
@@ -1155,7 +1226,44 @@ await client.extractRuns.list({
 
 Extract structured data from a file using an existing extractor or an inline configuration.
 
-The request returns immediately with a `PROCESSING` status. Use webhooks or poll the [Get Extract Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/extract/get-extract-run) endpoint for results.
+The request returns immediately with a `PROCESSING` status. Use webhooks or poll the [Get Extract Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/extract/get-extract-run) endpoint for results. See [Async Processing](https://docs.extend.ai/2026-02-09/developers/async-processing) for a full guide on polling helpers and webhooks.
+
+## Polling with the SDK
+
+The SDK provides a `createAndPoll` / `create_and_poll` method that handles polling automatically, returning when the run reaches a terminal state (`PROCESSED`, `FAILED`, or `CANCELLED`):
+
+<Tabs>
+<Tab title="TypeScript">
+```typescript
+const result = await client.extractRuns.createAndPoll({
+  extractor: { id: "ex_abc123" },
+  file: { url: "https://..." }
+});
+// Returns when the run reaches a terminal state
+console.log(result.output?.value);
+```
+</Tab>
+<Tab title="Python">
+```python
+result = client.extract_runs.create_and_poll(
+    extractor={"id": "ex_abc123"},
+    file={"url": "https://..."}
+)
+# Returns when the run reaches a terminal state
+print(result.output.value)
+```
+</Tab>
+<Tab title="Java">
+```java
+var result = client.extractRuns().createAndPoll(ExtractRunCreateRequest.builder()
+    .extractor(ExtractorInput.builder().id("ex_abc123").build())
+    .file(FileInput.builder().url("https://...").build())
+    .build());
+// Returns when the run reaches a terminal state
+System.out.println(result.getOutput().getValue());
+```
+</Tab>
+</Tabs>
 </dd>
 </dl>
 </dd>
@@ -2008,7 +2116,44 @@ await client.classifyRuns.list({
 
 Classify a document using an existing classifier or an inline configuration.
 
-The request returns immediately with a `PROCESSING` status. Use webhooks or poll the [Get Classify Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/classify/get-classify-run) endpoint for results.
+The request returns immediately with a `PROCESSING` status. Use webhooks or poll the [Get Classify Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/classify/get-classify-run) endpoint for results. See [Async Processing](https://docs.extend.ai/2026-02-09/developers/async-processing) for a full guide on polling helpers and webhooks.
+
+## Polling with the SDK
+
+The SDK provides a `createAndPoll` / `create_and_poll` method that handles polling automatically, returning when the run reaches a terminal state (`PROCESSED`, `FAILED`, or `CANCELLED`):
+
+<Tabs>
+<Tab title="TypeScript">
+```typescript
+const result = await client.classifyRuns.createAndPoll({
+  classifier: { id: "cl_abc123" },
+  file: { url: "https://..." }
+});
+// Returns when the run reaches a terminal state
+console.log(result.output);
+```
+</Tab>
+<Tab title="Python">
+```python
+result = client.classify_runs.create_and_poll(
+    classifier={"id": "cl_abc123"},
+    file={"url": "https://..."}
+)
+# Returns when the run reaches a terminal state
+print(result.output)
+```
+</Tab>
+<Tab title="Java">
+```java
+var result = client.classifyRuns().createAndPoll(ClassifyRunCreateRequest.builder()
+    .classifier(ClassifierInput.builder().id("cl_abc123").build())
+    .file(FileInput.builder().url("https://...").build())
+    .build());
+// Returns when the run reaches a terminal state
+System.out.println(result.getOutput());
+```
+</Tab>
+</Tabs>
 </dd>
 </dl>
 </dd>
@@ -2861,7 +3006,44 @@ await client.splitRuns.list({
 
 Split a document into multiple parts using an existing splitter or an inline configuration.
 
-The request returns immediately with a `PROCESSING` status. Use webhooks or poll the [Get Split Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/split/get-split-run) endpoint for results.
+The request returns immediately with a `PROCESSING` status. Use webhooks or poll the [Get Split Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/split/get-split-run) endpoint for results. See [Async Processing](https://docs.extend.ai/2026-02-09/developers/async-processing) for a full guide on polling helpers and webhooks.
+
+## Polling with the SDK
+
+The SDK provides a `createAndPoll` / `create_and_poll` method that handles polling automatically, returning when the run reaches a terminal state (`PROCESSED`, `FAILED`, or `CANCELLED`):
+
+<Tabs>
+<Tab title="TypeScript">
+```typescript
+const result = await client.splitRuns.createAndPoll({
+  splitter: { id: "spl_abc123" },
+  file: { url: "https://..." }
+});
+// Returns when the run reaches a terminal state
+console.log(result.output);
+```
+</Tab>
+<Tab title="Python">
+```python
+result = client.split_runs.create_and_poll(
+    splitter={"id": "spl_abc123"},
+    file={"url": "https://..."}
+)
+# Returns when the run reaches a terminal state
+print(result.output)
+```
+</Tab>
+<Tab title="Java">
+```java
+var result = client.splitRuns().createAndPoll(SplitRunCreateRequest.builder()
+    .splitter(SplitterInput.builder().id("spl_abc123").build())
+    .file(FileInput.builder().url("https://...").build())
+    .build());
+// Returns when the run reaches a terminal state
+System.out.println(result.getOutput());
+```
+</Tab>
+</Tabs>
 </dd>
 </dl>
 </dd>
@@ -3778,7 +3960,49 @@ await client.workflowRuns.list({
 <dl>
 <dd>
 
-Run a workflow with a file. A workflow is a sequence of steps that process files and data in a specific order to achieve a desired outcome.
+Run a workflow with a file. A workflow is a sequence of steps that process files and data in a specific order to achieve a desired outcome. See [Async Processing](https://docs.extend.ai/2026-02-09/developers/async-processing) for a full guide on polling helpers and webhooks.
+
+## Polling with the SDK
+
+The SDK provides a `createAndPoll` / `create_and_poll` method that handles polling automatically, returning when the run reaches a terminal state (`PROCESSED`, `FAILED`, `CANCELLED`, `NEEDS_REVIEW`, or `REJECTED`):
+
+<Tabs>
+<Tab title="TypeScript">
+```typescript
+const result = await client.workflowRuns.createAndPoll({
+  workflow: { id: "wf_abc123" },
+  file: { url: "https://..." }
+});
+// Returns when the workflow run reaches a terminal state
+console.log(result.status);
+console.log(result.stepRuns);
+```
+</Tab>
+<Tab title="Python">
+```python
+result = client.workflow_runs.create_and_poll(
+    workflow={"id": "wf_abc123"},
+    file={"url": "https://..."}
+)
+# Returns when the workflow run reaches a terminal state
+print(result.status)
+print(result.step_runs)
+```
+</Tab>
+<Tab title="Java">
+```java
+var result = client.workflowRuns().createAndPoll(WorkflowRunCreateRequest.builder()
+    .workflow(WorkflowReference.builder().id("wf_abc123").build())
+    .file(FileInput.builder().url("https://...").build())
+    .build());
+// Returns when the workflow run reaches a terminal state
+System.out.println(result.getStatus());
+System.out.println(result.getStepRuns());
+```
+</Tab>
+</Tabs>
+
+<Warning>Workflow runs can take a long time. Complex workflows may run for hours. For long-running workflows, consider using [webhooks](/product/webhooks/configuration) instead of polling.</Warning>
 </dd>
 </dl>
 </dd>

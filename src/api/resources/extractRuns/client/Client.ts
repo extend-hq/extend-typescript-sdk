@@ -134,7 +134,44 @@ export class ExtractRunsClient {
     /**
      * Extract structured data from a file using an existing extractor or an inline configuration.
      *
-     * The request returns immediately with a `PROCESSING` status. Use webhooks or poll the [Get Extract Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/extract/get-extract-run) endpoint for results.
+     * The request returns immediately with a `PROCESSING` status. Use webhooks or poll the [Get Extract Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/extract/get-extract-run) endpoint for results. See [Async Processing](https://docs.extend.ai/2026-02-09/developers/async-processing) for a full guide on polling helpers and webhooks.
+     *
+     * ## Polling with the SDK
+     *
+     * The SDK provides a `createAndPoll` / `create_and_poll` method that handles polling automatically, returning when the run reaches a terminal state (`PROCESSED`, `FAILED`, or `CANCELLED`):
+     *
+     * <Tabs>
+     * <Tab title="TypeScript">
+     * ```typescript
+     * const result = await client.extractRuns.createAndPoll({
+     *   extractor: { id: "ex_abc123" },
+     *   file: { url: "https://..." }
+     * });
+     * // Returns when the run reaches a terminal state
+     * console.log(result.output?.value);
+     * ```
+     * </Tab>
+     * <Tab title="Python">
+     * ```python
+     * result = client.extract_runs.create_and_poll(
+     *     extractor={"id": "ex_abc123"},
+     *     file={"url": "https://..."}
+     * )
+     * # Returns when the run reaches a terminal state
+     * print(result.output.value)
+     * ```
+     * </Tab>
+     * <Tab title="Java">
+     * ```java
+     * var result = client.extractRuns().createAndPoll(ExtractRunCreateRequest.builder()
+     *     .extractor(ExtractorInput.builder().id("ex_abc123").build())
+     *     .file(FileInput.builder().url("https://...").build())
+     *     .build());
+     * // Returns when the run reaches a terminal state
+     * System.out.println(result.getOutput().getValue());
+     * ```
+     * </Tab>
+     * </Tabs>
      *
      * @param {Extend.ExtractRunsCreateRequest} request
      * @param {ExtractRunsClient.RequestOptions} requestOptions - Request-specific configuration.

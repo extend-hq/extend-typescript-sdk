@@ -27,7 +27,41 @@ export class ParseRunsClient {
      *
      * The Parse endpoint allows you to convert documents into structured, machine-readable formats with fine-grained control over the parsing process. This endpoint is ideal for extracting cleaned document content to be used as context for downstream processing, e.g. RAG pipelines, custom ingestion pipelines, embeddings classification, etc.
      *
-     * For more details, see the [Parse File guide](https://docs.extend.ai/2026-02-09/product/parsing/parse).
+     * For more details, see the [Parse File guide](https://docs.extend.ai/2026-02-09/product/parsing/parse). See [Async Processing](https://docs.extend.ai/2026-02-09/developers/async-processing) for a full guide on polling helpers and webhooks.
+     *
+     * ## Polling with the SDK
+     *
+     * The SDK provides a `createAndPoll` / `create_and_poll` method that handles polling automatically, returning when the run reaches a terminal state (`PROCESSED` or `FAILED`):
+     *
+     * <Tabs>
+     * <Tab title="TypeScript">
+     * ```typescript
+     * const result = await client.parseRuns.createAndPoll({
+     *   file: { url: "https://..." }
+     * });
+     * // Returns when the run reaches a terminal state
+     * console.log(result.output);
+     * ```
+     * </Tab>
+     * <Tab title="Python">
+     * ```python
+     * result = client.parse_runs.create_and_poll(
+     *     file={"url": "https://..."}
+     * )
+     * # Returns when the run reaches a terminal state
+     * print(result.output)
+     * ```
+     * </Tab>
+     * <Tab title="Java">
+     * ```java
+     * var result = client.parseRuns().createAndPoll(ParseRunCreateRequest.builder()
+     *     .file(FileInput.builder().url("https://...").build())
+     *     .build());
+     * // Returns when the run reaches a terminal state
+     * System.out.println(result.getOutput());
+     * ```
+     * </Tab>
+     * </Tabs>
      *
      * @param {Extend.ParseRunsCreateRequest} request
      * @param {ParseRunsClient.RequestOptions} requestOptions - Request-specific configuration.

@@ -27,7 +27,44 @@ export class EditRunsClient {
      *
      * The Edit Runs endpoint allows you to convert and edit documents and get an edit run ID that can be used to check status and retrieve results with the [Get Edit Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/edit/get-edit-run) endpoint.
      *
-     * For more details, see the [Edit File guide](https://docs.extend.ai/2026-02-09/product/editing/edit).
+     * For more details, see the [Edit File guide](https://docs.extend.ai/2026-02-09/product/editing/edit). See [Async Processing](https://docs.extend.ai/2026-02-09/developers/async-processing) for a full guide on polling helpers and webhooks.
+     *
+     * ## Polling with the SDK
+     *
+     * The SDK provides a `createAndPoll` / `create_and_poll` method that handles polling automatically, returning when the run reaches a terminal state (`PROCESSED` or `FAILED`):
+     *
+     * <Tabs>
+     * <Tab title="TypeScript">
+     * ```typescript
+     * const result = await client.editRuns.createAndPoll({
+     *   file: { url: "https://..." },
+     *   config: { /* edit config * / }
+     * });
+     * // Returns when the run reaches a terminal state
+     * console.log(result.output);
+     * ```
+     * </Tab>
+     * <Tab title="Python">
+     * ```python
+     * result = client.edit_runs.create_and_poll(
+     *     file={"url": "https://..."},
+     *     config={ ... }  # edit config
+     * )
+     * # Returns when the run reaches a terminal state
+     * print(result.output)
+     * ```
+     * </Tab>
+     * <Tab title="Java">
+     * ```java
+     * var result = client.editRuns().createAndPoll(EditRunCreateRequest.builder()
+     *     .file(FileInput.builder().url("https://...").build())
+     *     .config(EditConfig.builder().build())
+     *     .build());
+     * // Returns when the run reaches a terminal state
+     * System.out.println(result.getOutput());
+     * ```
+     * </Tab>
+     * </Tabs>
      *
      * @param {Extend.EditRunsCreateRequest} request
      * @param {EditRunsClient.RequestOptions} requestOptions - Request-specific configuration.
