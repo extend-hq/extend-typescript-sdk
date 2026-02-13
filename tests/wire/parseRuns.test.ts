@@ -66,6 +66,7 @@ describe("ParseRunsClient", () => {
                 target: "markdown",
                 chunkingStrategy: { type: "page", options: { minCharacters: 500, maxCharacters: 10000 } },
                 engine: "parse_performance",
+                engineVersion: "engineVersion",
                 advancedOptions: {
                     pageRotationEnabled: true,
                     pageRanges: [
@@ -189,6 +190,7 @@ describe("ParseRunsClient", () => {
                     },
                 },
                 engine: "parse_performance",
+                engineVersion: "engineVersion",
                 advancedOptions: {
                     pageRotationEnabled: true,
                     pageRanges: [
@@ -457,6 +459,7 @@ describe("ParseRunsClient", () => {
                 target: "markdown",
                 chunkingStrategy: { type: "page", options: { minCharacters: 500, maxCharacters: 10000 } },
                 engine: "parse_performance",
+                engineVersion: "engineVersion",
                 advancedOptions: {
                     pageRotationEnabled: true,
                     pageRanges: [
@@ -575,6 +578,7 @@ describe("ParseRunsClient", () => {
                     },
                 },
                 engine: "parse_performance",
+                engineVersion: "engineVersion",
                 advancedOptions: {
                     pageRotationEnabled: true,
                     pageRanges: [
