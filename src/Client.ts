@@ -12,6 +12,7 @@ import { ParserRun } from "./api/resources/parserRun/client/Client";
 import { Edit } from "./api/resources/edit/client/Client";
 import { Workflow } from "./api/resources/workflow/client/Client";
 import { WorkflowRun } from "./api/resources/workflowRun/client/Client";
+import { WorkflowRunOutput } from "./api/resources/workflowRunOutput/client/Client";
 import { BatchWorkflowRun } from "./api/resources/batchWorkflowRun/client/Client";
 import { BatchProcessorRun } from "./api/resources/batchProcessorRun/client/Client";
 import { EvaluationSet } from "./api/resources/evaluationSet/client/Client";
@@ -56,6 +57,7 @@ export class ExtendClient {
     protected _edit: Edit | undefined;
     protected _workflow: Workflow | undefined;
     protected _workflowRun: WorkflowRun | undefined;
+    protected _workflowRunOutput: WorkflowRunOutput | undefined;
     protected _batchWorkflowRun: BatchWorkflowRun | undefined;
     protected _batchProcessorRun: BatchProcessorRun | undefined;
     protected _evaluationSet: EvaluationSet | undefined;
@@ -100,6 +102,10 @@ export class ExtendClient {
 
     public get workflowRun(): WorkflowRun {
         return (this._workflowRun ??= new WorkflowRun(this._options));
+    }
+
+    public get workflowRunOutput(): WorkflowRunOutput {
+        return (this._workflowRunOutput ??= new WorkflowRunOutput(this._options));
     }
 
     public get batchWorkflowRun(): BatchWorkflowRun {
