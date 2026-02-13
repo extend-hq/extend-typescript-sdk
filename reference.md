@@ -13,7 +13,7 @@
 
 Parse a file synchronously, waiting for the result before returning. This endpoint has a **5-minute timeout** — if processing takes longer, the request will fail.
 
-**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /parse_runs` with webhooks or polling instead, as it provides better reliability for large files and avoids timeout issues.
+**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /parse_runs` with [polling or webhooks](https://docs.extend.ai/2026-02-09/developers/async-processing) instead, as it provides better reliability for large files and avoids timeout issues.
 
 The Parse endpoint allows you to convert documents into structured, machine-readable formats with fine-grained control over the parsing process. This endpoint is ideal for extracting cleaned document content to be used as context for downstream processing, e.g. RAG pipelines, custom ingestion pipelines, embeddings classification, etc.
 
@@ -86,7 +86,7 @@ await client.parse({
 
 Edit a file synchronously, waiting for the result before returning. This endpoint has a **5-minute timeout** — if processing takes longer, the request will fail.
 
-**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /edit_runs` with webhooks or polling instead, as it provides better reliability for large files and avoids timeout issues.
+**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /edit_runs` with [polling or webhooks](https://docs.extend.ai/2026-02-09/developers/async-processing) instead, as it provides better reliability for large files and avoids timeout issues.
 
 The Edit endpoint allows you to detect and fill form fields in PDF documents.
 
@@ -159,7 +159,7 @@ await client.edit({
 
 Extract structured data from a file synchronously, waiting for the result before returning. This endpoint has a **5-minute timeout** — if processing takes longer, the request will fail.
 
-**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /extract_runs` with webhooks or polling instead, as it provides better reliability for large files and avoids timeout issues.
+**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /extract_runs` with [polling or webhooks](https://docs.extend.ai/2026-02-09/developers/async-processing) instead, as it provides better reliability for large files and avoids timeout issues.
 
 The Extract endpoint allows you to extract structured data from files using an existing extractor or an inline configuration.
 
@@ -232,7 +232,7 @@ await client.extract({
 
 Classify a document synchronously, waiting for the result before returning. This endpoint has a **5-minute timeout** — if processing takes longer, the request will fail.
 
-**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /classify_runs` with webhooks or polling instead, as it provides better reliability for large files and avoids timeout issues.
+**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /classify_runs` with [polling or webhooks](https://docs.extend.ai/2026-02-09/developers/async-processing) instead, as it provides better reliability for large files and avoids timeout issues.
 
 The Classify endpoint allows you to classify documents using an existing classifier or an inline configuration.
 
@@ -305,7 +305,7 @@ await client.classify({
 
 Split a document synchronously, waiting for the result before returning. This endpoint has a **5-minute timeout** — if processing takes longer, the request will fail.
 
-**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /split_runs` with webhooks or polling instead, as it provides better reliability for large files and avoids timeout issues.
+**Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /split_runs` with [polling or webhooks](https://docs.extend.ai/2026-02-09/developers/async-processing) instead, as it provides better reliability for large files and avoids timeout issues.
 
 The Split endpoint allows you to split documents into multiple parts using an existing splitter or an inline configuration.
 
@@ -662,7 +662,7 @@ Parse files to get cleaned, chunked target content (e.g. markdown).
 
 The Parse endpoint allows you to convert documents into structured, machine-readable formats with fine-grained control over the parsing process. This endpoint is ideal for extracting cleaned document content to be used as context for downstream processing, e.g. RAG pipelines, custom ingestion pipelines, embeddings classification, etc.
 
-For more details, see the [Parse File guide](https://docs.extend.ai/2026-02-09/product/parsing/parse).
+The request returns immediately with a `PROCESSING` status. Use webhooks or poll the Get Parse Run endpoint for results.
 </dd>
 </dl>
 </dd>
@@ -878,9 +878,9 @@ Example: `"pr_xK9mLPqRtN3vS8wF5hB2cQ"`
 
 Edit and manipulate PDF documents by detecting and filling form fields.
 
-The Edit Runs endpoint allows you to convert and edit documents and get an edit run ID that can be used to check status and retrieve results with the [Get Edit Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/edit/get-edit-run) endpoint.
+The Edit Runs endpoint allows you to convert and edit documents and get an edit run ID that can be used to check status and retrieve results with the Get Edit Run endpoint.
 
-For more details, see the [Edit File guide](https://docs.extend.ai/2026-02-09/product/editing/edit).
+The request returns immediately with a `PROCESSING` status. Use webhooks or poll the Get Edit Run endpoint for results.
 </dd>
 </dl>
 </dd>
@@ -1155,7 +1155,7 @@ await client.extractRuns.list({
 
 Extract structured data from a file using an existing extractor or an inline configuration.
 
-The request returns immediately with a `PROCESSING` status. Use webhooks or poll the [Get Extract Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/extract/get-extract-run) endpoint for results.
+The request returns immediately with a `PROCESSING` status. Use webhooks or poll the Get Extract Run endpoint for results.
 </dd>
 </dl>
 </dd>
@@ -2008,7 +2008,7 @@ await client.classifyRuns.list({
 
 Classify a document using an existing classifier or an inline configuration.
 
-The request returns immediately with a `PROCESSING` status. Use webhooks or poll the [Get Classify Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/classify/get-classify-run) endpoint for results.
+The request returns immediately with a `PROCESSING` status. Use webhooks or poll the Get Classify Run endpoint for results.
 </dd>
 </dl>
 </dd>
@@ -2861,7 +2861,7 @@ await client.splitRuns.list({
 
 Split a document into multiple parts using an existing splitter or an inline configuration.
 
-The request returns immediately with a `PROCESSING` status. Use webhooks or poll the [Get Split Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/split/get-split-run) endpoint for results.
+The request returns immediately with a `PROCESSING` status. Use webhooks or poll the Get Split Run endpoint for results.
 </dd>
 </dl>
 </dd>
@@ -3779,6 +3779,8 @@ await client.workflowRuns.list({
 <dd>
 
 Run a workflow with a file. A workflow is a sequence of steps that process files and data in a specific order to achieve a desired outcome.
+
+The request returns immediately with a `PROCESSING` status. Use webhooks or poll the Get Workflow Run endpoint for results.
 </dd>
 </dl>
 </dd>

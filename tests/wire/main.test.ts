@@ -72,6 +72,8 @@ describe("ExtendClient", () => {
                         { start: 1, end: 10 },
                         { start: 20, end: 30 },
                     ],
+                    excelParsingMode: "basic",
+                    excelSkipHiddenContent: true,
                     verticalGroupingThreshold: 1.1,
                 },
             },
@@ -199,6 +201,8 @@ describe("ExtendClient", () => {
                             end: 30,
                         },
                     ],
+                    excelParsingMode: "basic",
+                    excelSkipHiddenContent: true,
                     verticalGroupingThreshold: 1.1,
                 },
             },
@@ -1189,7 +1193,7 @@ describe("ExtendClient", () => {
                     },
                 ],
                 classificationRules:
-                    "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                    "Remember, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
@@ -1313,7 +1317,7 @@ describe("ExtendClient", () => {
                     },
                 ],
                 classificationRules:
-                    "Rememeber, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                    "Remember, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
