@@ -1,4 +1,3 @@
-export * from "./PostFilesResponse";
 export * from "./BadRequestErrorBodyCode";
 export * from "./BadRequestErrorBody";
 export * from "./ParseRequestResponseType";

@@ -12,7 +12,6 @@ import { ParserRun } from "./api/resources/parserRun/client/Client";
 import { Edit } from "./api/resources/edit/client/Client";
 import { Workflow } from "./api/resources/workflow/client/Client";
 import { WorkflowRun } from "./api/resources/workflowRun/client/Client";
-import { WorkflowRunOutput } from "./api/resources/workflowRunOutput/client/Client";
 import { BatchWorkflowRun } from "./api/resources/batchWorkflowRun/client/Client";
 import { BatchProcessorRun } from "./api/resources/batchProcessorRun/client/Client";
 import { EvaluationSet } from "./api/resources/evaluationSet/client/Client";
@@ -57,7 +56,6 @@ export class ExtendClient {
     protected _edit: Edit | undefined;
     protected _workflow: Workflow | undefined;
     protected _workflowRun: WorkflowRun | undefined;
-    protected _workflowRunOutput: WorkflowRunOutput | undefined;
     protected _batchWorkflowRun: BatchWorkflowRun | undefined;
     protected _batchProcessorRun: BatchProcessorRun | undefined;
     protected _evaluationSet: EvaluationSet | undefined;
@@ -104,10 +102,6 @@ export class ExtendClient {
         return (this._workflowRun ??= new WorkflowRun(this._options));
     }
 
-    public get workflowRunOutput(): WorkflowRunOutput {
-        return (this._workflowRunOutput ??= new WorkflowRunOutput(this._options));
-    }
-
     public get batchWorkflowRun(): BatchWorkflowRun {
         return (this._batchWorkflowRun ??= new BatchWorkflowRun(this._options));
     }
@@ -134,92 +128,6 @@ export class ExtendClient {
 
     public get processorVersion(): ProcessorVersion {
         return (this._processorVersion ??= new ProcessorVersion(this._options));
-    }
-
-    /**
-     * Create a new file in Extend for use in an evaluation set. This endpoint is deprecated, use /files/upload instead.
-     *
-     * @param {Extend.PostFilesRequest} request
-     * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Extend.BadRequestError}
-     * @throws {@link Extend.UnauthorizedError}
-     *
-     * @example
-     *     await client.createFile({
-     *         name: "name"
-     *     })
-     */
-    public createFile(
-        request: Extend.PostFilesRequest,
-        requestOptions?: ExtendClient.RequestOptions,
-    ): core.HttpResponsePromise<Extend.PostFilesResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__createFile(request, requestOptions));
-    }
-
-    private async __createFile(
-        request: Extend.PostFilesRequest,
-        requestOptions?: ExtendClient.RequestOptions,
-    ): Promise<core.WithRawResponse<Extend.PostFilesResponse>> {
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            this._options?.headers,
-            mergeOnlyDefinedHeaders({
-                Authorization: await this._getAuthorizationHeader(),
-                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
-            }),
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.ExtendEnvironment.Production,
-                "files",
-            ),
-            method: "POST",
-            headers: _headers,
-            contentType: "application/json",
-            queryParameters: requestOptions?.queryParams,
-            requestType: "json",
-            body: request,
-            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
-            maxRetries: requestOptions?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-        });
-        if (_response.ok) {
-            return { data: _response.body as Extend.PostFilesResponse, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                case 401:
-                    throw new Extend.UnauthorizedError(_response.error.body as Extend.Error_, _response.rawResponse);
-                default:
-                    throw new errors.ExtendError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
-        }
-
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.ExtendError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.ExtendTimeoutError("Timeout exceeded when calling POST /files.");
-            case "unknown":
-                throw new errors.ExtendError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
     }
 
     /**
