@@ -150,8 +150,11 @@ export class SplitRunsClient {
      *
      * @example
      *     await client.splitRuns.create({
+     *         splitter: {
+     *             id: "spl_1234567890"
+     *         },
      *         file: {
-     *             url: "url"
+     *             url: "https://example.com/multi-document.pdf"
      *         }
      *     })
      */

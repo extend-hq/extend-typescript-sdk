@@ -6,7 +6,7 @@
  * and may include additional `insights` of type `issue` or `review_summary` to help identify
  * fields that may need manual review.
  *
- * To learn more, view the [Review Agent Documentation](https://docs.extend.ai/product/extraction/review-agent)
+ * To learn more, view the [Review Agent Documentation](https://docs.extend.ai/2026-02-09/product/extraction/review-agent)
  */
 export interface LegacyExtractionAdvancedOptionsReviewAgent {
     /** Whether to enable the review agent for the extraction output. */

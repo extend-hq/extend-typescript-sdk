@@ -34,7 +34,8 @@ For more details, see the [Parse File guide](https://docs.extend.ai/2026-02-09/p
 ```typescript
 await client.parse({
     file: {
-        url: "url"
+        url: "https://example.com/bank_statement.pdf",
+        name: "bank_statement.pdf"
     }
 });
 
@@ -107,7 +108,13 @@ For more details, see the [Edit File guide](https://docs.extend.ai/2026-02-09/pr
 ```typescript
 await client.edit({
     file: {
-        url: "url"
+        url: "https://example.com/form.pdf"
+    },
+    config: {
+        instructions: "Fill out the form with the provided data",
+        advancedOptions: {
+            flattenPdf: true
+        }
     }
 });
 
@@ -163,7 +170,7 @@ Extract structured data from a file synchronously, waiting for the result before
 
 The Extract endpoint allows you to extract structured data from files using an existing extractor or an inline configuration.
 
-For more details, see the [Extract File guide](https://docs.extend.ai/2026-02-09/product/extracting/extract).
+For more details, see the [Extract File guide](https://docs.extend.ai/2026-02-09/product/extraction/quick-start-5-minutes).
 </dd>
 </dl>
 </dd>
@@ -179,8 +186,27 @@ For more details, see the [Extract File guide](https://docs.extend.ai/2026-02-09
 
 ```typescript
 await client.extract({
+    config: {
+        schema: {
+            "type": "object",
+            "properties": {
+                "vendor_name": {
+                    "type": "string",
+                    "description": "The name of the vendor"
+                },
+                "invoice_number": {
+                    "type": "string",
+                    "description": "The invoice number"
+                },
+                "total_amount": {
+                    "type": "number",
+                    "description": "The total amount due"
+                }
+            }
+        }
+    },
     file: {
-        url: "url"
+        url: "https://example.com/invoice.pdf"
     }
 });
 
@@ -236,7 +262,7 @@ Classify a document synchronously, waiting for the result before returning. This
 
 The Classify endpoint allows you to classify documents using an existing classifier or an inline configuration.
 
-For more details, see the [Classify File guide](https://docs.extend.ai/2026-02-09/product/classifying/classify).
+For more details, see the [Classify File guide](https://docs.extend.ai/2026-02-09/product/classification/configuring-a-classifier).
 </dd>
 </dl>
 </dd>
@@ -252,8 +278,23 @@ For more details, see the [Classify File guide](https://docs.extend.ai/2026-02-0
 
 ```typescript
 await client.classify({
+    config: {
+        classifications: [{
+                id: "invoice",
+                type: "invoice",
+                description: "An invoice or bill for goods or services"
+            }, {
+                id: "receipt",
+                type: "receipt",
+                description: "A receipt confirming payment"
+            }, {
+                id: "other",
+                type: "other",
+                description: "Any other document type"
+            }]
+    },
     file: {
-        url: "url"
+        url: "https://example.com/document.pdf"
     }
 });
 
@@ -309,7 +350,7 @@ Split a document synchronously, waiting for the result before returning. This en
 
 The Split endpoint allows you to split documents into multiple parts using an existing splitter or an inline configuration.
 
-For more details, see the [Split File guide](https://docs.extend.ai/2026-02-09/product/splitting/split).
+For more details, see the [Split File guide](https://docs.extend.ai/2026-02-09/product/splitting/configuring-a-splitter).
 </dd>
 </dl>
 </dd>
@@ -325,8 +366,23 @@ For more details, see the [Split File guide](https://docs.extend.ai/2026-02-09/p
 
 ```typescript
 await client.split({
+    config: {
+        splitClassifications: [{
+                id: "invoice",
+                type: "invoice",
+                description: "An invoice or bill for goods or services"
+            }, {
+                id: "receipt",
+                type: "receipt",
+                description: "A receipt confirming payment"
+            }, {
+                id: "other",
+                type: "other",
+                description: "Any other document type"
+            }]
+    },
     file: {
-        url: "url"
+        url: "https://example.com/multi-document.pdf"
     }
 });
 
@@ -588,7 +644,7 @@ Example: `"file_xK9mLPqRtN3vS8wF5hB2cQ"`
 
 Upload and create a new file in Extend.
 
-This endpoint accepts file contents and registers them as a File in Extend, which can be used for [running workflows](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/workflow/run-workflow), [creating evaluation set items](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/evaluation/bulk-create-evaluation-set-items), [parsing](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/parse/parse-file), etc.
+This endpoint accepts file contents and registers them as a File in Extend, which can be used for [running workflows](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/workflow/create-workflow-run), [creating evaluation set items](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/evaluation/create-evaluation-set-item), [parsing](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/parse/parse-file), etc.
 
 If an uploaded file is detected as a Word or PowerPoint document, it will be automatically converted to a PDF.
 
@@ -679,7 +735,8 @@ The request returns immediately with a `PROCESSING` status. Use webhooks or poll
 ```typescript
 await client.parseRuns.create({
     file: {
-        url: "url"
+        url: "https://example.com/bank_statement.pdf",
+        name: "bank_statement.pdf"
     }
 });
 
@@ -897,7 +954,13 @@ The request returns immediately with a `PROCESSING` status. Use webhooks or poll
 ```typescript
 await client.editRuns.create({
     file: {
-        url: "url"
+        url: "https://example.com/form.pdf"
+    },
+    config: {
+        instructions: "Fill out the form with the provided data",
+        advancedOptions: {
+            flattenPdf: true
+        }
     }
 });
 
@@ -1171,8 +1234,11 @@ The request returns immediately with a `PROCESSING` status. Use webhooks or poll
 
 ```typescript
 await client.extractRuns.create({
+    extractor: {
+        id: "ex_1234567890"
+    },
     file: {
-        url: "url"
+        url: "https://example.com/invoice.pdf"
     }
 });
 
@@ -1509,7 +1575,26 @@ Create a new extractor.
 
 ```typescript
 await client.extractors.create({
-    name: "name"
+    name: "Invoice Extractor",
+    config: {
+        schema: {
+            "type": "object",
+            "properties": {
+                "vendor_name": {
+                    "type": "string",
+                    "description": "The name of the vendor"
+                },
+                "invoice_number": {
+                    "type": "string",
+                    "description": "The invoice number"
+                },
+                "total_amount": {
+                    "type": "number",
+                    "description": "The total amount due"
+                }
+            }
+        }
+    }
 });
 
 ```
@@ -1640,7 +1725,9 @@ Update an existing extractor.
 <dd>
 
 ```typescript
-await client.extractors.update("extractor_id_here");
+await client.extractors.update("extractor_id_here", {
+    name: "Invoice Extractor v2"
+});
 
 ```
 </dd>
@@ -1798,7 +1885,8 @@ Publishing a new version does not automatically update existing workflows using 
 
 ```typescript
 await client.extractorVersions.create("extractor_id_here", {
-    releaseType: "major"
+    releaseType: "minor",
+    description: "Updated extraction rules for better accuracy"
 });
 
 ```
@@ -2024,8 +2112,11 @@ The request returns immediately with a `PROCESSING` status. Use webhooks or poll
 
 ```typescript
 await client.classifyRuns.create({
+    classifier: {
+        id: "cl_1234567890"
+    },
     file: {
-        url: "url"
+        url: "https://example.com/document.pdf"
     }
 });
 
@@ -2362,7 +2453,22 @@ Create a new classifier.
 
 ```typescript
 await client.classifiers.create({
-    name: "name"
+    name: "Document Classifier",
+    config: {
+        classifications: [{
+                id: "invoice",
+                type: "invoice",
+                description: "An invoice or bill for goods or services"
+            }, {
+                id: "receipt",
+                type: "receipt",
+                description: "A receipt confirming payment"
+            }, {
+                id: "other",
+                type: "other",
+                description: "Any other document type"
+            }]
+    }
 });
 
 ```
@@ -2493,7 +2599,9 @@ Update an existing classifier.
 <dd>
 
 ```typescript
-await client.classifiers.update("classifier_id_here");
+await client.classifiers.update("classifier_id_here", {
+    name: "Document Classifier v2"
+});
 
 ```
 </dd>
@@ -2651,7 +2759,8 @@ Publishing a new version does not automatically update existing workflows using 
 
 ```typescript
 await client.classifierVersions.create("classifier_id_here", {
-    releaseType: "major"
+    releaseType: "minor",
+    description: "Added new document classification type"
 });
 
 ```
@@ -2877,8 +2986,11 @@ The request returns immediately with a `PROCESSING` status. Use webhooks or poll
 
 ```typescript
 await client.splitRuns.create({
+    splitter: {
+        id: "spl_1234567890"
+    },
     file: {
-        url: "url"
+        url: "https://example.com/multi-document.pdf"
     }
 });
 
@@ -3215,7 +3327,22 @@ Create a new splitter.
 
 ```typescript
 await client.splitters.create({
-    name: "name"
+    name: "Document Splitter",
+    config: {
+        splitClassifications: [{
+                id: "invoice",
+                type: "invoice",
+                description: "An invoice or bill for goods or services"
+            }, {
+                id: "receipt",
+                type: "receipt",
+                description: "A receipt confirming payment"
+            }, {
+                id: "other",
+                type: "other",
+                description: "Any other document type"
+            }]
+    }
 });
 
 ```
@@ -3346,7 +3473,9 @@ Update an existing splitter.
 <dd>
 
 ```typescript
-await client.splitters.update("splitter_id_here");
+await client.splitters.update("splitter_id_here", {
+    name: "Document Splitter v2"
+});
 
 ```
 </dd>
@@ -3504,7 +3633,8 @@ Publishing a new version does not automatically update existing workflows using 
 
 ```typescript
 await client.splitterVersions.create("splitter_id_here", {
-    releaseType: "major"
+    releaseType: "minor",
+    description: "Improved split boundary detection"
 });
 
 ```
@@ -3797,10 +3927,10 @@ The request returns immediately with a `PROCESSING` status. Use webhooks or poll
 ```typescript
 await client.workflowRuns.create({
     workflow: {
-        id: "workflow_BMdfq_yWM3sT-ZzvCnA3f"
+        id: "wf_1234567890"
     },
     file: {
-        url: "url"
+        url: "https://example.com/invoice.pdf"
     }
 });
 
@@ -3932,7 +4062,13 @@ You can update the name and metadata of an in progress WorkflowRun at any time u
 <dd>
 
 ```typescript
-await client.workflowRuns.update("workflow_run_id_here");
+await client.workflowRuns.update("workflow_run_id_here", {
+    name: "Invoice #12345",
+    metadata: {
+        "customerId": "cust_abc123",
+        "source": "email-inbox"
+    }
+});
 
 ```
 </dd>
@@ -4132,7 +4268,7 @@ Example: `"workflow_run_xKm9pNv3qWsY_jL2tR5Dh"`
 
 This endpoint allows you to efficiently initiate large batches of workflow runs in a single request (up to 1,000 in a single request, but you can queue up multiple batches in rapid succession). It accepts an array of inputs, each containing a file and metadata pair. The primary use case for this endpoint is for doing large bulk runs of >1000 files at a time that can process over the course of a few hours without needing to manage rate limits that would likely occur using the primary run endpoint.
 
-Unlike the single [Run Workflow](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/workflow/run-workflow) endpoint which returns the details of the created workflow runs immediately, this batch endpoint returns a `batchId`.
+Unlike the single [Run Workflow](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/workflow/create-workflow-run) endpoint which returns the details of the created workflow runs immediately, this batch endpoint returns a `batchId`.
 
 Our recommended usage pattern is to integrate with [Webhooks](https://docs.extend.ai/2026-02-09/product/webhooks/configuration) for consuming results, using the `metadata` and `batchId` to match up results to the original inputs in your downstream systems. However, you can integrate in a polling mechanism by using a combination of the [List Workflow Runs](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/workflow/list-workflow-runs) endpoint to fetch all runs via a batch, and then [Get Workflow Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/workflow/get-workflow-run) to fetch the full outputs each run.
 
@@ -4159,11 +4295,21 @@ Upon successful submission, the endpoint returns a `batchId`. The individual wor
 ```typescript
 await client.workflowRuns.createBatch({
     workflow: {
-        id: "workflow_BMdfq_yWM3sT-ZzvCnA3f"
+        id: "wf_1234567890"
     },
     inputs: [{
             file: {
-                url: "url"
+                url: "https://example.com/invoice1.pdf"
+            },
+            metadata: {
+                "customerId": "cust_abc123"
+            }
+        }, {
+            file: {
+                url: "https://example.com/invoice2.pdf"
+            },
+            metadata: {
+                "customerId": "cust_def456"
             }
         }]
 });
@@ -4287,8 +4433,8 @@ Run processors (extraction, classification, splitting, etc.) on a given document
 - **Synchronous**: Set `sync: true` to wait for completion and get final results in the response (5-minute timeout).
 
 **For asynchronous processing:**
-- You can [configure webhooks](https://docs.extend.ai/product/webhooks/configuration) to receive notifications when a processor run is complete or failed.
-- Or you can [poll the get endpoint](https://docs.extend.ai/2025-04-21/developers/api-reference/processor-endpoints/get-processor-run) for updates on the status of the processor run.
+- You can [configure webhooks](https://docs.extend.ai/2026-02-09/product/webhooks/configuration) to receive notifications when a processor run is complete or failed.
+- Or you can [poll the get endpoint](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/legacy/get-processor-run) for updates on the status of the processor run.
 </dd>
 </dl>
 </dd>
@@ -4355,7 +4501,7 @@ await client.processorRun.create({
 
 Retrieve details about a specific processor run, including its status, outputs, and any edits made during review.
 
-A common use case for this endpoint is to poll for the status and final output of an async processor run when using the [Run Processor](https://docs.extend.ai/2025-04-21/developers/api-reference/processor-endpoints/run-processor) endpoint. For instance, if you do not want to not configure webhooks to receive the output via completion/failure events.
+A common use case for this endpoint is to poll for the status and final output of an async processor run when using the [Run Processor](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/legacy/create-processor-run) endpoint. For instance, if you do not want to not configure webhooks to receive the output via completion/failure events.
 </dd>
 </dl>
 </dd>
@@ -4997,7 +5143,7 @@ Example: `"exv_QYk6jgHA_8CsO8rVWhyNC"`
 
 Retrieve details about a batch processor run, including evaluation runs.
 
-**Deprecated:** This endpoint is maintained for backwards compatibility only and will be replaced in a future API version. Use [Get Evaluation Set Run](/2026-02-09/developers/api-reference/endpoints/evaluation/get-evaluation-set-run) for interacting with evaluation set runs.
+**Deprecated:** This endpoint is maintained for backwards compatibility only and will be replaced in a future API version. Use [Get Evaluation Set Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/evaluation/get-evaluation-set-run) for interacting with evaluation set runs.
 </dd>
 </dl>
 </dd>
@@ -5133,7 +5279,7 @@ await client.evaluationSets.list({
 
 Evaluation sets are collections of files and expected outputs that are used to evaluate the performance of a given extractor, classifier, or splitter. This endpoint will create a new evaluation set, which items can be added to using the [Create Evaluation Set Item](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/evaluation/create-evaluation-set-item) endpoint.
 
-Note: It is not necessary to create an evaluation set via API. You can also create an evaluation set via the Extend dashboard and take the ID from there. To learn more about how to create evaluation sets, see the [Evaluation Sets](https://docs.extend.ai/product/evaluation/overview) product page.
+Note: It is not necessary to create an evaluation set via API. You can also create an evaluation set via the Extend dashboard and take the ID from there. To learn more about how to create evaluation sets, see the [Evaluation Sets](https://docs.extend.ai/2026-02-09/product/evaluation/overview) product page.
 </dd>
 </dl>
 </dd>
@@ -5149,8 +5295,9 @@ Note: It is not necessary to create an evaluation set via API. You can also crea
 
 ```typescript
 await client.evaluationSets.create({
-    name: "My Evaluation Set",
-    entityId: "entity_id_here"
+    name: "Invoice Processing Test Set",
+    description: "Q4 vendor invoices for accuracy testing",
+    entityId: "ex_1234567890"
 });
 
 ```
@@ -5350,7 +5497,7 @@ Evaluation set items are the individual files and expected outputs that are used
 
 **Limit:** You can create up to 100 items at a time.
 
-Learn more about how to create evaluation set items in the [Evaluation Sets](https://docs.extend.ai/product/evaluation/overview) product page.
+Learn more about how to create evaluation set items in the [Evaluation Sets](https://docs.extend.ai/2026-02-09/product/evaluation/overview) product page.
 </dd>
 </dl>
 </dd>
@@ -5367,8 +5514,14 @@ Learn more about how to create evaluation set items in the [Evaluation Sets](htt
 ```typescript
 await client.evaluationSetItems.create("evaluation_set_id_here", {
     items: [{
-            fileId: "file_id_here",
-            expectedOutput: {}
+            fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+            expectedOutput: {
+                value: {
+                    "vendor_name": "Acme Corp",
+                    "invoice_number": "INV-001",
+                    "total_amount": 1500
+                }
+            }
         }]
 });
 
@@ -5525,7 +5678,13 @@ If you need to change the expected output for a given evaluation set item, you c
 
 ```typescript
 await client.evaluationSetItems.update("evaluation_set_id_here", "evaluation_set_item_id_here", {
-    expectedOutput: {}
+    expectedOutput: {
+        value: {
+            "vendor_name": "Acme Corp",
+            "invoice_number": "INV-001",
+            "total_amount": 1750
+        }
+    }
 });
 
 ```
@@ -5722,6 +5881,704 @@ Example: `"evr_Xj8mK2pL9nR4vT7qY5wZ"`
 <dd>
 
 **requestOptions:** `EvaluationSetRunsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## WebhookEndpoints
+<details><summary><code>client.webhookEndpoints.<a href="/src/api/resources/webhookEndpoints/client/Client.ts">list</a>({ ...params }) -> Extend.WebhookEndpointsListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List all webhook endpoints.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.webhookEndpoints.list({
+    nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.WebhookEndpointsListRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WebhookEndpointsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.webhookEndpoints.<a href="/src/api/resources/webhookEndpoints/client/Client.ts">create</a>({ ...params }) -> Extend.WebhookEndpointCreate</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a new webhook endpoint. The response includes a `signingSecret` that is only returned once — store it securely for verifying webhook signatures.
+
+The `enabledEvents` array specifies which global event types this endpoint should receive. Use the [Webhook Events](https://docs.extend.ai/2026-02-09/developers/api-reference/webhook-events) reference to see available event types.
+
+To subscribe to events scoped to a specific resource (e.g., a single extractor or workflow), use [Create Webhook Subscription](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/webhook/create-webhook-subscription) after creating the endpoint.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.webhookEndpoints.create({
+    url: "https://example.com/webhooks",
+    name: "Production webhook",
+    enabledEvents: ["extract_run.processed", "workflow.created"],
+    apiVersion: "2026-02-09"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.WebhookEndpointsCreateRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WebhookEndpointsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.webhookEndpoints.<a href="/src/api/resources/webhookEndpoints/client/Client.ts">retrieve</a>(id) -> Extend.WebhookEndpoint</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a webhook endpoint by ID.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.webhookEndpoints.retrieve("webhook_endpoint_id_here");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+
+The ID of the webhook endpoint.
+
+Example: `"wh_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WebhookEndpointsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.webhookEndpoints.<a href="/src/api/resources/webhookEndpoints/client/Client.ts">update</a>(id, { ...params }) -> Extend.WebhookEndpoint</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update a webhook endpoint. Only the fields you include in the request body will be updated; omitted fields remain unchanged.
+
+The `apiVersion` of a webhook endpoint cannot be changed after creation.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.webhookEndpoints.update("webhook_endpoint_id_here");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+
+The ID of the webhook endpoint to update.
+
+Example: `"wh_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.WebhookEndpointsUpdateRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WebhookEndpointsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.webhookEndpoints.<a href="/src/api/resources/webhookEndpoints/client/Client.ts">delete</a>(id) -> Extend.WebhookEndpointsDeleteResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Delete a webhook endpoint and all of its subscriptions. This operation is permanent and cannot be undone.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.webhookEndpoints.delete("webhook_endpoint_id_here");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+
+The ID of the webhook endpoint to delete.
+
+Example: `"wh_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WebhookEndpointsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## WebhookSubscriptions
+<details><summary><code>client.webhookSubscriptions.<a href="/src/api/resources/webhookSubscriptions/client/Client.ts">list</a>({ ...params }) -> Extend.WebhookSubscriptionsListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List webhook subscriptions. You can filter by `webhookEndpointId` to see all subscriptions for a given endpoint, or by `resourceId` to see all subscriptions for a given resource.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.webhookSubscriptions.list({
+    nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.WebhookSubscriptionsListRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WebhookSubscriptionsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.webhookSubscriptions.<a href="/src/api/resources/webhookSubscriptions/client/Client.ts">create</a>({ ...params }) -> Extend.WebhookSubscription</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a resource-scoped webhook subscription on an existing webhook endpoint.
+
+Subscriptions let you receive events for a specific resource (e.g., a single extractor or workflow) rather than all resources of that type. The `enabledEvents` must be valid for the given `resourceType` and the endpoint's `apiVersion`.
+
+If a subscription already exists for the same endpoint and resource, it will be updated with the new `enabledEvents` instead of creating a duplicate.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.webhookSubscriptions.create({
+    webhookEndpointId: "wh_Xj8mK2pL9nR4vT7qY5wZ",
+    resourceType: "extractor",
+    resourceId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+    enabledEvents: ["extract_run.processed", "extract_run.failed"]
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.WebhookSubscriptionsCreateRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WebhookSubscriptionsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.webhookSubscriptions.<a href="/src/api/resources/webhookSubscriptions/client/Client.ts">retrieve</a>(id) -> Extend.WebhookSubscription</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a webhook subscription by ID.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.webhookSubscriptions.retrieve("webhook_subscription_id_here");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+
+The ID of the webhook subscription.
+
+Example: `"whes_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WebhookSubscriptionsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.webhookSubscriptions.<a href="/src/api/resources/webhookSubscriptions/client/Client.ts">update</a>(id, { ...params }) -> Extend.WebhookSubscription</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update the enabled events on a webhook subscription.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.webhookSubscriptions.update("webhook_subscription_id_here", {
+    enabledEvents: ["extract_run.processed"]
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+
+The ID of the webhook subscription to update.
+
+Example: `"whes_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.WebhookSubscriptionsUpdateRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WebhookSubscriptionsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.webhookSubscriptions.<a href="/src/api/resources/webhookSubscriptions/client/Client.ts">delete</a>(id) -> Extend.WebhookSubscriptionsDeleteResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Delete a webhook subscription. This operation is permanent and cannot be undone.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.webhookSubscriptions.delete("webhook_subscription_id_here");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+
+The ID of the webhook subscription to delete.
+
+Example: `"whes_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WebhookSubscriptionsClient.RequestOptions` 
     
 </dd>
 </dl>

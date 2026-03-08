@@ -5,7 +5,22 @@ import type * as Extend from "../../../../index";
 /**
  * @example
  *     {
- *         name: "name"
+ *         name: "Document Splitter",
+ *         config: {
+ *             splitClassifications: [{
+ *                     id: "invoice",
+ *                     type: "invoice",
+ *                     description: "An invoice or bill for goods or services"
+ *                 }, {
+ *                     id: "receipt",
+ *                     type: "receipt",
+ *                     description: "A receipt confirming payment"
+ *                 }, {
+ *                     id: "other",
+ *                     type: "other",
+ *                     description: "Any other document type"
+ *                 }]
+ *         }
  *     }
  */
 export interface SplittersCreateRequest {

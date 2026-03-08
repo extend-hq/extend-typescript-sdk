@@ -5,8 +5,11 @@ import type * as Extend from "../../../../index";
 /**
  * @example
  *     {
+ *         splitter: {
+ *             id: "spl_1234567890"
+ *         },
  *         file: {
- *             url: "url"
+ *             url: "https://example.com/multi-document.pdf"
  *         }
  *     }
  */

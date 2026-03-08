@@ -5,7 +5,8 @@ import type * as Extend from "../../../../index";
 /**
  * @example
  *     {
- *         releaseType: "major"
+ *         releaseType: "minor",
+ *         description: "Updated extraction rules for better accuracy"
  *     }
  */
 export interface ExtractorVersionsCreateRequest {

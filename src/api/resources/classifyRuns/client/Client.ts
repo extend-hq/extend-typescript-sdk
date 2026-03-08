@@ -159,8 +159,11 @@ export class ClassifyRunsClient {
      *
      * @example
      *     await client.classifyRuns.create({
+     *         classifier: {
+     *             id: "cl_1234567890"
+     *         },
      *         file: {
-     *             url: "url"
+     *             url: "https://example.com/document.pdf"
      *         }
      *     })
      */

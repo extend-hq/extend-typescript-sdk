@@ -5,7 +5,8 @@ import type * as Extend from "../../../../index";
 /**
  * @example
  *     {
- *         releaseType: "major"
+ *         releaseType: "minor",
+ *         description: "Improved split boundary detection"
  *     }
  */
 export interface SplitterVersionsCreateRequest {

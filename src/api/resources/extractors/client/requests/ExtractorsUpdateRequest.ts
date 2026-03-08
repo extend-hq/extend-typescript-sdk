@@ -4,7 +4,9 @@ import type * as Extend from "../../../../index";
 
 /**
  * @example
- *     {}
+ *     {
+ *         name: "Invoice Extractor v2"
+ *     }
  */
 export interface ExtractorsUpdateRequest {
     /** The new name of the extractor. */

@@ -5,7 +5,26 @@ import type * as Extend from "../../../../index";
 /**
  * @example
  *     {
- *         name: "name"
+ *         name: "Invoice Extractor",
+ *         config: {
+ *             schema: {
+ *                 "type": "object",
+ *                 "properties": {
+ *                     "vendor_name": {
+ *                         "type": "string",
+ *                         "description": "The name of the vendor"
+ *                     },
+ *                     "invoice_number": {
+ *                         "type": "string",
+ *                         "description": "The invoice number"
+ *                     },
+ *                     "total_amount": {
+ *                         "type": "number",
+ *                         "description": "The total amount due"
+ *                     }
+ *                 }
+ *             }
+ *         }
  *     }
  */
 export interface ExtractorsCreateRequest {

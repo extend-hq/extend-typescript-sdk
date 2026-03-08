@@ -141,7 +141,16 @@ describe("ClassifiersClient", () => {
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { name: "name" };
+        const rawRequestBody = {
+            name: "Document Classifier",
+            config: {
+                classifications: [
+                    { id: "invoice", type: "invoice", description: "An invoice or bill for goods or services" },
+                    { id: "receipt", type: "receipt", description: "A receipt confirming payment" },
+                    { id: "other", type: "other", description: "Any other document type" },
+                ],
+            },
+        };
         const rawResponseBody = {
             object: "classifier",
             id: "cl_Xj8mK2pL9nR4vT7qY5wZ",
@@ -187,7 +196,26 @@ describe("ClassifiersClient", () => {
             .build();
 
         const response = await client.classifiers.create({
-            name: "name",
+            name: "Document Classifier",
+            config: {
+                classifications: [
+                    {
+                        id: "invoice",
+                        type: "invoice",
+                        description: "An invoice or bill for goods or services",
+                    },
+                    {
+                        id: "receipt",
+                        type: "receipt",
+                        description: "A receipt confirming payment",
+                    },
+                    {
+                        id: "other",
+                        type: "other",
+                        description: "Any other document type",
+                    },
+                ],
+            },
         });
         expect(response).toEqual({
             object: "classifier",
@@ -590,7 +618,7 @@ describe("ClassifiersClient", () => {
     test("update (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = {};
+        const rawRequestBody = { name: "Document Classifier v2" };
         const rawResponseBody = {
             object: "classifier",
             id: "cl_Xj8mK2pL9nR4vT7qY5wZ",
@@ -635,7 +663,9 @@ describe("ClassifiersClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.classifiers.update("classifier_id_here");
+        const response = await client.classifiers.update("classifier_id_here", {
+            name: "Document Classifier v2",
+        });
         expect(response).toEqual({
             object: "classifier",
             id: "cl_Xj8mK2pL9nR4vT7qY5wZ",

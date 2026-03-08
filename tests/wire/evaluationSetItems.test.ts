@@ -227,7 +227,16 @@ describe("EvaluationSetItemsClient", () => {
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { items: [{ fileId: "file_id_here", expectedOutput: {} }] };
+        const rawRequestBody = {
+            items: [
+                {
+                    fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    expectedOutput: {
+                        value: { vendor_name: "Acme Corp", invoice_number: "INV-001", total_amount: 1500 },
+                    },
+                },
+            ],
+        };
         const rawResponseBody = {
             evaluationSetItems: [
                 {
@@ -269,8 +278,14 @@ describe("EvaluationSetItemsClient", () => {
         const response = await client.evaluationSetItems.create("evaluation_set_id_here", {
             items: [
                 {
-                    fileId: "file_id_here",
-                    expectedOutput: {},
+                    fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    expectedOutput: {
+                        value: {
+                            vendor_name: "Acme Corp",
+                            invoice_number: "INV-001",
+                            total_amount: 1500,
+                        },
+                    },
                 },
             ],
         });
@@ -798,7 +813,9 @@ describe("EvaluationSetItemsClient", () => {
     test("update (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { expectedOutput: {} };
+        const rawRequestBody = {
+            expectedOutput: { value: { vendor_name: "Acme Corp", invoice_number: "INV-001", total_amount: 1750 } },
+        };
         const rawResponseBody = {
             object: "evaluation_set_item",
             id: "evi_kR9mNP12Qw4yTv8BdR3H",
@@ -831,7 +848,13 @@ describe("EvaluationSetItemsClient", () => {
             "evaluation_set_id_here",
             "evaluation_set_item_id_here",
             {
-                expectedOutput: {},
+                expectedOutput: {
+                    value: {
+                        vendor_name: "Acme Corp",
+                        invoice_number: "INV-001",
+                        total_amount: 1750,
+                    },
+                },
             },
         );
         expect(response).toEqual({

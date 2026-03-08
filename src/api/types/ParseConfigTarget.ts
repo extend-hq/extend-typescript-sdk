@@ -13,7 +13,7 @@
  * * Prefer `markdown` for most documents, multi-column reading order, and retrieval use cases
  * * Prefer `spatial` for messy/scanned/handwritten or skewed documents, when you need near 1:1 layout fidelity, or for BOL-like logistics docs
  *
- * See “Markdown vs Spatial” in the [Parse guide](https://docs.extend.ai/2026-02-09/developers/guides/parse#markdown-vs-spatial) for details.
+ * See “Markdown vs Spatial” in the [Parse guide](https://docs.extend.ai/2026-02-09/product/parsing/configuration-options#target-format) for details.
  */
 export const ParseConfigTarget = {
     Markdown: "markdown",

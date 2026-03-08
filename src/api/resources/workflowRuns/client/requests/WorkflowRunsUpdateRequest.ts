@@ -2,7 +2,13 @@
 
 /**
  * @example
- *     {}
+ *     {
+ *         name: "Invoice #12345",
+ *         metadata: {
+ *             "customerId": "cust_abc123",
+ *             "source": "email-inbox"
+ *         }
+ *     }
  */
 export interface WorkflowRunsUpdateRequest {
     /** An optional name that can be assigned to a specific WorkflowRun */

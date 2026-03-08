@@ -8,7 +8,7 @@ describe("ExtendClient", () => {
     test("parse (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = { file: { url: "https://example.com/bank_statement.pdf", name: "bank_statement.pdf" } };
         const rawResponseBody = {
             object: "parse_run",
             id: "pr_xK9mLPqRtN3vS8wF5hB2cQ",
@@ -91,7 +91,8 @@ describe("ExtendClient", () => {
 
         const response = await client.parse({
             file: {
-                url: "url",
+                url: "https://example.com/bank_statement.pdf",
+                name: "bank_statement.pdf",
             },
         });
         expect(response).toEqual({
@@ -401,7 +402,10 @@ describe("ExtendClient", () => {
     test("edit (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {
+            file: { url: "https://example.com/form.pdf" },
+            config: { instructions: "Fill out the form with the provided data", advancedOptions: { flattenPdf: true } },
+        };
         const rawResponseBody = {
             object: "edit_run",
             id: "edr_xK9mLPqRtN3vS8wF5hB2cQ",
@@ -456,7 +460,13 @@ describe("ExtendClient", () => {
 
         const response = await client.edit({
             file: {
-                url: "url",
+                url: "https://example.com/form.pdf",
+            },
+            config: {
+                instructions: "Fill out the form with the provided data",
+                advancedOptions: {
+                    flattenPdf: true,
+                },
             },
         });
         expect(response).toEqual({
@@ -711,7 +721,19 @@ describe("ExtendClient", () => {
     test("extract (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {
+            config: {
+                schema: {
+                    type: "object",
+                    properties: {
+                        vendor_name: { type: "string", description: "The name of the vendor" },
+                        invoice_number: { type: "string", description: "The invoice number" },
+                        total_amount: { type: "number", description: "The total amount due" },
+                    },
+                },
+            },
+            file: { url: "https://example.com/invoice.pdf" },
+        };
         const rawResponseBody = {
             object: "extract_run",
             id: "exr_Xj8mK2pL9nR4vT7qY5wZ",
@@ -807,8 +829,27 @@ describe("ExtendClient", () => {
             .build();
 
         const response = await client.extract({
+            config: {
+                schema: {
+                    type: "object",
+                    properties: {
+                        vendor_name: {
+                            type: "string",
+                            description: "The name of the vendor",
+                        },
+                        invoice_number: {
+                            type: "string",
+                            description: "The invoice number",
+                        },
+                        total_amount: {
+                            type: "number",
+                            description: "The total amount due",
+                        },
+                    },
+                },
+            },
             file: {
-                url: "url",
+                url: "https://example.com/invoice.pdf",
             },
         });
         expect(response).toEqual({
@@ -1147,7 +1188,16 @@ describe("ExtendClient", () => {
     test("classify (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {
+            config: {
+                classifications: [
+                    { id: "invoice", type: "invoice", description: "An invoice or bill for goods or services" },
+                    { id: "receipt", type: "receipt", description: "A receipt confirming payment" },
+                    { id: "other", type: "other", description: "Any other document type" },
+                ],
+            },
+            file: { url: "https://example.com/document.pdf" },
+        };
         const rawResponseBody = {
             object: "classify_run",
             id: "clr_Xj8mK2pL9nR4vT7qY5wZ",
@@ -1247,8 +1297,27 @@ describe("ExtendClient", () => {
             .build();
 
         const response = await client.classify({
+            config: {
+                classifications: [
+                    {
+                        id: "invoice",
+                        type: "invoice",
+                        description: "An invoice or bill for goods or services",
+                    },
+                    {
+                        id: "receipt",
+                        type: "receipt",
+                        description: "A receipt confirming payment",
+                    },
+                    {
+                        id: "other",
+                        type: "other",
+                        description: "Any other document type",
+                    },
+                ],
+            },
             file: {
-                url: "url",
+                url: "https://example.com/document.pdf",
             },
         });
         expect(response).toEqual({
@@ -1571,7 +1640,16 @@ describe("ExtendClient", () => {
     test("split (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {
+            config: {
+                splitClassifications: [
+                    { id: "invoice", type: "invoice", description: "An invoice or bill for goods or services" },
+                    { id: "receipt", type: "receipt", description: "A receipt confirming payment" },
+                    { id: "other", type: "other", description: "Any other document type" },
+                ],
+            },
+            file: { url: "https://example.com/multi-document.pdf" },
+        };
         const rawResponseBody = {
             object: "split_run",
             id: "splr_Xj8mK2pL9nR4vT7qY5wZ",
@@ -1594,14 +1672,14 @@ describe("ExtendClient", () => {
             output: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -1609,14 +1687,14 @@ describe("ExtendClient", () => {
             initialOutput: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -1624,14 +1702,14 @@ describe("ExtendClient", () => {
             reviewedOutput: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -1704,8 +1782,27 @@ describe("ExtendClient", () => {
             .build();
 
         const response = await client.split({
+            config: {
+                splitClassifications: [
+                    {
+                        id: "invoice",
+                        type: "invoice",
+                        description: "An invoice or bill for goods or services",
+                    },
+                    {
+                        id: "receipt",
+                        type: "receipt",
+                        description: "A receipt confirming payment",
+                    },
+                    {
+                        id: "other",
+                        type: "other",
+                        description: "Any other document type",
+                    },
+                ],
+            },
             file: {
-                url: "url",
+                url: "https://example.com/multi-document.pdf",
             },
         });
         expect(response).toEqual({
@@ -1730,14 +1827,14 @@ describe("ExtendClient", () => {
             output: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -1745,14 +1842,14 @@ describe("ExtendClient", () => {
             initialOutput: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -1760,14 +1857,14 @@ describe("ExtendClient", () => {
             reviewedOutput: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,

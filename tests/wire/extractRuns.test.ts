@@ -229,7 +229,7 @@ describe("ExtractRunsClient", () => {
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = { extractor: { id: "ex_1234567890" }, file: { url: "https://example.com/invoice.pdf" } };
         const rawResponseBody = {
             object: "extract_run",
             id: "exr_Xj8mK2pL9nR4vT7qY5wZ",
@@ -325,8 +325,11 @@ describe("ExtractRunsClient", () => {
             .build();
 
         const response = await client.extractRuns.create({
+            extractor: {
+                id: "ex_1234567890",
+            },
             file: {
-                url: "url",
+                url: "https://example.com/invoice.pdf",
             },
         });
         expect(response).toEqual({

@@ -197,7 +197,7 @@ describe("ExtractorVersionsClient", () => {
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { releaseType: "major" };
+        const rawRequestBody = { releaseType: "minor", description: "Updated extraction rules for better accuracy" };
         const rawResponseBody = {
             object: "extractor_version",
             id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
@@ -246,7 +246,8 @@ describe("ExtractorVersionsClient", () => {
             .build();
 
         const response = await client.extractorVersions.create("extractor_id_here", {
-            releaseType: "major",
+            releaseType: "minor",
+            description: "Updated extraction rules for better accuracy",
         });
         expect(response).toEqual({
             object: "extractor_version",

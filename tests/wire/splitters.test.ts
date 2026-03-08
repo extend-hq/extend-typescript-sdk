@@ -141,7 +141,16 @@ describe("SplittersClient", () => {
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { name: "name" };
+        const rawRequestBody = {
+            name: "Document Splitter",
+            config: {
+                splitClassifications: [
+                    { id: "invoice", type: "invoice", description: "An invoice or bill for goods or services" },
+                    { id: "receipt", type: "receipt", description: "A receipt confirming payment" },
+                    { id: "other", type: "other", description: "Any other document type" },
+                ],
+            },
+        };
         const rawResponseBody = {
             object: "splitter",
             id: "spl_Xj8mK2pL9nR4vT7qY5wZ",
@@ -186,7 +195,26 @@ describe("SplittersClient", () => {
             .build();
 
         const response = await client.splitters.create({
-            name: "name",
+            name: "Document Splitter",
+            config: {
+                splitClassifications: [
+                    {
+                        id: "invoice",
+                        type: "invoice",
+                        description: "An invoice or bill for goods or services",
+                    },
+                    {
+                        id: "receipt",
+                        type: "receipt",
+                        description: "A receipt confirming payment",
+                    },
+                    {
+                        id: "other",
+                        type: "other",
+                        description: "Any other document type",
+                    },
+                ],
+            },
         });
         expect(response).toEqual({
             object: "splitter",
@@ -586,7 +614,7 @@ describe("SplittersClient", () => {
     test("update (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = {};
+        const rawRequestBody = { name: "Document Splitter v2" };
         const rawResponseBody = {
             object: "splitter",
             id: "spl_Xj8mK2pL9nR4vT7qY5wZ",
@@ -630,7 +658,9 @@ describe("SplittersClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.splitters.update("splitter_id_here");
+        const response = await client.splitters.update("splitter_id_here", {
+            name: "Document Splitter v2",
+        });
         expect(response).toEqual({
             object: "splitter",
             id: "spl_Xj8mK2pL9nR4vT7qY5wZ",

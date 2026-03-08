@@ -156,7 +156,8 @@ export class SplitterVersionsClient {
      *
      * @example
      *     await client.splitterVersions.create("splitter_id_here", {
-     *         releaseType: "major"
+     *         releaseType: "minor",
+     *         description: "Improved split boundary detection"
      *     })
      */
     public create(

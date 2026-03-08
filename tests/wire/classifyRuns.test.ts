@@ -229,7 +229,10 @@ describe("ClassifyRunsClient", () => {
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {
+            classifier: { id: "cl_1234567890" },
+            file: { url: "https://example.com/document.pdf" },
+        };
         const rawResponseBody = {
             object: "classify_run",
             id: "clr_Xj8mK2pL9nR4vT7qY5wZ",
@@ -329,8 +332,11 @@ describe("ClassifyRunsClient", () => {
             .build();
 
         const response = await client.classifyRuns.create({
+            classifier: {
+                id: "cl_1234567890",
+            },
             file: {
-                url: "url",
+                url: "https://example.com/document.pdf",
             },
         });
         expect(response).toEqual({

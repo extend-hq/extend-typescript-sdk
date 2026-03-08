@@ -142,7 +142,22 @@ export class ClassifiersClient {
      *
      * @example
      *     await client.classifiers.create({
-     *         name: "name"
+     *         name: "Document Classifier",
+     *         config: {
+     *             classifications: [{
+     *                     id: "invoice",
+     *                     type: "invoice",
+     *                     description: "An invoice or bill for goods or services"
+     *                 }, {
+     *                     id: "receipt",
+     *                     type: "receipt",
+     *                     description: "A receipt confirming payment"
+     *                 }, {
+     *                     id: "other",
+     *                     type: "other",
+     *                     description: "Any other document type"
+     *                 }]
+     *         }
      *     })
      */
     public create(
@@ -335,7 +350,9 @@ export class ClassifiersClient {
      * @throws {@link Extend.InternalServerError}
      *
      * @example
-     *     await client.classifiers.update("classifier_id_here")
+     *     await client.classifiers.update("classifier_id_here", {
+     *         name: "Document Classifier v2"
+     *     })
      */
     public update(
         id: string,

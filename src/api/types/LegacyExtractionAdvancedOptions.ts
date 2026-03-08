@@ -23,7 +23,7 @@ export interface LegacyExtractionAdvancedOptions {
      * and may include additional `insights` of type `issue` or `review_summary` to help identify
      * fields that may need manual review.
      *
-     * To learn more, view the [Review Agent Documentation](https://docs.extend.ai/product/extraction/review-agent)
+     * To learn more, view the [Review Agent Documentation](https://docs.extend.ai/2026-02-09/product/extraction/review-agent)
      */
     reviewAgent?: Extend.LegacyExtractionAdvancedOptionsReviewAgent;
     /** Strategy for handling large arrays in documents. */
@@ -33,7 +33,7 @@ export interface LegacyExtractionAdvancedOptions {
     excelSheetRanges?: Extend.ExcelSheetRange[];
     /** Strategy for selecting sheets from Excel documents. */
     excelSheetSelectionStrategy?: Extend.LegacyExtractionAdvancedOptionsExcelSheetSelectionStrategy;
-    /** DEPRECATED - See [Page Ranges](/product/page-ranges). */
+    /** DEPRECATED - See [Page Ranges](https://docs.extend.ai/2026-02-09/product/page-ranges). */
     fixedPageLimit?: number;
     pageRanges?: Extend.PageRanges;
 }

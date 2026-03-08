@@ -20,6 +20,8 @@ import { ProcessorVersionClient } from "./api/resources/processorVersion/client/
 import { SplitRunsClient } from "./api/resources/splitRuns/client/Client";
 import { SplittersClient } from "./api/resources/splitters/client/Client";
 import { SplitterVersionsClient } from "./api/resources/splitterVersions/client/Client";
+import { WebhookEndpointsClient } from "./api/resources/webhookEndpoints/client/Client";
+import { WebhookSubscriptionsClient } from "./api/resources/webhookSubscriptions/client/Client";
 import { WorkflowRunsClient } from "./api/resources/workflowRuns/client/Client";
 import { WorkflowsClient } from "./api/resources/workflows/client/Client";
 import type { BaseClientOptions, BaseRequestOptions } from "./BaseClient";
@@ -59,6 +61,8 @@ export class ExtendClient {
     protected _evaluationSets: EvaluationSetsClient | undefined;
     protected _evaluationSetItems: EvaluationSetItemsClient | undefined;
     protected _evaluationSetRuns: EvaluationSetRunsClient | undefined;
+    protected _webhookEndpoints: WebhookEndpointsClient | undefined;
+    protected _webhookSubscriptions: WebhookSubscriptionsClient | undefined;
 
     constructor(options: ExtendClient.Options) {
         this._options = normalizeClientOptionsWithAuth(options);
@@ -148,6 +152,14 @@ export class ExtendClient {
         return (this._evaluationSetRuns ??= new EvaluationSetRunsClient(this._options));
     }
 
+    public get webhookEndpoints(): WebhookEndpointsClient {
+        return (this._webhookEndpoints ??= new WebhookEndpointsClient(this._options));
+    }
+
+    public get webhookSubscriptions(): WebhookSubscriptionsClient {
+        return (this._webhookSubscriptions ??= new WebhookSubscriptionsClient(this._options));
+    }
+
     /**
      * Parse a file synchronously, waiting for the result before returning. This endpoint has a **5-minute timeout** — if processing takes longer, the request will fail.
      *
@@ -172,7 +184,8 @@ export class ExtendClient {
      * @example
      *     await client.parse({
      *         file: {
-     *             url: "url"
+     *             url: "https://example.com/bank_statement.pdf",
+     *             name: "bank_statement.pdf"
      *         }
      *     })
      */
@@ -281,7 +294,13 @@ export class ExtendClient {
      * @example
      *     await client.edit({
      *         file: {
-     *             url: "url"
+     *             url: "https://example.com/form.pdf"
+     *         },
+     *         config: {
+     *             instructions: "Fill out the form with the provided data",
+     *             advancedOptions: {
+     *                 flattenPdf: true
+     *             }
      *         }
      *     })
      */
@@ -369,7 +388,7 @@ export class ExtendClient {
      *
      * The Extract endpoint allows you to extract structured data from files using an existing extractor or an inline configuration.
      *
-     * For more details, see the [Extract File guide](https://docs.extend.ai/2026-02-09/product/extracting/extract).
+     * For more details, see the [Extract File guide](https://docs.extend.ai/2026-02-09/product/extraction/quick-start-5-minutes).
      *
      * @param {Extend.ExtractRequest} request
      * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -385,8 +404,27 @@ export class ExtendClient {
      *
      * @example
      *     await client.extract({
+     *         config: {
+     *             schema: {
+     *                 "type": "object",
+     *                 "properties": {
+     *                     "vendor_name": {
+     *                         "type": "string",
+     *                         "description": "The name of the vendor"
+     *                     },
+     *                     "invoice_number": {
+     *                         "type": "string",
+     *                         "description": "The invoice number"
+     *                     },
+     *                     "total_amount": {
+     *                         "type": "number",
+     *                         "description": "The total amount due"
+     *                     }
+     *                 }
+     *             }
+     *         },
      *         file: {
-     *             url: "url"
+     *             url: "https://example.com/invoice.pdf"
      *         }
      *     })
      */
@@ -474,7 +512,7 @@ export class ExtendClient {
      *
      * The Classify endpoint allows you to classify documents using an existing classifier or an inline configuration.
      *
-     * For more details, see the [Classify File guide](https://docs.extend.ai/2026-02-09/product/classifying/classify).
+     * For more details, see the [Classify File guide](https://docs.extend.ai/2026-02-09/product/classification/configuring-a-classifier).
      *
      * @param {Extend.ClassifyRequest} request
      * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -490,8 +528,23 @@ export class ExtendClient {
      *
      * @example
      *     await client.classify({
+     *         config: {
+     *             classifications: [{
+     *                     id: "invoice",
+     *                     type: "invoice",
+     *                     description: "An invoice or bill for goods or services"
+     *                 }, {
+     *                     id: "receipt",
+     *                     type: "receipt",
+     *                     description: "A receipt confirming payment"
+     *                 }, {
+     *                     id: "other",
+     *                     type: "other",
+     *                     description: "Any other document type"
+     *                 }]
+     *         },
      *         file: {
-     *             url: "url"
+     *             url: "https://example.com/document.pdf"
      *         }
      *     })
      */
@@ -579,7 +632,7 @@ export class ExtendClient {
      *
      * The Split endpoint allows you to split documents into multiple parts using an existing splitter or an inline configuration.
      *
-     * For more details, see the [Split File guide](https://docs.extend.ai/2026-02-09/product/splitting/split).
+     * For more details, see the [Split File guide](https://docs.extend.ai/2026-02-09/product/splitting/configuring-a-splitter).
      *
      * @param {Extend.SplitRequest} request
      * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -595,8 +648,23 @@ export class ExtendClient {
      *
      * @example
      *     await client.split({
+     *         config: {
+     *             splitClassifications: [{
+     *                     id: "invoice",
+     *                     type: "invoice",
+     *                     description: "An invoice or bill for goods or services"
+     *                 }, {
+     *                     id: "receipt",
+     *                     type: "receipt",
+     *                     description: "A receipt confirming payment"
+     *                 }, {
+     *                     id: "other",
+     *                     type: "other",
+     *                     description: "Any other document type"
+     *                 }]
+     *         },
      *         file: {
-     *             url: "url"
+     *             url: "https://example.com/multi-document.pdf"
      *         }
      *     })
      */

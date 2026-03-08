@@ -44,7 +44,13 @@ export class EditRunsClient {
      * @example
      *     await client.editRuns.create({
      *         file: {
-     *             url: "url"
+     *             url: "https://example.com/form.pdf"
+     *         },
+     *         config: {
+     *             instructions: "Fill out the form with the provided data",
+     *             advancedOptions: {
+     *                 flattenPdf: true
+     *             }
      *         }
      *     })
      */

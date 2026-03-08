@@ -8,7 +8,7 @@ describe("ParseRunsClient", () => {
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = { file: { url: "https://example.com/bank_statement.pdf", name: "bank_statement.pdf" } };
         const rawResponseBody = {
             object: "parse_run",
             id: "pr_xK9mLPqRtN3vS8wF5hB2cQ",
@@ -91,7 +91,8 @@ describe("ParseRunsClient", () => {
 
         const response = await client.parseRuns.create({
             file: {
-                url: "url",
+                url: "https://example.com/bank_statement.pdf",
+                name: "bank_statement.pdf",
             },
         });
         expect(response).toEqual({

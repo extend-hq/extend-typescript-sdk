@@ -23,7 +23,12 @@ export interface ExtractorVersion {
      * Examples: `"1.0"`, `"2.1"`, `"draft"`
      */
     version: string;
-    /** The configuration settings for this version of the extractor. */
+    /**
+     * The configuration settings for this version of the extractor. This is a union of two possible shapes:
+     *
+     * - **[JSON Schema config](https://docs.extend.ai/2026-02-09/product/extraction/schema):** The current config format. All extractors created through this API version use this shape.
+     * - **[Legacy config](https://docs.extend.ai/2025-04-21/product/legacy/legacy-schema):** A fields-array config from a previous API version. This shape is only returned for extractors that were originally configured with the legacy format. This API version does not support creating extractors with legacy configs.
+     */
     config: Extend.ExtractConfig;
     /**
      * The ID of the extractor that this version belongs to.

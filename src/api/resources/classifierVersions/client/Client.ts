@@ -159,7 +159,8 @@ export class ClassifierVersionsClient {
      *
      * @example
      *     await client.classifierVersions.create("classifier_id_here", {
-     *         releaseType: "major"
+     *         releaseType: "minor",
+     *         description: "Added new document classification type"
      *     })
      */
     public create(

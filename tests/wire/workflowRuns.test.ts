@@ -179,7 +179,7 @@ describe("WorkflowRunsClient", () => {
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { workflow: { id: "workflow_BMdfq_yWM3sT-ZzvCnA3f" }, file: { url: "url" } };
+        const rawRequestBody = { workflow: { id: "wf_1234567890" }, file: { url: "https://example.com/invoice.pdf" } };
         const rawResponseBody = {
             object: "workflow_run",
             id: "workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
@@ -319,10 +319,10 @@ describe("WorkflowRunsClient", () => {
 
         const response = await client.workflowRuns.create({
             workflow: {
-                id: "workflow_BMdfq_yWM3sT-ZzvCnA3f",
+                id: "wf_1234567890",
             },
             file: {
-                url: "url",
+                url: "https://example.com/invoice.pdf",
             },
         });
         expect(response).toEqual({
@@ -1109,7 +1109,10 @@ describe("WorkflowRunsClient", () => {
     test("update (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = {};
+        const rawRequestBody = {
+            name: "Invoice #12345",
+            metadata: { customerId: "cust_abc123", source: "email-inbox" },
+        };
         const rawResponseBody = {
             object: "workflow_run",
             id: "workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
@@ -1247,7 +1250,13 @@ describe("WorkflowRunsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.workflowRuns.update("workflow_run_id_here");
+        const response = await client.workflowRuns.update("workflow_run_id_here", {
+            name: "Invoice #12345",
+            metadata: {
+                customerId: "cust_abc123",
+                source: "email-inbox",
+            },
+        });
         expect(response).toEqual({
             object: "workflow_run",
             id: "workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
@@ -2188,8 +2197,11 @@ describe("WorkflowRunsClient", () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
-            workflow: { id: "workflow_BMdfq_yWM3sT-ZzvCnA3f" },
-            inputs: [{ file: { url: "url" } }],
+            workflow: { id: "wf_1234567890" },
+            inputs: [
+                { file: { url: "https://example.com/invoice1.pdf" }, metadata: { customerId: "cust_abc123" } },
+                { file: { url: "https://example.com/invoice2.pdf" }, metadata: { customerId: "cust_def456" } },
+            ],
         };
         const rawResponseBody = { batchId: "batch_zyx987" };
         server
@@ -2203,12 +2215,23 @@ describe("WorkflowRunsClient", () => {
 
         const response = await client.workflowRuns.createBatch({
             workflow: {
-                id: "workflow_BMdfq_yWM3sT-ZzvCnA3f",
+                id: "wf_1234567890",
             },
             inputs: [
                 {
                     file: {
-                        url: "url",
+                        url: "https://example.com/invoice1.pdf",
+                    },
+                    metadata: {
+                        customerId: "cust_abc123",
+                    },
+                },
+                {
+                    file: {
+                        url: "https://example.com/invoice2.pdf",
+                    },
+                    metadata: {
+                        customerId: "cust_def456",
                     },
                 },
             ],

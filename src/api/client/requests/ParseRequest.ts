@@ -6,7 +6,8 @@ import type * as Extend from "../../index";
  * @example
  *     {
  *         file: {
- *             url: "url"
+ *             url: "https://example.com/bank_statement.pdf",
+ *             name: "bank_statement.pdf"
  *         }
  *     }
  */

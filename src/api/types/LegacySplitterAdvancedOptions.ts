@@ -9,7 +9,7 @@ export interface LegacySplitterAdvancedOptions {
     splitMethod?: Extend.LegacySplitterAdvancedOptionsSplitMethod;
     /** For Excel documents, split by worksheet. */
     splitExcelDocumentsBySheetEnabled?: boolean;
-    /** Limit processing to a specific number of pages from the beginning of the document. See [Page Ranges](/product/page-ranges). */
+    /** Limit processing to a specific number of pages from the beginning of the document. See [Page Ranges](https://docs.extend.ai/2026-02-09/product/page-ranges). */
     fixedPageLimit?: number;
     pageRanges?: Extend.PageRanges;
 }

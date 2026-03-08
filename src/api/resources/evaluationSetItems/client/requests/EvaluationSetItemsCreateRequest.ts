@@ -6,8 +6,14 @@ import type * as Extend from "../../../../index";
  * @example
  *     {
  *         items: [{
- *                 fileId: "file_id_here",
- *                 expectedOutput: {}
+ *                 fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+ *                 expectedOutput: {
+ *                     value: {
+ *                         "vendor_name": "Acme Corp",
+ *                         "invoice_number": "INV-001",
+ *                         "total_amount": 1500
+ *                     }
+ *                 }
  *             }]
  *     }
  */

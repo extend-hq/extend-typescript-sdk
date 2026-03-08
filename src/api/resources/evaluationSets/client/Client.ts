@@ -128,7 +128,7 @@ export class EvaluationSetsClient {
     /**
      * Evaluation sets are collections of files and expected outputs that are used to evaluate the performance of a given extractor, classifier, or splitter. This endpoint will create a new evaluation set, which items can be added to using the [Create Evaluation Set Item](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/evaluation/create-evaluation-set-item) endpoint.
      *
-     * Note: It is not necessary to create an evaluation set via API. You can also create an evaluation set via the Extend dashboard and take the ID from there. To learn more about how to create evaluation sets, see the [Evaluation Sets](https://docs.extend.ai/product/evaluation/overview) product page.
+     * Note: It is not necessary to create an evaluation set via API. You can also create an evaluation set via the Extend dashboard and take the ID from there. To learn more about how to create evaluation sets, see the [Evaluation Sets](https://docs.extend.ai/2026-02-09/product/evaluation/overview) product page.
      *
      * @param {Extend.EvaluationSetsCreateRequest} request
      * @param {EvaluationSetsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -144,8 +144,9 @@ export class EvaluationSetsClient {
      *
      * @example
      *     await client.evaluationSets.create({
-     *         name: "My Evaluation Set",
-     *         entityId: "entity_id_here"
+     *         name: "Invoice Processing Test Set",
+     *         description: "Q4 vendor invoices for accuracy testing",
+     *         entityId: "ex_1234567890"
      *     })
      */
     public create(

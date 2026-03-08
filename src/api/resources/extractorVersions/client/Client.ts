@@ -156,7 +156,8 @@ export class ExtractorVersionsClient {
      *
      * @example
      *     await client.extractorVersions.create("extractor_id_here", {
-     *         releaseType: "major"
+     *         releaseType: "minor",
+     *         description: "Updated extraction rules for better accuracy"
      *     })
      */
     public create(
