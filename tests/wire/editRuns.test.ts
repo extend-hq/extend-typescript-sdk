@@ -8,7 +8,10 @@ describe("EditRunsClient", () => {
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {
+            file: { url: "https://example.com/form.pdf" },
+            config: { instructions: "Fill out the form with the provided data", advancedOptions: { flattenPdf: true } },
+        };
         const rawResponseBody = {
             object: "edit_run",
             id: "edr_xK9mLPqRtN3vS8wF5hB2cQ",
@@ -63,7 +66,13 @@ describe("EditRunsClient", () => {
 
         const response = await client.editRuns.create({
             file: {
-                url: "url",
+                url: "https://example.com/form.pdf",
+            },
+            config: {
+                instructions: "Fill out the form with the provided data",
+                advancedOptions: {
+                    flattenPdf: true,
+                },
             },
         });
         expect(response).toEqual({

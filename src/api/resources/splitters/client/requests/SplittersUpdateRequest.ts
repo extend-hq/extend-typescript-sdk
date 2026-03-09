@@ -4,7 +4,9 @@ import type * as Extend from "../../../../index";
 
 /**
  * @example
- *     {}
+ *     {
+ *         name: "Document Splitter v2"
+ *     }
  */
 export interface SplittersUpdateRequest {
     /** The new name of the splitter. */

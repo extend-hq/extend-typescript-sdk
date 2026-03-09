@@ -6,16 +6,16 @@ import type * as Extend from "../../../../index";
  * @example
  *     {
  *         workflow: {
- *             id: "workflow_BMdfq_yWM3sT-ZzvCnA3f"
+ *             id: "wf_1234567890"
  *         },
  *         file: {
- *             url: "url"
+ *             url: "https://example.com/invoice.pdf"
  *         }
  *     }
  */
 export interface WorkflowRunsCreateRequest {
     workflow: Extend.WorkflowReference;
-    /** The file to be processed. Supported file types can be found [here](https://docs.extend.ai/2026-02-09/product/general/supported-file-types). Files can be provided as a URL, an Extend file ID, or raw text. If you wish to process more at a time, consider using the [Batch Run Workflow](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/workflow/batch-run-workflow) endpoint. */
+    /** The file to be processed. Supported file types can be found [here](https://docs.extend.ai/2026-02-09/product/general/supported-file-types). Files can be provided as a URL, an Extend file ID, or raw text. If you wish to process more at a time, consider using the [Batch Run Workflow](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/workflow/batch-create-workflow-runs) endpoint. */
     file: Extend.WorkflowRunsCreateRequestFile;
     /** Predetermined outputs to be used for the workflow run. Generally not recommended for most use cases, however, can be useful in cases of overriding a classification in a workflow, or a subset of extraction fields when data is known. */
     outputs?: Extend.WorkflowRunsCreateRequestOutputsItem[];

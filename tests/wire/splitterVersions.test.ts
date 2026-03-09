@@ -197,7 +197,7 @@ describe("SplitterVersionsClient", () => {
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { releaseType: "major" };
+        const rawRequestBody = { releaseType: "minor", description: "Improved split boundary detection" };
         const rawResponseBody = {
             object: "splitter_version",
             id: "splv_xK9mLPqRtN3vS8wF5hB2cQ",
@@ -250,7 +250,8 @@ describe("SplitterVersionsClient", () => {
             .build();
 
         const response = await client.splitterVersions.create("splitter_id_here", {
-            releaseType: "major",
+            releaseType: "minor",
+            description: "Improved split boundary detection",
         });
         expect(response).toEqual({
             object: "splitter_version",

@@ -5,8 +5,11 @@ import type * as Extend from "../../../../index";
 /**
  * @example
  *     {
+ *         extractor: {
+ *             id: "ex_1234567890"
+ *         },
  *         file: {
- *             url: "url"
+ *             url: "https://example.com/invoice.pdf"
  *         }
  *     }
  */

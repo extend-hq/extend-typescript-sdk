@@ -5,8 +5,23 @@ import type * as Extend from "../../index";
 /**
  * @example
  *     {
+ *         config: {
+ *             splitClassifications: [{
+ *                     id: "invoice",
+ *                     type: "invoice",
+ *                     description: "An invoice or bill for goods or services"
+ *                 }, {
+ *                     id: "receipt",
+ *                     type: "receipt",
+ *                     description: "A receipt confirming payment"
+ *                 }, {
+ *                     id: "other",
+ *                     type: "other",
+ *                     description: "Any other document type"
+ *                 }]
+ *         },
  *         file: {
- *             url: "url"
+ *             url: "https://example.com/multi-document.pdf"
  *         }
  *     }
  */

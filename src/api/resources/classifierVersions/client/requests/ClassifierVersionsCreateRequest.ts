@@ -5,7 +5,8 @@ import type * as Extend from "../../../../index";
 /**
  * @example
  *     {
- *         releaseType: "major"
+ *         releaseType: "minor",
+ *         description: "Added new document classification type"
  *     }
  */
 export interface ClassifierVersionsCreateRequest {

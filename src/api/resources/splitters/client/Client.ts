@@ -142,7 +142,22 @@ export class SplittersClient {
      *
      * @example
      *     await client.splitters.create({
-     *         name: "name"
+     *         name: "Document Splitter",
+     *         config: {
+     *             splitClassifications: [{
+     *                     id: "invoice",
+     *                     type: "invoice",
+     *                     description: "An invoice or bill for goods or services"
+     *                 }, {
+     *                     id: "receipt",
+     *                     type: "receipt",
+     *                     description: "A receipt confirming payment"
+     *                 }, {
+     *                     id: "other",
+     *                     type: "other",
+     *                     description: "Any other document type"
+     *                 }]
+     *         }
      *     })
      */
     public create(
@@ -335,7 +350,9 @@ export class SplittersClient {
      * @throws {@link Extend.InternalServerError}
      *
      * @example
-     *     await client.splitters.update("splitter_id_here")
+     *     await client.splitters.update("splitter_id_here", {
+     *         name: "Document Splitter v2"
+     *     })
      */
     public update(
         id: string,

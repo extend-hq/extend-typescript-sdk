@@ -158,7 +158,11 @@ describe("EvaluationSetsClient", () => {
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { name: "My Evaluation Set", entityId: "entity_id_here" };
+        const rawRequestBody = {
+            name: "Invoice Processing Test Set",
+            description: "Q4 vendor invoices for accuracy testing",
+            entityId: "ex_1234567890",
+        };
         const rawResponseBody = {
             object: "evaluation_set",
             id: "ev_2LcgeY_mp2T5yPaEuq5Lw",
@@ -184,8 +188,9 @@ describe("EvaluationSetsClient", () => {
             .build();
 
         const response = await client.evaluationSets.create({
-            name: "My Evaluation Set",
-            entityId: "entity_id_here",
+            name: "Invoice Processing Test Set",
+            description: "Q4 vendor invoices for accuracy testing",
+            entityId: "ex_1234567890",
         });
         expect(response).toEqual({
             object: "evaluation_set",

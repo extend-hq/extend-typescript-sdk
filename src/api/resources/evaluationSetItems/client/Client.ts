@@ -143,7 +143,7 @@ export class EvaluationSetItemsClient {
      *
      * **Limit:** You can create up to 100 items at a time.
      *
-     * Learn more about how to create evaluation set items in the [Evaluation Sets](https://docs.extend.ai/product/evaluation/overview) product page.
+     * Learn more about how to create evaluation set items in the [Evaluation Sets](https://docs.extend.ai/2026-02-09/product/evaluation/overview) product page.
      *
      * @param {string} evaluationSetId - The ID of the evaluation set.
      *
@@ -163,8 +163,14 @@ export class EvaluationSetItemsClient {
      * @example
      *     await client.evaluationSetItems.create("evaluation_set_id_here", {
      *         items: [{
-     *                 fileId: "file_id_here",
-     *                 expectedOutput: {}
+     *                 fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+     *                 expectedOutput: {
+     *                     value: {
+     *                         "vendor_name": "Acme Corp",
+     *                         "invoice_number": "INV-001",
+     *                         "total_amount": 1500
+     *                     }
+     *                 }
      *             }]
      *     })
      */
@@ -382,7 +388,13 @@ export class EvaluationSetItemsClient {
      *
      * @example
      *     await client.evaluationSetItems.update("evaluation_set_id_here", "evaluation_set_item_id_here", {
-     *         expectedOutput: {}
+     *         expectedOutput: {
+     *             value: {
+     *                 "vendor_name": "Acme Corp",
+     *                 "invoice_number": "INV-001",
+     *                 "total_amount": 1750
+     *             }
+     *         }
      *     })
      */
     public update(

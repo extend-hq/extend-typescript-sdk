@@ -229,7 +229,10 @@ describe("SplitRunsClient", () => {
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {
+            splitter: { id: "spl_1234567890" },
+            file: { url: "https://example.com/multi-document.pdf" },
+        };
         const rawResponseBody = {
             object: "split_run",
             id: "splr_Xj8mK2pL9nR4vT7qY5wZ",
@@ -252,14 +255,14 @@ describe("SplitRunsClient", () => {
             output: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -267,14 +270,14 @@ describe("SplitRunsClient", () => {
             initialOutput: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -282,14 +285,14 @@ describe("SplitRunsClient", () => {
             reviewedOutput: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -362,8 +365,11 @@ describe("SplitRunsClient", () => {
             .build();
 
         const response = await client.splitRuns.create({
+            splitter: {
+                id: "spl_1234567890",
+            },
             file: {
-                url: "url",
+                url: "https://example.com/multi-document.pdf",
             },
         });
         expect(response).toEqual({
@@ -388,14 +394,14 @@ describe("SplitRunsClient", () => {
             output: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -403,14 +409,14 @@ describe("SplitRunsClient", () => {
             initialOutput: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -418,14 +424,14 @@ describe("SplitRunsClient", () => {
             reviewedOutput: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -722,14 +728,14 @@ describe("SplitRunsClient", () => {
             output: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -737,14 +743,14 @@ describe("SplitRunsClient", () => {
             initialOutput: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -752,14 +758,14 @@ describe("SplitRunsClient", () => {
             reviewedOutput: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -853,14 +859,14 @@ describe("SplitRunsClient", () => {
             output: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -868,14 +874,14 @@ describe("SplitRunsClient", () => {
             initialOutput: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -883,14 +889,14 @@ describe("SplitRunsClient", () => {
             reviewedOutput: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -1208,14 +1214,14 @@ describe("SplitRunsClient", () => {
             output: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -1223,14 +1229,14 @@ describe("SplitRunsClient", () => {
             initialOutput: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -1238,14 +1244,14 @@ describe("SplitRunsClient", () => {
             reviewedOutput: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -1339,14 +1345,14 @@ describe("SplitRunsClient", () => {
             output: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -1354,14 +1360,14 @@ describe("SplitRunsClient", () => {
             initialOutput: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,
@@ -1369,14 +1375,14 @@ describe("SplitRunsClient", () => {
             reviewedOutput: {
                 splits: [
                     {
-                        type: "type",
-                        observation: "observation",
-                        identifier: "identifier",
+                        type: "invoice",
+                        observation: "Pages 1-3 contain an invoice from Acme Corp",
+                        identifier: "INV-2024-001",
                         startPage: 1,
-                        endPage: 1,
-                        classificationId: "classificationId",
-                        id: "id",
-                        fileId: "fileId",
+                        endPage: 3,
+                        classificationId: "invoice",
+                        id: "splt_xK9mLPqRtN3vS8wF5hB2cQ",
+                        fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
                     },
                 ],
                 isExternal: true,

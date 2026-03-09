@@ -5,7 +5,13 @@ import type * as Extend from "../../../../index";
 /**
  * @example
  *     {
- *         expectedOutput: {}
+ *         expectedOutput: {
+ *             value: {
+ *                 "vendor_name": "Acme Corp",
+ *                 "invoice_number": "INV-001",
+ *                 "total_amount": 1750
+ *             }
+ *         }
  *     }
  */
 export interface EvaluationSetItemsUpdateRequest {

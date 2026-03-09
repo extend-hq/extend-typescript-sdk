@@ -4,7 +4,9 @@ import type * as Extend from "../../../../index";
 
 /**
  * @example
- *     {}
+ *     {
+ *         name: "Document Classifier v2"
+ *     }
  */
 export interface ClassifiersUpdateRequest {
     /** The new name of the classifier. */

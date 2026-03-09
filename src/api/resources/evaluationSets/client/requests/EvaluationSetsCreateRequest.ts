@@ -3,8 +3,9 @@
 /**
  * @example
  *     {
- *         name: "My Evaluation Set",
- *         entityId: "entity_id_here"
+ *         name: "Invoice Processing Test Set",
+ *         description: "Q4 vendor invoices for accuracy testing",
+ *         entityId: "ex_1234567890"
  *     }
  */
 export interface EvaluationSetsCreateRequest {

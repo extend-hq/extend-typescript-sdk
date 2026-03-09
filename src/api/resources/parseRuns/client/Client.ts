@@ -44,7 +44,8 @@ export class ParseRunsClient {
      * @example
      *     await client.parseRuns.create({
      *         file: {
-     *             url: "url"
+     *             url: "https://example.com/bank_statement.pdf",
+     *             name: "bank_statement.pdf"
      *         }
      *     })
      */

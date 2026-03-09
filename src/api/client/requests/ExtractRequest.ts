@@ -5,8 +5,27 @@ import type * as Extend from "../../index";
 /**
  * @example
  *     {
+ *         config: {
+ *             schema: {
+ *                 "type": "object",
+ *                 "properties": {
+ *                     "vendor_name": {
+ *                         "type": "string",
+ *                         "description": "The name of the vendor"
+ *                     },
+ *                     "invoice_number": {
+ *                         "type": "string",
+ *                         "description": "The invoice number"
+ *                     },
+ *                     "total_amount": {
+ *                         "type": "number",
+ *                         "description": "The total amount due"
+ *                     }
+ *                 }
+ *             }
+ *         },
  *         file: {
- *             url: "url"
+ *             url: "https://example.com/invoice.pdf"
  *         }
  *     }
  */

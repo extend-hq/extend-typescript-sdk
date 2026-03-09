@@ -5,8 +5,11 @@ import type * as Extend from "../../../../index";
 /**
  * @example
  *     {
+ *         classifier: {
+ *             id: "cl_1234567890"
+ *         },
  *         file: {
- *             url: "url"
+ *             url: "https://example.com/document.pdf"
  *         }
  *     }
  */

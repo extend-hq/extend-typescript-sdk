@@ -147,10 +147,10 @@ export class WorkflowRunsClient {
      * @example
      *     await client.workflowRuns.create({
      *         workflow: {
-     *             id: "workflow_BMdfq_yWM3sT-ZzvCnA3f"
+     *             id: "wf_1234567890"
      *         },
      *         file: {
-     *             url: "url"
+     *             url: "https://example.com/invoice.pdf"
      *         }
      *     })
      */
@@ -344,7 +344,13 @@ export class WorkflowRunsClient {
      * @throws {@link Extend.InternalServerError}
      *
      * @example
-     *     await client.workflowRuns.update("workflow_run_id_here")
+     *     await client.workflowRuns.update("workflow_run_id_here", {
+     *         name: "Invoice #12345",
+     *         metadata: {
+     *             "customerId": "cust_abc123",
+     *             "source": "email-inbox"
+     *         }
+     *     })
      */
     public update(
         id: string,
@@ -620,7 +626,7 @@ export class WorkflowRunsClient {
     /**
      * This endpoint allows you to efficiently initiate large batches of workflow runs in a single request (up to 1,000 in a single request, but you can queue up multiple batches in rapid succession). It accepts an array of inputs, each containing a file and metadata pair. The primary use case for this endpoint is for doing large bulk runs of >1000 files at a time that can process over the course of a few hours without needing to manage rate limits that would likely occur using the primary run endpoint.
      *
-     * Unlike the single [Run Workflow](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/workflow/run-workflow) endpoint which returns the details of the created workflow runs immediately, this batch endpoint returns a `batchId`.
+     * Unlike the single [Run Workflow](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/workflow/create-workflow-run) endpoint which returns the details of the created workflow runs immediately, this batch endpoint returns a `batchId`.
      *
      * Our recommended usage pattern is to integrate with [Webhooks](https://docs.extend.ai/2026-02-09/product/webhooks/configuration) for consuming results, using the `metadata` and `batchId` to match up results to the original inputs in your downstream systems. However, you can integrate in a polling mechanism by using a combination of the [List Workflow Runs](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/workflow/list-workflow-runs) endpoint to fetch all runs via a batch, and then [Get Workflow Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/workflow/get-workflow-run) to fetch the full outputs each run.
      *
@@ -647,11 +653,21 @@ export class WorkflowRunsClient {
      * @example
      *     await client.workflowRuns.createBatch({
      *         workflow: {
-     *             id: "workflow_BMdfq_yWM3sT-ZzvCnA3f"
+     *             id: "wf_1234567890"
      *         },
      *         inputs: [{
      *                 file: {
-     *                     url: "url"
+     *                     url: "https://example.com/invoice1.pdf"
+     *                 },
+     *                 metadata: {
+     *                     "customerId": "cust_abc123"
+     *                 }
+     *             }, {
+     *                 file: {
+     *                     url: "https://example.com/invoice2.pdf"
+     *                 },
+     *                 metadata: {
+     *                     "customerId": "cust_def456"
      *                 }
      *             }]
      *     })

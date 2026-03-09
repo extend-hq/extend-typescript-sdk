@@ -6,11 +6,21 @@ import type * as Extend from "../../../../index";
  * @example
  *     {
  *         workflow: {
- *             id: "workflow_BMdfq_yWM3sT-ZzvCnA3f"
+ *             id: "wf_1234567890"
  *         },
  *         inputs: [{
  *                 file: {
- *                     url: "url"
+ *                     url: "https://example.com/invoice1.pdf"
+ *                 },
+ *                 metadata: {
+ *                     "customerId": "cust_abc123"
+ *                 }
+ *             }, {
+ *                 file: {
+ *                     url: "https://example.com/invoice2.pdf"
+ *                 },
+ *                 metadata: {
+ *                     "customerId": "cust_def456"
  *                 }
  *             }]
  *     }

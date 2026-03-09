@@ -17,7 +17,7 @@ export interface WorkflowRunsListRequest {
      */
     workflowId?: string;
     /**
-     * Filters workflow runs by the batch ID. This is useful for fetching all runs for a given batch created via the [Batch Run Workflow](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/workflow/batch-run-workflow) endpoint.
+     * Filters workflow runs by the batch ID. This is useful for fetching all runs for a given batch created via the [Batch Run Workflow](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/workflow/batch-create-workflow-runs) endpoint.
      *
      * Example: `"batch_7Ws31-F5"`
      */

@@ -142,7 +142,26 @@ export class ExtractorsClient {
      *
      * @example
      *     await client.extractors.create({
-     *         name: "name"
+     *         name: "Invoice Extractor",
+     *         config: {
+     *             schema: {
+     *                 "type": "object",
+     *                 "properties": {
+     *                     "vendor_name": {
+     *                         "type": "string",
+     *                         "description": "The name of the vendor"
+     *                     },
+     *                     "invoice_number": {
+     *                         "type": "string",
+     *                         "description": "The invoice number"
+     *                     },
+     *                     "total_amount": {
+     *                         "type": "number",
+     *                         "description": "The total amount due"
+     *                     }
+     *                 }
+     *             }
+     *         }
      *     })
      */
     public create(
@@ -335,7 +354,9 @@ export class ExtractorsClient {
      * @throws {@link Extend.InternalServerError}
      *
      * @example
-     *     await client.extractors.update("extractor_id_here")
+     *     await client.extractors.update("extractor_id_here", {
+     *         name: "Invoice Extractor v2"
+     *     })
      */
     public update(
         id: string,

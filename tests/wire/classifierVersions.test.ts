@@ -197,7 +197,7 @@ describe("ClassifierVersionsClient", () => {
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { releaseType: "major" };
+        const rawRequestBody = { releaseType: "minor", description: "Added new document classification type" };
         const rawResponseBody = {
             object: "classifier_version",
             id: "clv_xK9mLPqRtN3vS8wF5hB2cQ",
@@ -249,7 +249,8 @@ describe("ClassifierVersionsClient", () => {
             .build();
 
         const response = await client.classifierVersions.create("classifier_id_here", {
-            releaseType: "major",
+            releaseType: "minor",
+            description: "Added new document classification type",
         });
         expect(response).toEqual({
             object: "classifier_version",

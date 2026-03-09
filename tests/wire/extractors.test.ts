@@ -141,7 +141,19 @@ describe("ExtractorsClient", () => {
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { name: "name" };
+        const rawRequestBody = {
+            name: "Invoice Extractor",
+            config: {
+                schema: {
+                    type: "object",
+                    properties: {
+                        vendor_name: { type: "string", description: "The name of the vendor" },
+                        invoice_number: { type: "string", description: "The invoice number" },
+                        total_amount: { type: "number", description: "The total amount due" },
+                    },
+                },
+            },
+        };
         const rawResponseBody = {
             object: "extractor",
             id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
@@ -179,7 +191,26 @@ describe("ExtractorsClient", () => {
             .build();
 
         const response = await client.extractors.create({
-            name: "name",
+            name: "Invoice Extractor",
+            config: {
+                schema: {
+                    type: "object",
+                    properties: {
+                        vendor_name: {
+                            type: "string",
+                            description: "The name of the vendor",
+                        },
+                        invoice_number: {
+                            type: "string",
+                            description: "The invoice number",
+                        },
+                        total_amount: {
+                            type: "number",
+                            description: "The total amount due",
+                        },
+                    },
+                },
+            },
         });
         expect(response).toEqual({
             object: "extractor",
@@ -562,7 +593,7 @@ describe("ExtractorsClient", () => {
     test("update (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = {};
+        const rawRequestBody = { name: "Invoice Extractor v2" };
         const rawResponseBody = {
             object: "extractor",
             id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
@@ -599,7 +630,9 @@ describe("ExtractorsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.extractors.update("extractor_id_here");
+        const response = await client.extractors.update("extractor_id_here", {
+            name: "Invoice Extractor v2",
+        });
         expect(response).toEqual({
             object: "extractor",
             id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
