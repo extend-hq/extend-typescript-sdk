@@ -652,11 +652,13 @@ export class ExtendClient {
      *             splitClassifications: [{
      *                     id: "invoice",
      *                     type: "invoice",
-     *                     description: "An invoice or bill for goods or services"
+     *                     description: "An invoice or bill for goods or services",
+     *                     identifierKey: "invoice number from the document header"
      *                 }, {
      *                     id: "receipt",
      *                     type: "receipt",
-     *                     description: "A receipt confirming payment"
+     *                     description: "A receipt confirming payment",
+     *                     identifierKey: "receipt number"
      *                 }, {
      *                     id: "other",
      *                     type: "other",

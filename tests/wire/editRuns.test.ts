@@ -34,7 +34,12 @@ describe("EditRunsClient", () => {
             config: {
                 schema: { type: "object", properties: { key: {} }, required: ["required"], additionalProperties: true },
                 instructions: "instructions",
-                advancedOptions: { tableParsingEnabled: true, flattenPdf: true },
+                advancedOptions: {
+                    tableParsingEnabled: true,
+                    flattenPdf: true,
+                    radioEnumsEnabled: true,
+                    nativeFieldsOnly: true,
+                },
             },
             output: {
                 editedFile: {
@@ -113,6 +118,8 @@ describe("EditRunsClient", () => {
                 advancedOptions: {
                     tableParsingEnabled: true,
                     flattenPdf: true,
+                    radioEnumsEnabled: true,
+                    nativeFieldsOnly: true,
                 },
             },
             output: {
@@ -350,7 +357,12 @@ describe("EditRunsClient", () => {
             config: {
                 schema: { type: "object", properties: { key: {} }, required: ["required"], additionalProperties: true },
                 instructions: "instructions",
-                advancedOptions: { tableParsingEnabled: true, flattenPdf: true },
+                advancedOptions: {
+                    tableParsingEnabled: true,
+                    flattenPdf: true,
+                    radioEnumsEnabled: true,
+                    nativeFieldsOnly: true,
+                },
             },
             output: {
                 editedFile: {
@@ -418,6 +430,8 @@ describe("EditRunsClient", () => {
                 advancedOptions: {
                     tableParsingEnabled: true,
                     flattenPdf: true,
+                    radioEnumsEnabled: true,
+                    nativeFieldsOnly: true,
                 },
             },
             output: {

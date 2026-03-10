@@ -428,7 +428,12 @@ describe("ExtendClient", () => {
             config: {
                 schema: { type: "object", properties: { key: {} }, required: ["required"], additionalProperties: true },
                 instructions: "instructions",
-                advancedOptions: { tableParsingEnabled: true, flattenPdf: true },
+                advancedOptions: {
+                    tableParsingEnabled: true,
+                    flattenPdf: true,
+                    radioEnumsEnabled: true,
+                    nativeFieldsOnly: true,
+                },
             },
             output: {
                 editedFile: {
@@ -507,6 +512,8 @@ describe("ExtendClient", () => {
                 advancedOptions: {
                     tableParsingEnabled: true,
                     flattenPdf: true,
+                    radioEnumsEnabled: true,
+                    nativeFieldsOnly: true,
                 },
             },
             output: {
@@ -1643,8 +1650,18 @@ describe("ExtendClient", () => {
         const rawRequestBody = {
             config: {
                 splitClassifications: [
-                    { id: "invoice", type: "invoice", description: "An invoice or bill for goods or services" },
-                    { id: "receipt", type: "receipt", description: "A receipt confirming payment" },
+                    {
+                        id: "invoice",
+                        type: "invoice",
+                        description: "An invoice or bill for goods or services",
+                        identifierKey: "invoice number from the document header",
+                    },
+                    {
+                        id: "receipt",
+                        type: "receipt",
+                        description: "A receipt confirming payment",
+                        identifierKey: "receipt number",
+                    },
                     { id: "other", type: "other", description: "Any other document type" },
                 ],
             },
@@ -1728,12 +1745,11 @@ describe("ExtendClient", () => {
                         type: "invoice",
                         description:
                             "An invoice is a document that lists the items purchased and the total amount due.",
+                        identifierKey: "Extract the invoice number from the document header",
                     },
                 ],
                 splitRules: "splitRules",
                 advancedOptions: {
-                    splitIdentifierRules: "splitIdentifierRules",
-                    splitMethod: "high_precision",
                     splitExcelDocumentsBySheetEnabled: true,
                     pageRanges: [
                         { start: 1, end: 10 },
@@ -1788,11 +1804,13 @@ describe("ExtendClient", () => {
                         id: "invoice",
                         type: "invoice",
                         description: "An invoice or bill for goods or services",
+                        identifierKey: "invoice number from the document header",
                     },
                     {
                         id: "receipt",
                         type: "receipt",
                         description: "A receipt confirming payment",
+                        identifierKey: "receipt number",
                     },
                     {
                         id: "other",
@@ -1885,12 +1903,11 @@ describe("ExtendClient", () => {
                         type: "invoice",
                         description:
                             "An invoice is a document that lists the items purchased and the total amount due.",
+                        identifierKey: "Extract the invoice number from the document header",
                     },
                 ],
                 splitRules: "splitRules",
                 advancedOptions: {
-                    splitIdentifierRules: "splitIdentifierRules",
-                    splitMethod: "high_precision",
                     splitExcelDocumentsBySheetEnabled: true,
                     pageRanges: [
                         {

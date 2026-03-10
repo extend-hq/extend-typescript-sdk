@@ -5,7 +5,11 @@ import type * as Extend from "../index";
 export interface LegacySplitterAdvancedOptions {
     /** Custom rules for identifying split points. */
     splitIdentifierRules?: string;
-    /** The method to use for splitting documents. `high_precision` is more accurate but slower, while `low_latency` is faster but less precise. */
+    /**
+     * The method to use for splitting documents. `high_precision` is more accurate but slower, while `low_latency` is faster but less precise.
+     *
+     * **Deprecated:** For `splitting_light` >= 1.3.0 and `splitting_performance` >= 1.5.0, this field has no impact and is ignored if provided. It is still accepted for compatibility with older integrations.
+     */
     splitMethod?: Extend.LegacySplitterAdvancedOptionsSplitMethod;
     /** For Excel documents, split by worksheet. */
     splitExcelDocumentsBySheetEnabled?: boolean;
