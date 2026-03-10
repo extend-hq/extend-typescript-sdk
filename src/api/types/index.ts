@@ -282,6 +282,8 @@ export * from "./SortDir";
 export * from "./SplitAdvancedOptions";
 export * from "./SplitAdvancedOptionsSplitMethod";
 export * from "./SplitBaseProcessor";
+export * from "./SplitClassification";
+export * from "./SplitClassifications";
 export * from "./SplitConfig";
 export * from "./SplitOutput";
 export * from "./SplitOutputSplitsItem";

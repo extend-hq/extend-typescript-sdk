@@ -3,9 +3,17 @@
 import type * as Extend from "../index";
 
 export interface SplitAdvancedOptions {
-    /** Custom rules for identifying split points. */
+    /**
+     * Custom rules for identifying split points.
+     *
+     * **Deprecated:** For `splitting_light` >= 1.3.0 and `splitting_performance` >= 1.5.0, use the `identifierKey` field on each classification in `splitClassifications` instead. This provides per-type identifier extraction rules rather than a single global rule. On those versions, this field is accepted but ignored if provided.
+     */
     splitIdentifierRules?: string;
-    /** The method to use for splitting documents. `high_precision` is more accurate but slower, while `basic_precision` is faster but less precise. */
+    /**
+     * The method to use for splitting documents. `high_precision` is more accurate but slower, while `basic_precision` is faster but less precise.
+     *
+     * **Deprecated:** For `splitting_light` >= 1.3.0 and `splitting_performance` >= 1.5.0, this field has no impact and is ignored if provided. It is still accepted for compatibility with older integrations.
+     */
     splitMethod?: Extend.SplitAdvancedOptionsSplitMethod;
     /** For Excel documents, split by worksheet. */
     splitExcelDocumentsBySheetEnabled?: boolean;

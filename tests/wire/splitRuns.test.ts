@@ -311,12 +311,11 @@ describe("SplitRunsClient", () => {
                         type: "invoice",
                         description:
                             "An invoice is a document that lists the items purchased and the total amount due.",
+                        identifierKey: "Extract the invoice number from the document header",
                     },
                 ],
                 splitRules: "splitRules",
                 advancedOptions: {
-                    splitIdentifierRules: "splitIdentifierRules",
-                    splitMethod: "high_precision",
                     splitExcelDocumentsBySheetEnabled: true,
                     pageRanges: [
                         { start: 1, end: 10 },
@@ -452,12 +451,11 @@ describe("SplitRunsClient", () => {
                         type: "invoice",
                         description:
                             "An invoice is a document that lists the items purchased and the total amount due.",
+                        identifierKey: "Extract the invoice number from the document header",
                     },
                 ],
                 splitRules: "splitRules",
                 advancedOptions: {
-                    splitIdentifierRules: "splitIdentifierRules",
-                    splitMethod: "high_precision",
                     splitExcelDocumentsBySheetEnabled: true,
                     pageRanges: [
                         {
@@ -784,12 +782,11 @@ describe("SplitRunsClient", () => {
                         type: "invoice",
                         description:
                             "An invoice is a document that lists the items purchased and the total amount due.",
+                        identifierKey: "Extract the invoice number from the document header",
                     },
                 ],
                 splitRules: "splitRules",
                 advancedOptions: {
-                    splitIdentifierRules: "splitIdentifierRules",
-                    splitMethod: "high_precision",
                     splitExcelDocumentsBySheetEnabled: true,
                     pageRanges: [
                         { start: 1, end: 10 },
@@ -917,12 +914,11 @@ describe("SplitRunsClient", () => {
                         type: "invoice",
                         description:
                             "An invoice is a document that lists the items purchased and the total amount due.",
+                        identifierKey: "Extract the invoice number from the document header",
                     },
                 ],
                 splitRules: "splitRules",
                 advancedOptions: {
-                    splitIdentifierRules: "splitIdentifierRules",
-                    splitMethod: "high_precision",
                     splitExcelDocumentsBySheetEnabled: true,
                     pageRanges: [
                         {
@@ -1270,12 +1266,11 @@ describe("SplitRunsClient", () => {
                         type: "invoice",
                         description:
                             "An invoice is a document that lists the items purchased and the total amount due.",
+                        identifierKey: "Extract the invoice number from the document header",
                     },
                 ],
                 splitRules: "splitRules",
                 advancedOptions: {
-                    splitIdentifierRules: "splitIdentifierRules",
-                    splitMethod: "high_precision",
                     splitExcelDocumentsBySheetEnabled: true,
                     pageRanges: [
                         { start: 1, end: 10 },
@@ -1403,12 +1398,11 @@ describe("SplitRunsClient", () => {
                         type: "invoice",
                         description:
                             "An invoice is a document that lists the items purchased and the total amount due.",
+                        identifierKey: "Extract the invoice number from the document header",
                     },
                 ],
                 splitRules: "splitRules",
                 advancedOptions: {
-                    splitIdentifierRules: "splitIdentifierRules",
-                    splitMethod: "high_precision",
                     splitExcelDocumentsBySheetEnabled: true,
                     pageRanges: [
                         {

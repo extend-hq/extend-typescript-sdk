@@ -8,4 +8,8 @@ export interface EditConfigAdvancedOptions {
     tableParsingEnabled?: boolean;
     /** Whether to flatten the PDF (form widgets will not be editable with a PDF edit). Defaults to `true`. */
     flattenPdf?: boolean;
+    /** Whether to model radio fields as enums. This ensures only one radio widget is filled. Defaults to false. */
+    radioEnumsEnabled?: boolean;
+    /** If enabled, only native AcroForm from the PDF will be imported and used in the schema (skips object detection). Defaults to false. */
+    nativeFieldsOnly?: boolean;
 }

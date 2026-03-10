@@ -10,7 +10,7 @@ export interface SplitOverrideConfig {
     baseProcessor?: Extend.SplitBaseProcessor;
     /** The version of the `"splitting_performance"` or `"splitting_light"` processor to use. If not provided, the latest stable version for the selected `baseProcessor` will be used automatically. See [Splitting Changelog](https://docs.extend.ai/2026-02-09/changelog/splitting/splitting-performance) for more details. */
     baseVersion?: string;
-    splitClassifications?: Extend.Classifications;
+    splitClassifications?: Extend.SplitClassifications;
     /** Custom rules to guide the document splitting process in natural language. */
     splitRules?: string;
     /** Advanced configuration options. */

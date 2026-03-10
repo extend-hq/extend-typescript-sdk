@@ -145,8 +145,18 @@ describe("SplittersClient", () => {
             name: "Document Splitter",
             config: {
                 splitClassifications: [
-                    { id: "invoice", type: "invoice", description: "An invoice or bill for goods or services" },
-                    { id: "receipt", type: "receipt", description: "A receipt confirming payment" },
+                    {
+                        id: "invoice",
+                        type: "invoice",
+                        description: "An invoice or bill for goods or services",
+                        identifierKey: "invoice number from the document header",
+                    },
+                    {
+                        id: "receipt",
+                        type: "receipt",
+                        description: "A receipt confirming payment",
+                        identifierKey: "receipt number",
+                    },
                     { id: "other", type: "other", description: "Any other document type" },
                 ],
             },
@@ -171,6 +181,7 @@ describe("SplittersClient", () => {
                             type: "invoice",
                             description:
                                 "An invoice is a document that lists the items purchased and the total amount due.",
+                            identifierKey: "Extract the invoice number from the document header",
                         },
                     ],
                     splitRules: "splitRules",
@@ -202,11 +213,13 @@ describe("SplittersClient", () => {
                         id: "invoice",
                         type: "invoice",
                         description: "An invoice or bill for goods or services",
+                        identifierKey: "invoice number from the document header",
                     },
                     {
                         id: "receipt",
                         type: "receipt",
                         description: "A receipt confirming payment",
+                        identifierKey: "receipt number",
                     },
                     {
                         id: "other",
@@ -236,6 +249,7 @@ describe("SplittersClient", () => {
                             type: "invoice",
                             description:
                                 "An invoice is a document that lists the items purchased and the total amount due.",
+                            identifierKey: "Extract the invoice number from the document header",
                         },
                     ],
                     splitRules: "splitRules",
@@ -450,6 +464,7 @@ describe("SplittersClient", () => {
                             type: "invoice",
                             description:
                                 "An invoice is a document that lists the items purchased and the total amount due.",
+                            identifierKey: "Extract the invoice number from the document header",
                         },
                     ],
                     splitRules: "splitRules",
@@ -493,6 +508,7 @@ describe("SplittersClient", () => {
                             type: "invoice",
                             description:
                                 "An invoice is a document that lists the items purchased and the total amount due.",
+                            identifierKey: "Extract the invoice number from the document header",
                         },
                     ],
                     splitRules: "splitRules",
@@ -635,6 +651,7 @@ describe("SplittersClient", () => {
                             type: "invoice",
                             description:
                                 "An invoice is a document that lists the items purchased and the total amount due.",
+                            identifierKey: "Extract the invoice number from the document header",
                         },
                     ],
                     splitRules: "splitRules",
@@ -681,6 +698,7 @@ describe("SplittersClient", () => {
                             type: "invoice",
                             description:
                                 "An invoice is a document that lists the items purchased and the total amount due.",
+                            identifierKey: "Extract the invoice number from the document header",
                         },
                     ],
                     splitRules: "splitRules",
