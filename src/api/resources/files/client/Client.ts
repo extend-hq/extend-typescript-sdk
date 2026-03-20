@@ -336,6 +336,7 @@ export class FilesClient {
      * This endpoint requires multipart form encoding. Most HTTP clients will handle this encoding automatically (see the examples).
      *
      * @param {File | fs.ReadStream | Blob} file
+     * @param {Extend.FilesUploadRequest} request
      * @param {FilesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -349,19 +350,24 @@ export class FilesClient {
      *
      * @example
      *     import { createReadStream } from "fs";
-     *     await client.files.upload(createReadStream("path/to/file"))
+     *     await client.files.upload(createReadStream("path/to/file"), {})
      */
     public upload(
         file: File | fs.ReadStream | Blob,
+        request: Extend.FilesUploadRequest,
         requestOptions?: FilesClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.File_> {
-        return core.HttpResponsePromise.fromPromise(this.__upload(file, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__upload(file, request, requestOptions));
     }
 
     private async __upload(
         file: File | fs.ReadStream | Blob,
+        request: Extend.FilesUploadRequest,
         requestOptions?: FilesClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.File_>> {
+        const _queryParams: Record<string, unknown> = {
+            convertToPdf: request.convertToPdf,
+        };
         const _body = await core.newFormData();
         await _body.appendFile("file", file);
         const _maybeEncodedRequest = await _body.getRequest();
@@ -384,7 +390,7 @@ export class FilesClient {
             ),
             method: "POST",
             headers: _headers,
-            queryParameters: requestOptions?.queryParams,
+            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             requestType: "file",
             duplex: _maybeEncodedRequest.duplex,
             body: _maybeEncodedRequest.body,
