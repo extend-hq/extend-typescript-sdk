@@ -11,7 +11,7 @@ export interface SplitterAdvancedOptions {
     splitMethod?: Extend.SplitterAdvancedOptionsSplitMethod;
     /** For Excel documents, split by worksheet. */
     splitExcelDocumentsBySheetEnabled?: boolean;
-    /** Limit processing to a specific number of pages from the beginning of the document. See [Page Ranges](/product/page-ranges). */
+    /** Limit processing to a specific number of pages from the beginning of the document. See [Page Ranges](https://docs.extend.ai/2025-04-21/product/page-ranges). */
     fixedPageLimit?: number;
     pageRanges?: Extend.PageRanges;
 }

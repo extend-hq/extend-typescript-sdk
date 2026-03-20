@@ -46,7 +46,7 @@ export class Edit {
 
     /**
      * Edit and manipulate PDF documents by detecting and filling form fields.
-     * This is a synchronous endpoint that will wait for the edit operation to complete (up to 5 minutes) before returning results. For longer operations, use the [Edit File Async](/developers/api-reference/edit-endpoints/edit-file-async) endpoint.
+     * This is a synchronous endpoint that will wait for the edit operation to complete (up to 5 minutes) before returning results. For longer operations, use the [Edit File Async](https://docs.extend.ai/2025-04-21/developers/api-reference/edit-endpoints/edit-file-async) endpoint.
      *
      * @param {Extend.EditCreateRequest} request
      * @param {Edit.RequestOptions} requestOptions - Request-specific configuration.
@@ -149,7 +149,7 @@ export class Edit {
     /**
      * Edit and manipulate PDF documents **asynchronously** by filling forms, adding/modifying text fields, and applying structured changes.
      *
-     * The Edit Async endpoint allows you to convert and edit documents asynchronously and get an edit run ID that can be used to check status and retrieve results with the [Get Edit Run](/developers/api-reference/edit-endpoints/get-edit-run) endpoint.
+     * The Edit Async endpoint allows you to convert and edit documents asynchronously and get an edit run ID that can be used to check status and retrieve results with the [Get Edit Run](https://docs.extend.ai/2025-04-21/developers/api-reference/edit-endpoints/get-edit-run) endpoint.
      *
      * This is useful for:
      * * Large files that may take longer to process
@@ -242,7 +242,7 @@ export class Edit {
     /**
      * Retrieve the status and results of an edit run.
      *
-     * Use this endpoint to get results for an edit run that has already completed, or to check on the status of an asynchronous edit run initiated via the [Edit File Asynchronously](/developers/api-reference/edit-endpoints/edit-file-async) endpoint.
+     * Use this endpoint to get results for an edit run that has already completed, or to check on the status of an asynchronous edit run initiated via the [Edit File Asynchronously](https://docs.extend.ai/2025-04-21/developers/api-reference/edit-endpoints/edit-file-async) endpoint.
      *
      * If editing is still in progress, you'll receive a response with just the status. Once complete, you'll receive the full edited file information in the response.
      *

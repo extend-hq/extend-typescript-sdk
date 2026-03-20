@@ -346,11 +346,12 @@ export class File_ {
      *
      * If an uploaded file is detected as a Word or PowerPoint document, it will be automatically converted to a PDF.
      *
-     * Supported file types can be found [here](/product/general/supported-file-types).
+     * Supported file types can be found [here](https://docs.extend.ai/2025-04-21/product/general/supported-file-types).
      *
      * This endpoint requires multipart form encoding. Most HTTP clients will handle this encoding automatically (see the examples).
      *
      * @param {File | fs.ReadStream | Blob} file
+     * @param {Extend.FileUploadRequest} request
      * @param {File_.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -358,19 +359,28 @@ export class File_ {
      *
      * @example
      *     import { createReadStream } from "fs";
-     *     await client.file.upload(createReadStream("path/to/file"))
+     *     await client.file.upload(createReadStream("path/to/file"), {
+     *         convertToPdf: true
+     *     })
      */
     public upload(
         file: File | fs.ReadStream | Blob,
+        request: Extend.FileUploadRequest,
         requestOptions?: File_.RequestOptions,
     ): core.HttpResponsePromise<Extend.FileUploadResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__upload(file, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__upload(file, request, requestOptions));
     }
 
     private async __upload(
         file: File | fs.ReadStream | Blob,
+        request: Extend.FileUploadRequest,
         requestOptions?: File_.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.FileUploadResponse>> {
+        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
+        if (request.convertToPdf != null) {
+            _queryParams["convertToPdf"] = request.convertToPdf.toString();
+        }
+
         const _request = await core.newFormData();
         await _request.appendFile("file", file);
         const _maybeEncodedRequest = await _request.getRequest();
@@ -392,7 +402,7 @@ export class File_ {
             ),
             method: "POST",
             headers: _headers,
-            queryParameters: requestOptions?.queryParams,
+            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             requestType: "file",
             duplex: _maybeEncodedRequest.duplex,
             body: _maybeEncodedRequest.body,
