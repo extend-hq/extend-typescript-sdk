@@ -18,6 +18,9 @@ export interface SplitAdvancedOptions {
     /** For Excel documents, split by worksheet. */
     splitExcelDocumentsBySheetEnabled?: boolean;
     pageRanges?: Extend.PageRanges;
-    /** When enabled, the splitter will allow for page overlap when splitting a document such that a page can occur in multiple adjacent splits when context from the previous split is on the page and context from the next split is on the page. */
+    /**
+     * When enabled, the splitter will allow for page overlap when splitting a document such that a page can occur in multiple adjacent splits when context from the previous split is on the page and context from the next split is on the page.
+     * **Availability:** Supported on `splitting_light` >= 1.1.0 and `splitting_performance` >= 1.2.0. If provided on older versions, this field is accepted but ignored.
+     */
     pageOverlapEnabled?: boolean;
 }

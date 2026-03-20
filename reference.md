@@ -632,7 +632,7 @@ Example: `"file_xK9mLPqRtN3vS8wF5hB2cQ"`
 </dl>
 </details>
 
-<details><summary><code>client.files.<a href="/src/api/resources/files/client/Client.ts">upload</a>(file) -> Extend.File_</code></summary>
+<details><summary><code>client.files.<a href="/src/api/resources/files/client/Client.ts">upload</a>(file, { ...params }) -> Extend.File_</code></summary>
 <dl>
 <dd>
 
@@ -667,7 +667,7 @@ This endpoint requires multipart form encoding. Most HTTP clients will handle th
 <dd>
 
 ```typescript
-await client.files.upload(createReadStream("path/to/file"));
+await client.files.upload(createReadStream("path/to/file"), {});
 
 ```
 </dd>
@@ -684,6 +684,14 @@ await client.files.upload(createReadStream("path/to/file"));
 <dd>
 
 **file:** `File | fs.ReadStream | Blob` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.FilesUploadRequest` 
     
 </dd>
 </dl>
