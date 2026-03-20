@@ -29,7 +29,12 @@ describe("Edit", () => {
             config: {
                 schema: { type: "object", properties: { key: {} }, required: ["required"], additionalProperties: true },
                 instructions: "instructions",
-                advancedOptions: { flattenPdf: true, tableParsingEnabled: true },
+                advancedOptions: {
+                    flattenPdf: true,
+                    tableParsingEnabled: true,
+                    radioEnumsEnabled: true,
+                    nativeFieldsOnly: true,
+                },
             },
             output: { key: "value" },
             metrics: {
@@ -82,6 +87,8 @@ describe("Edit", () => {
                 advancedOptions: {
                     flattenPdf: true,
                     tableParsingEnabled: true,
+                    radioEnumsEnabled: true,
+                    nativeFieldsOnly: true,
                 },
             },
             output: {

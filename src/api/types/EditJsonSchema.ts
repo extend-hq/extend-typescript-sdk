@@ -38,6 +38,8 @@ export interface EditJsonSchema {
      */
     "extend_edit:field_type"?: Extend.EditJsonSchemaExtendEditFieldType;
     "extend_edit:bbox"?: Extend.EditBoundingBox;
+    /** Array of bounding boxes for radio enums. Enum at index i corresponds to bbox at index i. */
+    "extend_edit:bboxes"?: Extend.EditBoundingBox[];
     /** Zero-based page index where the field should be placed */
     "extend_edit:page_index"?: number;
     "extend_edit:text_edit_options"?: Extend.EditTextOptions;

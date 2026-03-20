@@ -10,4 +10,8 @@ export interface EditRunConfigAdvancedOptions {
     flattenPdf?: boolean;
     /** Whether to parse tables as arrays. */
     tableParsingEnabled?: boolean;
+    /** Whether to model radio fields as enums. This ensures only one radio widget is filled. Defaults to false. */
+    radioEnumsEnabled?: boolean;
+    /** If enabled, only native AcroForm from the PDF will be imported and used in the schema (skips object detection). Defaults to false. */
+    nativeFieldsOnly?: boolean;
 }

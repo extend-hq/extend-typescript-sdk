@@ -4,6 +4,11 @@
 
 /**
  * @example
- *     {}
+ *     {
+ *         convertToPdf: true
+ *     }
  */
-export interface FileUploadRequest {}
+export interface FileUploadRequest {
+    /** When true, converts the uploaded file to PDF. Supported file types include images (JPEG, PNG, TIFF, GIF, BMP, WebP, HEIC/HEIF), Word documents, PowerPoint, Excel, and HTML. */
+    convertToPdf?: boolean;
+}

@@ -74,8 +74,8 @@ export class ExtendClient {
                     "x-extend-api-version": _options?.extendApiVersion ?? "2025-04-21",
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "extend-ai",
-                    "X-Fern-SDK-Version": "0.1.0",
-                    "User-Agent": "extend-ai/0.1.0",
+                    "X-Fern-SDK-Version": "0.2.0",
+                    "User-Agent": "extend-ai/0.2.0",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                 },
@@ -141,7 +141,7 @@ export class ExtendClient {
      *
      * The Parse endpoint allows you to convert documents into structured, machine-readable formats with fine-grained control over the parsing process. This endpoint is ideal for extracting cleaned document content to be used as context for downstream processing, e.g. RAG pipelines, custom ingestion pipelines, embeddings classification, etc.
      *
-     * For more details, see the [Parse File guide](/product/parsing/parse).
+     * For more details, see the [Parse File guide](https://docs.extend.ai/2025-04-21/product/parsing/parse).
      *
      * @param {Extend.ParseRequest} request
      * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -259,7 +259,7 @@ export class ExtendClient {
      * * Large files that may take longer to process
      * * Avoiding timeout issues with synchronous parsing.
      *
-     * For more details, see the [Parse File guide](/product/parsing/parse).
+     * For more details, see the [Parse File guide](https://docs.extend.ai/2025-04-21/product/parsing/parse).
      *
      * @param {Extend.ParseAsyncRequest} request
      * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.

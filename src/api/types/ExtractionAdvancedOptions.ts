@@ -35,7 +35,7 @@ export interface ExtractionAdvancedOptions {
     excelSheetRanges?: Extend.ExcelSheetRange[];
     /** Strategy for selecting sheets from Excel documents. */
     excelSheetSelectionStrategy?: Extend.ExtractionAdvancedOptionsExcelSheetSelectionStrategy;
-    /** DEPRECATED - See [Page Ranges](/product/page-ranges). */
+    /** DEPRECATED - See [Page Ranges](https://docs.extend.ai/2025-04-21/product/page-ranges). */
     fixedPageLimit?: number;
     pageRanges?: Extend.PageRanges;
 }

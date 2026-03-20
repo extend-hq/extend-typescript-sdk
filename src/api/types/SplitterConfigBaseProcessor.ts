@@ -3,7 +3,7 @@
  */
 
 /**
- * The base processor to use. For splitters, this can currently only be `"splitting_performance"` or `"splitting_light"`. See [Splitting Changelog](/changelog/splitting/splitting-performance) for more details.
+ * The base processor to use. For splitters, this can currently only be `"splitting_performance"` or `"splitting_light"`. See [Splitting Changelog](https://docs.extend.ai/2025-04-21/changelog/splitting/splitting-performance) for more details.
  */
 export type SplitterConfigBaseProcessor = "splitting_performance" | "splitting_light";
 export const SplitterConfigBaseProcessor = {

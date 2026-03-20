@@ -23,7 +23,7 @@ This is useful for:
 - Large files that may take longer to process
 - Avoiding timeout issues with synchronous parsing.
 
-For more details, see the [Parse File guide](/product/parsing/parse).
+For more details, see the [Parse File guide](https://docs.extend.ai/2025-04-21/product/parsing/parse).
 
 </dd>
 </dl>
@@ -296,7 +296,7 @@ Example: `"file_xK9mLPqRtN3vS8wF5hB2cQ"`
 </dl>
 </details>
 
-<details><summary><code>client.file.<a href="/src/api/resources/file/client/Client.ts">upload</a>(file) -> Extend.FileUploadResponse</code></summary>
+<details><summary><code>client.file.<a href="/src/api/resources/file/client/Client.ts">upload</a>(file, { ...params }) -> Extend.FileUploadResponse</code></summary>
 <dl>
 <dd>
 
@@ -314,7 +314,7 @@ This endpoint accepts file contents and registers them as a File in Extend, whic
 
 If an uploaded file is detected as a Word or PowerPoint document, it will be automatically converted to a PDF.
 
-Supported file types can be found [here](/product/general/supported-file-types).
+Supported file types can be found [here](https://docs.extend.ai/2025-04-21/product/general/supported-file-types).
 
 This endpoint requires multipart form encoding. Most HTTP clients will handle this encoding automatically (see the examples).
 
@@ -332,7 +332,9 @@ This endpoint requires multipart form encoding. Most HTTP clients will handle th
 <dd>
 
 ```typescript
-await client.file.upload(createReadStream("path/to/file"));
+await client.file.upload(createReadStream("path/to/file"), {
+    convertToPdf: true,
+});
 ```
 
 </dd>
@@ -349,6 +351,14 @@ await client.file.upload(createReadStream("path/to/file"));
 <dd>
 
 **file:** `File | fs.ReadStream | Blob`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.FileUploadRequest`
 
 </dd>
 </dl>
@@ -534,7 +544,7 @@ Example: `"parser_run_xK9mLPqRtN3vS8wF5hB2cQ"`
 <dd>
 
 Edit and manipulate PDF documents by detecting and filling form fields.
-This is a synchronous endpoint that will wait for the edit operation to complete (up to 5 minutes) before returning results. For longer operations, use the [Edit File Async](/developers/api-reference/edit-endpoints/edit-file-async) endpoint.
+This is a synchronous endpoint that will wait for the edit operation to complete (up to 5 minutes) before returning results. For longer operations, use the [Edit File Async](https://docs.extend.ai/2025-04-21/developers/api-reference/edit-endpoints/edit-file-async) endpoint.
 
 </dd>
 </dl>
@@ -601,7 +611,7 @@ await client.edit.create({
 
 Edit and manipulate PDF documents **asynchronously** by filling forms, adding/modifying text fields, and applying structured changes.
 
-The Edit Async endpoint allows you to convert and edit documents asynchronously and get an edit run ID that can be used to check status and retrieve results with the [Get Edit Run](/developers/api-reference/edit-endpoints/get-edit-run) endpoint.
+The Edit Async endpoint allows you to convert and edit documents asynchronously and get an edit run ID that can be used to check status and retrieve results with the [Get Edit Run](https://docs.extend.ai/2025-04-21/developers/api-reference/edit-endpoints/get-edit-run) endpoint.
 
 This is useful for:
 
@@ -673,7 +683,7 @@ await client.edit.createAsync({
 
 Retrieve the status and results of an edit run.
 
-Use this endpoint to get results for an edit run that has already completed, or to check on the status of an asynchronous edit run initiated via the [Edit File Asynchronously](/developers/api-reference/edit-endpoints/edit-file-async) endpoint.
+Use this endpoint to get results for an edit run that has already completed, or to check on the status of an asynchronous edit run initiated via the [Edit File Asynchronously](https://docs.extend.ai/2025-04-21/developers/api-reference/edit-endpoints/edit-file-async) endpoint.
 
 If editing is still in progress, you'll receive a response with just the status. Once complete, you'll receive the full edited file information in the response.
 
@@ -1394,16 +1404,16 @@ await client.workflowRunOutput.update("workflow_run_id_here", "output_id_here", 
 
 This endpoint allows you to efficiently initiate large batches of workflow runs in a single request (up to 1,000 in a single request, but you can queue up multiple batches in rapid succession). It accepts an array of inputs, each containing a file and metadata pair. The primary use case for this endpoint is for doing large bulk runs of >1000 files at a time that can process over the course of a few hours without needing to manage rate limits that would likely occur using the primary run endpoint.
 
-Unlike the single [Run Workflow](/developers/api-reference/workflow-endpoints/run-workflow) endpoint which returns the details of the created workflow runs immediately, this batch endpoint returns a `batchId`.
+Unlike the single [Run Workflow](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/run-workflow) endpoint which returns the details of the created workflow runs immediately, this batch endpoint returns a `batchId`.
 
-Our recommended usage pattern is to integrate with [Webhooks](/product/webhooks/configuration) for consuming results, using the `metadata` and `batchId` to match up results to the original inputs in your downstream systems. However, you can integrate in a polling mechanism by using a combination of the [List Workflow Runs](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/list-workflow-runs) endpoint to fetch all runs via a batch, and then [Get Workflow Run](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/get-workflow-run) to fetch the full outputs each run.
+Our recommended usage pattern is to integrate with [Webhooks](https://docs.extend.ai/2025-04-21/product/webhooks/configuration) for consuming results, using the `metadata` and `batchId` to match up results to the original inputs in your downstream systems. However, you can integrate in a polling mechanism by using a combination of the [List Workflow Runs](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/list-workflow-runs) endpoint to fetch all runs via a batch, and then [Get Workflow Run](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/get-workflow-run) to fetch the full outputs each run.
 
 **Priority:** All workflow runs created through this batch endpoint are automatically assigned a priority of 90.
 
 **Processing and Monitoring:**
 Upon successful submission, the endpoint returns a `batchId`. The individual workflow runs are then queued for processing.
 
-- **Monitoring:** Track the progress and consume results of individual runs using [Webhooks](/product/webhooks/configuration). Subscribe to events like `workflow_run.completed`, `workflow_run.failed`, etc. The webhook payload for these events will include the corresponding `batchId` and the `metadata` you provided for each input.
+- **Monitoring:** Track the progress and consume results of individual runs using [Webhooks](https://docs.extend.ai/2025-04-21/product/webhooks/configuration). Subscribe to events like `workflow_run.completed`, `workflow_run.failed`, etc. The webhook payload for these events will include the corresponding `batchId` and the `metadata` you provided for each input.
 - **Fetching Results:** You can also use the [List Workflow Runs](https://docs.extend.ai/2025-04-21/developers/api-reference/workflow-endpoints/list-workflow-runs) endpoint and filter using the `batchId` query param.
   </dd>
   </dl>

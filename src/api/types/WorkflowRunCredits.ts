@@ -7,7 +7,7 @@
  *
  * This field will not be returned for workflow runs created before October 7, 2025, or for customers on legacy billing systems.
  *
- * For more details on how credits work, see our [Credits Guide](/product/general/how-credits-work).
+ * For more details on how credits work, see our [Credits Guide](https://docs.extend.ai/2025-04-21/product/general/how-credits-work).
  */
 export interface WorkflowRunCredits {
     /** The number of credits consumed for processing in this workflow run. */
