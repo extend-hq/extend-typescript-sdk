@@ -141,6 +141,7 @@ export * from "./FileContentsSheetsItem";
 export * from "./FileFromId";
 export * from "./FileFromText";
 export * from "./FileFromUrl";
+export * from "./FileFromUrlSettings";
 export * from "./FileMetadata";
 export * from "./FileSummary";
 export * from "./FileType";
