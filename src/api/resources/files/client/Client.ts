@@ -370,6 +370,10 @@ export class FilesClient {
         };
         const _body = await core.newFormData();
         await _body.appendFile("file", file);
+        if (request.password != null) {
+            _body.append("password", request.password);
+        }
+
         const _maybeEncodedRequest = await _body.getRequest();
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(

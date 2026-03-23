@@ -7,4 +7,6 @@
 export interface FilesUploadRequest {
     /** When true, converts the uploaded file to PDF. Supported file types include images (JPEG, PNG, TIFF, GIF, BMP, WebP, HEIC/HEIF), Word documents, PowerPoint, Excel, and HTML. */
     convertToPdf?: boolean;
+    /** The password to unlock a password-protected PDF. */
+    password?: string;
 }
