@@ -35,8 +35,20 @@ jobs:
       - name: Test
         run: yarn test
 
+  validate-tag:
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require v prefix on tag
+        run: |
+          TAG_NAME="${GITHUB_REF#refs/tags/}"
+          if [[ ! "$TAG_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+            echo "::error::Tag '$TAG_NAME' is missing the required 'v' prefix (e.g. v1.7.0). Delete this release and recreate it with tag 'v$TAG_NAME'."
+            exit 1
+          fi
+
   publish:
-    needs: [ compile, test ]
+    needs: [ compile, test, validate-tag ]
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
@@ -67,9 +79,9 @@ jobs:
             publish --access public --tag alpha
           elif [[ ${GITHUB_REF} == *beta* ]]; then
             publish --access public --tag beta
-          elif [[ ${GITHUB_REF} == refs/tags/v0* ]] || [[ ${GITHUB_REF} == refs/tags/0.* ]]; then
+          elif [[ ${GITHUB_REF} == refs/tags/v0* ]]; then
             publish --access public --tag v0
-          elif [[ ${GITHUB_REF} == refs/tags/v1* ]] || [[ ${GITHUB_REF} == refs/tags/1.* ]]; then
+          elif [[ ${GITHUB_REF} == refs/tags/v1* ]]; then
             publish --access public
           else
             echo "::error::Unexpected tag format '$TAG_NAME'. Expected v0.x.x, v1.x.x, or pre-release (alpha/beta)."
