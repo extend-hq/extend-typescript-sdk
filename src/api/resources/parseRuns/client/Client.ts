@@ -162,7 +162,7 @@ export class ParseRunsClient {
         request: Extend.ParseRunsRetrieveRequest = {},
         requestOptions?: ParseRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ParseRun>> {
-        const { responseType } = request;
+        const { responseType, "x-extend-workspace-id": extendWorkspaceId } = request;
         const _queryParams: Record<string, unknown> = {
             responseType: responseType != null ? responseType : undefined,
         };
@@ -170,7 +170,10 @@ export class ParseRunsClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -237,6 +240,7 @@ export class ParseRunsClient {
      * @param {string} id - The ID of the parse run to delete.
      *
      *                      Example: `"pr_xK9mLPqRtN3vS8wF5hB2cQ"`
+     * @param {Extend.ParseRunsDeleteRequest} request
      * @param {ParseRunsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -253,20 +257,26 @@ export class ParseRunsClient {
      */
     public delete(
         id: string,
+        request: Extend.ParseRunsDeleteRequest = {},
         requestOptions?: ParseRunsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.ParseRunsDeleteResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__delete(id, request, requestOptions));
     }
 
     private async __delete(
         id: string,
+        request: Extend.ParseRunsDeleteRequest = {},
         requestOptions?: ParseRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ParseRunsDeleteResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({

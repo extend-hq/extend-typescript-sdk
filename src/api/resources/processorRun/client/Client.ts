@@ -58,6 +58,7 @@ export class ProcessorRunClient {
             sortDir,
             nextPageToken,
             maxPageSize,
+            "x-extend-workspace-id": extendWorkspaceId,
         } = request;
         const _queryParams: Record<string, unknown> = {
             status: status != null ? status : undefined,
@@ -75,7 +76,10 @@ export class ProcessorRunClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -211,6 +215,7 @@ export class ProcessorRunClient {
      * @param {string} id - The unique identifier for this processor run.
      *
      *                      Example: `"exr_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.ProcessorRunGetRequest} request
      * @param {ProcessorRunClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -222,20 +227,26 @@ export class ProcessorRunClient {
      */
     public get(
         id: string,
+        request: Extend.ProcessorRunGetRequest = {},
         requestOptions?: ProcessorRunClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.ProcessorRunGetResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__get(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__get(id, request, requestOptions));
     }
 
     private async __get(
         id: string,
+        request: Extend.ProcessorRunGetRequest = {},
         requestOptions?: ProcessorRunClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ProcessorRunGetResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -286,6 +297,7 @@ export class ProcessorRunClient {
      * @param {string} id - The ID of the processor run to delete.
      *
      *                      Example: `"exr_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.ProcessorRunDeleteRequest} request
      * @param {ProcessorRunClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.NotFoundError}
@@ -296,20 +308,26 @@ export class ProcessorRunClient {
      */
     public delete(
         id: string,
+        request: Extend.ProcessorRunDeleteRequest = {},
         requestOptions?: ProcessorRunClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.ProcessorRunDeleteResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__delete(id, request, requestOptions));
     }
 
     private async __delete(
         id: string,
+        request: Extend.ProcessorRunDeleteRequest = {},
         requestOptions?: ProcessorRunClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ProcessorRunDeleteResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -358,6 +376,7 @@ export class ProcessorRunClient {
      * @param {string} id - The unique identifier for the processor run to cancel.
      *
      *                      Example: `"exr_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.ProcessorRunCancelRequest} request
      * @param {ProcessorRunClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -369,20 +388,26 @@ export class ProcessorRunClient {
      */
     public cancel(
         id: string,
+        request: Extend.ProcessorRunCancelRequest = {},
         requestOptions?: ProcessorRunClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.ProcessorRunCancelResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__cancel(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__cancel(id, request, requestOptions));
     }
 
     private async __cancel(
         id: string,
+        request: Extend.ProcessorRunCancelRequest = {},
         requestOptions?: ProcessorRunClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ProcessorRunCancelResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({

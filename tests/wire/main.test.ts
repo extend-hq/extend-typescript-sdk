@@ -79,6 +79,8 @@ describe("ExtendClient", () => {
                     excelSkipCalculation: true,
                     verticalGroupingThreshold: 1.1,
                     alwaysConvertToPdf: true,
+                    enrichmentFormat: "xml",
+                    imageConversionQuality: "high",
                 },
             },
             usage: { credits: 10 },
@@ -213,6 +215,8 @@ describe("ExtendClient", () => {
                     excelSkipCalculation: true,
                     verticalGroupingThreshold: 1.1,
                     alwaysConvertToPdf: true,
+                    enrichmentFormat: "xml",
+                    imageConversionQuality: "high",
                 },
             },
             usage: {
@@ -432,8 +436,18 @@ describe("ExtendClient", () => {
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported. Edit runs currently require a PDF.",
             config: {
-                schema: { type: "object", properties: { key: {} }, required: ["required"], additionalProperties: true },
+                schema: {
+                    type: "object",
+                    properties: { key: {} },
+                    required: ["required"],
+                    additionalProperties: true,
+                    dependentRequired: { key: ["value"] },
+                    allOf: [{}],
+                    oneOf: [{}],
+                    anyOf: [{}],
+                },
                 instructions: "instructions",
+                schemaGenerationInstructions: "schemaGenerationInstructions",
                 advancedOptions: {
                     tableParsingEnabled: true,
                     flattenPdf: true,
@@ -513,8 +527,15 @@ describe("ExtendClient", () => {
                     },
                     required: ["required"],
                     additionalProperties: true,
+                    dependentRequired: {
+                        key: ["value"],
+                    },
+                    allOf: [{}],
+                    oneOf: [{}],
+                    anyOf: [{}],
                 },
                 instructions: "instructions",
+                schemaGenerationInstructions: "schemaGenerationInstructions",
                 advancedOptions: {
                     tableParsingEnabled: true,
                     flattenPdf: true,

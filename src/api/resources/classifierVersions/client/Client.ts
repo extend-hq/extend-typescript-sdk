@@ -60,7 +60,7 @@ export class ClassifierVersionsClient {
         request: Extend.ClassifierVersionsListRequest = {},
         requestOptions?: ClassifierVersionsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ClassifierVersionsListResponse>> {
-        const { sortDir, nextPageToken, maxPageSize } = request;
+        const { sortDir, nextPageToken, maxPageSize, "x-extend-workspace-id": extendWorkspaceId } = request;
         const _queryParams: Record<string, unknown> = {
             sortDir: sortDir != null ? sortDir : undefined,
             nextPageToken,
@@ -70,7 +70,10 @@ export class ClassifierVersionsClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -176,11 +179,15 @@ export class ClassifierVersionsClient {
         request: Extend.ClassifierVersionsCreateRequest,
         requestOptions?: ClassifierVersionsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ClassifierVersion>> {
+        const { "x-extend-workspace-id": extendWorkspaceId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -195,7 +202,7 @@ export class ClassifierVersionsClient {
             contentType: "application/json",
             queryParameters: requestOptions?.queryParams,
             requestType: "json",
-            body: request,
+            body: _body,
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 300) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -256,6 +263,7 @@ export class ClassifierVersionsClient {
      * @param {string} versionId - The ID of the specific classifier version.
      *
      *                             Example: `"clsv_QYk6jgHA_8CsO8rVWhyNC"`
+     * @param {Extend.ClassifierVersionsRetrieveRequest} request
      * @param {ClassifierVersionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -273,21 +281,27 @@ export class ClassifierVersionsClient {
     public retrieve(
         classifierId: string,
         versionId: string,
+        request: Extend.ClassifierVersionsRetrieveRequest = {},
         requestOptions?: ClassifierVersionsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.ClassifierVersion> {
-        return core.HttpResponsePromise.fromPromise(this.__retrieve(classifierId, versionId, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__retrieve(classifierId, versionId, request, requestOptions));
     }
 
     private async __retrieve(
         classifierId: string,
         versionId: string,
+        request: Extend.ClassifierVersionsRetrieveRequest = {},
         requestOptions?: ClassifierVersionsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ClassifierVersion>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({

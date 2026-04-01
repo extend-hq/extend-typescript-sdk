@@ -9,4 +9,6 @@ export type BlockDetails =
     | Extend.TableDetails
     | Extend.TableCellDetails
     | Extend.FigureDetails
+    | Extend.BarcodeDetails
+    | Extend.KeyValueDetails
     | Extend.EmptyBlockDetails;

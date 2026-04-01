@@ -65,6 +65,7 @@ export class ClassifyRunsClient {
             sortDir,
             nextPageToken,
             maxPageSize,
+            "x-extend-workspace-id": extendWorkspaceId,
         } = request;
         const _queryParams: Record<string, unknown> = {
             status: status != null ? status : undefined,
@@ -81,7 +82,10 @@ export class ClassifyRunsClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -252,6 +256,7 @@ export class ClassifyRunsClient {
      * @param {string} id - The unique identifier for this classify run.
      *
      *                      Example: `"cl_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.ClassifyRunsRetrieveRequest} request
      * @param {ClassifyRunsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -268,20 +273,26 @@ export class ClassifyRunsClient {
      */
     public retrieve(
         id: string,
+        request: Extend.ClassifyRunsRetrieveRequest = {},
         requestOptions?: ClassifyRunsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.ClassifyRun> {
-        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, request, requestOptions));
     }
 
     private async __retrieve(
         id: string,
+        request: Extend.ClassifyRunsRetrieveRequest = {},
         requestOptions?: ClassifyRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ClassifyRun>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -346,6 +357,7 @@ export class ClassifyRunsClient {
      * This endpoint can be used if you'd like to manage data retention on your own rather than automated data retention policies. Or make one-off deletions for your downstream customers.
      *
      * @param {string} id - The ID of the classify run.
+     * @param {Extend.ClassifyRunsDeleteRequest} request
      * @param {ClassifyRunsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -362,20 +374,26 @@ export class ClassifyRunsClient {
      */
     public delete(
         id: string,
+        request: Extend.ClassifyRunsDeleteRequest = {},
         requestOptions?: ClassifyRunsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.ClassifyRunsDeleteResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__delete(id, request, requestOptions));
     }
 
     private async __delete(
         id: string,
+        request: Extend.ClassifyRunsDeleteRequest = {},
         requestOptions?: ClassifyRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ClassifyRunsDeleteResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -442,6 +460,7 @@ export class ClassifyRunsClient {
      * @param {string} id - The ID of the classify run to cancel.
      *
      *                      Example: `"cl_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.ClassifyRunsCancelRequest} request
      * @param {ClassifyRunsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -458,20 +477,26 @@ export class ClassifyRunsClient {
      */
     public cancel(
         id: string,
+        request: Extend.ClassifyRunsCancelRequest = {},
         requestOptions?: ClassifyRunsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.ClassifyRun> {
-        return core.HttpResponsePromise.fromPromise(this.__cancel(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__cancel(id, request, requestOptions));
     }
 
     private async __cancel(
         id: string,
+        request: Extend.ClassifyRunsCancelRequest = {},
         requestOptions?: ClassifyRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ClassifyRun>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({

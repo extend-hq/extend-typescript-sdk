@@ -27,4 +27,19 @@ export interface ParseConfigAdvancedOptions {
     returnOcr?: Extend.ParseConfigAdvancedOptionsReturnOcr;
     /** Whether to convert supported file types (images, Word documents, PowerPoint, Excel, HTML) to PDF before parsing. This can improve parsing quality for some file types and ensures spatial output with bounding boxes. */
     alwaysConvertToPdf?: boolean;
+    /**
+     * The format used for enrichment annotations in the output.
+     *
+     * * `xml`: Use XML-style tags for enrichment annotations, e.g. <page_number>1</page_number> or <barcode>1234567890</barcode>
+     * * `bracket`: Use bracket-style notation for enrichment annotations, e.g. [page_number: 1] or [barcode: 1234567890]
+     */
+    enrichmentFormat?: Extend.ParseConfigAdvancedOptionsEnrichmentFormat;
+    /**
+     * Controls the quality level when converting images or documents to PDF for parsing.
+     *
+     * * `high`: Maximum quality, can add some latency for large/dense documents
+     * * `medium`: Balanced quality and speed
+     * * `low`: Lower quality, smaller file sizes, faster processing
+     */
+    imageConversionQuality?: Extend.ParseConfigAdvancedOptionsImageConversionQuality;
 }

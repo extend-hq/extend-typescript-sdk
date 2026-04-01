@@ -55,7 +55,7 @@ export class ExtractorsClient {
         request: Extend.ExtractorsListRequest = {},
         requestOptions?: ExtractorsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ExtractorsListResponse>> {
-        const { nextPageToken, maxPageSize, sortBy, sortDir } = request;
+        const { nextPageToken, maxPageSize, sortBy, sortDir, "x-extend-workspace-id": extendWorkspaceId } = request;
         const _queryParams: Record<string, unknown> = {
             nextPageToken,
             maxPageSize,
@@ -66,7 +66,10 @@ export class ExtractorsClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -247,6 +250,7 @@ export class ExtractorsClient {
      * @param {string} id - The ID of the extractor to get.
      *
      *                      Example: `"ex_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.ExtractorsRetrieveRequest} request
      * @param {ExtractorsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -263,20 +267,26 @@ export class ExtractorsClient {
      */
     public retrieve(
         id: string,
+        request: Extend.ExtractorsRetrieveRequest = {},
         requestOptions?: ExtractorsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.Extractor> {
-        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, request, requestOptions));
     }
 
     private async __retrieve(
         id: string,
+        request: Extend.ExtractorsRetrieveRequest = {},
         requestOptions?: ExtractorsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.Extractor>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -371,11 +381,15 @@ export class ExtractorsClient {
         request: Extend.ExtractorsUpdateRequest = {},
         requestOptions?: ExtractorsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.Extractor>> {
+        const { "x-extend-workspace-id": extendWorkspaceId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -390,7 +404,7 @@ export class ExtractorsClient {
             contentType: "application/json",
             queryParameters: requestOptions?.queryParams,
             requestType: "json",
-            body: request,
+            body: _body,
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 300) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

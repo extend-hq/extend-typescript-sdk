@@ -4,6 +4,9 @@ import type * as Extend from "../index";
 
 /**
  * JSON Schema definition for editing PDF documents. The schema defines the structure and placement of fields to edit.
+ * It also supports JSON Schema conditional keywords at the root level, including `dependentRequired`,
+ * `if` / `then` / `else`, and logical combinators such as `allOf`, `oneOf`, `anyOf`, and `not`.
+ * Conditional property constraints do not accept `extend_edit:*` keys.
  */
 export interface EditRootJson {
     /** Must be "object" for the root schema */
@@ -14,4 +17,15 @@ export interface EditRootJson {
     required?: string[];
     /** Whether additional properties are allowed */
     additionalProperties?: boolean;
+    dependentRequired?: Extend.EditDependentRequired;
+    if?: Extend.EditConditionalClause;
+    then?: Extend.EditConditionalClause;
+    else?: Extend.EditConditionalClause;
+    /** List of conditional clauses that must all match. */
+    allOf?: Extend.EditConditionalClause[];
+    /** List of conditional clauses where exactly one must match. */
+    oneOf?: Extend.EditConditionalClause[];
+    /** List of conditional clauses where at least one must match. */
+    anyOf?: Extend.EditConditionalClause[];
+    not?: Extend.EditConditionalClause;
 }

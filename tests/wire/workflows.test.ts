@@ -5,6 +5,139 @@ import { ExtendClient } from "../../src/Client";
 import { mockServerPool } from "../mock-server/MockServerPool";
 
 describe("WorkflowsClient", () => {
+    test("list (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = {
+            object: "list",
+            data: [
+                {
+                    object: "workflow",
+                    id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
+                    name: "Invoice Processing",
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
+            nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+        };
+        server.mockEndpoint().get("/workflows").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
+
+        const response = await client.workflows.list({
+            nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+        });
+        expect(response).toEqual({
+            object: "list",
+            data: [
+                {
+                    object: "workflow",
+                    id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
+                    name: "Invoice Processing",
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
+            nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+        });
+    });
+
+    test("list (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/workflows").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workflows.list();
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("list (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/workflows").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workflows.list();
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("list (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server.mockEndpoint().get("/workflows").respondWith().statusCode(402).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workflows.list();
+        }).rejects.toThrow(Extend.PaymentRequiredError);
+    });
+
+    test("list (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server.mockEndpoint().get("/workflows").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workflows.list();
+        }).rejects.toThrow(Extend.ForbiddenError);
+    });
+
+    test("list (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/workflows").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workflows.list();
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("list (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server.mockEndpoint().get("/workflows").respondWith().statusCode(422).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workflows.list();
+        }).rejects.toThrow(Extend.UnprocessableEntityError);
+    });
+
+    test("list (8)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/workflows").respondWith().statusCode(429).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workflows.list();
+        }).rejects.toThrow(Extend.TooManyRequestsError);
+    });
+
+    test("list (9)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/workflows").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workflows.list();
+        }).rejects.toThrow(Extend.InternalServerError);
+    });
+
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
@@ -13,6 +146,16 @@ describe("WorkflowsClient", () => {
             object: "workflow",
             id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
             name: "Invoice Processing",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+            draftVersion: {
+                object: "workflow_version",
+                id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+                version: "1",
+                name: "Production v1",
+                steps: [{ type: "TRIGGER", name: "name", next: [{ step: "parse" }] }],
+                createdAt: "2024-03-21T16:45:00Z",
+            },
         };
         server
             .mockEndpoint()
@@ -30,10 +173,208 @@ describe("WorkflowsClient", () => {
             object: "workflow",
             id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
             name: "Invoice Processing",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+            draftVersion: {
+                object: "workflow_version",
+                id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+                version: "1",
+                name: "Production v1",
+                steps: [
+                    {
+                        type: "TRIGGER",
+                        name: "name",
+                        next: [
+                            {
+                                step: "parse",
+                            },
+                        ],
+                    },
+                ],
+                createdAt: "2024-03-21T16:45:00Z",
+            },
         });
     });
 
     test("create (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            name: "Invoice Processing",
+            steps: [
+                { type: "TRIGGER", name: "name" },
+                { type: "PARSE", name: "name" },
+                { type: "EXTRACT", name: "name" },
+                { type: "HUMAN_REVIEW", name: "name" },
+            ],
+        };
+        const rawResponseBody = {
+            object: "workflow",
+            id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
+            name: "Invoice Processing",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+            draftVersion: {
+                object: "workflow_version",
+                id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+                version: "1",
+                name: "Production v1",
+                steps: [{ type: "TRIGGER", name: "name", next: [{ step: "parse" }] }],
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+        };
+        server
+            .mockEndpoint()
+            .post("/workflows")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.workflows.create({
+            name: "Invoice Processing",
+            steps: [
+                {
+                    type: "TRIGGER",
+                    name: "name",
+                },
+                {
+                    type: "PARSE",
+                    name: "name",
+                },
+                {
+                    type: "EXTRACT",
+                    name: "name",
+                },
+                {
+                    type: "HUMAN_REVIEW",
+                    name: "name",
+                },
+            ],
+        });
+        expect(response).toEqual({
+            object: "workflow",
+            id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
+            name: "Invoice Processing",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+            draftVersion: {
+                object: "workflow_version",
+                id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+                version: "1",
+                name: "Production v1",
+                steps: [
+                    {
+                        type: "TRIGGER",
+                        name: "name",
+                        next: [
+                            {
+                                step: "parse",
+                            },
+                        ],
+                    },
+                ],
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+        });
+    });
+
+    test("create (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            name: "Document Routing",
+            steps: [
+                { type: "TRIGGER", name: "name" },
+                { type: "PARSE", name: "name" },
+                { type: "CLASSIFY", name: "name" },
+                { type: "EXTRACT", name: "name" },
+                { type: "EXTRACT", name: "name" },
+                { type: "HUMAN_REVIEW", name: "name" },
+            ],
+        };
+        const rawResponseBody = {
+            object: "workflow",
+            id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
+            name: "Invoice Processing",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+            draftVersion: {
+                object: "workflow_version",
+                id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+                version: "1",
+                name: "Production v1",
+                steps: [{ type: "TRIGGER", name: "name", next: [{ step: "parse" }] }],
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+        };
+        server
+            .mockEndpoint()
+            .post("/workflows")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.workflows.create({
+            name: "Document Routing",
+            steps: [
+                {
+                    type: "TRIGGER",
+                    name: "name",
+                },
+                {
+                    type: "PARSE",
+                    name: "name",
+                },
+                {
+                    type: "CLASSIFY",
+                    name: "name",
+                },
+                {
+                    type: "EXTRACT",
+                    name: "name",
+                },
+                {
+                    type: "EXTRACT",
+                    name: "name",
+                },
+                {
+                    type: "HUMAN_REVIEW",
+                    name: "name",
+                },
+            ],
+        });
+        expect(response).toEqual({
+            object: "workflow",
+            id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
+            name: "Invoice Processing",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+            draftVersion: {
+                object: "workflow_version",
+                id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+                version: "1",
+                name: "Production v1",
+                steps: [
+                    {
+                        type: "TRIGGER",
+                        name: "name",
+                        next: [
+                            {
+                                step: "parse",
+                            },
+                        ],
+                    },
+                ],
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+        });
+    });
+
+    test("create (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -54,7 +395,7 @@ describe("WorkflowsClient", () => {
         }).rejects.toThrow(Extend.BadRequestError);
     });
 
-    test("create (3)", async () => {
+    test("create (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -75,7 +416,7 @@ describe("WorkflowsClient", () => {
         }).rejects.toThrow(Extend.UnauthorizedError);
     });
 
-    test("create (4)", async () => {
+    test("create (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -96,7 +437,7 @@ describe("WorkflowsClient", () => {
         }).rejects.toThrow(Extend.PaymentRequiredError);
     });
 
-    test("create (5)", async () => {
+    test("create (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -117,7 +458,7 @@ describe("WorkflowsClient", () => {
         }).rejects.toThrow(Extend.ForbiddenError);
     });
 
-    test("create (6)", async () => {
+    test("create (8)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -138,7 +479,7 @@ describe("WorkflowsClient", () => {
         }).rejects.toThrow(Extend.NotFoundError);
     });
 
-    test("create (7)", async () => {
+    test("create (9)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -159,7 +500,7 @@ describe("WorkflowsClient", () => {
         }).rejects.toThrow(Extend.UnprocessableEntityError);
     });
 
-    test("create (8)", async () => {
+    test("create (10)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -180,7 +521,7 @@ describe("WorkflowsClient", () => {
         }).rejects.toThrow(Extend.TooManyRequestsError);
     });
 
-    test("create (9)", async () => {
+    test("create (11)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -198,6 +539,1005 @@ describe("WorkflowsClient", () => {
             return await client.workflows.create({
                 name: "name",
             });
+        }).rejects.toThrow(Extend.InternalServerError);
+    });
+
+    test("retrieve (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = {
+            object: "workflow",
+            id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
+            name: "Invoice Processing",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+            draftVersion: {
+                object: "workflow_version",
+                id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+                version: "1",
+                name: "Production v1",
+                steps: [{ type: "TRIGGER", name: "name", next: [{ step: "parse" }] }],
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+        };
+        server
+            .mockEndpoint()
+            .get("/workflows/workflow_abc123")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.workflows.retrieve("workflow_abc123");
+        expect(response).toEqual({
+            object: "workflow",
+            id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
+            name: "Invoice Processing",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+            draftVersion: {
+                object: "workflow_version",
+                id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+                version: "1",
+                name: "Production v1",
+                steps: [
+                    {
+                        type: "TRIGGER",
+                        name: "name",
+                        next: [
+                            {
+                                step: "parse",
+                            },
+                        ],
+                    },
+                ],
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+        });
+    });
+
+    test("retrieve (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/workflows/id").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workflows.retrieve("id");
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("retrieve (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/workflows/id").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workflows.retrieve("id");
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("retrieve (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server.mockEndpoint().get("/workflows/id").respondWith().statusCode(402).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workflows.retrieve("id");
+        }).rejects.toThrow(Extend.PaymentRequiredError);
+    });
+
+    test("retrieve (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server.mockEndpoint().get("/workflows/id").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workflows.retrieve("id");
+        }).rejects.toThrow(Extend.ForbiddenError);
+    });
+
+    test("retrieve (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/workflows/id").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workflows.retrieve("id");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("retrieve (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server.mockEndpoint().get("/workflows/id").respondWith().statusCode(422).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workflows.retrieve("id");
+        }).rejects.toThrow(Extend.UnprocessableEntityError);
+    });
+
+    test("retrieve (8)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/workflows/id").respondWith().statusCode(429).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workflows.retrieve("id");
+        }).rejects.toThrow(Extend.TooManyRequestsError);
+    });
+
+    test("retrieve (9)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/workflows/id").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workflows.retrieve("id");
+        }).rejects.toThrow(Extend.InternalServerError);
+    });
+
+    test("update (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { name: "Updated Invoice Processing" };
+        const rawResponseBody = {
+            object: "workflow",
+            id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
+            name: "Invoice Processing",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+            draftVersion: {
+                object: "workflow_version",
+                id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+                version: "1",
+                name: "Production v1",
+                steps: [{ type: "TRIGGER", name: "name", next: [{ step: "parse" }] }],
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+        };
+        server
+            .mockEndpoint()
+            .post("/workflows/workflow_abc123")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.workflows.update("workflow_abc123", {
+            name: "Updated Invoice Processing",
+        });
+        expect(response).toEqual({
+            object: "workflow",
+            id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
+            name: "Invoice Processing",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+            draftVersion: {
+                object: "workflow_version",
+                id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+                version: "1",
+                name: "Production v1",
+                steps: [
+                    {
+                        type: "TRIGGER",
+                        name: "name",
+                        next: [
+                            {
+                                step: "parse",
+                            },
+                        ],
+                    },
+                ],
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+        });
+    });
+
+    test("update (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            steps: [
+                { type: "TRIGGER", name: "name" },
+                { type: "PARSE", name: "name" },
+            ],
+        };
+        const rawResponseBody = {
+            object: "workflow",
+            id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
+            name: "Invoice Processing",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+            draftVersion: {
+                object: "workflow_version",
+                id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+                version: "1",
+                name: "Production v1",
+                steps: [{ type: "TRIGGER", name: "name", next: [{ step: "parse" }] }],
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+        };
+        server
+            .mockEndpoint()
+            .post("/workflows/workflow_abc123")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.workflows.update("workflow_abc123", {
+            steps: [
+                {
+                    type: "TRIGGER",
+                    name: "name",
+                },
+                {
+                    type: "PARSE",
+                    name: "name",
+                },
+            ],
+        });
+        expect(response).toEqual({
+            object: "workflow",
+            id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
+            name: "Invoice Processing",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+            draftVersion: {
+                object: "workflow_version",
+                id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+                version: "1",
+                name: "Production v1",
+                steps: [
+                    {
+                        type: "TRIGGER",
+                        name: "name",
+                        next: [
+                            {
+                                step: "parse",
+                            },
+                        ],
+                    },
+                ],
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+        });
+    });
+
+    test("update (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/workflows/id")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.update("id");
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("update (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/workflows/id")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.update("id");
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("update (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/workflows/id")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(402)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.update("id");
+        }).rejects.toThrow(Extend.PaymentRequiredError);
+    });
+
+    test("update (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/workflows/id")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.update("id");
+        }).rejects.toThrow(Extend.ForbiddenError);
+    });
+
+    test("update (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/workflows/id")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.update("id");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("update (8)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/workflows/id")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(422)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.update("id");
+        }).rejects.toThrow(Extend.UnprocessableEntityError);
+    });
+
+    test("update (9)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/workflows/id")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(429)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.update("id");
+        }).rejects.toThrow(Extend.TooManyRequestsError);
+    });
+
+    test("update (10)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/workflows/id")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.update("id");
+        }).rejects.toThrow(Extend.InternalServerError);
+    });
+
+    test("listVersions (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = {
+            object: "list",
+            data: [
+                {
+                    object: "workflow_version",
+                    id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+                    version: "1",
+                    name: "Production v1",
+                    createdAt: "2024-03-21T16:45:00Z",
+                },
+            ],
+            nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+        };
+        server
+            .mockEndpoint()
+            .get("/workflows/workflow_abc123/versions")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.workflows.listVersions("workflow_abc123", {
+            nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+        });
+        expect(response).toEqual({
+            object: "list",
+            data: [
+                {
+                    object: "workflow_version",
+                    id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+                    version: "1",
+                    name: "Production v1",
+                    createdAt: "2024-03-21T16:45:00Z",
+                },
+            ],
+            nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+        });
+    });
+
+    test("listVersions (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/workflows/id/versions")
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.listVersions("id");
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("listVersions (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/workflows/id/versions")
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.listVersions("id");
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("listVersions (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .get("/workflows/id/versions")
+            .respondWith()
+            .statusCode(402)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.listVersions("id");
+        }).rejects.toThrow(Extend.PaymentRequiredError);
+    });
+
+    test("listVersions (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .get("/workflows/id/versions")
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.listVersions("id");
+        }).rejects.toThrow(Extend.ForbiddenError);
+    });
+
+    test("listVersions (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/workflows/id/versions")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.listVersions("id");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("listVersions (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .get("/workflows/id/versions")
+            .respondWith()
+            .statusCode(422)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.listVersions("id");
+        }).rejects.toThrow(Extend.UnprocessableEntityError);
+    });
+
+    test("listVersions (8)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/workflows/id/versions")
+            .respondWith()
+            .statusCode(429)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.listVersions("id");
+        }).rejects.toThrow(Extend.TooManyRequestsError);
+    });
+
+    test("listVersions (9)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/workflows/id/versions")
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.listVersions("id");
+        }).rejects.toThrow(Extend.InternalServerError);
+    });
+
+    test("deploy (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
+        const rawResponseBody = {
+            object: "workflow_version",
+            id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+            version: "1",
+            name: "Production v1",
+            steps: [{ type: "TRIGGER", name: "name", next: [{ step: "parse" }] }],
+            createdAt: "2024-03-21T16:45:00Z",
+        };
+        server
+            .mockEndpoint()
+            .post("/workflows/workflow_abc123/versions")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.workflows.deploy("workflow_abc123");
+        expect(response).toEqual({
+            object: "workflow_version",
+            id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+            version: "1",
+            name: "Production v1",
+            steps: [
+                {
+                    type: "TRIGGER",
+                    name: "name",
+                    next: [
+                        {
+                            step: "parse",
+                        },
+                    ],
+                },
+            ],
+            createdAt: "2024-03-21T16:45:00Z",
+        });
+    });
+
+    test("deploy (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/workflows/id/versions")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.deploy("id");
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("deploy (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/workflows/id/versions")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.deploy("id");
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("deploy (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/workflows/id/versions")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(402)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.deploy("id");
+        }).rejects.toThrow(Extend.PaymentRequiredError);
+    });
+
+    test("deploy (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/workflows/id/versions")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.deploy("id");
+        }).rejects.toThrow(Extend.ForbiddenError);
+    });
+
+    test("deploy (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/workflows/id/versions")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.deploy("id");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("deploy (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/workflows/id/versions")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(422)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.deploy("id");
+        }).rejects.toThrow(Extend.UnprocessableEntityError);
+    });
+
+    test("deploy (8)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/workflows/id/versions")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(429)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.deploy("id");
+        }).rejects.toThrow(Extend.TooManyRequestsError);
+    });
+
+    test("deploy (9)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/workflows/id/versions")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.deploy("id");
+        }).rejects.toThrow(Extend.InternalServerError);
+    });
+
+    test("retrieveVersion (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = {
+            object: "workflow_version",
+            id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+            version: "1",
+            name: "Production v1",
+            steps: [{ type: "TRIGGER", name: "name", next: [{ step: "parse" }] }],
+            createdAt: "2024-03-21T16:45:00Z",
+        };
+        server
+            .mockEndpoint()
+            .get("/workflows/workflow_abc123/versions/draft")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.workflows.retrieveVersion("workflow_abc123", "draft");
+        expect(response).toEqual({
+            object: "workflow_version",
+            id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+            version: "1",
+            name: "Production v1",
+            steps: [
+                {
+                    type: "TRIGGER",
+                    name: "name",
+                    next: [
+                        {
+                            step: "parse",
+                        },
+                    ],
+                },
+            ],
+            createdAt: "2024-03-21T16:45:00Z",
+        });
+    });
+
+    test("retrieveVersion (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/workflows/id/versions/versionId")
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.retrieveVersion("id", "versionId");
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("retrieveVersion (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/workflows/id/versions/versionId")
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.retrieveVersion("id", "versionId");
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("retrieveVersion (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .get("/workflows/id/versions/versionId")
+            .respondWith()
+            .statusCode(402)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.retrieveVersion("id", "versionId");
+        }).rejects.toThrow(Extend.PaymentRequiredError);
+    });
+
+    test("retrieveVersion (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .get("/workflows/id/versions/versionId")
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.retrieveVersion("id", "versionId");
+        }).rejects.toThrow(Extend.ForbiddenError);
+    });
+
+    test("retrieveVersion (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/workflows/id/versions/versionId")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.retrieveVersion("id", "versionId");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("retrieveVersion (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .get("/workflows/id/versions/versionId")
+            .respondWith()
+            .statusCode(422)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.retrieveVersion("id", "versionId");
+        }).rejects.toThrow(Extend.UnprocessableEntityError);
+    });
+
+    test("retrieveVersion (8)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/workflows/id/versions/versionId")
+            .respondWith()
+            .statusCode(429)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.retrieveVersion("id", "versionId");
+        }).rejects.toThrow(Extend.TooManyRequestsError);
+    });
+
+    test("retrieveVersion (9)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/workflows/id/versions/versionId")
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workflows.retrieveVersion("id", "versionId");
         }).rejects.toThrow(Extend.InternalServerError);
     });
 });

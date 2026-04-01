@@ -55,7 +55,13 @@ export class FilesClient {
         request: Extend.FilesListRequest = {},
         requestOptions?: FilesClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.FilesListResponse>> {
-        const { nameContains, sortDir, nextPageToken, maxPageSize } = request;
+        const {
+            nameContains,
+            sortDir,
+            nextPageToken,
+            maxPageSize,
+            "x-extend-workspace-id": extendWorkspaceId,
+        } = request;
         const _queryParams: Record<string, unknown> = {
             nameContains,
             sortDir: sortDir != null ? sortDir : undefined,
@@ -66,7 +72,10 @@ export class FilesClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -159,7 +168,7 @@ export class FilesClient {
         request: Extend.FilesRetrieveRequest = {},
         requestOptions?: FilesClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.File_>> {
-        const { rawText, markdown, html } = request;
+        const { rawText, markdown, html, "x-extend-workspace-id": extendWorkspaceId } = request;
         const _queryParams: Record<string, unknown> = {
             rawText,
             markdown,
@@ -169,7 +178,10 @@ export class FilesClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -236,6 +248,7 @@ export class FilesClient {
      * @param {string} id - The ID of the file to delete.
      *
      *                      Example: `"file_xK9mLPqRtN3vS8wF5hB2cQ"`
+     * @param {Extend.FilesDeleteRequest} request
      * @param {FilesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -252,20 +265,26 @@ export class FilesClient {
      */
     public delete(
         id: string,
+        request: Extend.FilesDeleteRequest = {},
         requestOptions?: FilesClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.FilesDeleteResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__delete(id, request, requestOptions));
     }
 
     private async __delete(
         id: string,
+        request: Extend.FilesDeleteRequest = {},
         requestOptions?: FilesClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.FilesDeleteResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -380,6 +399,7 @@ export class FilesClient {
             _authRequest.headers,
             this._options?.headers,
             mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": request["x-extend-workspace-id"],
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
                 ..._maybeEncodedRequest.headers,
             }),
