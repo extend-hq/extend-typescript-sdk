@@ -128,6 +128,7 @@ describe("ExtractRunsClient", () => {
         expect(mockCreate).toHaveBeenCalledWith(request, undefined);
         expect(mockRetrieve).toHaveBeenCalledWith(
           "extract_run_test123",
+          {},
           undefined
         );
         expect(result.status).toBe("PROCESSED");
@@ -251,6 +252,7 @@ describe("ExtractRunsClient", () => {
         );
         expect(mockRetrieve).toHaveBeenCalledWith(
           expect.anything(),
+          {},
           requestOptions
         );
       });

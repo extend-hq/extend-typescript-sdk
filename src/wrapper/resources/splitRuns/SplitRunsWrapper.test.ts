@@ -116,7 +116,7 @@ describe("SplitRunsClient", () => {
       });
 
       expect(mockCreate).toHaveBeenCalledWith(request, undefined);
-      expect(mockRetrieve).toHaveBeenCalledWith("split_run_test123", undefined);
+      expect(mockRetrieve).toHaveBeenCalledWith("split_run_test123", {}, undefined);
       expect(result.status).toBe("PROCESSED");
     });
 
@@ -236,6 +236,7 @@ describe("SplitRunsClient", () => {
       );
       expect(mockRetrieve).toHaveBeenCalledWith(
         expect.anything(),
+        {},
         requestOptions
       );
     });

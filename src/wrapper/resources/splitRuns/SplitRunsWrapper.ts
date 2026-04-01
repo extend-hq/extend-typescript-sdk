@@ -91,7 +91,7 @@ export class SplitRunsClient extends GeneratedSplitRunsClient {
 
     // Poll until terminal state
     return pollUntilDone(
-      () => this.retrieve(runId, requestOptions),
+      () => this.retrieve(runId, {}, requestOptions),
       (response) => isTerminalStatus(response.status),
       { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction }
     );
