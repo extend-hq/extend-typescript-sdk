@@ -97,7 +97,7 @@ export class EditRunsClient extends GeneratedEditRunsClient {
 
     // Poll until terminal state
     return pollUntilDone(
-      () => this.retrieve(runId, requestOptions),
+      () => this.retrieve(runId, {}, requestOptions),
       (response) => isTerminalStatus(response.status),
       { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction }
     );

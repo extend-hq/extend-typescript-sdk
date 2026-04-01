@@ -15,9 +15,14 @@ export interface Block {
      * * `"heading"` - Section or document headings
      * * `"section_heading"` - Subsection headings
      * * `"table"` - Tabular data with rows and columns
+     * * `"figure"` - Images, charts, diagrams, or logos
      * * `"table_head"` - Table header cells
      * * `"table_cell"` - Table body cells
-     * * `"figure"` - Images, charts, diagrams, or logos
+     * * `"key_value"` - Key-value pairs (e.g., form regions, key-val groups, etc)
+     * * `"page_number"` - Page number indicators
+     * * `"barcode"` - Barcodes and QR codes
+     * * `"header"` - Page headers
+     * * `"footer"` - Page footers
      */
     type: Extend.BlockType;
     /** The textual content of the block formatted based on the target format. */

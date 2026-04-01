@@ -8,4 +8,6 @@ export interface ParseConfigBlockOptionsFigures {
     enabled?: boolean;
     /** Whether to clip and extract images from figures. */
     figureImageClippingEnabled?: boolean;
+    /** Whether to enable advanced chart extraction using vision models for improved data extraction from charts. */
+    advancedChartExtractionEnabled?: boolean;
 }

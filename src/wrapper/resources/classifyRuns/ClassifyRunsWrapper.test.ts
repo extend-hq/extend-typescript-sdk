@@ -132,6 +132,7 @@ describe("ClassifyRunsClient", () => {
       expect(mockCreate).toHaveBeenCalledWith(request, undefined);
       expect(mockRetrieve).toHaveBeenCalledWith(
         "classify_run_test123",
+        {},
         undefined
       );
       expect(result.status).toBe("PROCESSED");
@@ -253,6 +254,7 @@ describe("ClassifyRunsClient", () => {
       );
       expect(mockRetrieve).toHaveBeenCalledWith(
         expect.anything(),
+        {},
         requestOptions
       );
     });

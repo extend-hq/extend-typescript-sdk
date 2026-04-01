@@ -55,7 +55,7 @@ export class ClassifiersClient {
         request: Extend.ClassifiersListRequest = {},
         requestOptions?: ClassifiersClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ClassifiersListResponse>> {
-        const { nextPageToken, maxPageSize, sortBy, sortDir } = request;
+        const { nextPageToken, maxPageSize, sortBy, sortDir, "x-extend-workspace-id": extendWorkspaceId } = request;
         const _queryParams: Record<string, unknown> = {
             nextPageToken,
             maxPageSize,
@@ -66,7 +66,10 @@ export class ClassifiersClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -243,6 +246,7 @@ export class ClassifiersClient {
      * @param {string} id - The ID of the classifier to get.
      *
      *                      Example: `"cl_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.ClassifiersRetrieveRequest} request
      * @param {ClassifiersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -259,20 +263,26 @@ export class ClassifiersClient {
      */
     public retrieve(
         id: string,
+        request: Extend.ClassifiersRetrieveRequest = {},
         requestOptions?: ClassifiersClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.Classifier> {
-        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, request, requestOptions));
     }
 
     private async __retrieve(
         id: string,
+        request: Extend.ClassifiersRetrieveRequest = {},
         requestOptions?: ClassifiersClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.Classifier>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -367,11 +377,15 @@ export class ClassifiersClient {
         request: Extend.ClassifiersUpdateRequest = {},
         requestOptions?: ClassifiersClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.Classifier>> {
+        const { "x-extend-workspace-id": extendWorkspaceId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -386,7 +400,7 @@ export class ClassifiersClient {
             contentType: "application/json",
             queryParameters: requestOptions?.queryParams,
             requestType: "json",
-            body: request,
+            body: _body,
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 300) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

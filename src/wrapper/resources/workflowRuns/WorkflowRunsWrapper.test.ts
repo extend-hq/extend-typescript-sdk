@@ -32,12 +32,15 @@ function createMockWorkflowRun(
       object: "workflow",
       id: "workflow_123",
       name: "Test Workflow",
+      createdAt: "2024-01-01T00:00:00Z",
+      updatedAt: "2024-01-01T00:00:00Z",
     },
     workflowVersion: {
       object: "workflow_version",
       id: "workflow_version_456",
       version: "1",
       name: "Test Workflow v1",
+      createdAt: "2024-01-01T00:00:00Z",
     },
     status: "PROCESSED",
     dashboardUrl:
@@ -109,6 +112,7 @@ describe("WorkflowRunsClient", () => {
       expect(mockCreate).toHaveBeenCalledWith(request, undefined);
       expect(mockRetrieve).toHaveBeenCalledWith(
         "workflow_run_test123",
+        {},
         undefined
       );
       expect(result.status).toBe("PROCESSED");
@@ -365,6 +369,7 @@ describe("WorkflowRunsClient", () => {
       );
       expect(mockRetrieve).toHaveBeenCalledWith(
         expect.anything(),
+        {},
         requestOptions
       );
     });

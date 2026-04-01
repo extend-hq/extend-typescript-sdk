@@ -54,7 +54,14 @@ export class EvaluationSetsClient {
         request: Extend.EvaluationSetsListRequest = {},
         requestOptions?: EvaluationSetsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EvaluationSetsListResponse>> {
-        const { entityId, sortBy, sortDir, nextPageToken, maxPageSize } = request;
+        const {
+            entityId,
+            sortBy,
+            sortDir,
+            nextPageToken,
+            maxPageSize,
+            "x-extend-workspace-id": extendWorkspaceId,
+        } = request;
         const _queryParams: Record<string, unknown> = {
             entityId,
             sortBy: sortBy != null ? sortBy : undefined,
@@ -66,7 +73,10 @@ export class EvaluationSetsClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -232,6 +242,7 @@ export class EvaluationSetsClient {
      * @param {string} id - The ID of the evaluation set.
      *
      *                      Example: `"ev_2LcgeY_mp2T5yPaEuq5Lw"`
+     * @param {Extend.EvaluationSetsRetrieveRequest} request
      * @param {EvaluationSetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -248,20 +259,26 @@ export class EvaluationSetsClient {
      */
     public retrieve(
         id: string,
+        request: Extend.EvaluationSetsRetrieveRequest = {},
         requestOptions?: EvaluationSetsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.EvaluationSet> {
-        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, request, requestOptions));
     }
 
     private async __retrieve(
         id: string,
+        request: Extend.EvaluationSetsRetrieveRequest = {},
         requestOptions?: EvaluationSetsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EvaluationSet>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({

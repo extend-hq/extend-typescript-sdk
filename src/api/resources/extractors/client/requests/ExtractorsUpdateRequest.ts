@@ -9,6 +9,8 @@ import type * as Extend from "../../../../index";
  *     }
  */
 export interface ExtractorsUpdateRequest {
+    /** The workspace ID to target. **Required** when using an organization-scoped API key; optional for workspace-scoped keys (the key is already tied to a workspace). See [Authentication](https://docs.extend.ai/2026-02-09/developers/authentication) for details on API key scopes. */
+    "x-extend-workspace-id"?: string;
     /** The new name of the extractor. */
     name?: string;
     /** The new configuration for the extractor. This will update the draft version of the extractor. */

@@ -13,4 +13,6 @@ export interface ParseRunsRetrieveRequest {
      * * `url` - Returns a presigned URL in the `outputUrl` field to download the output as a JSON file. The URL expires after 15 minutes. Useful for large outputs.
      */
     responseType?: Extend.ParseRunsRetrieveRequestResponseType;
+    /** The workspace ID to target. **Required** when using an organization-scoped API key; optional for workspace-scoped keys (the key is already tied to a workspace). See [Authentication](https://docs.extend.ai/2026-02-09/developers/authentication) for details on API key scopes. */
+    "x-extend-workspace-id"?: string;
 }

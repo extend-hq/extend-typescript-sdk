@@ -92,7 +92,7 @@ describe("EditRunsClient", () => {
       });
 
       expect(mockCreate).toHaveBeenCalledWith(request, undefined);
-      expect(mockRetrieve).toHaveBeenCalledWith("edit_run_test123", undefined);
+      expect(mockRetrieve).toHaveBeenCalledWith("edit_run_test123", {}, undefined);
       expect(result.status).toBe("PROCESSED");
     });
 
@@ -188,6 +188,7 @@ describe("EditRunsClient", () => {
       );
       expect(mockRetrieve).toHaveBeenCalledWith(
         expect.anything(),
+        {},
         requestOptions
       );
     });

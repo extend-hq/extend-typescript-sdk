@@ -233,7 +233,7 @@ export class ExtractRunsClient extends GeneratedExtractRunsClient {
 
     // Poll until terminal state
     const result = await pollUntilDone(
-      () => this.retrieve(runId, requestOptions),
+      () => this.retrieve(runId, {}, requestOptions),
       (response) => isTerminalStatus(response.status),
       { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction },
     );

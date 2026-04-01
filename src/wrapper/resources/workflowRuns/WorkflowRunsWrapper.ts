@@ -102,7 +102,7 @@ export class WorkflowRunsClient extends GeneratedWorkflowRunsClient {
 
     // Poll until terminal state
     return pollUntilDone(
-      () => this.retrieve(runId, requestOptions),
+      () => this.retrieve(runId, {}, requestOptions),
       (response) => isTerminalStatus(response.status),
       { maxWaitMs, initialDelayMs, maxDelayMs, jitterFraction }
     );

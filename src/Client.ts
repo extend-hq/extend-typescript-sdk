@@ -6,6 +6,7 @@ import { ClassifiersClient } from "./api/resources/classifiers/client/Client";
 import { ClassifierVersionsClient } from "./api/resources/classifierVersions/client/Client";
 import { ClassifyRunsClient } from "./api/resources/classifyRuns/client/Client";
 import { EditRunsClient } from "./api/resources/editRuns/client/Client";
+import { EditSchemasClient } from "./api/resources/editSchemas/client/Client";
 import { EvaluationSetItemsClient } from "./api/resources/evaluationSetItems/client/Client";
 import { EvaluationSetRunsClient } from "./api/resources/evaluationSetRuns/client/Client";
 import { EvaluationSetsClient } from "./api/resources/evaluationSets/client/Client";
@@ -24,6 +25,7 @@ import { WebhookEndpointsClient } from "./api/resources/webhookEndpoints/client/
 import { WebhookSubscriptionsClient } from "./api/resources/webhookSubscriptions/client/Client";
 import { WorkflowRunsClient } from "./api/resources/workflowRuns/client/Client";
 import { WorkflowsClient } from "./api/resources/workflows/client/Client";
+import { WorkflowVersionsClient } from "./api/resources/workflowVersions/client/Client";
 import type { BaseClientOptions, BaseRequestOptions } from "./BaseClient";
 import { type NormalizedClientOptionsWithAuth, normalizeClientOptionsWithAuth } from "./BaseClient";
 import * as core from "./core";
@@ -43,6 +45,7 @@ export class ExtendClient {
     protected _files: FilesClient | undefined;
     protected _parseRuns: ParseRunsClient | undefined;
     protected _editRuns: EditRunsClient | undefined;
+    protected _editSchemas: EditSchemasClient | undefined;
     protected _extractRuns: ExtractRunsClient | undefined;
     protected _extractors: ExtractorsClient | undefined;
     protected _extractorVersions: ExtractorVersionsClient | undefined;
@@ -53,6 +56,7 @@ export class ExtendClient {
     protected _splitters: SplittersClient | undefined;
     protected _splitterVersions: SplitterVersionsClient | undefined;
     protected _workflows: WorkflowsClient | undefined;
+    protected _workflowVersions: WorkflowVersionsClient | undefined;
     protected _workflowRuns: WorkflowRunsClient | undefined;
     protected _processorRun: ProcessorRunClient | undefined;
     protected _processor: ProcessorClient | undefined;
@@ -78,6 +82,10 @@ export class ExtendClient {
 
     public get editRuns(): EditRunsClient {
         return (this._editRuns ??= new EditRunsClient(this._options));
+    }
+
+    public get editSchemas(): EditSchemasClient {
+        return (this._editSchemas ??= new EditSchemasClient(this._options));
     }
 
     public get extractRuns(): ExtractRunsClient {
@@ -118,6 +126,10 @@ export class ExtendClient {
 
     public get workflows(): WorkflowsClient {
         return (this._workflows ??= new WorkflowsClient(this._options));
+    }
+
+    public get workflowVersions(): WorkflowVersionsClient {
+        return (this._workflowVersions ??= new WorkflowVersionsClient(this._options));
     }
 
     public get workflowRuns(): WorkflowRunsClient {
@@ -200,7 +212,7 @@ export class ExtendClient {
         request: Extend.ParseRequest,
         requestOptions?: ExtendClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ParseRun>> {
-        const { responseType, ..._body } = request;
+        const { responseType, "x-extend-workspace-id": extendWorkspaceId, ..._body } = request;
         const _queryParams: Record<string, unknown> = {
             responseType: responseType != null ? responseType : undefined,
         };
@@ -208,7 +220,10 @@ export class ExtendClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({

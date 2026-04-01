@@ -47,7 +47,14 @@ export class ProcessorClient {
         request: Extend.ProcessorListRequest = {},
         requestOptions?: ProcessorClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.LegacyListProcessorsResponse>> {
-        const { type: type_, nextPageToken, maxPageSize, sortBy, sortDir } = request;
+        const {
+            type: type_,
+            nextPageToken,
+            maxPageSize,
+            sortBy,
+            sortDir,
+            "x-extend-workspace-id": extendWorkspaceId,
+        } = request;
         const _queryParams: Record<string, unknown> = {
             type: type_ != null ? type_ : undefined,
             nextPageToken,
@@ -59,7 +66,10 @@ export class ProcessorClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -210,11 +220,15 @@ export class ProcessorClient {
         request: Extend.ProcessorUpdateRequest = {},
         requestOptions?: ProcessorClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ProcessorUpdateResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -229,7 +243,7 @@ export class ProcessorClient {
             contentType: "application/json",
             queryParameters: requestOptions?.queryParams,
             requestType: "json",
-            body: request,
+            body: _body,
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 300) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

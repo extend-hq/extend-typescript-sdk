@@ -9,6 +9,8 @@ import type * as Extend from "../../../../index";
  *     }
  */
 export interface ProcessorVersionCreateRequest {
+    /** The workspace ID to target. **Required** when using an organization-scoped API key; optional for workspace-scoped keys (the key is already tied to a workspace). See [Authentication](https://docs.extend.ai/2026-02-09/developers/authentication) for details on API key scopes. */
+    "x-extend-workspace-id"?: string;
     /** The type of release for this version. The two options are "major" and "minor", which will increment the version number accordingly. */
     releaseType: Extend.ProcessorVersionCreateRequestReleaseType;
     /** A description of the changes in this version. This helps track the evolution of the processor over time. */

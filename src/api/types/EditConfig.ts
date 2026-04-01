@@ -9,6 +9,8 @@ export interface EditConfig {
     schema?: Extend.EditRootJson;
     /** Custom instructions provided for the edit operation. */
     instructions?: string;
+    /** Additional instructions used when generating a schema from the document. */
+    schemaGenerationInstructions?: string;
     /** Advanced options for the edit operation. */
     advancedOptions?: Extend.EditConfigAdvancedOptions;
 }

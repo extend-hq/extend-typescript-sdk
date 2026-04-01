@@ -139,6 +139,7 @@ export class EditRunsClient {
      * @param {string} id - The unique identifier for the edit run.
      *
      *                      Example: `"edr_xK9mLPqRtN3vS8wF5hB2cQ"`
+     * @param {Extend.EditRunsRetrieveRequest} request
      * @param {EditRunsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -155,20 +156,26 @@ export class EditRunsClient {
      */
     public retrieve(
         id: string,
+        request: Extend.EditRunsRetrieveRequest = {},
         requestOptions?: EditRunsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.EditRun> {
-        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, request, requestOptions));
     }
 
     private async __retrieve(
         id: string,
+        request: Extend.EditRunsRetrieveRequest = {},
         requestOptions?: EditRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EditRun>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -235,6 +242,7 @@ export class EditRunsClient {
      * @param {string} id - The ID of the edit run to delete.
      *
      *                      Example: `"edr_xK9mLPqRtN3vS8wF5hB2cQ"`
+     * @param {Extend.EditRunsDeleteRequest} request
      * @param {EditRunsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -251,20 +259,26 @@ export class EditRunsClient {
      */
     public delete(
         id: string,
+        request: Extend.EditRunsDeleteRequest = {},
         requestOptions?: EditRunsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.EditRunsDeleteResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__delete(id, request, requestOptions));
     }
 
     private async __delete(
         id: string,
+        request: Extend.EditRunsDeleteRequest = {},
         requestOptions?: EditRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EditRunsDeleteResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({

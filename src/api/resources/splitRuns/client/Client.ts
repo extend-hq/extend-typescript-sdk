@@ -55,8 +55,18 @@ export class SplitRunsClient {
         request: Extend.SplitRunsListRequest = {},
         requestOptions?: SplitRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.SplitRunsListResponse>> {
-        const { status, splitterId, sourceId, source, fileNameContains, sortBy, sortDir, nextPageToken, maxPageSize } =
-            request;
+        const {
+            status,
+            splitterId,
+            sourceId,
+            source,
+            fileNameContains,
+            sortBy,
+            sortDir,
+            nextPageToken,
+            maxPageSize,
+            "x-extend-workspace-id": extendWorkspaceId,
+        } = request;
         const _queryParams: Record<string, unknown> = {
             status: status != null ? status : undefined,
             splitterId,
@@ -72,7 +82,10 @@ export class SplitRunsClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -243,6 +256,7 @@ export class SplitRunsClient {
      * @param {string} id - The unique identifier for this split run.
      *
      *                      Example: `"spl_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.SplitRunsRetrieveRequest} request
      * @param {SplitRunsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -259,20 +273,26 @@ export class SplitRunsClient {
      */
     public retrieve(
         id: string,
+        request: Extend.SplitRunsRetrieveRequest = {},
         requestOptions?: SplitRunsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.SplitRun> {
-        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, request, requestOptions));
     }
 
     private async __retrieve(
         id: string,
+        request: Extend.SplitRunsRetrieveRequest = {},
         requestOptions?: SplitRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.SplitRun>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -337,6 +357,7 @@ export class SplitRunsClient {
      * This endpoint can be used if you'd like to manage data retention on your own rather than automated data retention policies. Or make one-off deletions for your downstream customers.
      *
      * @param {string} id - The ID of the split run.
+     * @param {Extend.SplitRunsDeleteRequest} request
      * @param {SplitRunsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -353,20 +374,26 @@ export class SplitRunsClient {
      */
     public delete(
         id: string,
+        request: Extend.SplitRunsDeleteRequest = {},
         requestOptions?: SplitRunsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.SplitRunsDeleteResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__delete(id, request, requestOptions));
     }
 
     private async __delete(
         id: string,
+        request: Extend.SplitRunsDeleteRequest = {},
         requestOptions?: SplitRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.SplitRunsDeleteResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -433,6 +460,7 @@ export class SplitRunsClient {
      * @param {string} id - The ID of the split run to cancel.
      *
      *                      Example: `"spl_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.SplitRunsCancelRequest} request
      * @param {SplitRunsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -449,20 +477,26 @@ export class SplitRunsClient {
      */
     public cancel(
         id: string,
+        request: Extend.SplitRunsCancelRequest = {},
         requestOptions?: SplitRunsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.SplitRun> {
-        return core.HttpResponsePromise.fromPromise(this.__cancel(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__cancel(id, request, requestOptions));
     }
 
     private async __cancel(
         id: string,
+        request: Extend.SplitRunsCancelRequest = {},
         requestOptions?: SplitRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.SplitRun>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({

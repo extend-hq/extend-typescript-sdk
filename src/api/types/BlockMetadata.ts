@@ -8,4 +8,6 @@ import type * as Extend from "../index";
 export interface BlockMetadata {
     /** Information about the page this block appears on. */
     page?: Extend.BlockMetadataPage;
+    /** Text direction for this block's content ("ltr" for left-to-right, "rtl" for right-to-left). */
+    textDirection?: Extend.BlockMetadataTextDirection;
 }
