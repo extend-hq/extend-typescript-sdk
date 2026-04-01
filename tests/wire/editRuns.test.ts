@@ -32,8 +32,18 @@ describe("EditRunsClient", () => {
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported. Edit runs currently require a PDF.",
             config: {
-                schema: { type: "object", properties: { key: {} }, required: ["required"], additionalProperties: true },
+                schema: {
+                    type: "object",
+                    properties: { key: {} },
+                    required: ["required"],
+                    additionalProperties: true,
+                    dependentRequired: { key: ["value"] },
+                    allOf: [{}],
+                    oneOf: [{}],
+                    anyOf: [{}],
+                },
                 instructions: "instructions",
+                schemaGenerationInstructions: "schemaGenerationInstructions",
                 advancedOptions: {
                     tableParsingEnabled: true,
                     flattenPdf: true,
@@ -113,8 +123,15 @@ describe("EditRunsClient", () => {
                     },
                     required: ["required"],
                     additionalProperties: true,
+                    dependentRequired: {
+                        key: ["value"],
+                    },
+                    allOf: [{}],
+                    oneOf: [{}],
+                    anyOf: [{}],
                 },
                 instructions: "instructions",
+                schemaGenerationInstructions: "schemaGenerationInstructions",
                 advancedOptions: {
                     tableParsingEnabled: true,
                     flattenPdf: true,
@@ -355,8 +372,18 @@ describe("EditRunsClient", () => {
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported. Edit runs currently require a PDF.",
             config: {
-                schema: { type: "object", properties: { key: {} }, required: ["required"], additionalProperties: true },
+                schema: {
+                    type: "object",
+                    properties: { key: {} },
+                    required: ["required"],
+                    additionalProperties: true,
+                    dependentRequired: { key: ["value"] },
+                    allOf: [{}],
+                    oneOf: [{}],
+                    anyOf: [{}],
+                },
                 instructions: "instructions",
+                schemaGenerationInstructions: "schemaGenerationInstructions",
                 advancedOptions: {
                     tableParsingEnabled: true,
                     flattenPdf: true,
@@ -425,8 +452,15 @@ describe("EditRunsClient", () => {
                     },
                     required: ["required"],
                     additionalProperties: true,
+                    dependentRequired: {
+                        key: ["value"],
+                    },
+                    allOf: [{}],
+                    oneOf: [{}],
+                    anyOf: [{}],
                 },
                 instructions: "instructions",
+                schemaGenerationInstructions: "schemaGenerationInstructions",
                 advancedOptions: {
                     tableParsingEnabled: true,
                     flattenPdf: true,

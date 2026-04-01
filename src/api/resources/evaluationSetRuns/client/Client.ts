@@ -28,6 +28,7 @@ export class EvaluationSetRunsClient {
      * @param {string} id - The ID of the evaluation set run.
      *
      *                      Example: `"evr_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.EvaluationSetRunsRetrieveRequest} request
      * @param {EvaluationSetRunsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -44,20 +45,26 @@ export class EvaluationSetRunsClient {
      */
     public retrieve(
         id: string,
+        request: Extend.EvaluationSetRunsRetrieveRequest = {},
         requestOptions?: EvaluationSetRunsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.EvaluationSetRun> {
-        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, request, requestOptions));
     }
 
     private async __retrieve(
         id: string,
+        request: Extend.EvaluationSetRunsRetrieveRequest = {},
         requestOptions?: EvaluationSetRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EvaluationSetRun>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({

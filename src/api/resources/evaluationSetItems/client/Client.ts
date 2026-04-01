@@ -60,7 +60,7 @@ export class EvaluationSetItemsClient {
         request: Extend.EvaluationSetItemsListRequest = {},
         requestOptions?: EvaluationSetItemsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EvaluationSetItemsListResponse>> {
-        const { sortBy, sortDir, nextPageToken, maxPageSize } = request;
+        const { sortBy, sortDir, nextPageToken, maxPageSize, "x-extend-workspace-id": extendWorkspaceId } = request;
         const _queryParams: Record<string, unknown> = {
             sortBy: sortBy != null ? sortBy : undefined,
             sortDir: sortDir != null ? sortDir : undefined,
@@ -71,7 +71,10 @@ export class EvaluationSetItemsClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -187,11 +190,15 @@ export class EvaluationSetItemsClient {
         request: Extend.EvaluationSetItemsCreateRequest,
         requestOptions?: EvaluationSetItemsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EvaluationSetItemsCreateResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -206,7 +213,7 @@ export class EvaluationSetItemsClient {
             contentType: "application/json",
             queryParameters: requestOptions?.queryParams,
             requestType: "json",
-            body: request,
+            body: _body,
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 300) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -270,6 +277,7 @@ export class EvaluationSetItemsClient {
      * @param {string} itemId - The ID of the evaluation set item.
      *
      *                          Example: `"evi_kR9mNP12Qw4yTv8BdR3H"`
+     * @param {Extend.EvaluationSetItemsRetrieveRequest} request
      * @param {EvaluationSetItemsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -287,21 +295,27 @@ export class EvaluationSetItemsClient {
     public retrieve(
         evaluationSetId: string,
         itemId: string,
+        request: Extend.EvaluationSetItemsRetrieveRequest = {},
         requestOptions?: EvaluationSetItemsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.EvaluationSetItem> {
-        return core.HttpResponsePromise.fromPromise(this.__retrieve(evaluationSetId, itemId, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__retrieve(evaluationSetId, itemId, request, requestOptions));
     }
 
     private async __retrieve(
         evaluationSetId: string,
         itemId: string,
+        request: Extend.EvaluationSetItemsRetrieveRequest = {},
         requestOptions?: EvaluationSetItemsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EvaluationSetItem>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -412,11 +426,15 @@ export class EvaluationSetItemsClient {
         request: Extend.EvaluationSetItemsUpdateRequest,
         requestOptions?: EvaluationSetItemsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EvaluationSetItem>> {
+        const { "x-extend-workspace-id": extendWorkspaceId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -431,7 +449,7 @@ export class EvaluationSetItemsClient {
             contentType: "application/json",
             queryParameters: requestOptions?.queryParams,
             requestType: "json",
-            body: request,
+            body: _body,
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 300) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -492,6 +510,7 @@ export class EvaluationSetItemsClient {
      * @param {string} itemId - The ID of the evaluation set item.
      *
      *                          Example: `"evi_kR9mNP12Qw4yTv8BdR3H"`
+     * @param {Extend.EvaluationSetItemsDeleteRequest} request
      * @param {EvaluationSetItemsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -509,21 +528,27 @@ export class EvaluationSetItemsClient {
     public delete(
         evaluationSetId: string,
         itemId: string,
+        request: Extend.EvaluationSetItemsDeleteRequest = {},
         requestOptions?: EvaluationSetItemsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.EvaluationSetItemsDeleteResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(evaluationSetId, itemId, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__delete(evaluationSetId, itemId, request, requestOptions));
     }
 
     private async __delete(
         evaluationSetId: string,
         itemId: string,
+        request: Extend.EvaluationSetItemsDeleteRequest = {},
         requestOptions?: EvaluationSetItemsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EvaluationSetItemsDeleteResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({

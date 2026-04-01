@@ -6,9 +6,14 @@
  * * `"heading"` - Section or document headings
  * * `"section_heading"` - Subsection headings
  * * `"table"` - Tabular data with rows and columns
+ * * `"figure"` - Images, charts, diagrams, or logos
  * * `"table_head"` - Table header cells
  * * `"table_cell"` - Table body cells
- * * `"figure"` - Images, charts, diagrams, or logos
+ * * `"key_value"` - Key-value pairs (e.g., form regions, key-val groups, etc)
+ * * `"page_number"` - Page number indicators
+ * * `"barcode"` - Barcodes and QR codes
+ * * `"header"` - Page headers
+ * * `"footer"` - Page footers
  */
 export const BlockType = {
     Text: "text",
@@ -18,5 +23,10 @@ export const BlockType = {
     Figure: "figure",
     TableHead: "table_head",
     TableCell: "table_cell",
+    KeyValue: "key_value",
+    PageNumber: "page_number",
+    Barcode: "barcode",
+    Header: "header",
+    Footer: "footer",
 } as const;
 export type BlockType = (typeof BlockType)[keyof typeof BlockType] | string;

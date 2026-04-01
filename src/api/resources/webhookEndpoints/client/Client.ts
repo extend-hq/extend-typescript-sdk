@@ -53,7 +53,7 @@ export class WebhookEndpointsClient {
         request: Extend.WebhookEndpointsListRequest = {},
         requestOptions?: WebhookEndpointsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.WebhookEndpointsListResponse>> {
-        const { status, sortDir, nextPageToken, maxPageSize } = request;
+        const { status, sortDir, nextPageToken, maxPageSize, "x-extend-workspace-id": extendWorkspaceId } = request;
         const _queryParams: Record<string, unknown> = {
             status: status != null ? status : undefined,
             sortDir: sortDir != null ? sortDir : undefined,
@@ -64,7 +64,10 @@ export class WebhookEndpointsClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -233,6 +236,7 @@ export class WebhookEndpointsClient {
      * @param {string} id - The ID of the webhook endpoint.
      *
      *                      Example: `"wh_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.WebhookEndpointsRetrieveRequest} request
      * @param {WebhookEndpointsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -249,20 +253,26 @@ export class WebhookEndpointsClient {
      */
     public retrieve(
         id: string,
+        request: Extend.WebhookEndpointsRetrieveRequest = {},
         requestOptions?: WebhookEndpointsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.WebhookEndpoint> {
-        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, request, requestOptions));
     }
 
     private async __retrieve(
         id: string,
+        request: Extend.WebhookEndpointsRetrieveRequest = {},
         requestOptions?: WebhookEndpointsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.WebhookEndpoint>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -357,11 +367,15 @@ export class WebhookEndpointsClient {
         request: Extend.WebhookEndpointsUpdateRequest = {},
         requestOptions?: WebhookEndpointsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.WebhookEndpoint>> {
+        const { "x-extend-workspace-id": extendWorkspaceId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -376,7 +390,7 @@ export class WebhookEndpointsClient {
             contentType: "application/json",
             queryParameters: requestOptions?.queryParams,
             requestType: "json",
-            body: request,
+            body: _body,
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 300) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -429,6 +443,7 @@ export class WebhookEndpointsClient {
      * @param {string} id - The ID of the webhook endpoint to delete.
      *
      *                      Example: `"wh_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.WebhookEndpointsDeleteRequest} request
      * @param {WebhookEndpointsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -445,20 +460,26 @@ export class WebhookEndpointsClient {
      */
     public delete(
         id: string,
+        request: Extend.WebhookEndpointsDeleteRequest = {},
         requestOptions?: WebhookEndpointsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.WebhookEndpointsDeleteResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__delete(id, request, requestOptions));
     }
 
     private async __delete(
         id: string,
+        request: Extend.WebhookEndpointsDeleteRequest = {},
         requestOptions?: WebhookEndpointsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.WebhookEndpointsDeleteResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({

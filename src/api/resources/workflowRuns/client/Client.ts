@@ -53,7 +53,17 @@ export class WorkflowRunsClient {
         request: Extend.WorkflowRunsListRequest = {},
         requestOptions?: WorkflowRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.WorkflowRunsListResponse>> {
-        const { status, workflowId, batchId, fileNameContains, sortBy, sortDir, nextPageToken, maxPageSize } = request;
+        const {
+            status,
+            workflowId,
+            batchId,
+            fileNameContains,
+            sortBy,
+            sortDir,
+            nextPageToken,
+            maxPageSize,
+            "x-extend-workspace-id": extendWorkspaceId,
+        } = request;
         const _queryParams: Record<string, unknown> = {
             status: status != null ? status : undefined,
             workflowId,
@@ -68,7 +78,10 @@ export class WorkflowRunsClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -237,6 +250,7 @@ export class WorkflowRunsClient {
      * @param {string} id - The ID of the workflow run.
      *
      *                      Example: `"workflow_run_xKm9pNv3qWsY_jL2tR5Dh"`
+     * @param {Extend.WorkflowRunsRetrieveRequest} request
      * @param {WorkflowRunsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -253,20 +267,26 @@ export class WorkflowRunsClient {
      */
     public retrieve(
         id: string,
+        request: Extend.WorkflowRunsRetrieveRequest = {},
         requestOptions?: WorkflowRunsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.WorkflowRun> {
-        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, request, requestOptions));
     }
 
     private async __retrieve(
         id: string,
+        request: Extend.WorkflowRunsRetrieveRequest = {},
         requestOptions?: WorkflowRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.WorkflowRun>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -365,11 +385,15 @@ export class WorkflowRunsClient {
         request: Extend.WorkflowRunsUpdateRequest = {},
         requestOptions?: WorkflowRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.WorkflowRun>> {
+        const { "x-extend-workspace-id": extendWorkspaceId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -384,7 +408,7 @@ export class WorkflowRunsClient {
             contentType: "application/json",
             queryParameters: requestOptions?.queryParams,
             requestType: "json",
-            body: request,
+            body: _body,
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 300) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -439,6 +463,7 @@ export class WorkflowRunsClient {
      * @param {string} id - The ID of the workflow run.
      *
      *                      Example: `"workflow_run_xKm9pNv3qWsY_jL2tR5Dh"`
+     * @param {Extend.WorkflowRunsDeleteRequest} request
      * @param {WorkflowRunsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -455,20 +480,26 @@ export class WorkflowRunsClient {
      */
     public delete(
         id: string,
+        request: Extend.WorkflowRunsDeleteRequest = {},
         requestOptions?: WorkflowRunsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.WorkflowRunsDeleteResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__delete(id, request, requestOptions));
     }
 
     private async __delete(
         id: string,
+        request: Extend.WorkflowRunsDeleteRequest = {},
         requestOptions?: WorkflowRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.WorkflowRunsDeleteResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -535,6 +566,7 @@ export class WorkflowRunsClient {
      * @param {string} id - The ID of the workflow run.
      *
      *                      Example: `"workflow_run_xKm9pNv3qWsY_jL2tR5Dh"`
+     * @param {Extend.WorkflowRunsCancelRequest} request
      * @param {WorkflowRunsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -551,20 +583,26 @@ export class WorkflowRunsClient {
      */
     public cancel(
         id: string,
+        request: Extend.WorkflowRunsCancelRequest = {},
         requestOptions?: WorkflowRunsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.WorkflowRun> {
-        return core.HttpResponsePromise.fromPromise(this.__cancel(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__cancel(id, request, requestOptions));
     }
 
     private async __cancel(
         id: string,
+        request: Extend.WorkflowRunsCancelRequest = {},
         requestOptions?: WorkflowRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.WorkflowRun>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({

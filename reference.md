@@ -563,7 +563,7 @@ Example: `"file_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
-<details><summary><code>client.files.<a href="/src/api/resources/files/client/Client.ts">delete</a>(id) -> Extend.FilesDeleteResponse</code></summary>
+<details><summary><code>client.files.<a href="/src/api/resources/files/client/Client.ts">delete</a>(id, { ...params }) -> Extend.FilesDeleteResponse</code></summary>
 <dl>
 <dd>
 
@@ -613,6 +613,14 @@ await client.files.delete("file_id_here");
 The ID of the file to delete.
 
 Example: `"file_xK9mLPqRtN3vS8wF5hB2cQ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.FilesDeleteRequest` 
     
 </dd>
 </dl>
@@ -861,7 +869,7 @@ Example: `"pr_xK9mLPqRtN3vS8wF5hB2cQ"`
 </dl>
 </details>
 
-<details><summary><code>client.parseRuns.<a href="/src/api/resources/parseRuns/client/Client.ts">delete</a>(id) -> Extend.ParseRunsDeleteResponse</code></summary>
+<details><summary><code>client.parseRuns.<a href="/src/api/resources/parseRuns/client/Client.ts">delete</a>(id, { ...params }) -> Extend.ParseRunsDeleteResponse</code></summary>
 <dl>
 <dd>
 
@@ -911,6 +919,14 @@ await client.parseRuns.delete("parse_run_id_here");
 The ID of the parse run to delete.
 
 Example: `"pr_xK9mLPqRtN3vS8wF5hB2cQ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.ParseRunsDeleteRequest` 
     
 </dd>
 </dl>
@@ -1008,7 +1024,7 @@ await client.editRuns.create({
 </dl>
 </details>
 
-<details><summary><code>client.editRuns.<a href="/src/api/resources/editRuns/client/Client.ts">retrieve</a>(id) -> Extend.EditRun</code></summary>
+<details><summary><code>client.editRuns.<a href="/src/api/resources/editRuns/client/Client.ts">retrieve</a>(id, { ...params }) -> Extend.EditRun</code></summary>
 <dl>
 <dd>
 
@@ -1065,6 +1081,14 @@ Example: `"edr_xK9mLPqRtN3vS8wF5hB2cQ"`
 <dl>
 <dd>
 
+**request:** `Extend.EditRunsRetrieveRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `EditRunsClient.RequestOptions` 
     
 </dd>
@@ -1077,7 +1101,7 @@ Example: `"edr_xK9mLPqRtN3vS8wF5hB2cQ"`
 </dl>
 </details>
 
-<details><summary><code>client.editRuns.<a href="/src/api/resources/editRuns/client/Client.ts">delete</a>(id) -> Extend.EditRunsDeleteResponse</code></summary>
+<details><summary><code>client.editRuns.<a href="/src/api/resources/editRuns/client/Client.ts">delete</a>(id, { ...params }) -> Extend.EditRunsDeleteResponse</code></summary>
 <dl>
 <dd>
 
@@ -1134,7 +1158,95 @@ Example: `"edr_xK9mLPqRtN3vS8wF5hB2cQ"`
 <dl>
 <dd>
 
+**request:** `Extend.EditRunsDeleteRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `EditRunsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## EditSchemas
+<details><summary><code>client.editSchemas.<a href="/src/api/resources/editSchemas/client/Client.ts">generate</a>({ ...params }) -> Extend.EditSchemaGenerationResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Detect fields in a PDF form and synchronously return an edit schema payload.
+
+Use this endpoint when you want Extend to bootstrap an `EditRootJSON` schema from an existing form, optionally mapping an existing schema onto the detected fields.
+
+This endpoint returns the generated schema directly. There are no schema generation run resources to poll or delete.
+
+For more details, see the [Generate Edit Schema guide](https://docs.extend.ai/2026-02-09/product/editing/generate-edit-schema) and the [Edit File guide](https://docs.extend.ai/2026-02-09/product/editing/edit).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.editSchemas.generate({
+    file: {
+        url: "https://example.com/form.pdf"
+    },
+    config: {
+        instructions: "Detect the form fields and use human-readable field names.",
+        advancedOptions: {
+            radioEnumsEnabled: true
+        }
+    }
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.EditSchemasGenerateRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `EditSchemasClient.RequestOptions` 
     
 </dd>
 </dl>
@@ -1286,7 +1398,7 @@ await client.extractRuns.create({
 </dl>
 </details>
 
-<details><summary><code>client.extractRuns.<a href="/src/api/resources/extractRuns/client/Client.ts">retrieve</a>(id) -> Extend.ExtractRun</code></summary>
+<details><summary><code>client.extractRuns.<a href="/src/api/resources/extractRuns/client/Client.ts">retrieve</a>(id, { ...params }) -> Extend.ExtractRun</code></summary>
 <dl>
 <dd>
 
@@ -1343,6 +1455,14 @@ Example: `"ex_Xj8mK2pL9nR4vT7qY5wZ"`
 <dl>
 <dd>
 
+**request:** `Extend.ExtractRunsRetrieveRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `ExtractRunsClient.RequestOptions` 
     
 </dd>
@@ -1355,7 +1475,7 @@ Example: `"ex_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
-<details><summary><code>client.extractRuns.<a href="/src/api/resources/extractRuns/client/Client.ts">delete</a>(id) -> Extend.ExtractRunsDeleteResponse</code></summary>
+<details><summary><code>client.extractRuns.<a href="/src/api/resources/extractRuns/client/Client.ts">delete</a>(id, { ...params }) -> Extend.ExtractRunsDeleteResponse</code></summary>
 <dl>
 <dd>
 
@@ -1408,6 +1528,14 @@ await client.extractRuns.delete("id");
 <dl>
 <dd>
 
+**request:** `Extend.ExtractRunsDeleteRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `ExtractRunsClient.RequestOptions` 
     
 </dd>
@@ -1420,7 +1548,7 @@ await client.extractRuns.delete("id");
 </dl>
 </details>
 
-<details><summary><code>client.extractRuns.<a href="/src/api/resources/extractRuns/client/Client.ts">cancel</a>(id) -> Extend.ExtractRun</code></summary>
+<details><summary><code>client.extractRuns.<a href="/src/api/resources/extractRuns/client/Client.ts">cancel</a>(id, { ...params }) -> Extend.ExtractRun</code></summary>
 <dl>
 <dd>
 
@@ -1470,6 +1598,14 @@ await client.extractRuns.cancel("extract_run_id_here");
 The ID of the extract run to cancel.
 
 Example: `"ex_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.ExtractRunsCancelRequest` 
     
 </dd>
 </dl>
@@ -1641,7 +1777,7 @@ await client.extractors.create({
 </dl>
 </details>
 
-<details><summary><code>client.extractors.<a href="/src/api/resources/extractors/client/Client.ts">retrieve</a>(id) -> Extend.Extractor</code></summary>
+<details><summary><code>client.extractors.<a href="/src/api/resources/extractors/client/Client.ts">retrieve</a>(id, { ...params }) -> Extend.Extractor</code></summary>
 <dl>
 <dd>
 
@@ -1689,6 +1825,14 @@ await client.extractors.retrieve("extractor_id_here");
 The ID of the extractor to get.
 
 Example: `"ex_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.ExtractorsRetrieveRequest` 
     
 </dd>
 </dl>
@@ -1945,7 +2089,7 @@ Example: `"ex_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
-<details><summary><code>client.extractorVersions.<a href="/src/api/resources/extractorVersions/client/Client.ts">retrieve</a>(extractorId, versionId) -> Extend.ExtractorVersion</code></summary>
+<details><summary><code>client.extractorVersions.<a href="/src/api/resources/extractorVersions/client/Client.ts">retrieve</a>(extractorId, versionId, { ...params }) -> Extend.ExtractorVersion</code></summary>
 <dl>
 <dd>
 
@@ -2005,6 +2149,14 @@ Example: `"ex_Xj8mK2pL9nR4vT7qY5wZ"`
 The ID of the specific extractor version.
 
 Example: `"extv_QYk6jgHA_8CsO8rVWhyNC"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.ExtractorVersionsRetrieveRequest` 
     
 </dd>
 </dl>
@@ -2164,7 +2316,7 @@ await client.classifyRuns.create({
 </dl>
 </details>
 
-<details><summary><code>client.classifyRuns.<a href="/src/api/resources/classifyRuns/client/Client.ts">retrieve</a>(id) -> Extend.ClassifyRun</code></summary>
+<details><summary><code>client.classifyRuns.<a href="/src/api/resources/classifyRuns/client/Client.ts">retrieve</a>(id, { ...params }) -> Extend.ClassifyRun</code></summary>
 <dl>
 <dd>
 
@@ -2221,6 +2373,14 @@ Example: `"cl_Xj8mK2pL9nR4vT7qY5wZ"`
 <dl>
 <dd>
 
+**request:** `Extend.ClassifyRunsRetrieveRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `ClassifyRunsClient.RequestOptions` 
     
 </dd>
@@ -2233,7 +2393,7 @@ Example: `"cl_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
-<details><summary><code>client.classifyRuns.<a href="/src/api/resources/classifyRuns/client/Client.ts">delete</a>(id) -> Extend.ClassifyRunsDeleteResponse</code></summary>
+<details><summary><code>client.classifyRuns.<a href="/src/api/resources/classifyRuns/client/Client.ts">delete</a>(id, { ...params }) -> Extend.ClassifyRunsDeleteResponse</code></summary>
 <dl>
 <dd>
 
@@ -2286,6 +2446,14 @@ await client.classifyRuns.delete("id");
 <dl>
 <dd>
 
+**request:** `Extend.ClassifyRunsDeleteRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `ClassifyRunsClient.RequestOptions` 
     
 </dd>
@@ -2298,7 +2466,7 @@ await client.classifyRuns.delete("id");
 </dl>
 </details>
 
-<details><summary><code>client.classifyRuns.<a href="/src/api/resources/classifyRuns/client/Client.ts">cancel</a>(id) -> Extend.ClassifyRun</code></summary>
+<details><summary><code>client.classifyRuns.<a href="/src/api/resources/classifyRuns/client/Client.ts">cancel</a>(id, { ...params }) -> Extend.ClassifyRun</code></summary>
 <dl>
 <dd>
 
@@ -2348,6 +2516,14 @@ await client.classifyRuns.cancel("classify_run_id_here");
 The ID of the classify run to cancel.
 
 Example: `"cl_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.ClassifyRunsCancelRequest` 
     
 </dd>
 </dl>
@@ -2515,7 +2691,7 @@ await client.classifiers.create({
 </dl>
 </details>
 
-<details><summary><code>client.classifiers.<a href="/src/api/resources/classifiers/client/Client.ts">retrieve</a>(id) -> Extend.Classifier</code></summary>
+<details><summary><code>client.classifiers.<a href="/src/api/resources/classifiers/client/Client.ts">retrieve</a>(id, { ...params }) -> Extend.Classifier</code></summary>
 <dl>
 <dd>
 
@@ -2563,6 +2739,14 @@ await client.classifiers.retrieve("classifier_id_here");
 The ID of the classifier to get.
 
 Example: `"cl_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.ClassifiersRetrieveRequest` 
     
 </dd>
 </dl>
@@ -2819,7 +3003,7 @@ Example: `"cl_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
-<details><summary><code>client.classifierVersions.<a href="/src/api/resources/classifierVersions/client/Client.ts">retrieve</a>(classifierId, versionId) -> Extend.ClassifierVersion</code></summary>
+<details><summary><code>client.classifierVersions.<a href="/src/api/resources/classifierVersions/client/Client.ts">retrieve</a>(classifierId, versionId, { ...params }) -> Extend.ClassifierVersion</code></summary>
 <dl>
 <dd>
 
@@ -2879,6 +3063,14 @@ Example: `"cl_Xj8mK2pL9nR4vT7qY5wZ"`
 The ID of the specific classifier version.
 
 Example: `"clsv_QYk6jgHA_8CsO8rVWhyNC"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.ClassifierVersionsRetrieveRequest` 
     
 </dd>
 </dl>
@@ -3038,7 +3230,7 @@ await client.splitRuns.create({
 </dl>
 </details>
 
-<details><summary><code>client.splitRuns.<a href="/src/api/resources/splitRuns/client/Client.ts">retrieve</a>(id) -> Extend.SplitRun</code></summary>
+<details><summary><code>client.splitRuns.<a href="/src/api/resources/splitRuns/client/Client.ts">retrieve</a>(id, { ...params }) -> Extend.SplitRun</code></summary>
 <dl>
 <dd>
 
@@ -3095,6 +3287,14 @@ Example: `"spl_Xj8mK2pL9nR4vT7qY5wZ"`
 <dl>
 <dd>
 
+**request:** `Extend.SplitRunsRetrieveRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `SplitRunsClient.RequestOptions` 
     
 </dd>
@@ -3107,7 +3307,7 @@ Example: `"spl_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
-<details><summary><code>client.splitRuns.<a href="/src/api/resources/splitRuns/client/Client.ts">delete</a>(id) -> Extend.SplitRunsDeleteResponse</code></summary>
+<details><summary><code>client.splitRuns.<a href="/src/api/resources/splitRuns/client/Client.ts">delete</a>(id, { ...params }) -> Extend.SplitRunsDeleteResponse</code></summary>
 <dl>
 <dd>
 
@@ -3160,6 +3360,14 @@ await client.splitRuns.delete("id");
 <dl>
 <dd>
 
+**request:** `Extend.SplitRunsDeleteRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `SplitRunsClient.RequestOptions` 
     
 </dd>
@@ -3172,7 +3380,7 @@ await client.splitRuns.delete("id");
 </dl>
 </details>
 
-<details><summary><code>client.splitRuns.<a href="/src/api/resources/splitRuns/client/Client.ts">cancel</a>(id) -> Extend.SplitRun</code></summary>
+<details><summary><code>client.splitRuns.<a href="/src/api/resources/splitRuns/client/Client.ts">cancel</a>(id, { ...params }) -> Extend.SplitRun</code></summary>
 <dl>
 <dd>
 
@@ -3222,6 +3430,14 @@ await client.splitRuns.cancel("split_run_id_here");
 The ID of the split run to cancel.
 
 Example: `"spl_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.SplitRunsCancelRequest` 
     
 </dd>
 </dl>
@@ -3391,7 +3607,7 @@ await client.splitters.create({
 </dl>
 </details>
 
-<details><summary><code>client.splitters.<a href="/src/api/resources/splitters/client/Client.ts">retrieve</a>(id) -> Extend.Splitter</code></summary>
+<details><summary><code>client.splitters.<a href="/src/api/resources/splitters/client/Client.ts">retrieve</a>(id, { ...params }) -> Extend.Splitter</code></summary>
 <dl>
 <dd>
 
@@ -3439,6 +3655,14 @@ await client.splitters.retrieve("splitter_id_here");
 The ID of the splitter to get.
 
 Example: `"spl_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.SplittersRetrieveRequest` 
     
 </dd>
 </dl>
@@ -3695,7 +3919,7 @@ Example: `"spl_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
-<details><summary><code>client.splitterVersions.<a href="/src/api/resources/splitterVersions/client/Client.ts">retrieve</a>(splitterId, versionId) -> Extend.SplitterVersion</code></summary>
+<details><summary><code>client.splitterVersions.<a href="/src/api/resources/splitterVersions/client/Client.ts">retrieve</a>(splitterId, versionId, { ...params }) -> Extend.SplitterVersion</code></summary>
 <dl>
 <dd>
 
@@ -3762,6 +3986,14 @@ Example: `"splv_QYk6jgHA_8CsO8rVWhyNC"`
 <dl>
 <dd>
 
+**request:** `Extend.SplitterVersionsRetrieveRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `SplitterVersionsClient.RequestOptions` 
     
 </dd>
@@ -3775,6 +4007,71 @@ Example: `"splv_QYk6jgHA_8CsO8rVWhyNC"`
 </details>
 
 ## Workflows
+<details><summary><code>client.workflows.<a href="/src/api/resources/workflows/client/Client.ts">list</a>({ ...params }) -> Extend.WorkflowsListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List all workflows. Returns a paginated list of workflow summaries.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.workflows.list({
+    nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.WorkflowsListRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WorkflowsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.workflows.<a href="/src/api/resources/workflows/client/Client.ts">create</a>({ ...params }) -> Extend.Workflow</code></summary>
 <dl>
 <dd>
@@ -3787,9 +4084,11 @@ Example: `"splv_QYk6jgHA_8CsO8rVWhyNC"`
 <dl>
 <dd>
 
-Create a new workflow in Extend. Workflows are sequences of steps that process files and data in a specific order to achieve a desired outcome.
+Create a new workflow. Optionally provide `steps` to define the workflow's step graph.
 
-This endpoint will create a new workflow in Extend, which can then be configured and deployed. Typically, workflows are created from our UI, however this endpoint can be used to create workflows programmatically. Configuration of the flow still needs to be done in the dashboard.
+When `steps` is omitted, the workflow is created with default steps (`TRIGGER` → `PARSE`). When `steps` is provided, the step graph is validated and the draft version is populated with the given steps.
+
+**Note:** The default steps may change in the future. If your integration depends on a specific step graph, provide `steps` explicitly.
 </dd>
 </dl>
 </dd>
@@ -3831,6 +4130,367 @@ await client.workflows.create({
 <dd>
 
 **requestOptions:** `WorkflowsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.workflows.<a href="/src/api/resources/workflows/client/Client.ts">retrieve</a>(id) -> Extend.Workflow</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get details of a workflow, including its draft version and steps.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.workflows.retrieve("workflow_abc123");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` — The ID of the workflow.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WorkflowsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.workflows.<a href="/src/api/resources/workflows/client/Client.ts">update</a>(id, { ...params }) -> Extend.Workflow</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update a workflow's draft. You can update the name, the steps, or both.
+
+When `steps` is provided, the draft version's steps are replaced with the new set. Steps with matching names from the previous draft preserve their internal identity.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.workflows.update("workflow_abc123", {
+    name: "Updated Invoice Processing"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` — The ID of the workflow to update.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.WorkflowsUpdateRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WorkflowsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## WorkflowVersions
+<details><summary><code>client.workflowVersions.<a href="/src/api/resources/workflowVersions/client/Client.ts">list</a>(id, { ...params }) -> Extend.WorkflowVersionsListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List all versions of a workflow, including the draft version. Returns a paginated list of version summaries.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.workflowVersions.list("workflow_abc123", {
+    nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` — The ID of the workflow.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.WorkflowVersionsListRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WorkflowVersionsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.workflowVersions.<a href="/src/api/resources/workflowVersions/client/Client.ts">create</a>(id, { ...params }) -> Extend.WorkflowVersion</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deploy a new version of a workflow. The deployed version becomes available for running workflow runs.
+
+When `steps` is omitted, the current draft is deployed as-is. When `steps` is provided, the given steps are deployed directly without modifying the draft.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.workflowVersions.create("workflow_abc123");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` — The ID of the workflow to deploy.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.WorkflowVersionsCreateRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WorkflowVersionsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.workflowVersions.<a href="/src/api/resources/workflowVersions/client/Client.ts">retrieve</a>(id, versionId) -> Extend.WorkflowVersion</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get a specific version of a workflow, including its step definitions.
+
+The `versionId` parameter accepts:
+- `"draft"` — returns the current draft version
+- A version number (e.g. `"1"`, `"2"`) — returns that deployed version
+- An internal version ID (e.g. `"workflow_version_abc123"`) — returns that specific version
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.workflowVersions.retrieve("workflow_abc123", "draft");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` — The ID of the workflow.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**versionId:** `string` — The version to retrieve. Use `"draft"` for the draft, a number like `"1"` for a deployed version, or the internal version ID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WorkflowVersionsClient.RequestOptions` 
     
 </dd>
 </dl>
@@ -3980,7 +4640,7 @@ await client.workflowRuns.create({
 </dl>
 </details>
 
-<details><summary><code>client.workflowRuns.<a href="/src/api/resources/workflowRuns/client/Client.ts">retrieve</a>(id) -> Extend.WorkflowRun</code></summary>
+<details><summary><code>client.workflowRuns.<a href="/src/api/resources/workflowRuns/client/Client.ts">retrieve</a>(id, { ...params }) -> Extend.WorkflowRun</code></summary>
 <dl>
 <dd>
 
@@ -4028,6 +4688,14 @@ await client.workflowRuns.retrieve("workflow_run_id_here");
 The ID of the workflow run.
 
 Example: `"workflow_run_xKm9pNv3qWsY_jL2tR5Dh"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.WorkflowRunsRetrieveRequest` 
     
 </dd>
 </dl>
@@ -4128,7 +4796,7 @@ Example: `"workflow_run_xKm9pNv3qWsY_jL2tR5Dh"`
 </dl>
 </details>
 
-<details><summary><code>client.workflowRuns.<a href="/src/api/resources/workflowRuns/client/Client.ts">delete</a>(id) -> Extend.WorkflowRunsDeleteResponse</code></summary>
+<details><summary><code>client.workflowRuns.<a href="/src/api/resources/workflowRuns/client/Client.ts">delete</a>(id, { ...params }) -> Extend.WorkflowRunsDeleteResponse</code></summary>
 <dl>
 <dd>
 
@@ -4185,6 +4853,14 @@ Example: `"workflow_run_xKm9pNv3qWsY_jL2tR5Dh"`
 <dl>
 <dd>
 
+**request:** `Extend.WorkflowRunsDeleteRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `WorkflowRunsClient.RequestOptions` 
     
 </dd>
@@ -4197,7 +4873,7 @@ Example: `"workflow_run_xKm9pNv3qWsY_jL2tR5Dh"`
 </dl>
 </details>
 
-<details><summary><code>client.workflowRuns.<a href="/src/api/resources/workflowRuns/client/Client.ts">cancel</a>(id) -> Extend.WorkflowRun</code></summary>
+<details><summary><code>client.workflowRuns.<a href="/src/api/resources/workflowRuns/client/Client.ts">cancel</a>(id, { ...params }) -> Extend.WorkflowRun</code></summary>
 <dl>
 <dd>
 
@@ -4247,6 +4923,14 @@ await client.workflowRuns.cancel("workflow_run_id_here");
 The ID of the workflow run.
 
 Example: `"workflow_run_xKm9pNv3qWsY_jL2tR5Dh"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.WorkflowRunsCancelRequest` 
     
 </dd>
 </dl>
@@ -4499,7 +5183,7 @@ await client.processorRun.create({
 </dl>
 </details>
 
-<details><summary><code>client.processorRun.<a href="/src/api/resources/processorRun/client/Client.ts">get</a>(id) -> Extend.ProcessorRunGetResponse</code></summary>
+<details><summary><code>client.processorRun.<a href="/src/api/resources/processorRun/client/Client.ts">get</a>(id, { ...params }) -> Extend.ProcessorRunGetResponse</code></summary>
 <dl>
 <dd>
 
@@ -4556,6 +5240,14 @@ Example: `"exr_Xj8mK2pL9nR4vT7qY5wZ"`
 <dl>
 <dd>
 
+**request:** `Extend.ProcessorRunGetRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `ProcessorRunClient.RequestOptions` 
     
 </dd>
@@ -4568,7 +5260,7 @@ Example: `"exr_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
-<details><summary><code>client.processorRun.<a href="/src/api/resources/processorRun/client/Client.ts">delete</a>(id) -> Extend.ProcessorRunDeleteResponse</code></summary>
+<details><summary><code>client.processorRun.<a href="/src/api/resources/processorRun/client/Client.ts">delete</a>(id, { ...params }) -> Extend.ProcessorRunDeleteResponse</code></summary>
 <dl>
 <dd>
 
@@ -4625,6 +5317,14 @@ Example: `"exr_Xj8mK2pL9nR4vT7qY5wZ"`
 <dl>
 <dd>
 
+**request:** `Extend.ProcessorRunDeleteRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `ProcessorRunClient.RequestOptions` 
     
 </dd>
@@ -4637,7 +5337,7 @@ Example: `"exr_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
-<details><summary><code>client.processorRun.<a href="/src/api/resources/processorRun/client/Client.ts">cancel</a>(id) -> Extend.ProcessorRunCancelResponse</code></summary>
+<details><summary><code>client.processorRun.<a href="/src/api/resources/processorRun/client/Client.ts">cancel</a>(id, { ...params }) -> Extend.ProcessorRunCancelResponse</code></summary>
 <dl>
 <dd>
 
@@ -4687,6 +5387,14 @@ await client.processorRun.cancel("processor_run_id_here");
 The unique identifier for the processor run to cancel.
 
 Example: `"exr_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.ProcessorRunCancelRequest` 
     
 </dd>
 </dl>
@@ -4912,7 +5620,7 @@ Example: `"ex_Xj8mK2pL9nR4vT7qY5wZ"`
 </details>
 
 ## ProcessorVersion
-<details><summary><code>client.processorVersion.<a href="/src/api/resources/processorVersion/client/Client.ts">list</a>(id) -> Extend.ProcessorVersionListResponse</code></summary>
+<details><summary><code>client.processorVersion.<a href="/src/api/resources/processorVersion/client/Client.ts">list</a>(id, { ...params }) -> Extend.ProcessorVersionListResponse</code></summary>
 <dl>
 <dd>
 
@@ -4963,6 +5671,14 @@ await client.processorVersion.list("processor_id_here");
 The ID of the processor to retrieve versions for.
 
 Example: `"ex_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.ProcessorVersionListRequest` 
     
 </dd>
 </dl>
@@ -5061,7 +5777,7 @@ Example: `"ex_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
-<details><summary><code>client.processorVersion.<a href="/src/api/resources/processorVersion/client/Client.ts">get</a>(processorId, processorVersionId) -> Extend.ProcessorVersionGetResponse</code></summary>
+<details><summary><code>client.processorVersion.<a href="/src/api/resources/processorVersion/client/Client.ts">get</a>(processorId, processorVersionId, { ...params }) -> Extend.ProcessorVersionGetResponse</code></summary>
 <dl>
 <dd>
 
@@ -5128,6 +5844,14 @@ Example: `"exv_QYk6jgHA_8CsO8rVWhyNC"`
 <dl>
 <dd>
 
+**request:** `Extend.ProcessorVersionGetRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `ProcessorVersionClient.RequestOptions` 
     
 </dd>
@@ -5141,7 +5865,7 @@ Example: `"exv_QYk6jgHA_8CsO8rVWhyNC"`
 </details>
 
 ## BatchProcessorRun
-<details><summary><code>client.batchProcessorRun.<a href="/src/api/resources/batchProcessorRun/client/Client.ts">get</a>(id) -> Extend.BatchProcessorRunGetResponse</code></summary>
+<details><summary><code>client.batchProcessorRun.<a href="/src/api/resources/batchProcessorRun/client/Client.ts">get</a>(id, { ...params }) -> Extend.BatchProcessorRunGetResponse</code></summary>
 <dl>
 <dd>
 
@@ -5191,6 +5915,14 @@ await client.batchProcessorRun.get("bpr_id_here");
 The unique identifier of the batch processor run to retrieve.
 
 Example: `"bpr_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.BatchProcessorRunGetRequest` 
     
 </dd>
 </dl>
@@ -5346,7 +6078,7 @@ await client.evaluationSets.create({
 </dl>
 </details>
 
-<details><summary><code>client.evaluationSets.<a href="/src/api/resources/evaluationSets/client/Client.ts">retrieve</a>(id) -> Extend.EvaluationSet</code></summary>
+<details><summary><code>client.evaluationSets.<a href="/src/api/resources/evaluationSets/client/Client.ts">retrieve</a>(id, { ...params }) -> Extend.EvaluationSet</code></summary>
 <dl>
 <dd>
 
@@ -5394,6 +6126,14 @@ await client.evaluationSets.retrieve("evaluation_set_id_here");
 The ID of the evaluation set.
 
 Example: `"ev_2LcgeY_mp2T5yPaEuq5Lw"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.EvaluationSetsRetrieveRequest` 
     
 </dd>
 </dl>
@@ -5583,7 +6323,7 @@ Example: `"ev_2LcgeY_mp2T5yPaEuq5Lw"`
 </dl>
 </details>
 
-<details><summary><code>client.evaluationSetItems.<a href="/src/api/resources/evaluationSetItems/client/Client.ts">retrieve</a>(evaluationSetId, itemId) -> Extend.EvaluationSetItem</code></summary>
+<details><summary><code>client.evaluationSetItems.<a href="/src/api/resources/evaluationSetItems/client/Client.ts">retrieve</a>(evaluationSetId, itemId, { ...params }) -> Extend.EvaluationSetItem</code></summary>
 <dl>
 <dd>
 
@@ -5643,6 +6383,14 @@ Example: `"ev_2LcgeY_mp2T5yPaEuq5Lw"`
 The ID of the evaluation set item.
 
 Example: `"evi_kR9mNP12Qw4yTv8BdR3H"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.EvaluationSetItemsRetrieveRequest` 
     
 </dd>
 </dl>
@@ -5757,7 +6505,7 @@ Example: `"evi_kR9mNP12Qw4yTv8BdR3H"`
 </dl>
 </details>
 
-<details><summary><code>client.evaluationSetItems.<a href="/src/api/resources/evaluationSetItems/client/Client.ts">delete</a>(evaluationSetId, itemId) -> Extend.EvaluationSetItemsDeleteResponse</code></summary>
+<details><summary><code>client.evaluationSetItems.<a href="/src/api/resources/evaluationSetItems/client/Client.ts">delete</a>(evaluationSetId, itemId, { ...params }) -> Extend.EvaluationSetItemsDeleteResponse</code></summary>
 <dl>
 <dd>
 
@@ -5824,6 +6572,14 @@ Example: `"evi_kR9mNP12Qw4yTv8BdR3H"`
 <dl>
 <dd>
 
+**request:** `Extend.EvaluationSetItemsDeleteRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **requestOptions:** `EvaluationSetItemsClient.RequestOptions` 
     
 </dd>
@@ -5837,7 +6593,7 @@ Example: `"evi_kR9mNP12Qw4yTv8BdR3H"`
 </details>
 
 ## EvaluationSetRuns
-<details><summary><code>client.evaluationSetRuns.<a href="/src/api/resources/evaluationSetRuns/client/Client.ts">retrieve</a>(id) -> Extend.EvaluationSetRun</code></summary>
+<details><summary><code>client.evaluationSetRuns.<a href="/src/api/resources/evaluationSetRuns/client/Client.ts">retrieve</a>(id, { ...params }) -> Extend.EvaluationSetRun</code></summary>
 <dl>
 <dd>
 
@@ -5885,6 +6641,14 @@ await client.evaluationSetRuns.retrieve("evaluation_set_run_id_here");
 The ID of the evaluation set run.
 
 Example: `"evr_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.EvaluationSetRunsRetrieveRequest` 
     
 </dd>
 </dl>
@@ -6042,7 +6806,7 @@ await client.webhookEndpoints.create({
 </dl>
 </details>
 
-<details><summary><code>client.webhookEndpoints.<a href="/src/api/resources/webhookEndpoints/client/Client.ts">retrieve</a>(id) -> Extend.WebhookEndpoint</code></summary>
+<details><summary><code>client.webhookEndpoints.<a href="/src/api/resources/webhookEndpoints/client/Client.ts">retrieve</a>(id, { ...params }) -> Extend.WebhookEndpoint</code></summary>
 <dl>
 <dd>
 
@@ -6090,6 +6854,14 @@ await client.webhookEndpoints.retrieve("webhook_endpoint_id_here");
 The ID of the webhook endpoint.
 
 Example: `"wh_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.WebhookEndpointsRetrieveRequest` 
     
 </dd>
 </dl>
@@ -6186,7 +6958,7 @@ Example: `"wh_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
-<details><summary><code>client.webhookEndpoints.<a href="/src/api/resources/webhookEndpoints/client/Client.ts">delete</a>(id) -> Extend.WebhookEndpointsDeleteResponse</code></summary>
+<details><summary><code>client.webhookEndpoints.<a href="/src/api/resources/webhookEndpoints/client/Client.ts">delete</a>(id, { ...params }) -> Extend.WebhookEndpointsDeleteResponse</code></summary>
 <dl>
 <dd>
 
@@ -6234,6 +7006,14 @@ await client.webhookEndpoints.delete("webhook_endpoint_id_here");
 The ID of the webhook endpoint to delete.
 
 Example: `"wh_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.WebhookEndpointsDeleteRequest` 
     
 </dd>
 </dl>
@@ -6391,7 +7171,7 @@ await client.webhookSubscriptions.create({
 </dl>
 </details>
 
-<details><summary><code>client.webhookSubscriptions.<a href="/src/api/resources/webhookSubscriptions/client/Client.ts">retrieve</a>(id) -> Extend.WebhookSubscription</code></summary>
+<details><summary><code>client.webhookSubscriptions.<a href="/src/api/resources/webhookSubscriptions/client/Client.ts">retrieve</a>(id, { ...params }) -> Extend.WebhookSubscription</code></summary>
 <dl>
 <dd>
 
@@ -6439,6 +7219,14 @@ await client.webhookSubscriptions.retrieve("webhook_subscription_id_here");
 The ID of the webhook subscription.
 
 Example: `"whes_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.WebhookSubscriptionsRetrieveRequest` 
     
 </dd>
 </dl>
@@ -6535,7 +7323,7 @@ Example: `"whes_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
-<details><summary><code>client.webhookSubscriptions.<a href="/src/api/resources/webhookSubscriptions/client/Client.ts">delete</a>(id) -> Extend.WebhookSubscriptionsDeleteResponse</code></summary>
+<details><summary><code>client.webhookSubscriptions.<a href="/src/api/resources/webhookSubscriptions/client/Client.ts">delete</a>(id, { ...params }) -> Extend.WebhookSubscriptionsDeleteResponse</code></summary>
 <dl>
 <dd>
 
@@ -6583,6 +7371,14 @@ await client.webhookSubscriptions.delete("webhook_subscription_id_here");
 The ID of the webhook subscription to delete.
 
 Example: `"whes_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.WebhookSubscriptionsDeleteRequest` 
     
 </dd>
 </dl>

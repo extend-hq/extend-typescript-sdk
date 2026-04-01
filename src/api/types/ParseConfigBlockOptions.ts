@@ -12,4 +12,8 @@ export interface ParseConfigBlockOptions {
     tables?: Extend.ParseConfigBlockOptionsTables;
     /** Options for text blocks. */
     text?: Extend.ParseConfigBlockOptionsText;
+    /** Options for key-value pair blocks. */
+    keyValue?: Extend.ParseConfigBlockOptionsKeyValue;
+    /** Options for barcode blocks. */
+    barcodes?: Extend.ParseConfigBlockOptionsBarcodes;
 }

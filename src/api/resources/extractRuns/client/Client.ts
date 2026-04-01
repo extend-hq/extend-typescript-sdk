@@ -55,8 +55,18 @@ export class ExtractRunsClient {
         request: Extend.ExtractRunsListRequest = {},
         requestOptions?: ExtractRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ExtractRunsListResponse>> {
-        const { status, extractorId, sourceId, source, fileNameContains, sortBy, sortDir, nextPageToken, maxPageSize } =
-            request;
+        const {
+            status,
+            extractorId,
+            sourceId,
+            source,
+            fileNameContains,
+            sortBy,
+            sortDir,
+            nextPageToken,
+            maxPageSize,
+            "x-extend-workspace-id": extendWorkspaceId,
+        } = request;
         const _queryParams: Record<string, unknown> = {
             status: status != null ? status : undefined,
             extractorId,
@@ -72,7 +82,10 @@ export class ExtractRunsClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -243,6 +256,7 @@ export class ExtractRunsClient {
      * @param {string} id - The unique identifier for this extract run.
      *
      *                      Example: `"ex_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.ExtractRunsRetrieveRequest} request
      * @param {ExtractRunsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -259,20 +273,26 @@ export class ExtractRunsClient {
      */
     public retrieve(
         id: string,
+        request: Extend.ExtractRunsRetrieveRequest = {},
         requestOptions?: ExtractRunsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.ExtractRun> {
-        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, request, requestOptions));
     }
 
     private async __retrieve(
         id: string,
+        request: Extend.ExtractRunsRetrieveRequest = {},
         requestOptions?: ExtractRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ExtractRun>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -337,6 +357,7 @@ export class ExtractRunsClient {
      * This endpoint can be used if you'd like to manage data retention on your own rather than automated data retention policies. Or make one-off deletions for your downstream customers.
      *
      * @param {string} id - The ID of the extract run.
+     * @param {Extend.ExtractRunsDeleteRequest} request
      * @param {ExtractRunsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -353,20 +374,26 @@ export class ExtractRunsClient {
      */
     public delete(
         id: string,
+        request: Extend.ExtractRunsDeleteRequest = {},
         requestOptions?: ExtractRunsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.ExtractRunsDeleteResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__delete(id, request, requestOptions));
     }
 
     private async __delete(
         id: string,
+        request: Extend.ExtractRunsDeleteRequest = {},
         requestOptions?: ExtractRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ExtractRunsDeleteResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -433,6 +460,7 @@ export class ExtractRunsClient {
      * @param {string} id - The ID of the extract run to cancel.
      *
      *                      Example: `"ex_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.ExtractRunsCancelRequest} request
      * @param {ExtractRunsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -449,20 +477,26 @@ export class ExtractRunsClient {
      */
     public cancel(
         id: string,
+        request: Extend.ExtractRunsCancelRequest = {},
         requestOptions?: ExtractRunsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.ExtractRun> {
-        return core.HttpResponsePromise.fromPromise(this.__cancel(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__cancel(id, request, requestOptions));
     }
 
     private async __cancel(
         id: string,
+        request: Extend.ExtractRunsCancelRequest = {},
         requestOptions?: ExtractRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ExtractRun>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({

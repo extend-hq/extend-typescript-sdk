@@ -23,9 +23,112 @@ export class WorkflowsClient {
     }
 
     /**
-     * Create a new workflow in Extend. Workflows are sequences of steps that process files and data in a specific order to achieve a desired outcome.
+     * List all workflows. Returns a paginated list of workflow summaries.
      *
-     * This endpoint will create a new workflow in Extend, which can then be configured and deployed. Typically, workflows are created from our UI, however this endpoint can be used to create workflows programmatically. Configuration of the flow still needs to be done in the dashboard.
+     * @param {Extend.WorkflowsListRequest} request
+     * @param {WorkflowsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.PaymentRequiredError}
+     * @throws {@link Extend.ForbiddenError}
+     * @throws {@link Extend.NotFoundError}
+     * @throws {@link Extend.UnprocessableEntityError}
+     * @throws {@link Extend.TooManyRequestsError}
+     * @throws {@link Extend.InternalServerError}
+     *
+     * @example
+     *     await client.workflows.list({
+     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
+     *     })
+     */
+    public list(
+        request: Extend.WorkflowsListRequest = {},
+        requestOptions?: WorkflowsClient.RequestOptions,
+    ): core.HttpResponsePromise<Extend.WorkflowsListResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
+    }
+
+    private async __list(
+        request: Extend.WorkflowsListRequest = {},
+        requestOptions?: WorkflowsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.WorkflowsListResponse>> {
+        const { nextPageToken, maxPageSize, sortBy, sortDir } = request;
+        const _queryParams: Record<string, unknown> = {
+            nextPageToken,
+            maxPageSize,
+            sortBy: sortBy != null ? sortBy : undefined,
+            sortDir: sortDir != null ? sortDir : undefined,
+        };
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                "workflows",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 300) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.WorkflowsListResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new Extend.PaymentRequiredError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Extend.ForbiddenError(_response.error.body as Extend.ApiError, _response.rawResponse);
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 422:
+                    throw new Extend.UnprocessableEntityError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new Extend.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Extend.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/workflows");
+    }
+
+    /**
+     * Create a new workflow. Optionally provide `steps` to define the workflow's step graph.
+     *
+     * When `steps` is omitted, the workflow is created with default steps (`TRIGGER` → `PARSE`). When `steps` is provided, the step graph is validated and the draft version is populated with the given steps.
+     *
+     * **Note:** The default steps may change in the future. If your integration depends on a specific step graph, provide `steps` explicitly.
      *
      * @param {Extend.WorkflowsCreateRequest} request
      * @param {WorkflowsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -42,6 +145,48 @@ export class WorkflowsClient {
      * @example
      *     await client.workflows.create({
      *         name: "Invoice Processing"
+     *     })
+     *
+     * @example
+     *     await client.workflows.create({
+     *         name: "Invoice Processing",
+     *         steps: [{
+     *                 type: "TRIGGER",
+     *                 name: "name"
+     *             }, {
+     *                 type: "PARSE",
+     *                 name: "name"
+     *             }, {
+     *                 type: "EXTRACT",
+     *                 name: "name"
+     *             }, {
+     *                 type: "HUMAN_REVIEW",
+     *                 name: "name"
+     *             }]
+     *     })
+     *
+     * @example
+     *     await client.workflows.create({
+     *         name: "Document Routing",
+     *         steps: [{
+     *                 type: "TRIGGER",
+     *                 name: "name"
+     *             }, {
+     *                 type: "PARSE",
+     *                 name: "name"
+     *             }, {
+     *                 type: "CLASSIFY",
+     *                 name: "name"
+     *             }, {
+     *                 type: "EXTRACT",
+     *                 name: "name"
+     *             }, {
+     *                 type: "EXTRACT",
+     *                 name: "name"
+     *             }, {
+     *                 type: "HUMAN_REVIEW",
+     *                 name: "name"
+     *             }]
      *     })
      */
     public create(
@@ -119,5 +264,210 @@ export class WorkflowsClient {
         }
 
         return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/workflows");
+    }
+
+    /**
+     * Get details of a workflow, including its draft version and steps.
+     *
+     * @param {string} id - The ID of the workflow.
+     * @param {WorkflowsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.PaymentRequiredError}
+     * @throws {@link Extend.ForbiddenError}
+     * @throws {@link Extend.NotFoundError}
+     * @throws {@link Extend.UnprocessableEntityError}
+     * @throws {@link Extend.TooManyRequestsError}
+     * @throws {@link Extend.InternalServerError}
+     *
+     * @example
+     *     await client.workflows.retrieve("workflow_abc123")
+     */
+    public retrieve(
+        id: string,
+        requestOptions?: WorkflowsClient.RequestOptions,
+    ): core.HttpResponsePromise<Extend.Workflow> {
+        return core.HttpResponsePromise.fromPromise(this.__retrieve(id, requestOptions));
+    }
+
+    private async __retrieve(
+        id: string,
+        requestOptions?: WorkflowsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.Workflow>> {
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                `workflows/${core.url.encodePathParam(id)}`,
+            ),
+            method: "GET",
+            headers: _headers,
+            queryParameters: requestOptions?.queryParams,
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 300) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.Workflow, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new Extend.PaymentRequiredError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Extend.ForbiddenError(_response.error.body as Extend.ApiError, _response.rawResponse);
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 422:
+                    throw new Extend.UnprocessableEntityError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new Extend.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Extend.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/workflows/{id}");
+    }
+
+    /**
+     * Update a workflow's draft. You can update the name, the steps, or both.
+     *
+     * When `steps` is provided, the draft version's steps are replaced with the new set. Steps with matching names from the previous draft preserve their internal identity.
+     *
+     * @param {string} id - The ID of the workflow to update.
+     * @param {Extend.WorkflowsUpdateRequest} request
+     * @param {WorkflowsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.PaymentRequiredError}
+     * @throws {@link Extend.ForbiddenError}
+     * @throws {@link Extend.NotFoundError}
+     * @throws {@link Extend.UnprocessableEntityError}
+     * @throws {@link Extend.TooManyRequestsError}
+     * @throws {@link Extend.InternalServerError}
+     *
+     * @example
+     *     await client.workflows.update("workflow_abc123", {
+     *         name: "Updated Invoice Processing"
+     *     })
+     *
+     * @example
+     *     await client.workflows.update("workflow_abc123", {
+     *         steps: [{
+     *                 type: "TRIGGER",
+     *                 name: "name"
+     *             }, {
+     *                 type: "PARSE",
+     *                 name: "name"
+     *             }]
+     *     })
+     */
+    public update(
+        id: string,
+        request: Extend.WorkflowsUpdateRequest = {},
+        requestOptions?: WorkflowsClient.RequestOptions,
+    ): core.HttpResponsePromise<Extend.Workflow> {
+        return core.HttpResponsePromise.fromPromise(this.__update(id, request, requestOptions));
+    }
+
+    private async __update(
+        id: string,
+        request: Extend.WorkflowsUpdateRequest = {},
+        requestOptions?: WorkflowsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.Workflow>> {
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                `workflows/${core.url.encodePathParam(id)}`,
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryParameters: requestOptions?.queryParams,
+            requestType: "json",
+            body: request,
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 300) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.Workflow, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new Extend.PaymentRequiredError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Extend.ForbiddenError(_response.error.body as Extend.ApiError, _response.rawResponse);
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 422:
+                    throw new Extend.UnprocessableEntityError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new Extend.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Extend.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/workflows/{id}");
     }
 }
