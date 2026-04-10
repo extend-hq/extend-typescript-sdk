@@ -16,6 +16,12 @@ export interface SplitRunsListRequest {
      * Example: `"spl_BMdfq_yWM3sT-ZzvCnA3f"`
      */
     splitterId?: string;
+    /**
+     * Filters runs by the batch they belong to. Only returns runs created as part of the specified batch.
+     *
+     * Example: `"bpr_Xj8mK2pL9nR4vT7qY5wZ"`
+     */
+    batchId?: string;
     /** Filters runs by the source ID. */
     sourceId?: Extend.RunSourceId;
     /** Filters runs by the source that created them. If not provided, runs from all sources are returned. */

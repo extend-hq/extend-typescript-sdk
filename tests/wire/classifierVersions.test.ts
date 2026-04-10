@@ -226,6 +226,7 @@ describe("ClassifierVersionsClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -286,6 +287,12 @@ describe("ClassifierVersionsClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: {
+                        options: {
+                            minCharacters: 500,
+                            maxCharacters: 10000,
+                        },
+                    },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -507,6 +514,7 @@ describe("ClassifierVersionsClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -522,13 +530,13 @@ describe("ClassifierVersionsClient", () => {
         };
         server
             .mockEndpoint()
-            .get("/classifiers/classifier_id_here/versions/classifier_version_id_here")
+            .get("/classifiers/classifier_id_here/versions/draft")
             .respondWith()
             .statusCode(200)
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.classifierVersions.retrieve("classifier_id_here", "classifier_version_id_here");
+        const response = await client.classifierVersions.retrieve("classifier_id_here", "draft");
         expect(response).toEqual({
             object: "classifier_version",
             id: "clv_xK9mLPqRtN3vS8wF5hB2cQ",
@@ -563,6 +571,12 @@ describe("ClassifierVersionsClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: {
+                        options: {
+                            minCharacters: 500,
+                            maxCharacters: 10000,
+                        },
+                    },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {

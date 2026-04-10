@@ -257,9 +257,12 @@ export class SplitterVersionsClient {
      * @param {string} splitterId - The ID of the splitter.
      *
      *                              Example: `"spl_Xj8mK2pL9nR4vT7qY5wZ"`
-     * @param {string} versionId - The ID of the specific splitter version.
+     * @param {string} versionId - The version to retrieve. Accepts any of the following:
      *
-     *                             Example: `"splv_QYk6jgHA_8CsO8rVWhyNC"`
+     *                             - `"draft"` — returns the current draft version
+     *                             - `"latest"` — returns the latest published version (falls back to draft if none published)
+     *                             - A version number (e.g. `"0.1"`, `"1.0"`) — returns that specific published version
+     *                             - A version ID (e.g. `"splv_QYk6jgHA_8CsO8rVWhyNC"`) — returns that specific version by ID
      * @param {Extend.SplitterVersionsRetrieveRequest} request
      * @param {SplitterVersionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -273,7 +276,7 @@ export class SplitterVersionsClient {
      * @throws {@link Extend.InternalServerError}
      *
      * @example
-     *     await client.splitterVersions.retrieve("splitter_id_here", "splitter_version_id_here")
+     *     await client.splitterVersions.retrieve("splitter_id_here", "draft")
      */
     public retrieve(
         splitterId: string,

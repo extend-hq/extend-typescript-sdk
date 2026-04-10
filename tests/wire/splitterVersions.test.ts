@@ -226,6 +226,7 @@ describe("SplitterVersionsClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -286,6 +287,12 @@ describe("SplitterVersionsClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: {
+                        options: {
+                            minCharacters: 500,
+                            maxCharacters: 10000,
+                        },
+                    },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -507,6 +514,7 @@ describe("SplitterVersionsClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -522,13 +530,13 @@ describe("SplitterVersionsClient", () => {
         };
         server
             .mockEndpoint()
-            .get("/splitters/splitter_id_here/versions/splitter_version_id_here")
+            .get("/splitters/splitter_id_here/versions/draft")
             .respondWith()
             .statusCode(200)
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.splitterVersions.retrieve("splitter_id_here", "splitter_version_id_here");
+        const response = await client.splitterVersions.retrieve("splitter_id_here", "draft");
         expect(response).toEqual({
             object: "splitter_version",
             id: "splv_xK9mLPqRtN3vS8wF5hB2cQ",
@@ -563,6 +571,12 @@ describe("SplitterVersionsClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: {
+                        options: {
+                            minCharacters: 500,
+                            maxCharacters: 10000,
+                        },
+                    },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {

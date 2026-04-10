@@ -1,6 +1,7 @@
 export * as batchProcessorRun from "./batchProcessorRun";
 export * from "./batchProcessorRun/client/requests";
 export * from "./batchProcessorRun/types";
+export * as batchRuns from "./batchRuns";
 export * as classifiers from "./classifiers";
 export * from "./classifiers/client/requests";
 export * from "./classifiers/types";

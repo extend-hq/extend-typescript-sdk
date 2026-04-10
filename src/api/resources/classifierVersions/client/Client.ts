@@ -260,9 +260,12 @@ export class ClassifierVersionsClient {
      * @param {string} classifierId - The ID of the classifier.
      *
      *                                Example: `"cl_Xj8mK2pL9nR4vT7qY5wZ"`
-     * @param {string} versionId - The ID of the specific classifier version.
+     * @param {string} versionId - The version to retrieve. Accepts any of the following:
      *
-     *                             Example: `"clsv_QYk6jgHA_8CsO8rVWhyNC"`
+     *                             - `"draft"` — returns the current draft version
+     *                             - `"latest"` — returns the latest published version (falls back to draft if none published)
+     *                             - A version number (e.g. `"0.1"`, `"1.0"`) — returns that specific published version
+     *                             - A version ID (e.g. `"clsv_QYk6jgHA_8CsO8rVWhyNC"`) — returns that specific version by ID
      * @param {Extend.ClassifierVersionsRetrieveRequest} request
      * @param {ClassifierVersionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -276,7 +279,7 @@ export class ClassifierVersionsClient {
      * @throws {@link Extend.InternalServerError}
      *
      * @example
-     *     await client.classifierVersions.retrieve("classifier_id_here", "classifier_version_id_here")
+     *     await client.classifierVersions.retrieve("classifier_id_here", "draft")
      */
     public retrieve(
         classifierId: string,

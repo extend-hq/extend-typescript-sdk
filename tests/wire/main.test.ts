@@ -81,6 +81,7 @@ describe("ExtendClient", () => {
                     alwaysConvertToPdf: true,
                     enrichmentFormat: "xml",
                     imageConversionQuality: "high",
+                    formattingDetection: [{ type: "change_tracking" }],
                 },
             },
             usage: { credits: 10 },
@@ -217,6 +218,11 @@ describe("ExtendClient", () => {
                     alwaysConvertToPdf: true,
                     enrichmentFormat: "xml",
                     imageConversionQuality: "high",
+                    formattingDetection: [
+                        {
+                            type: "change_tracking",
+                        },
+                    ],
                 },
             },
             usage: {
@@ -786,7 +792,7 @@ describe("ExtendClient", () => {
                 extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
             },
-            status: "PROCESSING",
+            status: "PENDING",
             output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
             initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
             reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
@@ -824,6 +830,7 @@ describe("ExtendClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -904,7 +911,7 @@ describe("ExtendClient", () => {
                 extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
             },
-            status: "PROCESSING",
+            status: "PENDING",
             output: {
                 value: {
                     key: "value",
@@ -990,6 +997,12 @@ describe("ExtendClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: {
+                        options: {
+                            minCharacters: 500,
+                            maxCharacters: 10000,
+                        },
+                    },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -1250,7 +1263,7 @@ describe("ExtendClient", () => {
                 classifierId: "cl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
             },
-            status: "PROCESSING",
+            status: "PENDING",
             output: { id: "id", type: "type", confidence: 1.1, insights: [{ type: "reasoning", content: "content" }] },
             initialOutput: {
                 id: "id",
@@ -1292,6 +1305,7 @@ describe("ExtendClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -1372,7 +1386,7 @@ describe("ExtendClient", () => {
                 classifierId: "cl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
             },
-            status: "PROCESSING",
+            status: "PENDING",
             output: {
                 id: "id",
                 type: "type",
@@ -1442,6 +1456,12 @@ describe("ExtendClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: {
+                        options: {
+                            minCharacters: 500,
+                            maxCharacters: 10000,
+                        },
+                    },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -1712,7 +1732,7 @@ describe("ExtendClient", () => {
                 splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
             },
-            status: "PROCESSING",
+            status: "PENDING",
             output: {
                 splits: [
                     {
@@ -1786,6 +1806,7 @@ describe("ExtendClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -1868,7 +1889,7 @@ describe("ExtendClient", () => {
                 splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
             },
-            status: "PROCESSING",
+            status: "PENDING",
             output: {
                 splits: [
                     {
@@ -1950,6 +1971,12 @@ describe("ExtendClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: {
+                        options: {
+                            minCharacters: 500,
+                            maxCharacters: 10000,
+                        },
+                    },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {

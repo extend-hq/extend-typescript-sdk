@@ -30,7 +30,7 @@ describe("ExtractRunsClient", () => {
                         extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                         createdAt: "2024-03-21T16:45:00Z",
                     },
-                    status: "PROCESSING",
+                    status: "PENDING",
                     failureReason: "PARSING_ERROR",
                     failureMessage: "failureMessage",
                     metadata: { key: "value" },
@@ -90,7 +90,7 @@ describe("ExtractRunsClient", () => {
                         extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                         createdAt: "2024-03-21T16:45:00Z",
                     },
-                    status: "PROCESSING",
+                    status: "PENDING",
                     failureReason: "PARSING_ERROR",
                     failureMessage: "failureMessage",
                     metadata: {
@@ -248,7 +248,7 @@ describe("ExtractRunsClient", () => {
                 extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
             },
-            status: "PROCESSING",
+            status: "PENDING",
             output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
             initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
             reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
@@ -286,6 +286,7 @@ describe("ExtractRunsClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -350,7 +351,7 @@ describe("ExtractRunsClient", () => {
                 extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
             },
-            status: "PROCESSING",
+            status: "PENDING",
             output: {
                 value: {
                     key: "value",
@@ -436,6 +437,12 @@ describe("ExtractRunsClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: {
+                        options: {
+                            minCharacters: 500,
+                            maxCharacters: 10000,
+                        },
+                    },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -687,7 +694,7 @@ describe("ExtractRunsClient", () => {
                 extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
             },
-            status: "PROCESSING",
+            status: "PENDING",
             output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
             initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
             reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
@@ -725,6 +732,7 @@ describe("ExtractRunsClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -781,7 +789,7 @@ describe("ExtractRunsClient", () => {
                 extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
             },
-            status: "PROCESSING",
+            status: "PENDING",
             output: {
                 value: {
                     key: "value",
@@ -867,6 +875,12 @@ describe("ExtractRunsClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: {
+                        options: {
+                            minCharacters: 500,
+                            maxCharacters: 10000,
+                        },
+                    },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -1193,7 +1207,7 @@ describe("ExtractRunsClient", () => {
                 extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
             },
-            status: "PROCESSING",
+            status: "PENDING",
             output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
             initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
             reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
@@ -1231,6 +1245,7 @@ describe("ExtractRunsClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -1287,7 +1302,7 @@ describe("ExtractRunsClient", () => {
                 extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
             },
-            status: "PROCESSING",
+            status: "PENDING",
             output: {
                 value: {
                     key: "value",
@@ -1373,6 +1388,12 @@ describe("ExtractRunsClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: {
+                        options: {
+                            minCharacters: 500,
+                            maxCharacters: 10000,
+                        },
+                    },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -1559,6 +1580,377 @@ describe("ExtractRunsClient", () => {
 
         await expect(async () => {
             return await client.extractRuns.cancel("id");
+        }).rejects.toThrow(Extend.InternalServerError);
+    });
+
+    test("createBatch (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            extractor: { id: "ex_xK9mLPqRtN3vS8wF5hB2cQ" },
+            inputs: [
+                { file: { url: "https://example.com/invoice1.pdf" }, metadata: { customerId: "cust_abc123" } },
+                { file: { url: "https://example.com/invoice2.pdf" }, metadata: { customerId: "cust_def456" } },
+                { file: { url: "https://example.com/invoice3.pdf" }, metadata: { customerId: "cust_ghi789" } },
+            ],
+        };
+        const rawResponseBody = {
+            object: "batch_run",
+            id: "bpr_Xj8mK2pL9nR4vT7qY5wZ",
+            status: "PENDING",
+            runCount: 50,
+            createdAt: "2024-03-21T16:45:00Z",
+        };
+        server
+            .mockEndpoint()
+            .post("/extract_runs/batch")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.extractRuns.createBatch({
+            extractor: {
+                id: "ex_xK9mLPqRtN3vS8wF5hB2cQ",
+            },
+            inputs: [
+                {
+                    file: {
+                        url: "https://example.com/invoice1.pdf",
+                    },
+                    metadata: {
+                        customerId: "cust_abc123",
+                    },
+                },
+                {
+                    file: {
+                        url: "https://example.com/invoice2.pdf",
+                    },
+                    metadata: {
+                        customerId: "cust_def456",
+                    },
+                },
+                {
+                    file: {
+                        url: "https://example.com/invoice3.pdf",
+                    },
+                    metadata: {
+                        customerId: "cust_ghi789",
+                    },
+                },
+            ],
+        });
+        expect(response).toEqual({
+            object: "batch_run",
+            id: "bpr_Xj8mK2pL9nR4vT7qY5wZ",
+            status: "PENDING",
+            runCount: 50,
+            createdAt: "2024-03-21T16:45:00Z",
+        });
+    });
+
+    test("createBatch (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            extractor: { id: "id" },
+            inputs: [{ file: { url: "url" } }, { file: { url: "url" } }],
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/extract_runs/batch")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.extractRuns.createBatch({
+                extractor: {
+                    id: "id",
+                },
+                inputs: [
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                ],
+            });
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("createBatch (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            extractor: { id: "id" },
+            inputs: [{ file: { url: "url" } }, { file: { url: "url" } }],
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/extract_runs/batch")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.extractRuns.createBatch({
+                extractor: {
+                    id: "id",
+                },
+                inputs: [
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                ],
+            });
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("createBatch (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            extractor: { id: "id" },
+            inputs: [{ file: { url: "url" } }, { file: { url: "url" } }],
+        };
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/extract_runs/batch")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(402)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.extractRuns.createBatch({
+                extractor: {
+                    id: "id",
+                },
+                inputs: [
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                ],
+            });
+        }).rejects.toThrow(Extend.PaymentRequiredError);
+    });
+
+    test("createBatch (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            extractor: { id: "id" },
+            inputs: [{ file: { url: "url" } }, { file: { url: "url" } }],
+        };
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/extract_runs/batch")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.extractRuns.createBatch({
+                extractor: {
+                    id: "id",
+                },
+                inputs: [
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                ],
+            });
+        }).rejects.toThrow(Extend.ForbiddenError);
+    });
+
+    test("createBatch (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            extractor: { id: "id" },
+            inputs: [{ file: { url: "url" } }, { file: { url: "url" } }],
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/extract_runs/batch")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.extractRuns.createBatch({
+                extractor: {
+                    id: "id",
+                },
+                inputs: [
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                ],
+            });
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("createBatch (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            extractor: { id: "id" },
+            inputs: [{ file: { url: "url" } }, { file: { url: "url" } }],
+        };
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/extract_runs/batch")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(422)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.extractRuns.createBatch({
+                extractor: {
+                    id: "id",
+                },
+                inputs: [
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                ],
+            });
+        }).rejects.toThrow(Extend.UnprocessableEntityError);
+    });
+
+    test("createBatch (8)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            extractor: { id: "id" },
+            inputs: [{ file: { url: "url" } }, { file: { url: "url" } }],
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/extract_runs/batch")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(429)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.extractRuns.createBatch({
+                extractor: {
+                    id: "id",
+                },
+                inputs: [
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                ],
+            });
+        }).rejects.toThrow(Extend.TooManyRequestsError);
+    });
+
+    test("createBatch (9)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            extractor: { id: "id" },
+            inputs: [{ file: { url: "url" } }, { file: { url: "url" } }],
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/extract_runs/batch")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.extractRuns.createBatch({
+                extractor: {
+                    id: "id",
+                },
+                inputs: [
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                ],
+            });
         }).rejects.toThrow(Extend.InternalServerError);
     });
 });

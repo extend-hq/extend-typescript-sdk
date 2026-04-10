@@ -117,6 +117,7 @@ describe("ProcessorRunClient", () => {
                             { start: 20, end: 30 },
                         ],
                     },
+                    parser: { chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } } },
                 },
                 initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
                 reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
@@ -128,7 +129,26 @@ describe("ProcessorRunClient", () => {
                         type: null,
                         presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                         parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
-                        contents: null,
+                        contents: {
+                            pages: [
+                                {
+                                    pageNumber: 1,
+                                    pageHeight: 792,
+                                    pageWidth: 612,
+                                    markdown:
+                                        "# Heading\n\nThis is a paragraph with **bold** and *italic* text.\n\n- List item 1\n- List item 2\n\n> This is a blockquote",
+                                    html: "<div>This is the html of the page.</div>",
+                                },
+                            ],
+                            sections: [
+                                {
+                                    startPageNumber: 1,
+                                    endPageNumber: 3,
+                                    markdown: "# Section Header\n\nContent spanning multiple pages...\n",
+                                },
+                            ],
+                            sheets: [{ sheetName: "Sheet1", rawText: "Column1,Column2\nValue1,Value2" }],
+                        },
                         metadata: {
                             pageCount: 30,
                             parentSplit: {
@@ -226,6 +246,14 @@ describe("ProcessorRunClient", () => {
                             },
                         ],
                     },
+                    parser: {
+                        chunkingStrategy: {
+                            options: {
+                                minCharacters: 500,
+                                maxCharacters: 10000,
+                            },
+                        },
+                    },
                 },
                 initialOutput: {
                     value: {
@@ -255,7 +283,31 @@ describe("ProcessorRunClient", () => {
                         type: null,
                         presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                         parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
-                        contents: null,
+                        contents: {
+                            pages: [
+                                {
+                                    pageNumber: 1,
+                                    pageHeight: 792,
+                                    pageWidth: 612,
+                                    markdown:
+                                        "# Heading\n\nThis is a paragraph with **bold** and *italic* text.\n\n- List item 1\n- List item 2\n\n> This is a blockquote",
+                                    html: "<div>This is the html of the page.</div>",
+                                },
+                            ],
+                            sections: [
+                                {
+                                    startPageNumber: 1,
+                                    endPageNumber: 3,
+                                    markdown: "# Section Header\n\nContent spanning multiple pages...\n",
+                                },
+                            ],
+                            sheets: [
+                                {
+                                    sheetName: "Sheet1",
+                                    rawText: "Column1,Column2\nValue1,Value2",
+                                },
+                            ],
+                        },
                         metadata: {
                             pageCount: 30,
                             parentSplit: {
@@ -410,6 +462,7 @@ describe("ProcessorRunClient", () => {
                             { start: 20, end: 30 },
                         ],
                     },
+                    parser: { chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } } },
                 },
                 initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
                 reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
@@ -421,7 +474,26 @@ describe("ProcessorRunClient", () => {
                         type: null,
                         presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                         parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
-                        contents: null,
+                        contents: {
+                            pages: [
+                                {
+                                    pageNumber: 1,
+                                    pageHeight: 792,
+                                    pageWidth: 612,
+                                    markdown:
+                                        "# Heading\n\nThis is a paragraph with **bold** and *italic* text.\n\n- List item 1\n- List item 2\n\n> This is a blockquote",
+                                    html: "<div>This is the html of the page.</div>",
+                                },
+                            ],
+                            sections: [
+                                {
+                                    startPageNumber: 1,
+                                    endPageNumber: 3,
+                                    markdown: "# Section Header\n\nContent spanning multiple pages...\n",
+                                },
+                            ],
+                            sheets: [{ sheetName: "Sheet1", rawText: "Column1,Column2\nValue1,Value2" }],
+                        },
                         metadata: {
                             pageCount: 30,
                             parentSplit: {
@@ -516,6 +588,14 @@ describe("ProcessorRunClient", () => {
                             },
                         ],
                     },
+                    parser: {
+                        chunkingStrategy: {
+                            options: {
+                                minCharacters: 500,
+                                maxCharacters: 10000,
+                            },
+                        },
+                    },
                 },
                 initialOutput: {
                     value: {
@@ -545,7 +625,31 @@ describe("ProcessorRunClient", () => {
                         type: null,
                         presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                         parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
-                        contents: null,
+                        contents: {
+                            pages: [
+                                {
+                                    pageNumber: 1,
+                                    pageHeight: 792,
+                                    pageWidth: 612,
+                                    markdown:
+                                        "# Heading\n\nThis is a paragraph with **bold** and *italic* text.\n\n- List item 1\n- List item 2\n\n> This is a blockquote",
+                                    html: "<div>This is the html of the page.</div>",
+                                },
+                            ],
+                            sections: [
+                                {
+                                    startPageNumber: 1,
+                                    endPageNumber: 3,
+                                    markdown: "# Section Header\n\nContent spanning multiple pages...\n",
+                                },
+                            ],
+                            sheets: [
+                                {
+                                    sheetName: "Sheet1",
+                                    rawText: "Column1,Column2\nValue1,Value2",
+                                },
+                            ],
+                        },
                         metadata: {
                             pageCount: 30,
                             parentSplit: {
@@ -713,6 +817,7 @@ describe("ProcessorRunClient", () => {
                             { start: 20, end: 30 },
                         ],
                     },
+                    parser: { chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } } },
                 },
                 initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
                 reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
@@ -724,7 +829,26 @@ describe("ProcessorRunClient", () => {
                         type: null,
                         presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                         parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
-                        contents: null,
+                        contents: {
+                            pages: [
+                                {
+                                    pageNumber: 1,
+                                    pageHeight: 792,
+                                    pageWidth: 612,
+                                    markdown:
+                                        "# Heading\n\nThis is a paragraph with **bold** and *italic* text.\n\n- List item 1\n- List item 2\n\n> This is a blockquote",
+                                    html: "<div>This is the html of the page.</div>",
+                                },
+                            ],
+                            sections: [
+                                {
+                                    startPageNumber: 1,
+                                    endPageNumber: 3,
+                                    markdown: "# Section Header\n\nContent spanning multiple pages...\n",
+                                },
+                            ],
+                            sheets: [{ sheetName: "Sheet1", rawText: "Column1,Column2\nValue1,Value2" }],
+                        },
                         metadata: {
                             pageCount: 30,
                             parentSplit: {
@@ -819,6 +943,14 @@ describe("ProcessorRunClient", () => {
                             },
                         ],
                     },
+                    parser: {
+                        chunkingStrategy: {
+                            options: {
+                                minCharacters: 500,
+                                maxCharacters: 10000,
+                            },
+                        },
+                    },
                 },
                 initialOutput: {
                     value: {
@@ -848,7 +980,31 @@ describe("ProcessorRunClient", () => {
                         type: null,
                         presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                         parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
-                        contents: null,
+                        contents: {
+                            pages: [
+                                {
+                                    pageNumber: 1,
+                                    pageHeight: 792,
+                                    pageWidth: 612,
+                                    markdown:
+                                        "# Heading\n\nThis is a paragraph with **bold** and *italic* text.\n\n- List item 1\n- List item 2\n\n> This is a blockquote",
+                                    html: "<div>This is the html of the page.</div>",
+                                },
+                            ],
+                            sections: [
+                                {
+                                    startPageNumber: 1,
+                                    endPageNumber: 3,
+                                    markdown: "# Section Header\n\nContent spanning multiple pages...\n",
+                                },
+                            ],
+                            sheets: [
+                                {
+                                    sheetName: "Sheet1",
+                                    rawText: "Column1,Column2\nValue1,Value2",
+                                },
+                            ],
+                        },
                         metadata: {
                             pageCount: 30,
                             parentSplit: {

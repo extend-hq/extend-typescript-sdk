@@ -223,6 +223,7 @@ describe("ExtractorVersionsClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -289,6 +290,12 @@ describe("ExtractorVersionsClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: {
+                        options: {
+                            minCharacters: 500,
+                            maxCharacters: 10000,
+                        },
+                    },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -507,6 +514,7 @@ describe("ExtractorVersionsClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {
@@ -522,13 +530,13 @@ describe("ExtractorVersionsClient", () => {
         };
         server
             .mockEndpoint()
-            .get("/extractors/extractor_id_here/versions/extractor_version_id_here")
+            .get("/extractors/extractor_id_here/versions/draft")
             .respondWith()
             .statusCode(200)
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.extractorVersions.retrieve("extractor_id_here", "extractor_version_id_here");
+        const response = await client.extractorVersions.retrieve("extractor_id_here", "draft");
         expect(response).toEqual({
             object: "extractor_version",
             id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
@@ -569,6 +577,12 @@ describe("ExtractorVersionsClient", () => {
                 },
                 parseConfig: {
                     target: "markdown",
+                    chunkingStrategy: {
+                        options: {
+                            minCharacters: 500,
+                            maxCharacters: 10000,
+                        },
+                    },
                     engine: "parse_performance",
                     engineVersion: "engineVersion",
                     advancedOptions: {

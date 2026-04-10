@@ -16,4 +16,6 @@ export interface ParseConfigBlockOptions {
     keyValue?: Extend.ParseConfigBlockOptionsKeyValue;
     /** Options for barcode blocks. */
     barcodes?: Extend.ParseConfigBlockOptionsBarcodes;
+    /** Options for formula blocks. */
+    formulas?: Extend.ParseConfigBlockOptionsFormulas;
 }

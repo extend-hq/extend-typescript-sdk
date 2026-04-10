@@ -314,10 +314,20 @@ describe("WorkflowRunsClient", () => {
                                         ],
                                     },
                                 ],
+                                ocr: {
+                                    words: [
+                                        {
+                                            content: "content",
+                                            boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
+                                            confidence: 1.1,
+                                            pageNumber: 1.1,
+                                        },
+                                    ],
+                                },
                             },
                             outputUrl: "https://...",
                             metrics: { processingTimeMs: 1234, pageCount: 5 },
-                            config: {},
+                            config: { chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } } },
                             usage: { credits: 10 },
                         },
                     },
@@ -493,13 +503,35 @@ describe("WorkflowRunsClient", () => {
                                         ],
                                     },
                                 ],
+                                ocr: {
+                                    words: [
+                                        {
+                                            content: "content",
+                                            boundingBox: {
+                                                left: 10,
+                                                top: 10,
+                                                right: 20,
+                                                bottom: 20,
+                                            },
+                                            confidence: 1.1,
+                                            pageNumber: 1.1,
+                                        },
+                                    ],
+                                },
                             },
                             outputUrl: "https://...",
                             metrics: {
                                 processingTimeMs: 1234,
                                 pageCount: 5,
                             },
-                            config: {},
+                            config: {
+                                chunkingStrategy: {
+                                    options: {
+                                        minCharacters: 500,
+                                        maxCharacters: 10000,
+                                    },
+                                },
+                            },
                             usage: {
                                 credits: 10,
                             },
@@ -849,10 +881,20 @@ describe("WorkflowRunsClient", () => {
                                         ],
                                     },
                                 ],
+                                ocr: {
+                                    words: [
+                                        {
+                                            content: "content",
+                                            boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
+                                            confidence: 1.1,
+                                            pageNumber: 1.1,
+                                        },
+                                    ],
+                                },
                             },
                             outputUrl: "https://...",
                             metrics: { processingTimeMs: 1234, pageCount: 5 },
-                            config: {},
+                            config: { chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } } },
                             usage: { credits: 10 },
                         },
                     },
@@ -1020,13 +1062,35 @@ describe("WorkflowRunsClient", () => {
                                         ],
                                     },
                                 ],
+                                ocr: {
+                                    words: [
+                                        {
+                                            content: "content",
+                                            boundingBox: {
+                                                left: 10,
+                                                top: 10,
+                                                right: 20,
+                                                bottom: 20,
+                                            },
+                                            confidence: 1.1,
+                                            pageNumber: 1.1,
+                                        },
+                                    ],
+                                },
                             },
                             outputUrl: "https://...",
                             metrics: {
                                 processingTimeMs: 1234,
                                 pageCount: 5,
                             },
-                            config: {},
+                            config: {
+                                chunkingStrategy: {
+                                    options: {
+                                        minCharacters: 500,
+                                        maxCharacters: 10000,
+                                    },
+                                },
+                            },
                             usage: {
                                 credits: 10,
                             },
@@ -1267,10 +1331,20 @@ describe("WorkflowRunsClient", () => {
                                         ],
                                     },
                                 ],
+                                ocr: {
+                                    words: [
+                                        {
+                                            content: "content",
+                                            boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
+                                            confidence: 1.1,
+                                            pageNumber: 1.1,
+                                        },
+                                    ],
+                                },
                             },
                             outputUrl: "https://...",
                             metrics: { processingTimeMs: 1234, pageCount: 5 },
-                            config: {},
+                            config: { chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } } },
                             usage: { credits: 10 },
                         },
                     },
@@ -1445,13 +1519,35 @@ describe("WorkflowRunsClient", () => {
                                         ],
                                     },
                                 ],
+                                ocr: {
+                                    words: [
+                                        {
+                                            content: "content",
+                                            boundingBox: {
+                                                left: 10,
+                                                top: 10,
+                                                right: 20,
+                                                bottom: 20,
+                                            },
+                                            confidence: 1.1,
+                                            pageNumber: 1.1,
+                                        },
+                                    ],
+                                },
                             },
                             outputUrl: "https://...",
                             metrics: {
                                 processingTimeMs: 1234,
                                 pageCount: 5,
                             },
-                            config: {},
+                            config: {
+                                chunkingStrategy: {
+                                    options: {
+                                        minCharacters: 500,
+                                        maxCharacters: 10000,
+                                    },
+                                },
+                            },
                             usage: {
                                 credits: 10,
                             },
@@ -1908,10 +2004,20 @@ describe("WorkflowRunsClient", () => {
                                         ],
                                     },
                                 ],
+                                ocr: {
+                                    words: [
+                                        {
+                                            content: "content",
+                                            boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
+                                            confidence: 1.1,
+                                            pageNumber: 1.1,
+                                        },
+                                    ],
+                                },
                             },
                             outputUrl: "https://...",
                             metrics: { processingTimeMs: 1234, pageCount: 5 },
-                            config: {},
+                            config: { chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } } },
                             usage: { credits: 10 },
                         },
                     },
@@ -2079,13 +2185,35 @@ describe("WorkflowRunsClient", () => {
                                         ],
                                     },
                                 ],
+                                ocr: {
+                                    words: [
+                                        {
+                                            content: "content",
+                                            boundingBox: {
+                                                left: 10,
+                                                top: 10,
+                                                right: 20,
+                                                bottom: 20,
+                                            },
+                                            confidence: 1.1,
+                                            pageNumber: 1.1,
+                                        },
+                                    ],
+                                },
                             },
                             outputUrl: "https://...",
                             metrics: {
                                 processingTimeMs: 1234,
                                 pageCount: 5,
                             },
-                            config: {},
+                            config: {
+                                chunkingStrategy: {
+                                    options: {
+                                        minCharacters: 500,
+                                        maxCharacters: 10000,
+                                    },
+                                },
+                            },
                             usage: {
                                 credits: 10,
                             },

@@ -2,12 +2,14 @@
 
 /**
  * The status of a processor run (extract, classify, or split):
+ * * `"PENDING"` - The run has been created and is waiting to be processed
  * * `"PROCESSING"` - The run is in progress
  * * `"PROCESSED"` - The run completed successfully
  * * `"FAILED"` - The run failed
  * * `"CANCELLED"` - The run was cancelled
  */
 export const ProcessorRunStatus = {
+    Pending: "PENDING",
     Processing: "PROCESSING",
     Processed: "PROCESSED",
     Failed: "FAILED",

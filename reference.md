@@ -1625,6 +1625,106 @@ Example: `"ex_Xj8mK2pL9nR4vT7qY5wZ"`
 </dl>
 </details>
 
+<details><summary><code>client.extractRuns.<a href="/src/api/resources/extractRuns/client/Client.ts">createBatch</a>({ ...params }) -> Extend.BatchRun</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Submit up to **1,000 files** for extraction in a single request. Each file is processed as an independent extract run using the same extractor and configuration.
+
+Unlike the single [Extract File (Async)](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/extract/create-extract-run) endpoint, this batch endpoint accepts an `inputs` array and immediately returns a `BatchRun` object containing a batch `id` and a `PENDING` status. The individual runs are then queued and processed asynchronously.
+
+**Monitoring results:**
+- **Webhooks (recommended):** Subscribe to `batch_processor_run.processed` and `batch_processor_run.failed` events. The webhook payload indicates the batch has finished — fetch individual run results using `GET /extract_runs?batchId={id}`.
+- **Polling:** Call `GET /batch_runs/{id}` to check the overall batch status, and use `GET /extract_runs` filtered by `batchId` to retrieve individual run results.
+
+**Notes:**
+- A processor reference (`extractor.id`) is required — inline `config` is not supported for batch requests.
+- `inputs` must contain between 1 and 1,000 items.
+- All inputs in a batch use the same extractor version and override config.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.extractRuns.createBatch({
+    extractor: {
+        id: "ex_xK9mLPqRtN3vS8wF5hB2cQ"
+    },
+    inputs: [{
+            file: {
+                url: "https://example.com/invoice1.pdf"
+            },
+            metadata: {
+                "customerId": "cust_abc123"
+            }
+        }, {
+            file: {
+                url: "https://example.com/invoice2.pdf"
+            },
+            metadata: {
+                "customerId": "cust_def456"
+            }
+        }, {
+            file: {
+                url: "https://example.com/invoice3.pdf"
+            },
+            metadata: {
+                "customerId": "cust_ghi789"
+            }
+        }]
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.ExtractRunsCreateBatchRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ExtractRunsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Extractors
 <details><summary><code>client.extractors.<a href="/src/api/resources/extractors/client/Client.ts">list</a>({ ...params }) -> Extend.ExtractorsListResponse</code></summary>
 <dl>
@@ -2116,7 +2216,7 @@ Retrieve a specific version of an extractor in Extend
 <dd>
 
 ```typescript
-await client.extractorVersions.retrieve("extractor_id_here", "extractor_version_id_here");
+await client.extractorVersions.retrieve("extractor_id_here", "draft");
 
 ```
 </dd>
@@ -2146,9 +2246,12 @@ Example: `"ex_Xj8mK2pL9nR4vT7qY5wZ"`
 
 **versionId:** `string` 
 
-The ID of the specific extractor version.
+The version to retrieve. Accepts any of the following:
 
-Example: `"extv_QYk6jgHA_8CsO8rVWhyNC"`
+- `"draft"` — returns the current draft version
+- `"latest"` — returns the latest published version (falls back to draft if none published)
+- A version number (e.g. `"0.1"`, `"1.0"`) — returns that specific published version
+- A version ID (e.g. `"extv_QYk6jgHA_8CsO8rVWhyNC"`) — returns that specific version by ID
     
 </dd>
 </dl>
@@ -2524,6 +2627,106 @@ Example: `"cl_Xj8mK2pL9nR4vT7qY5wZ"`
 <dd>
 
 **request:** `Extend.ClassifyRunsCancelRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ClassifyRunsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.classifyRuns.<a href="/src/api/resources/classifyRuns/client/Client.ts">createBatch</a>({ ...params }) -> Extend.BatchRun</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Submit up to **1,000 files** for classification in a single request. Each file is processed as an independent classify run using the same classifier and configuration.
+
+Unlike the single [Classify File (Async)](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/classify/create-classify-run) endpoint, this batch endpoint accepts an `inputs` array and immediately returns a `BatchRun` object containing a batch `id` and a `PENDING` status. The individual runs are then queued and processed asynchronously.
+
+**Monitoring results:**
+- **Webhooks (recommended):** Subscribe to `batch_processor_run.processed` and `batch_processor_run.failed` events. The webhook payload indicates the batch has finished — fetch individual run results using `GET /classify_runs?batchId={id}`.
+- **Polling:** Call `GET /batch_runs/{id}` to check the overall batch status, and use `GET /classify_runs` filtered by `batchId` to retrieve individual run results.
+
+**Notes:**
+- A processor reference (`classifier.id`) is required — inline `config` is not supported for batch requests.
+- `inputs` must contain between 1 and 1,000 items.
+- All inputs in a batch use the same classifier version and override config.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.classifyRuns.createBatch({
+    classifier: {
+        id: "cl_xK9mLPqRtN3vS8wF5hB2cQ"
+    },
+    inputs: [{
+            file: {
+                url: "https://example.com/document1.pdf"
+            },
+            metadata: {
+                "customerId": "cust_abc123"
+            }
+        }, {
+            file: {
+                url: "https://example.com/document2.pdf"
+            },
+            metadata: {
+                "customerId": "cust_def456"
+            }
+        }, {
+            file: {
+                url: "https://example.com/document3.pdf"
+            },
+            metadata: {
+                "customerId": "cust_ghi789"
+            }
+        }]
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.ClassifyRunsCreateBatchRequest` 
     
 </dd>
 </dl>
@@ -3030,7 +3233,7 @@ Retrieve a specific version of a classifier in Extend
 <dd>
 
 ```typescript
-await client.classifierVersions.retrieve("classifier_id_here", "classifier_version_id_here");
+await client.classifierVersions.retrieve("classifier_id_here", "draft");
 
 ```
 </dd>
@@ -3060,9 +3263,12 @@ Example: `"cl_Xj8mK2pL9nR4vT7qY5wZ"`
 
 **versionId:** `string` 
 
-The ID of the specific classifier version.
+The version to retrieve. Accepts any of the following:
 
-Example: `"clsv_QYk6jgHA_8CsO8rVWhyNC"`
+- `"draft"` — returns the current draft version
+- `"latest"` — returns the latest published version (falls back to draft if none published)
+- A version number (e.g. `"0.1"`, `"1.0"`) — returns that specific published version
+- A version ID (e.g. `"clsv_QYk6jgHA_8CsO8rVWhyNC"`) — returns that specific version by ID
     
 </dd>
 </dl>
@@ -3438,6 +3644,107 @@ Example: `"spl_Xj8mK2pL9nR4vT7qY5wZ"`
 <dd>
 
 **request:** `Extend.SplitRunsCancelRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `SplitRunsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.splitRuns.<a href="/src/api/resources/splitRuns/client/Client.ts">createBatch</a>({ ...params }) -> Extend.BatchRun</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Submit up to **1,000 files** for splitting in a single request. Each file is processed as an independent split run using the same splitter and configuration.
+
+Unlike the single [Split File (Async)](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/split/create-split-run) endpoint, this batch endpoint accepts an `inputs` array and immediately returns a `BatchRun` object containing a batch `id` and a `PENDING` status. The individual runs are then queued and processed asynchronously.
+
+**Monitoring results:**
+- **Webhooks (recommended):** Subscribe to `batch_processor_run.processed` and `batch_processor_run.failed` events. The webhook payload indicates the batch has finished — fetch individual run results using `GET /split_runs?batchId={id}`.
+- **Polling:** Call `GET /batch_runs/{id}` to check the overall batch status, and use `GET /split_runs` filtered by `batchId` to retrieve individual run results.
+
+**Notes:**
+- A processor reference (`splitter.id`) is required — inline `config` is not supported for batch requests.
+- `inputs` must contain between 1 and 1,000 items.
+- All inputs in a batch use the same splitter version and override config.
+- Raw text input (`FileFromText`) is not supported for split runs. Use a URL or file ID.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.splitRuns.createBatch({
+    splitter: {
+        id: "spl_xK9mLPqRtN3vS8wF5hB2cQ"
+    },
+    inputs: [{
+            file: {
+                url: "https://example.com/multi-doc1.pdf"
+            },
+            metadata: {
+                "customerId": "cust_abc123"
+            }
+        }, {
+            file: {
+                url: "https://example.com/multi-doc2.pdf"
+            },
+            metadata: {
+                "customerId": "cust_def456"
+            }
+        }, {
+            file: {
+                url: "https://example.com/multi-doc3.pdf"
+            },
+            metadata: {
+                "customerId": "cust_ghi789"
+            }
+        }]
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.SplitRunsCreateBatchRequest` 
     
 </dd>
 </dl>
@@ -3946,7 +4253,7 @@ Retrieve a specific version of a splitter in Extend
 <dd>
 
 ```typescript
-await client.splitterVersions.retrieve("splitter_id_here", "splitter_version_id_here");
+await client.splitterVersions.retrieve("splitter_id_here", "draft");
 
 ```
 </dd>
@@ -3976,9 +4283,12 @@ Example: `"spl_Xj8mK2pL9nR4vT7qY5wZ"`
 
 **versionId:** `string` 
 
-The ID of the specific splitter version.
+The version to retrieve. Accepts any of the following:
 
-Example: `"splv_QYk6jgHA_8CsO8rVWhyNC"`
+- `"draft"` — returns the current draft version
+- `"latest"` — returns the latest published version (falls back to draft if none published)
+- A version number (e.g. `"0.1"`, `"1.0"`) — returns that specific published version
+- A version ID (e.g. `"splv_QYk6jgHA_8CsO8rVWhyNC"`) — returns that specific version by ID
     
 </dd>
 </dl>
@@ -4439,11 +4749,6 @@ await client.workflowVersions.create("workflow_abc123");
 <dd>
 
 Get a specific version of a workflow, including its step definitions.
-
-The `versionId` parameter accepts:
-- `"draft"` — returns the current draft version
-- A version number (e.g. `"1"`, `"2"`) — returns that deployed version
-- An internal version ID (e.g. `"workflow_version_abc123"`) — returns that specific version
 </dd>
 </dl>
 </dd>
@@ -4482,7 +4787,14 @@ await client.workflowVersions.retrieve("workflow_abc123", "draft");
 <dl>
 <dd>
 
-**versionId:** `string` — The version to retrieve. Use `"draft"` for the draft, a number like `"1"` for a deployed version, or the internal version ID.
+**versionId:** `string` 
+
+The version to retrieve. Accepts any of the following:
+
+- `"draft"` — returns the current draft version
+- `"latest"` — returns the latest published version (falls back to draft if none published)
+- A version number (e.g. `"1"`, `"2"`) — returns that specific published version
+- A version ID (e.g. `"workflow_version_abc123"`) — returns that specific version by ID
     
 </dd>
 </dl>
@@ -5931,6 +6243,89 @@ Example: `"bpr_Xj8mK2pL9nR4vT7qY5wZ"`
 <dd>
 
 **requestOptions:** `BatchProcessorRunClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## BatchRuns
+<details><summary><code>client.batchRuns.<a href="/src/api/resources/batchRuns/client/Client.ts">get</a>(id) -> Extend.BatchRun</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve the status of a batch run by its ID. The `status` field reflects the aggregate state of the batch.
+
+This is a unified endpoint that works for batches created via any of the batch submission endpoints (`POST /extract_runs/batch`, `POST /classify_runs/batch`, `POST /split_runs/batch`).
+
+| Status | Meaning |
+|---|---|
+| `PENDING` | Queued, not yet started |
+| `PROCESSING` | Runs are actively being processed |
+| `PROCESSED` | All runs have completed |
+| `FAILED` | The batch encountered a fatal error |
+| `CANCELLED` | The batch was cancelled |
+
+To retrieve individual run results, use the List endpoint for the relevant processor type filtered by `batchId`:
+- `GET /extract_runs?batchId={id}`
+- `GET /classify_runs?batchId={id}`
+- `GET /split_runs?batchId={id}`
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.batchRuns.get("bpr_Xj8mK2pL9nR4vT7qY5wZ");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+
+The unique identifier of the batch processor run to retrieve.
+
+Example: `"bpr_Xj8mK2pL9nR4vT7qY5wZ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `BatchRunsClient.RequestOptions` 
     
 </dd>
 </dl>

@@ -58,6 +58,7 @@ export class SplitRunsClient {
         const {
             status,
             splitterId,
+            batchId,
             sourceId,
             source,
             fileNameContains,
@@ -70,6 +71,7 @@ export class SplitRunsClient {
         const _queryParams: Record<string, unknown> = {
             status: status != null ? status : undefined,
             splitterId,
+            batchId,
             sourceId,
             source: source != null ? source : undefined,
             fileNameContains,
@@ -553,5 +555,138 @@ export class SplitRunsClient {
         }
 
         return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/split_runs/{id}/cancel");
+    }
+
+    /**
+     * Submit up to **1,000 files** for splitting in a single request. Each file is processed as an independent split run using the same splitter and configuration.
+     *
+     * Unlike the single [Split File (Async)](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/split/create-split-run) endpoint, this batch endpoint accepts an `inputs` array and immediately returns a `BatchRun` object containing a batch `id` and a `PENDING` status. The individual runs are then queued and processed asynchronously.
+     *
+     * **Monitoring results:**
+     * - **Webhooks (recommended):** Subscribe to `batch_processor_run.processed` and `batch_processor_run.failed` events. The webhook payload indicates the batch has finished — fetch individual run results using `GET /split_runs?batchId={id}`.
+     * - **Polling:** Call `GET /batch_runs/{id}` to check the overall batch status, and use `GET /split_runs` filtered by `batchId` to retrieve individual run results.
+     *
+     * **Notes:**
+     * - A processor reference (`splitter.id`) is required — inline `config` is not supported for batch requests.
+     * - `inputs` must contain between 1 and 1,000 items.
+     * - All inputs in a batch use the same splitter version and override config.
+     * - Raw text input (`FileFromText`) is not supported for split runs. Use a URL or file ID.
+     *
+     * @param {Extend.SplitRunsCreateBatchRequest} request
+     * @param {SplitRunsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.PaymentRequiredError}
+     * @throws {@link Extend.ForbiddenError}
+     * @throws {@link Extend.NotFoundError}
+     * @throws {@link Extend.UnprocessableEntityError}
+     * @throws {@link Extend.TooManyRequestsError}
+     * @throws {@link Extend.InternalServerError}
+     *
+     * @example
+     *     await client.splitRuns.createBatch({
+     *         splitter: {
+     *             id: "spl_xK9mLPqRtN3vS8wF5hB2cQ"
+     *         },
+     *         inputs: [{
+     *                 file: {
+     *                     url: "https://example.com/multi-doc1.pdf"
+     *                 },
+     *                 metadata: {
+     *                     "customerId": "cust_abc123"
+     *                 }
+     *             }, {
+     *                 file: {
+     *                     url: "https://example.com/multi-doc2.pdf"
+     *                 },
+     *                 metadata: {
+     *                     "customerId": "cust_def456"
+     *                 }
+     *             }, {
+     *                 file: {
+     *                     url: "https://example.com/multi-doc3.pdf"
+     *                 },
+     *                 metadata: {
+     *                     "customerId": "cust_ghi789"
+     *                 }
+     *             }]
+     *     })
+     */
+    public createBatch(
+        request: Extend.SplitRunsCreateBatchRequest,
+        requestOptions?: SplitRunsClient.RequestOptions,
+    ): core.HttpResponsePromise<Extend.BatchRun> {
+        return core.HttpResponsePromise.fromPromise(this.__createBatch(request, requestOptions));
+    }
+
+    private async __createBatch(
+        request: Extend.SplitRunsCreateBatchRequest,
+        requestOptions?: SplitRunsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.BatchRun>> {
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                "split_runs/batch",
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryParameters: requestOptions?.queryParams,
+            requestType: "json",
+            body: request,
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 300) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.BatchRun, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new Extend.PaymentRequiredError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Extend.ForbiddenError(_response.error.body as Extend.ApiError, _response.rawResponse);
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 422:
+                    throw new Extend.UnprocessableEntityError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new Extend.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Extend.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/split_runs/batch");
     }
 }

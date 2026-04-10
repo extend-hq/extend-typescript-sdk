@@ -42,4 +42,14 @@ export interface ParseConfigAdvancedOptions {
      * * `low`: Lower quality, smaller file sizes, faster processing
      */
     imageConversionQuality?: Extend.ParseConfigAdvancedOptionsImageConversionQuality;
+    /**
+     * Enable detection of formatting-based annotations in the document. Currently supports change tracking detection.
+     *
+     * When enabled, detected changes are represented inline within the `content` field of applicable blocks using standard HTML change-tracking elements: [`<ins>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ins) for insertions and [`<del>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/del) for deletions, grouped inside a `<change>` wrapper.
+     *
+     * Affected block types: `text`, `heading`, `section_heading`, `header`, `footer`.
+     *
+     * **Note:** Requires `engine: "parse_performance"` with `engineVersion >= "2.0.0"`.
+     */
+    formattingDetection?: Extend.ParseConfigAdvancedOptionsFormattingDetectionItem[];
 }
