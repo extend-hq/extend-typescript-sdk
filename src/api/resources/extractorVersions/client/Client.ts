@@ -257,9 +257,12 @@ export class ExtractorVersionsClient {
      * @param {string} extractorId - The ID of the extractor.
      *
      *                               Example: `"ex_Xj8mK2pL9nR4vT7qY5wZ"`
-     * @param {string} versionId - The ID of the specific extractor version.
+     * @param {string} versionId - The version to retrieve. Accepts any of the following:
      *
-     *                             Example: `"extv_QYk6jgHA_8CsO8rVWhyNC"`
+     *                             - `"draft"` — returns the current draft version
+     *                             - `"latest"` — returns the latest published version (falls back to draft if none published)
+     *                             - A version number (e.g. `"0.1"`, `"1.0"`) — returns that specific published version
+     *                             - A version ID (e.g. `"extv_QYk6jgHA_8CsO8rVWhyNC"`) — returns that specific version by ID
      * @param {Extend.ExtractorVersionsRetrieveRequest} request
      * @param {ExtractorVersionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -273,7 +276,7 @@ export class ExtractorVersionsClient {
      * @throws {@link Extend.InternalServerError}
      *
      * @example
-     *     await client.extractorVersions.retrieve("extractor_id_here", "extractor_version_id_here")
+     *     await client.extractorVersions.retrieve("extractor_id_here", "draft")
      */
     public retrieve(
         extractorId: string,

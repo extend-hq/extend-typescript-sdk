@@ -3,9 +3,9 @@
 /**
  * Event types available for resource-scoped webhook subscriptions. The valid subset depends on the `resourceType`:
  *
- * - **extractor**: `extract_run.processed`, `extract_run.failed`
- * - **classifier**: `classify_run.processed`, `classify_run.failed`
- * - **splitter**: `split_run.processed`, `split_run.failed`
+ * - **extractor**: `extract_run.processed`, `extract_run.failed`, `batch_processor_run.processed`, `batch_processor_run.failed`
+ * - **classifier**: `classify_run.processed`, `classify_run.failed`, `batch_processor_run.processed`, `batch_processor_run.failed`
+ * - **splitter**: `split_run.processed`, `split_run.failed`, `batch_processor_run.processed`, `batch_processor_run.failed`
  * - **workflow**: `workflow_run.completed`, `workflow_run.failed`, `workflow_run.needs_review`, `workflow_run.rejected`, `workflow_run.cancelled`, `workflow_run.step_run.processed`
  */
 export const WebhookSubscriptionEventType = {
@@ -15,6 +15,8 @@ export const WebhookSubscriptionEventType = {
     ClassifyRunFailed: "classify_run.failed",
     SplitRunProcessed: "split_run.processed",
     SplitRunFailed: "split_run.failed",
+    BatchProcessorRunProcessed: "batch_processor_run.processed",
+    BatchProcessorRunFailed: "batch_processor_run.failed",
     WorkflowRunCompleted: "workflow_run.completed",
     WorkflowRunFailed: "workflow_run.failed",
     WorkflowRunNeedsReview: "workflow_run.needs_review",

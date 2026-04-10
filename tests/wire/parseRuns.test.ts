@@ -81,6 +81,7 @@ describe("ParseRunsClient", () => {
                     alwaysConvertToPdf: true,
                     enrichmentFormat: "xml",
                     imageConversionQuality: "high",
+                    formattingDetection: [{ type: "change_tracking" }],
                 },
             },
             usage: { credits: 10 },
@@ -217,6 +218,11 @@ describe("ParseRunsClient", () => {
                     alwaysConvertToPdf: true,
                     enrichmentFormat: "xml",
                     imageConversionQuality: "high",
+                    formattingDetection: [
+                        {
+                            type: "change_tracking",
+                        },
+                    ],
                 },
             },
             usage: {
@@ -485,6 +491,7 @@ describe("ParseRunsClient", () => {
                     alwaysConvertToPdf: true,
                     enrichmentFormat: "xml",
                     imageConversionQuality: "high",
+                    formattingDetection: [{ type: "change_tracking" }],
                 },
             },
             usage: { credits: 10 },
@@ -615,6 +622,11 @@ describe("ParseRunsClient", () => {
                     alwaysConvertToPdf: true,
                     enrichmentFormat: "xml",
                     imageConversionQuality: "high",
+                    formattingDetection: [
+                        {
+                            type: "change_tracking",
+                        },
+                    ],
                 },
             },
             usage: {

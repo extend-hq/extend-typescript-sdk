@@ -2,6 +2,7 @@
 
 import * as Extend from "./api/index";
 import { BatchProcessorRunClient } from "./api/resources/batchProcessorRun/client/Client";
+import { BatchRunsClient } from "./api/resources/batchRuns/client/Client";
 import { ClassifiersClient } from "./api/resources/classifiers/client/Client";
 import { ClassifierVersionsClient } from "./api/resources/classifierVersions/client/Client";
 import { ClassifyRunsClient } from "./api/resources/classifyRuns/client/Client";
@@ -62,6 +63,7 @@ export class ExtendClient {
     protected _processor: ProcessorClient | undefined;
     protected _processorVersion: ProcessorVersionClient | undefined;
     protected _batchProcessorRun: BatchProcessorRunClient | undefined;
+    protected _batchRuns: BatchRunsClient | undefined;
     protected _evaluationSets: EvaluationSetsClient | undefined;
     protected _evaluationSetItems: EvaluationSetItemsClient | undefined;
     protected _evaluationSetRuns: EvaluationSetRunsClient | undefined;
@@ -150,6 +152,10 @@ export class ExtendClient {
 
     public get batchProcessorRun(): BatchProcessorRunClient {
         return (this._batchProcessorRun ??= new BatchProcessorRunClient(this._options));
+    }
+
+    public get batchRuns(): BatchRunsClient {
+        return (this._batchRuns ??= new BatchRunsClient(this._options));
     }
 
     public get evaluationSets(): EvaluationSetsClient {

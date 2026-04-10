@@ -4,7 +4,7 @@ import type * as Extend from "../index";
 
 export interface LegacyListProcessorsResponse {
     /** Indicates the request was successful */
-    success: boolean;
+    success: true;
     /** Optional warning message */
     warning?: string | null;
     /** Array of processors */

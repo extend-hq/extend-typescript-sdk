@@ -2,29 +2,22 @@
 
 import type * as Extend from "../index";
 
+/**
+ * A batch run represents a batch of files submitted for processing via one of the batch endpoints (`POST /extract_runs/batch`, `POST /classify_runs/batch`, or `POST /split_runs/batch`). Use `GET /batch_runs/{id}` to poll the status.
+ *
+ * **Note:** This object is not used for workflow batch runs. See `POST /workflow_runs/batch` for workflow batching.
+ */
 export interface BatchRun {
-    /** The type of object. In this case, it will always be `"batch_run"`. */
+    /** The type of object. Always `"batch_run"`. */
     object: "batch_run";
     /**
      * The unique identifier for this batch run.
      *
-     * Example: `"batch_run_Xj8mK2pL9nR4vT7qY5wZ"`
+     * Example: `"bpr_Xj8mK2pL9nR4vT7qY5wZ"`
      */
     id: string;
-    /**
-     * The extractor, classifier, or splitter that was run.
-     *
-     * **Availability:** Present when an entity was provided when creating the batch run.
-     */
-    entity: Extend.BatchRunEntity | null;
-    /**
-     * The version of the extractor, classifier, or splitter that was run.
-     *
-     * **Availability:** Present when an entity was provided when creating the batch run.
-     */
-    entityVersion: Extend.BatchRunEntityVersion | null;
     status: Extend.BatchRunStatus;
-    metrics: Extend.BatchRunMetrics;
+    /** The number of individual runs in this batch. */
+    runCount: number;
     createdAt: Extend.CreatedAt;
-    updatedAt: Extend.UpdatedAt;
 }

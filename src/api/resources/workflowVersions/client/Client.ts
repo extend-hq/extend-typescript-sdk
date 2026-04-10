@@ -228,13 +228,13 @@ export class WorkflowVersionsClient {
     /**
      * Get a specific version of a workflow, including its step definitions.
      *
-     * The `versionId` parameter accepts:
-     * - `"draft"` — returns the current draft version
-     * - A version number (e.g. `"1"`, `"2"`) — returns that deployed version
-     * - An internal version ID (e.g. `"workflow_version_abc123"`) — returns that specific version
-     *
      * @param {string} id - The ID of the workflow.
-     * @param {string} versionId - The version to retrieve. Use `"draft"` for the draft, a number like `"1"` for a deployed version, or the internal version ID.
+     * @param {string} versionId - The version to retrieve. Accepts any of the following:
+     *
+     *                             - `"draft"` — returns the current draft version
+     *                             - `"latest"` — returns the latest published version (falls back to draft if none published)
+     *                             - A version number (e.g. `"1"`, `"2"`) — returns that specific published version
+     *                             - A version ID (e.g. `"workflow_version_abc123"`) — returns that specific version by ID
      * @param {WorkflowVersionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
