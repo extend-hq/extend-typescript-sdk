@@ -79,7 +79,7 @@ export class ParserRun {
         request: Extend.ParserRunGetRequest = {},
         requestOptions?: ParserRun.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ParserRunGetResponse>> {
-        const { responseType } = request;
+        const { responseType, "x-extend-workspace-id": extendWorkspaceId } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (responseType != null) {
             _queryParams["responseType"] = responseType;
@@ -89,6 +89,7 @@ export class ParserRun {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -153,6 +154,7 @@ export class ParserRun {
      * @param {string} id - The ID of the parser run to delete.
      *
      *                      Example: `"parser_run_xK9mLPqRtN3vS8wF5hB2cQ"`
+     * @param {Extend.ParserRunDeleteRequest} request
      * @param {ParserRun.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.NotFoundError}
@@ -163,19 +165,23 @@ export class ParserRun {
      */
     public delete(
         id: string,
+        request: Extend.ParserRunDeleteRequest = {},
         requestOptions?: ParserRun.RequestOptions,
     ): core.HttpResponsePromise<Extend.ParserRunDeleteResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__delete(id, request, requestOptions));
     }
 
     private async __delete(
         id: string,
+        request: Extend.ParserRunDeleteRequest = {},
         requestOptions?: ParserRun.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ParserRunDeleteResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,

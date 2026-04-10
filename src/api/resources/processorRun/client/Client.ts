@@ -89,6 +89,7 @@ export class ProcessorRun {
             sortDir,
             nextPageToken,
             maxPageSize,
+            "x-extend-workspace-id": extendWorkspaceId,
         } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (status != null) {
@@ -135,6 +136,7 @@ export class ProcessorRun {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -297,6 +299,7 @@ export class ProcessorRun {
      * @param {string} id - The unique identifier for this processor run.
      *
      *                      Example: `"dpr_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.ProcessorRunGetRequest} request
      * @param {ProcessorRun.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -308,19 +311,23 @@ export class ProcessorRun {
      */
     public get(
         id: string,
+        request: Extend.ProcessorRunGetRequest = {},
         requestOptions?: ProcessorRun.RequestOptions,
     ): core.HttpResponsePromise<Extend.ProcessorRunGetResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__get(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__get(id, request, requestOptions));
     }
 
     private async __get(
         id: string,
+        request: Extend.ProcessorRunGetRequest = {},
         requestOptions?: ProcessorRun.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ProcessorRunGetResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -385,6 +392,7 @@ export class ProcessorRun {
      * @param {string} id - The ID of the processor run to delete.
      *
      *                      Example: `"dpr_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.ProcessorRunDeleteRequest} request
      * @param {ProcessorRun.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.NotFoundError}
@@ -395,19 +403,23 @@ export class ProcessorRun {
      */
     public delete(
         id: string,
+        request: Extend.ProcessorRunDeleteRequest = {},
         requestOptions?: ProcessorRun.RequestOptions,
     ): core.HttpResponsePromise<Extend.ProcessorRunDeleteResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__delete(id, request, requestOptions));
     }
 
     private async __delete(
         id: string,
+        request: Extend.ProcessorRunDeleteRequest = {},
         requestOptions?: ProcessorRun.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ProcessorRunDeleteResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -470,6 +482,7 @@ export class ProcessorRun {
      * @param {string} id - The unique identifier for the processor run to cancel.
      *
      *                      Example: `"dpr_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.ProcessorRunCancelRequest} request
      * @param {ProcessorRun.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -481,19 +494,23 @@ export class ProcessorRun {
      */
     public cancel(
         id: string,
+        request: Extend.ProcessorRunCancelRequest = {},
         requestOptions?: ProcessorRun.RequestOptions,
     ): core.HttpResponsePromise<Extend.ProcessorRunCancelResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__cancel(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__cancel(id, request, requestOptions));
     }
 
     private async __cancel(
         id: string,
+        request: Extend.ProcessorRunCancelRequest = {},
         requestOptions?: ProcessorRun.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ProcessorRunCancelResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,

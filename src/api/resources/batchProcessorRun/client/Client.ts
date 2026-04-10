@@ -50,6 +50,7 @@ export class BatchProcessorRun {
      * @param {string} id - The unique identifier of the batch processor run to retrieve. The ID will always start with "bpr_".
      *
      *                      Example: `"bpr_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.BatchProcessorRunGetRequest} request
      * @param {BatchProcessorRun.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -61,19 +62,23 @@ export class BatchProcessorRun {
      */
     public get(
         id: string,
+        request: Extend.BatchProcessorRunGetRequest = {},
         requestOptions?: BatchProcessorRun.RequestOptions,
     ): core.HttpResponsePromise<Extend.BatchProcessorRunGetResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__get(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__get(id, request, requestOptions));
     }
 
     private async __get(
         id: string,
+        request: Extend.BatchProcessorRunGetRequest = {},
         requestOptions?: BatchProcessorRun.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.BatchProcessorRunGetResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,

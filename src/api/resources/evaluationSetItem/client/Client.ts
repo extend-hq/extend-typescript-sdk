@@ -80,7 +80,7 @@ export class EvaluationSetItem {
         request: Extend.EvaluationSetItemListRequest = {},
         requestOptions?: EvaluationSetItem.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EvaluationSetItemListResponse>> {
-        const { sortBy, sortDir, nextPageToken, maxPageSize } = request;
+        const { sortBy, sortDir, nextPageToken, maxPageSize, "x-extend-workspace-id": extendWorkspaceId } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (sortBy != null) {
             _queryParams["sortBy"] = sortBy;
@@ -102,6 +102,7 @@ export class EvaluationSetItem {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -301,10 +302,12 @@ export class EvaluationSetItem {
         request: Extend.EvaluationSetItemUpdateRequest,
         requestOptions?: EvaluationSetItem.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EvaluationSetItemUpdateResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId, ..._body } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -321,7 +324,7 @@ export class EvaluationSetItem {
             contentType: "application/json",
             queryParameters: requestOptions?.queryParams,
             requestType: "json",
-            body: request,
+            body: _body,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -375,6 +378,7 @@ export class EvaluationSetItem {
      * @param {string} id - The ID of the evaluation set item to delete.
      *
      *                      Example: `"evi_kR9mNP12Qw4yTv8BdR3H"`
+     * @param {Extend.EvaluationSetItemDeleteRequest} request
      * @param {EvaluationSetItem.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.NotFoundError}
@@ -385,19 +389,23 @@ export class EvaluationSetItem {
      */
     public delete(
         id: string,
+        request: Extend.EvaluationSetItemDeleteRequest = {},
         requestOptions?: EvaluationSetItem.RequestOptions,
     ): core.HttpResponsePromise<Extend.EvaluationSetItemDeleteResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__delete(id, request, requestOptions));
     }
 
     private async __delete(
         id: string,
+        request: Extend.EvaluationSetItemDeleteRequest = {},
         requestOptions?: EvaluationSetItem.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EvaluationSetItemDeleteResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,

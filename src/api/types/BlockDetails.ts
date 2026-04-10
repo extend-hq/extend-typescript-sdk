@@ -11,4 +11,5 @@ export type BlockDetails =
     | Extend.TableDetails
     | Extend.TableCellDetails
     | Extend.FigureDetails
+    | Extend.KeyValueDetails
     | Extend.EmptyBlockDetails;

@@ -47,6 +47,8 @@ export interface EditJsonSchema {
     "extend_edit:column_width"?: number;
     /** The value to fill into this field. Can be any type. This will force the value at this field to be filled with this value. If a value is not provided, we will attempt to generate or infer one based on the instructions. */
     "extend_edit:value"?: unknown;
+    /** Image fill for signature fields. Only PNG and JPEG image URLs are supported. */
+    "extend_edit:image"?: Extend.EditJsonSchemaExtendEditImage;
     /** Array of row height percentages for array/table fields (e.g. [0.25, 0.50, 0.25]) */
     "extend_edit:row_heights"?: number[];
     /** Schema for array items (when type is "array"). Must be an EditObjectJSONSchema. */

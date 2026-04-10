@@ -74,7 +74,13 @@ export class File_ {
         request: Extend.FileListRequest = {},
         requestOptions?: File_.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.FileListResponse>> {
-        const { nameContains, sortDir, nextPageToken, maxPageSize } = request;
+        const {
+            nameContains,
+            sortDir,
+            nextPageToken,
+            maxPageSize,
+            "x-extend-workspace-id": extendWorkspaceId,
+        } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (nameContains != null) {
             _queryParams["nameContains"] = nameContains;
@@ -96,6 +102,7 @@ export class File_ {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -182,7 +189,7 @@ export class File_ {
         request: Extend.FileGetRequest = {},
         requestOptions?: File_.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.FileGetResponse>> {
-        const { rawText, markdown, html } = request;
+        const { rawText, markdown, html, "x-extend-workspace-id": extendWorkspaceId } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (rawText != null) {
             _queryParams["rawText"] = rawText.toString();
@@ -200,6 +207,7 @@ export class File_ {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -262,6 +270,7 @@ export class File_ {
      * @param {string} id - The ID of the file to delete.
      *
      *                      Example: `"file_xK9mLPqRtN3vS8wF5hB2cQ"`
+     * @param {Extend.FileDeleteRequest} request
      * @param {File_.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.NotFoundError}
@@ -272,19 +281,23 @@ export class File_ {
      */
     public delete(
         id: string,
+        request: Extend.FileDeleteRequest = {},
         requestOptions?: File_.RequestOptions,
     ): core.HttpResponsePromise<Extend.FileDeleteResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__delete(id, request, requestOptions));
     }
 
     private async __delete(
         id: string,
+        request: Extend.FileDeleteRequest = {},
         requestOptions?: File_.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.FileDeleteResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -388,6 +401,8 @@ export class File_ {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id":
+                    request.x - extend - workspace - id != null ? request.x - extend - workspace - id : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
                 ..._maybeEncodedRequest.headers,
             }),

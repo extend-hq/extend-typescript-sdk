@@ -117,6 +117,7 @@ describe("ProcessorRun", () => {
                             { start: 20, end: 30 },
                         ],
                     },
+                    parser: { chunkingStrategy: { options: { minCharacters: 100, maxCharacters: 1000 } } },
                 },
                 files: [
                     {
@@ -192,6 +193,14 @@ describe("ProcessorRun", () => {
                                 end: 30,
                             },
                         ],
+                    },
+                    parser: {
+                        chunkingStrategy: {
+                            options: {
+                                minCharacters: 100,
+                                maxCharacters: 1000,
+                            },
+                        },
                     },
                 },
                 files: [
@@ -412,6 +421,7 @@ describe("ProcessorRun", () => {
                             { start: 20, end: 30 },
                         ],
                     },
+                    parser: { chunkingStrategy: { options: { minCharacters: 100, maxCharacters: 1000 } } },
                 },
                 initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                 reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
@@ -422,6 +432,20 @@ describe("ProcessorRun", () => {
                         name: "Invoices.pdf",
                         presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                         parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                        contents: {
+                            pages: [
+                                {
+                                    pageNumber: 1,
+                                    pageHeight: 10,
+                                    pageWidth: 10,
+                                    rawText: "This is the raw text of the page.",
+                                    markdown:
+                                        "# Heading\n\nThis is a paragraph with **bold** and *italic* text.\n\n- List item 1\n- List item 2\n\n> This is a blockquote",
+                                    html: "<div>This is the html of the page.</div>",
+                                },
+                            ],
+                            sheets: [{ sheetName: "Sheet1", rawText: "This is the raw text of the sheet." }],
+                        },
                         metadata: {
                             pageCount: 30,
                             parentSplit: {
@@ -517,6 +541,14 @@ describe("ProcessorRun", () => {
                             },
                         ],
                     },
+                    parser: {
+                        chunkingStrategy: {
+                            options: {
+                                minCharacters: 100,
+                                maxCharacters: 1000,
+                            },
+                        },
+                    },
                 },
                 initialOutput: {
                     value: {
@@ -545,6 +577,25 @@ describe("ProcessorRun", () => {
                         name: "Invoices.pdf",
                         presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                         parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                        contents: {
+                            pages: [
+                                {
+                                    pageNumber: 1,
+                                    pageHeight: 10,
+                                    pageWidth: 10,
+                                    rawText: "This is the raw text of the page.",
+                                    markdown:
+                                        "# Heading\n\nThis is a paragraph with **bold** and *italic* text.\n\n- List item 1\n- List item 2\n\n> This is a blockquote",
+                                    html: "<div>This is the html of the page.</div>",
+                                },
+                            ],
+                            sheets: [
+                                {
+                                    sheetName: "Sheet1",
+                                    rawText: "This is the raw text of the sheet.",
+                                },
+                            ],
+                        },
                         metadata: {
                             pageCount: 30,
                             parentSplit: {
@@ -715,6 +766,7 @@ describe("ProcessorRun", () => {
                             { start: 20, end: 30 },
                         ],
                     },
+                    parser: { chunkingStrategy: { options: { minCharacters: 100, maxCharacters: 1000 } } },
                 },
                 initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
                 reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: undefined } } },
@@ -725,6 +777,20 @@ describe("ProcessorRun", () => {
                         name: "Invoices.pdf",
                         presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                         parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                        contents: {
+                            pages: [
+                                {
+                                    pageNumber: 1,
+                                    pageHeight: 10,
+                                    pageWidth: 10,
+                                    rawText: "This is the raw text of the page.",
+                                    markdown:
+                                        "# Heading\n\nThis is a paragraph with **bold** and *italic* text.\n\n- List item 1\n- List item 2\n\n> This is a blockquote",
+                                    html: "<div>This is the html of the page.</div>",
+                                },
+                            ],
+                            sheets: [{ sheetName: "Sheet1", rawText: "This is the raw text of the sheet." }],
+                        },
                         metadata: {
                             pageCount: 30,
                             parentSplit: {
@@ -820,6 +886,14 @@ describe("ProcessorRun", () => {
                             },
                         ],
                     },
+                    parser: {
+                        chunkingStrategy: {
+                            options: {
+                                minCharacters: 100,
+                                maxCharacters: 1000,
+                            },
+                        },
+                    },
                 },
                 initialOutput: {
                     value: {
@@ -848,6 +922,25 @@ describe("ProcessorRun", () => {
                         name: "Invoices.pdf",
                         presignedUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                         parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                        contents: {
+                            pages: [
+                                {
+                                    pageNumber: 1,
+                                    pageHeight: 10,
+                                    pageWidth: 10,
+                                    rawText: "This is the raw text of the page.",
+                                    markdown:
+                                        "# Heading\n\nThis is a paragraph with **bold** and *italic* text.\n\n- List item 1\n- List item 2\n\n> This is a blockquote",
+                                    html: "<div>This is the html of the page.</div>",
+                                },
+                            ],
+                            sheets: [
+                                {
+                                    sheetName: "Sheet1",
+                                    rawText: "This is the raw text of the sheet.",
+                                },
+                            ],
+                        },
                         metadata: {
                             pageCount: 30,
                             parentSplit: {

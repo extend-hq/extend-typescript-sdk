@@ -8,6 +8,7 @@ import * as Extend from "../index";
  * Webhook event for processor version related events
  */
 export interface WebhookEventProcessorVersion {
+    /** Type of the event that occurred */
     eventType?: "processor.version.published";
     payload?: Extend.ProcessorVersion;
     /** Unique identifier for the event */

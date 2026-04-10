@@ -76,7 +76,17 @@ export class WorkflowRun {
         request: Extend.WorkflowRunListRequest = {},
         requestOptions?: WorkflowRun.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.WorkflowRunListResponse>> {
-        const { status, workflowId, batchId, fileNameContains, sortBy, sortDir, nextPageToken, maxPageSize } = request;
+        const {
+            status,
+            workflowId,
+            batchId,
+            fileNameContains,
+            sortBy,
+            sortDir,
+            nextPageToken,
+            maxPageSize,
+            "x-extend-workspace-id": extendWorkspaceId,
+        } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (status != null) {
             _queryParams["status"] = status;
@@ -114,6 +124,7 @@ export class WorkflowRun {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -260,6 +271,7 @@ export class WorkflowRun {
      * @param {string} workflowRunId - The ID of the WorkflowRun that was outputted after a Workflow was run through the API.
      *
      *                                 Example: `"workflow_run_8k9m-xyzAB_Pqrst-Nvw4"`
+     * @param {Extend.WorkflowRunGetRequest} request
      * @param {WorkflowRun.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -271,19 +283,23 @@ export class WorkflowRun {
      */
     public get(
         workflowRunId: string,
+        request: Extend.WorkflowRunGetRequest = {},
         requestOptions?: WorkflowRun.RequestOptions,
     ): core.HttpResponsePromise<Extend.WorkflowRunGetResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__get(workflowRunId, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__get(workflowRunId, request, requestOptions));
     }
 
     private async __get(
         workflowRunId: string,
+        request: Extend.WorkflowRunGetRequest = {},
         requestOptions?: WorkflowRun.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.WorkflowRunGetResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -371,10 +387,12 @@ export class WorkflowRun {
         request: Extend.WorkflowRunUpdateRequest = {},
         requestOptions?: WorkflowRun.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.WorkflowRunUpdateResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId, ..._body } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -391,7 +409,7 @@ export class WorkflowRun {
             contentType: "application/json",
             queryParameters: requestOptions?.queryParams,
             requestType: "json",
-            body: request,
+            body: _body,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -444,6 +462,7 @@ export class WorkflowRun {
      * @param {string} workflowRunId - The ID of the workflow run to delete.
      *
      *                                 Example: `"workflow_run_xKm9pNv3qWsY_jL2tR5Dh"`
+     * @param {Extend.WorkflowRunDeleteRequest} request
      * @param {WorkflowRun.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.NotFoundError}
@@ -454,19 +473,23 @@ export class WorkflowRun {
      */
     public delete(
         workflowRunId: string,
+        request: Extend.WorkflowRunDeleteRequest = {},
         requestOptions?: WorkflowRun.RequestOptions,
     ): core.HttpResponsePromise<Extend.WorkflowRunDeleteResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(workflowRunId, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__delete(workflowRunId, request, requestOptions));
     }
 
     private async __delete(
         workflowRunId: string,
+        request: Extend.WorkflowRunDeleteRequest = {},
         requestOptions?: WorkflowRun.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.WorkflowRunDeleteResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -531,6 +554,7 @@ export class WorkflowRun {
      * @param {string} workflowRunId - The ID of the workflow run to cancel.
      *
      *                                 Example: `"workflow_run_xKm9pNv3qWsY_jL2tR5Dh"`
+     * @param {Extend.WorkflowRunCancelRequest} request
      * @param {WorkflowRun.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -543,19 +567,23 @@ export class WorkflowRun {
      */
     public cancel(
         workflowRunId: string,
+        request: Extend.WorkflowRunCancelRequest = {},
         requestOptions?: WorkflowRun.RequestOptions,
     ): core.HttpResponsePromise<Extend.WorkflowRunCancelResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__cancel(workflowRunId, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__cancel(workflowRunId, request, requestOptions));
     }
 
     private async __cancel(
         workflowRunId: string,
+        request: Extend.WorkflowRunCancelRequest = {},
         requestOptions?: WorkflowRun.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.WorkflowRunCancelResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,

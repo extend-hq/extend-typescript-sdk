@@ -6,7 +6,7 @@ import * as Extend from "../index";
 
 export interface ListProcessorsResponse {
     /** Indicates the request was successful */
-    success: boolean;
+    success: true;
     /** Optional warning message */
     warning?: string;
     /** Array of processors */

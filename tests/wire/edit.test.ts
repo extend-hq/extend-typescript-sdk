@@ -27,8 +27,18 @@ describe("Edit", () => {
             },
             failureReason: "failureReason",
             config: {
-                schema: { type: "object", properties: { key: {} }, required: ["required"], additionalProperties: true },
+                schema: {
+                    type: "object",
+                    properties: { key: {} },
+                    required: ["required"],
+                    additionalProperties: true,
+                    dependentRequired: { key: ["value"] },
+                    allOf: [{}],
+                    oneOf: [{}],
+                    anyOf: [{}],
+                },
                 instructions: "instructions",
+                schemaGenerationInstructions: "schemaGenerationInstructions",
                 advancedOptions: {
                     flattenPdf: true,
                     tableParsingEnabled: true,
@@ -82,8 +92,15 @@ describe("Edit", () => {
                     },
                     required: ["required"],
                     additionalProperties: true,
+                    dependentRequired: {
+                        key: ["value"],
+                    },
+                    allOf: [{}],
+                    oneOf: [{}],
+                    anyOf: [{}],
                 },
                 instructions: "instructions",
+                schemaGenerationInstructions: "schemaGenerationInstructions",
                 advancedOptions: {
                     flattenPdf: true,
                     tableParsingEnabled: true,

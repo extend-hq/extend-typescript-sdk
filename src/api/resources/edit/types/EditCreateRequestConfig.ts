@@ -11,6 +11,8 @@ export interface EditCreateRequestConfig {
     schema?: Extend.EditRootJsonSchema;
     /** Custom instructions for the edit operation. */
     instructions?: string;
+    /** Additional instructions used when generating a schema from the document. */
+    schemaGenerationInstructions?: string;
     /** Advanced options for the edit operation. */
     advancedOptions?: Extend.EditCreateRequestConfigAdvancedOptions;
 }

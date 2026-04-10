@@ -35,6 +35,13 @@ describe("ProcessorVersion", () => {
                         ],
                         classificationRules:
                             "Remember, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                        advancedOptions: {
+                            pageRanges: [
+                                { start: 1, end: 10 },
+                                { start: 20, end: 30 },
+                            ],
+                        },
+                        parser: { chunkingStrategy: { options: { minCharacters: 100, maxCharacters: 1000 } } },
                     },
                     createdAt: "2024-03-21T15:30:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
@@ -74,6 +81,26 @@ describe("ProcessorVersion", () => {
                         ],
                         classificationRules:
                             "Remember, when it comes to differentiating between invoices and purchase orders, the most important thing to look for is the date of the document.",
+                        advancedOptions: {
+                            pageRanges: [
+                                {
+                                    start: 1,
+                                    end: 10,
+                                },
+                                {
+                                    start: 20,
+                                    end: 30,
+                                },
+                            ],
+                        },
+                        parser: {
+                            chunkingStrategy: {
+                                options: {
+                                    minCharacters: 100,
+                                    maxCharacters: 1000,
+                                },
+                            },
+                        },
                     },
                     createdAt: "2024-03-21T15:30:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
@@ -170,6 +197,7 @@ describe("ProcessorVersion", () => {
                             { start: 20, end: 30 },
                         ],
                     },
+                    parser: { chunkingStrategy: { options: { minCharacters: 100, maxCharacters: 1000 } } },
                 },
                 createdAt: "2024-03-21T15:30:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
@@ -222,6 +250,14 @@ describe("ProcessorVersion", () => {
                                 end: 30,
                             },
                         ],
+                    },
+                    parser: {
+                        chunkingStrategy: {
+                            options: {
+                                minCharacters: 100,
+                                maxCharacters: 1000,
+                            },
+                        },
                     },
                 },
                 createdAt: "2024-03-21T15:30:00Z",
@@ -310,6 +346,7 @@ describe("ProcessorVersion", () => {
                             { start: 20, end: 30 },
                         ],
                     },
+                    parser: { chunkingStrategy: { options: { minCharacters: 100, maxCharacters: 1000 } } },
                 },
                 createdAt: "2024-03-21T15:30:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
@@ -359,6 +396,14 @@ describe("ProcessorVersion", () => {
                                 end: 30,
                             },
                         ],
+                    },
+                    parser: {
+                        chunkingStrategy: {
+                            options: {
+                                minCharacters: 100,
+                                maxCharacters: 1000,
+                            },
+                        },
                     },
                 },
                 createdAt: "2024-03-21T15:30:00Z",

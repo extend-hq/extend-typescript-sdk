@@ -84,10 +84,12 @@ export class WorkflowRunOutput {
         request: Extend.WorkflowRunOutputUpdateRequest,
         requestOptions?: WorkflowRunOutput.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.WorkflowRunOutputUpdateResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId, ..._body } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -104,7 +106,7 @@ export class WorkflowRunOutput {
             contentType: "application/json",
             queryParameters: requestOptions?.queryParams,
             requestType: "json",
-            body: request,
+            body: _body,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

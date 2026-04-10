@@ -20,6 +20,9 @@ export interface Block {
      * * `"table_head"` - Table header cells
      * * `"table_cell"` - Table body cells
      * * `"figure"` - Images, charts, diagrams, or logos
+     * * `"key_value"` - Key-value pair content (e.g., form field labels and values)
+     * * `"header"` - Page header content
+     * * `"footer"` - Page footer content
      */
     type: Extend.BlockType;
     /** The textual content of the block formatted based on the target format. */

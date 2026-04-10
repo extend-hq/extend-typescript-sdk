@@ -75,7 +75,14 @@ export class EvaluationSet {
         request: Extend.EvaluationSetListRequest = {},
         requestOptions?: EvaluationSet.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EvaluationSetListResponse>> {
-        const { processorId, sortBy, sortDir, nextPageToken, maxPageSize } = request;
+        const {
+            processorId,
+            sortBy,
+            sortDir,
+            nextPageToken,
+            maxPageSize,
+            "x-extend-workspace-id": extendWorkspaceId,
+        } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (processorId != null) {
             _queryParams["processorId"] = processorId;
@@ -101,6 +108,7 @@ export class EvaluationSet {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -251,6 +259,7 @@ export class EvaluationSet {
      * @param {string} id - The ID of the evaluation set to retrieve.
      *
      *                      Example: `"ev_2LcgeY_mp2T5yPaEuq5Lw"`
+     * @param {Extend.EvaluationSetGetRequest} request
      * @param {EvaluationSet.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -262,19 +271,23 @@ export class EvaluationSet {
      */
     public get(
         id: string,
+        request: Extend.EvaluationSetGetRequest = {},
         requestOptions?: EvaluationSet.RequestOptions,
     ): core.HttpResponsePromise<Extend.EvaluationSetGetResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__get(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__get(id, request, requestOptions));
     }
 
     private async __get(
         id: string,
+        request: Extend.EvaluationSetGetRequest = {},
         requestOptions?: EvaluationSet.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EvaluationSetGetResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,

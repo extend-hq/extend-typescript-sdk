@@ -11,8 +11,21 @@
  * * `"table_head"` - Table header cells
  * * `"table_cell"` - Table body cells
  * * `"figure"` - Images, charts, diagrams, or logos
+ * * `"key_value"` - Key-value pair content (e.g., form field labels and values)
+ * * `"header"` - Page header content
+ * * `"footer"` - Page footer content
  */
-export type BlockType = "text" | "heading" | "section_heading" | "table" | "figure" | "table_head" | "table_cell";
+export type BlockType =
+    | "text"
+    | "heading"
+    | "section_heading"
+    | "table"
+    | "figure"
+    | "table_head"
+    | "table_cell"
+    | "key_value"
+    | "header"
+    | "footer";
 export const BlockType = {
     Text: "text",
     Heading: "heading",
@@ -21,4 +34,7 @@ export const BlockType = {
     Figure: "figure",
     TableHead: "table_head",
     TableCell: "table_cell",
+    KeyValue: "key_value",
+    Header: "header",
+    Footer: "footer",
 } as const;

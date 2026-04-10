@@ -11,4 +11,6 @@
 export interface FileUploadRequest {
     /** When true, converts the uploaded file to PDF. Supported file types include images (JPEG, PNG, TIFF, GIF, BMP, WebP, HEIC/HEIF), Word documents, PowerPoint, Excel, and HTML. */
     convertToPdf?: boolean;
+    /** The workspace ID to target. **Required** when using an organization-scoped API key; optional for workspace-scoped keys (the key is already tied to a workspace). See [Authentication](https://docs.extend.ai/2025-04-21/developers/authentication) for details on API key scopes. */
+    "x-extend-workspace-id"?: string;
 }

@@ -8,6 +8,7 @@ import * as Extend from "../index";
  * Webhook event for processor related events
  */
 export interface WebhookEventProcessor {
+    /** Type of the event that occurred */
     eventType?: Extend.WebhookEventProcessorEventType;
     payload?: Extend.Processor;
     /** Unique identifier for the event */

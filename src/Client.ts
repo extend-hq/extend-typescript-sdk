@@ -10,6 +10,7 @@ import * as errors from "./errors/index";
 import { File_ } from "./api/resources/file/client/Client";
 import { ParserRun } from "./api/resources/parserRun/client/Client";
 import { Edit } from "./api/resources/edit/client/Client";
+import { EditSchemas } from "./api/resources/editSchemas/client/Client";
 import { Workflow } from "./api/resources/workflow/client/Client";
 import { WorkflowRun } from "./api/resources/workflowRun/client/Client";
 import { WorkflowRunOutput } from "./api/resources/workflowRunOutput/client/Client";
@@ -55,6 +56,7 @@ export class ExtendClient {
     protected _file: File_ | undefined;
     protected _parserRun: ParserRun | undefined;
     protected _edit: Edit | undefined;
+    protected _editSchemas: EditSchemas | undefined;
     protected _workflow: Workflow | undefined;
     protected _workflowRun: WorkflowRun | undefined;
     protected _workflowRunOutput: WorkflowRunOutput | undefined;
@@ -74,8 +76,8 @@ export class ExtendClient {
                     "x-extend-api-version": _options?.extendApiVersion ?? "2025-04-21",
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "extend-ai",
-                    "X-Fern-SDK-Version": "0.2.0",
-                    "User-Agent": "extend-ai/0.2.0",
+                    "X-Fern-SDK-Version": "0.3.0",
+                    "User-Agent": "extend-ai/0.3.0",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                 },
@@ -94,6 +96,10 @@ export class ExtendClient {
 
     public get edit(): Edit {
         return (this._edit ??= new Edit(this._options));
+    }
+
+    public get editSchemas(): EditSchemas {
+        return (this._editSchemas ??= new EditSchemas(this._options));
     }
 
     public get workflow(): Workflow {
@@ -170,7 +176,7 @@ export class ExtendClient {
         request: Extend.ParseRequest,
         requestOptions?: ExtendClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ParserRun>> {
-        const { responseType, ..._body } = request;
+        const { responseType, "x-extend-workspace-id": extendWorkspaceId, ..._body } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (responseType != null) {
             _queryParams["responseType"] = responseType;
@@ -180,6 +186,7 @@ export class ExtendClient {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,

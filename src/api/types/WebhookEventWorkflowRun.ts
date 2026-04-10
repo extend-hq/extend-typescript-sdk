@@ -8,6 +8,7 @@ import * as Extend from "../index";
  * Webhook event for workflow run related events
  */
 export interface WebhookEventWorkflowRun {
+    /** Type of the event that occurred */
     eventType?: Extend.WebhookEventWorkflowRunEventType;
     payload?: Extend.WorkflowRun;
     /** Unique identifier for the event */

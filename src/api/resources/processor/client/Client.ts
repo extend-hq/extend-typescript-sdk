@@ -75,7 +75,14 @@ export class Processor {
         request: Extend.ProcessorListRequest = {},
         requestOptions?: Processor.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ListProcessorsResponse>> {
-        const { type: type_, nextPageToken, maxPageSize, sortBy, sortDir } = request;
+        const {
+            type: type_,
+            nextPageToken,
+            maxPageSize,
+            sortBy,
+            sortDir,
+            "x-extend-workspace-id": extendWorkspaceId,
+        } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (type_ != null) {
             _queryParams["type"] = type_;
@@ -101,6 +108,7 @@ export class Processor {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -278,10 +286,12 @@ export class Processor {
         request: Extend.ProcessorUpdateRequest = {},
         requestOptions?: Processor.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ProcessorUpdateResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId, ..._body } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -298,7 +308,7 @@ export class Processor {
             contentType: "application/json",
             queryParameters: requestOptions?.queryParams,
             requestType: "json",
-            body: request,
+            body: _body,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

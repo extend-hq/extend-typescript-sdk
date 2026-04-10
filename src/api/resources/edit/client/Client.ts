@@ -249,6 +249,7 @@ export class Edit {
      * @param {string} id - The unique identifier for the edit run.
      *
      *                      Example: `"edit_run_xK9mLPqRtN3vS8wF5hB2cQ"`
+     * @param {Extend.EditGetRequest} request
      * @param {Edit.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.UnauthorizedError}
@@ -257,18 +258,25 @@ export class Edit {
      * @example
      *     await client.edit.get("edit_run_id_here")
      */
-    public get(id: string, requestOptions?: Edit.RequestOptions): core.HttpResponsePromise<Extend.EditGetResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__get(id, requestOptions));
+    public get(
+        id: string,
+        request: Extend.EditGetRequest = {},
+        requestOptions?: Edit.RequestOptions,
+    ): core.HttpResponsePromise<Extend.EditGetResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__get(id, request, requestOptions));
     }
 
     private async __get(
         id: string,
+        request: Extend.EditGetRequest = {},
         requestOptions?: Edit.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EditGetResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -331,6 +339,7 @@ export class Edit {
      * @param {string} id - The ID of the edit run to delete.
      *
      *                      Example: `"edit_run_xK9mLPqRtN3vS8wF5hB2cQ"`
+     * @param {Extend.EditDeleteRequest} request
      * @param {Edit.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.NotFoundError}
@@ -341,19 +350,23 @@ export class Edit {
      */
     public delete(
         id: string,
+        request: Extend.EditDeleteRequest = {},
         requestOptions?: Edit.RequestOptions,
     ): core.HttpResponsePromise<Extend.EditDeleteResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__delete(id, request, requestOptions));
     }
 
     private async __delete(
         id: string,
+        request: Extend.EditDeleteRequest = {},
         requestOptions?: Edit.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EditDeleteResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,

@@ -53,6 +53,7 @@ export class ProcessorVersion {
      * @param {string} id - The ID of the processor to retrieve versions for.
      *
      *                      Example: `"dp_Xj8mK2pL9nR4vT7qY5wZ"`
+     * @param {Extend.ProcessorVersionListRequest} request
      * @param {ProcessorVersion.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -64,19 +65,23 @@ export class ProcessorVersion {
      */
     public list(
         id: string,
+        request: Extend.ProcessorVersionListRequest = {},
         requestOptions?: ProcessorVersion.RequestOptions,
     ): core.HttpResponsePromise<Extend.ProcessorVersionListResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__list(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__list(id, request, requestOptions));
     }
 
     private async __list(
         id: string,
+        request: Extend.ProcessorVersionListRequest = {},
         requestOptions?: ProcessorVersion.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ProcessorVersionListResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -165,10 +170,12 @@ export class ProcessorVersion {
         request: Extend.ProcessorVersionCreateRequest,
         requestOptions?: ProcessorVersion.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ProcessorVersionCreateResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId, ..._body } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
@@ -185,7 +192,7 @@ export class ProcessorVersion {
             contentType: "application/json",
             queryParameters: requestOptions?.queryParams,
             requestType: "json",
-            body: request,
+            body: _body,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 300000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -238,6 +245,7 @@ export class ProcessorVersion {
      * @param {string} processorVersionId - The ID of the specific processor version to retrieve.
      *
      *                                      Example: `"dpv_QYk6jgHA_8CsO8rVWhyNC"`
+     * @param {Extend.ProcessorVersionGetRequest} request
      * @param {ProcessorVersion.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Extend.BadRequestError}
@@ -250,20 +258,26 @@ export class ProcessorVersion {
     public get(
         processorId: string,
         processorVersionId: string,
+        request: Extend.ProcessorVersionGetRequest = {},
         requestOptions?: ProcessorVersion.RequestOptions,
     ): core.HttpResponsePromise<Extend.ProcessorVersionGetResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__get(processorId, processorVersionId, requestOptions));
+        return core.HttpResponsePromise.fromPromise(
+            this.__get(processorId, processorVersionId, request, requestOptions),
+        );
     }
 
     private async __get(
         processorId: string,
         processorVersionId: string,
+        request: Extend.ProcessorVersionGetRequest = {},
         requestOptions?: ProcessorVersion.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ProcessorVersionGetResponse>> {
+        const { "x-extend-workspace-id": extendWorkspaceId } = request;
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 Authorization: await this._getAuthorizationHeader(),
+                "x-extend-workspace-id": extendWorkspaceId != null ? extendWorkspaceId : undefined,
                 "x-extend-api-version": requestOptions?.extendApiVersion ?? "2025-04-21",
             }),
             requestOptions?.headers,
