@@ -2,11 +2,13 @@
 
 /**
  * The status of the parse run:
+ * * `"PENDING"` - The run has been created and is waiting to be processed. Only applies to runs created via `POST /parse_runs/batch`.
  * * `"PROCESSING"` - The file is still being processed
  * * `"PROCESSED"` - The file was successfully processed
  * * `"FAILED"` - The processing failed (see `failureReason` for details)
  */
 export const ParseRunStatusEnum = {
+    Pending: "PENDING",
     Processing: "PROCESSING",
     Processed: "PROCESSED",
     Failed: "FAILED",

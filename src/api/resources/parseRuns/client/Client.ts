@@ -23,6 +23,120 @@ export class ParseRunsClient {
     }
 
     /**
+     * List parse runs, with optional filters for status, batch ID, and file name.
+     *
+     * Returns a paginated list of parse runs. Use `GET /parse_runs/{id}` to retrieve the full result including output for a specific run.
+     *
+     * @param {Extend.ParseRunsListRequest} request
+     * @param {ParseRunsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.PaymentRequiredError}
+     * @throws {@link Extend.ForbiddenError}
+     * @throws {@link Extend.NotFoundError}
+     * @throws {@link Extend.UnprocessableEntityError}
+     * @throws {@link Extend.TooManyRequestsError}
+     * @throws {@link Extend.InternalServerError}
+     *
+     * @example
+     *     await client.parseRuns.list({
+     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
+     *     })
+     */
+    public list(
+        request: Extend.ParseRunsListRequest = {},
+        requestOptions?: ParseRunsClient.RequestOptions,
+    ): core.HttpResponsePromise<Extend.ParseRunsListResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
+    }
+
+    private async __list(
+        request: Extend.ParseRunsListRequest = {},
+        requestOptions?: ParseRunsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.ParseRunsListResponse>> {
+        const {
+            status,
+            batchId,
+            fileNameContains,
+            nextPageToken,
+            maxPageSize,
+            "x-extend-workspace-id": extendWorkspaceId,
+        } = request;
+        const _queryParams: Record<string, unknown> = {
+            status: status != null ? status : undefined,
+            batchId,
+            fileNameContains,
+            nextPageToken,
+            maxPageSize,
+        };
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                "parse_runs",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 300) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.ParseRunsListResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new Extend.PaymentRequiredError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Extend.ForbiddenError(_response.error.body as Extend.ApiError, _response.rawResponse);
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 422:
+                    throw new Extend.UnprocessableEntityError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new Extend.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Extend.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/parse_runs");
+    }
+
+    /**
      * Parse files to get cleaned, chunked target content (e.g. markdown).
      *
      * The Parse endpoint allows you to convert documents into structured, machine-readable formats with fine-grained control over the parsing process. This endpoint is ideal for extracting cleaned document content to be used as context for downstream processing, e.g. RAG pipelines, custom ingestion pipelines, embeddings classification, etc.
@@ -333,5 +447,133 @@ export class ParseRunsClient {
         }
 
         return handleNonStatusCodeError(_response.error, _response.rawResponse, "DELETE", "/parse_runs/{id}");
+    }
+
+    /**
+     * Submit up to **1,000 files** for parsing in a single request. Each file is processed as an independent parse run using the same configuration.
+     *
+     * Unlike the single [Parse File (Async)](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/parse/create-parse-run) endpoint, this batch endpoint accepts an `inputs` array and immediately returns a `BatchRun` object containing a batch `id` and a `PENDING` status. The individual runs are then queued and processed asynchronously.
+     *
+     * **Monitoring results:**
+     * - **Webhooks (recommended):** Subscribe to `batch_parse_run.processed` and `batch_parse_run.failed` events. The webhook payload indicates the batch has finished — fetch individual run results using `GET /parse_runs?batchId={id}`.
+     * - **Polling:** Call `GET /batch_runs/{id}` to check the overall batch status, and use `GET /parse_runs?batchId={id}` to retrieve individual run results.
+     *
+     * **Notes:**
+     * - `inputs` must contain between 1 and 1,000 items.
+     * - File input supports URLs, Extend file IDs, and raw text strings.
+     *
+     * @param {Extend.ParseRunsCreateBatchRequest} request
+     * @param {ParseRunsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.PaymentRequiredError}
+     * @throws {@link Extend.ForbiddenError}
+     * @throws {@link Extend.NotFoundError}
+     * @throws {@link Extend.UnprocessableEntityError}
+     * @throws {@link Extend.TooManyRequestsError}
+     * @throws {@link Extend.InternalServerError}
+     *
+     * @example
+     *     await client.parseRuns.createBatch({
+     *         inputs: [{
+     *                 file: {
+     *                     url: "https://example.com/document1.pdf"
+     *                 },
+     *                 metadata: {
+     *                     "customerId": "cust_abc123"
+     *                 }
+     *             }, {
+     *                 file: {
+     *                     url: "https://example.com/document2.pdf"
+     *                 },
+     *                 metadata: {
+     *                     "customerId": "cust_def456"
+     *                 }
+     *             }, {
+     *                 file: {
+     *                     text: "This is some raw text to parse."
+     *                 },
+     *                 metadata: {
+     *                     "source": "manual-entry"
+     *                 }
+     *             }]
+     *     })
+     */
+    public createBatch(
+        request: Extend.ParseRunsCreateBatchRequest,
+        requestOptions?: ParseRunsClient.RequestOptions,
+    ): core.HttpResponsePromise<Extend.BatchRun> {
+        return core.HttpResponsePromise.fromPromise(this.__createBatch(request, requestOptions));
+    }
+
+    private async __createBatch(
+        request: Extend.ParseRunsCreateBatchRequest,
+        requestOptions?: ParseRunsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.BatchRun>> {
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                "parse_runs/batch",
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryParameters: requestOptions?.queryParams,
+            requestType: "json",
+            body: request,
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 300) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.BatchRun, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new Extend.PaymentRequiredError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Extend.ForbiddenError(_response.error.body as Extend.ApiError, _response.rawResponse);
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 422:
+                    throw new Extend.UnprocessableEntityError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new Extend.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Extend.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/parse_runs/batch");
     }
 }

@@ -5,6 +5,287 @@ import { ExtendClient } from "../../src/Client";
 import { mockServerPool } from "../mock-server/MockServerPool";
 
 describe("ParseRunsClient", () => {
+    test("list (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = {
+            object: "list",
+            data: [
+                {
+                    object: "parse_run",
+                    id: "pr_xK9mLPqRtN3vS8wF5hB2cQ",
+                    batchId: "bpar_Xj8mK2pL9nR4vT7qY5wZ",
+                    file: {
+                        object: "file",
+                        id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                        name: "Invoices.pdf",
+                        type: null,
+                        parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                        metadata: {
+                            pageCount: 30,
+                            parentSplit: {
+                                id: "id",
+                                type: "Invoice",
+                                identifier: "other_2_9",
+                                startPage: 1,
+                                endPage: 10,
+                            },
+                        },
+                        createdAt: "2024-03-21T16:45:00Z",
+                        updatedAt: "2024-03-21T16:45:00Z",
+                    },
+                    status: "PENDING",
+                    failureReason: "FILE_TYPE_NOT_SUPPORTED",
+                    failureMessage: "File type not supported for parsing.",
+                    output: {
+                        chunks: [
+                            {
+                                object: "chunk",
+                                type: "page",
+                                content: "This is the content of the chunk.",
+                                metadata: { pageRange: { start: 1, end: 1 } },
+                                blocks: [
+                                    {
+                                        object: "block",
+                                        id: "id",
+                                        type: "text",
+                                        content: "content",
+                                        details: { type: "table_details", rowCount: 1, columnCount: 1 },
+                                        metadata: {},
+                                        polygon: [{ x: 10, y: 20 }],
+                                        boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
+                                    },
+                                ],
+                            },
+                        ],
+                        ocr: {
+                            words: [
+                                {
+                                    content: "content",
+                                    boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
+                                    confidence: 1.1,
+                                    pageNumber: 1.1,
+                                },
+                            ],
+                        },
+                    },
+                    outputUrl: "https://...",
+                    metrics: { processingTimeMs: 1234, pageCount: 5 },
+                    config: { chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } } },
+                    usage: { credits: 10 },
+                },
+            ],
+            nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+        };
+        server.mockEndpoint().get("/parse_runs").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
+
+        const response = await client.parseRuns.list({
+            nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+        });
+        expect(response).toEqual({
+            object: "list",
+            data: [
+                {
+                    object: "parse_run",
+                    id: "pr_xK9mLPqRtN3vS8wF5hB2cQ",
+                    batchId: "bpar_Xj8mK2pL9nR4vT7qY5wZ",
+                    file: {
+                        object: "file",
+                        id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                        name: "Invoices.pdf",
+                        type: null,
+                        parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                        metadata: {
+                            pageCount: 30,
+                            parentSplit: {
+                                id: "id",
+                                type: "Invoice",
+                                identifier: "other_2_9",
+                                startPage: 1,
+                                endPage: 10,
+                            },
+                        },
+                        createdAt: "2024-03-21T16:45:00Z",
+                        updatedAt: "2024-03-21T16:45:00Z",
+                    },
+                    status: "PENDING",
+                    failureReason: "FILE_TYPE_NOT_SUPPORTED",
+                    failureMessage: "File type not supported for parsing.",
+                    output: {
+                        chunks: [
+                            {
+                                object: "chunk",
+                                type: "page",
+                                content: "This is the content of the chunk.",
+                                metadata: {
+                                    pageRange: {
+                                        start: 1,
+                                        end: 1,
+                                    },
+                                },
+                                blocks: [
+                                    {
+                                        object: "block",
+                                        id: "id",
+                                        type: "text",
+                                        content: "content",
+                                        details: {
+                                            type: "table_details",
+                                            rowCount: 1,
+                                            columnCount: 1,
+                                        },
+                                        metadata: {},
+                                        polygon: [
+                                            {
+                                                x: 10,
+                                                y: 20,
+                                            },
+                                        ],
+                                        boundingBox: {
+                                            left: 10,
+                                            top: 10,
+                                            right: 20,
+                                            bottom: 20,
+                                        },
+                                    },
+                                ],
+                            },
+                        ],
+                        ocr: {
+                            words: [
+                                {
+                                    content: "content",
+                                    boundingBox: {
+                                        left: 10,
+                                        top: 10,
+                                        right: 20,
+                                        bottom: 20,
+                                    },
+                                    confidence: 1.1,
+                                    pageNumber: 1.1,
+                                },
+                            ],
+                        },
+                    },
+                    outputUrl: "https://...",
+                    metrics: {
+                        processingTimeMs: 1234,
+                        pageCount: 5,
+                    },
+                    config: {
+                        chunkingStrategy: {
+                            options: {
+                                minCharacters: 500,
+                                maxCharacters: 10000,
+                            },
+                        },
+                    },
+                    usage: {
+                        credits: 10,
+                    },
+                },
+            ],
+            nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
+        });
+    });
+
+    test("list (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/parse_runs").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.parseRuns.list();
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("list (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/parse_runs").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.parseRuns.list();
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("list (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server.mockEndpoint().get("/parse_runs").respondWith().statusCode(402).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.parseRuns.list();
+        }).rejects.toThrow(Extend.PaymentRequiredError);
+    });
+
+    test("list (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server.mockEndpoint().get("/parse_runs").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.parseRuns.list();
+        }).rejects.toThrow(Extend.ForbiddenError);
+    });
+
+    test("list (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/parse_runs").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.parseRuns.list();
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("list (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server.mockEndpoint().get("/parse_runs").respondWith().statusCode(422).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.parseRuns.list();
+        }).rejects.toThrow(Extend.UnprocessableEntityError);
+    });
+
+    test("list (8)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/parse_runs").respondWith().statusCode(429).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.parseRuns.list();
+        }).rejects.toThrow(Extend.TooManyRequestsError);
+    });
+
+    test("list (9)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/parse_runs").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.parseRuns.list();
+        }).rejects.toThrow(Extend.InternalServerError);
+    });
+
     test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
@@ -12,6 +293,7 @@ describe("ParseRunsClient", () => {
         const rawResponseBody = {
             object: "parse_run",
             id: "pr_xK9mLPqRtN3vS8wF5hB2cQ",
+            batchId: "bpar_Xj8mK2pL9nR4vT7qY5wZ",
             file: {
                 object: "file",
                 id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
@@ -25,7 +307,7 @@ describe("ParseRunsClient", () => {
                 createdAt: "2024-03-21T16:45:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
             },
-            status: "PROCESSING",
+            status: "PENDING",
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported for parsing.",
             output: {
@@ -104,6 +386,7 @@ describe("ParseRunsClient", () => {
         expect(response).toEqual({
             object: "parse_run",
             id: "pr_xK9mLPqRtN3vS8wF5hB2cQ",
+            batchId: "bpar_Xj8mK2pL9nR4vT7qY5wZ",
             file: {
                 object: "file",
                 id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
@@ -123,7 +406,7 @@ describe("ParseRunsClient", () => {
                 createdAt: "2024-03-21T16:45:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
             },
-            status: "PROCESSING",
+            status: "PENDING",
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported for parsing.",
             output: {
@@ -422,6 +705,7 @@ describe("ParseRunsClient", () => {
         const rawResponseBody = {
             object: "parse_run",
             id: "pr_xK9mLPqRtN3vS8wF5hB2cQ",
+            batchId: "bpar_Xj8mK2pL9nR4vT7qY5wZ",
             file: {
                 object: "file",
                 id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
@@ -435,7 +719,7 @@ describe("ParseRunsClient", () => {
                 createdAt: "2024-03-21T16:45:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
             },
-            status: "PROCESSING",
+            status: "PENDING",
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported for parsing.",
             output: {
@@ -508,6 +792,7 @@ describe("ParseRunsClient", () => {
         expect(response).toEqual({
             object: "parse_run",
             id: "pr_xK9mLPqRtN3vS8wF5hB2cQ",
+            batchId: "bpar_Xj8mK2pL9nR4vT7qY5wZ",
             file: {
                 object: "file",
                 id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
@@ -527,7 +812,7 @@ describe("ParseRunsClient", () => {
                 createdAt: "2024-03-21T16:45:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
             },
-            status: "PROCESSING",
+            status: "PENDING",
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported for parsing.",
             output: {
@@ -843,6 +1128,325 @@ describe("ParseRunsClient", () => {
 
         await expect(async () => {
             return await client.parseRuns.delete("id");
+        }).rejects.toThrow(Extend.InternalServerError);
+    });
+
+    test("createBatch (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            inputs: [
+                { file: { url: "https://example.com/document1.pdf" }, metadata: { customerId: "cust_abc123" } },
+                { file: { url: "https://example.com/document2.pdf" }, metadata: { customerId: "cust_def456" } },
+                { file: { text: "This is some raw text to parse." }, metadata: { source: "manual-entry" } },
+            ],
+        };
+        const rawResponseBody = {
+            object: "batch_run",
+            id: "bpr_Xj8mK2pL9nR4vT7qY5wZ",
+            status: "PENDING",
+            runCount: 50,
+            createdAt: "2024-03-21T16:45:00Z",
+        };
+        server
+            .mockEndpoint()
+            .post("/parse_runs/batch")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.parseRuns.createBatch({
+            inputs: [
+                {
+                    file: {
+                        url: "https://example.com/document1.pdf",
+                    },
+                    metadata: {
+                        customerId: "cust_abc123",
+                    },
+                },
+                {
+                    file: {
+                        url: "https://example.com/document2.pdf",
+                    },
+                    metadata: {
+                        customerId: "cust_def456",
+                    },
+                },
+                {
+                    file: {
+                        text: "This is some raw text to parse.",
+                    },
+                    metadata: {
+                        source: "manual-entry",
+                    },
+                },
+            ],
+        });
+        expect(response).toEqual({
+            object: "batch_run",
+            id: "bpr_Xj8mK2pL9nR4vT7qY5wZ",
+            status: "PENDING",
+            runCount: 50,
+            createdAt: "2024-03-21T16:45:00Z",
+        });
+    });
+
+    test("createBatch (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { inputs: [{ file: { url: "url" } }, { file: { url: "url" } }] };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/parse_runs/batch")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parseRuns.createBatch({
+                inputs: [
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                ],
+            });
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("createBatch (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { inputs: [{ file: { url: "url" } }, { file: { url: "url" } }] };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/parse_runs/batch")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parseRuns.createBatch({
+                inputs: [
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                ],
+            });
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("createBatch (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { inputs: [{ file: { url: "url" } }, { file: { url: "url" } }] };
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/parse_runs/batch")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(402)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parseRuns.createBatch({
+                inputs: [
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                ],
+            });
+        }).rejects.toThrow(Extend.PaymentRequiredError);
+    });
+
+    test("createBatch (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { inputs: [{ file: { url: "url" } }, { file: { url: "url" } }] };
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/parse_runs/batch")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parseRuns.createBatch({
+                inputs: [
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                ],
+            });
+        }).rejects.toThrow(Extend.ForbiddenError);
+    });
+
+    test("createBatch (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { inputs: [{ file: { url: "url" } }, { file: { url: "url" } }] };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/parse_runs/batch")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parseRuns.createBatch({
+                inputs: [
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                ],
+            });
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("createBatch (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { inputs: [{ file: { url: "url" } }, { file: { url: "url" } }] };
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/parse_runs/batch")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(422)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parseRuns.createBatch({
+                inputs: [
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                ],
+            });
+        }).rejects.toThrow(Extend.UnprocessableEntityError);
+    });
+
+    test("createBatch (8)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { inputs: [{ file: { url: "url" } }, { file: { url: "url" } }] };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/parse_runs/batch")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(429)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parseRuns.createBatch({
+                inputs: [
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                ],
+            });
+        }).rejects.toThrow(Extend.TooManyRequestsError);
+    });
+
+    test("createBatch (9)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { inputs: [{ file: { url: "url" } }, { file: { url: "url" } }] };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/parse_runs/batch")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parseRuns.createBatch({
+                inputs: [
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                    {
+                        file: {
+                            url: "url",
+                        },
+                    },
+                ],
+            });
         }).rejects.toThrow(Extend.InternalServerError);
     });
 });

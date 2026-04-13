@@ -12,6 +12,7 @@ describe("ExtendClient", () => {
         const rawResponseBody = {
             object: "parse_run",
             id: "pr_xK9mLPqRtN3vS8wF5hB2cQ",
+            batchId: "bpar_Xj8mK2pL9nR4vT7qY5wZ",
             file: {
                 object: "file",
                 id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
@@ -25,7 +26,7 @@ describe("ExtendClient", () => {
                 createdAt: "2024-03-21T16:45:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
             },
-            status: "PROCESSING",
+            status: "PENDING",
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported for parsing.",
             output: {
@@ -104,6 +105,7 @@ describe("ExtendClient", () => {
         expect(response).toEqual({
             object: "parse_run",
             id: "pr_xK9mLPqRtN3vS8wF5hB2cQ",
+            batchId: "bpar_Xj8mK2pL9nR4vT7qY5wZ",
             file: {
                 object: "file",
                 id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
@@ -123,7 +125,7 @@ describe("ExtendClient", () => {
                 createdAt: "2024-03-21T16:45:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
             },
-            status: "PROCESSING",
+            status: "PENDING",
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported for parsing.",
             output: {
