@@ -37,6 +37,8 @@ export type WebhookEvent =
     | Extend.WebhookEvent.SplitRunFailed
     | Extend.WebhookEvent.BatchProcessorRunProcessed
     | Extend.WebhookEvent.BatchProcessorRunFailed
+    | Extend.WebhookEvent.BatchParseRunProcessed
+    | Extend.WebhookEvent.BatchParseRunFailed
     | Extend.WebhookEvent.ParseRunProcessed
     | Extend.WebhookEvent.ParseRunFailed
     | Extend.WebhookEvent.EditRunProcessed
@@ -115,6 +117,14 @@ export namespace WebhookEvent {
 
     export interface BatchProcessorRunFailed extends Extend.BatchProcessorRunFailedWebhookEvent {
         eventType: "batch_processor_run.failed";
+    }
+
+    export interface BatchParseRunProcessed extends Extend.BatchParseRunCompletedWebhookEvent {
+        eventType: "batch_parse_run.processed";
+    }
+
+    export interface BatchParseRunFailed extends Extend.BatchParseRunFailedWebhookEvent {
+        eventType: "batch_parse_run.failed";
     }
 
     export interface ParseRunProcessed extends Extend.ParseRunProcessedWebhookEvent {

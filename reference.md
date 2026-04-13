@@ -720,6 +720,73 @@ await client.files.upload(createReadStream("path/to/file"), {});
 </details>
 
 ## ParseRuns
+<details><summary><code>client.parseRuns.<a href="/src/api/resources/parseRuns/client/Client.ts">list</a>({ ...params }) -> Extend.ParseRunsListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List parse runs, with optional filters for status, batch ID, and file name.
+
+Returns a paginated list of parse runs. Use `GET /parse_runs/{id}` to retrieve the full result including output for a specific run.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.parseRuns.list({
+    nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.ParseRunsListRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ParseRunsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.parseRuns.<a href="/src/api/resources/parseRuns/client/Client.ts">create</a>({ ...params }) -> Extend.ParseRun</code></summary>
 <dl>
 <dd>
@@ -927,6 +994,102 @@ Example: `"pr_xK9mLPqRtN3vS8wF5hB2cQ"`
 <dd>
 
 **request:** `Extend.ParseRunsDeleteRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ParseRunsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.parseRuns.<a href="/src/api/resources/parseRuns/client/Client.ts">createBatch</a>({ ...params }) -> Extend.BatchRun</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Submit up to **1,000 files** for parsing in a single request. Each file is processed as an independent parse run using the same configuration.
+
+Unlike the single [Parse File (Async)](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/parse/create-parse-run) endpoint, this batch endpoint accepts an `inputs` array and immediately returns a `BatchRun` object containing a batch `id` and a `PENDING` status. The individual runs are then queued and processed asynchronously.
+
+**Monitoring results:**
+- **Webhooks (recommended):** Subscribe to `batch_parse_run.processed` and `batch_parse_run.failed` events. The webhook payload indicates the batch has finished — fetch individual run results using `GET /parse_runs?batchId={id}`.
+- **Polling:** Call `GET /batch_runs/{id}` to check the overall batch status, and use `GET /parse_runs?batchId={id}` to retrieve individual run results.
+
+**Notes:**
+- `inputs` must contain between 1 and 1,000 items.
+- File input supports URLs, Extend file IDs, and raw text strings.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.parseRuns.createBatch({
+    inputs: [{
+            file: {
+                url: "https://example.com/document1.pdf"
+            },
+            metadata: {
+                "customerId": "cust_abc123"
+            }
+        }, {
+            file: {
+                url: "https://example.com/document2.pdf"
+            },
+            metadata: {
+                "customerId": "cust_def456"
+            }
+        }, {
+            file: {
+                text: "This is some raw text to parse."
+            },
+            metadata: {
+                "source": "manual-entry"
+            }
+        }]
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.ParseRunsCreateBatchRequest` 
     
 </dd>
 </dl>
@@ -6269,7 +6432,7 @@ Example: `"bpr_Xj8mK2pL9nR4vT7qY5wZ"`
 
 Retrieve the status of a batch run by its ID. The `status` field reflects the aggregate state of the batch.
 
-This is a unified endpoint that works for batches created via any of the batch submission endpoints (`POST /extract_runs/batch`, `POST /classify_runs/batch`, `POST /split_runs/batch`).
+This is a unified endpoint that works for batches created via any of the batch submission endpoints (`POST /parse_runs/batch`, `POST /extract_runs/batch`, `POST /classify_runs/batch`, `POST /split_runs/batch`).
 
 | Status | Meaning |
 |---|---|
@@ -6279,7 +6442,8 @@ This is a unified endpoint that works for batches created via any of the batch s
 | `FAILED` | The batch encountered a fatal error |
 | `CANCELLED` | The batch was cancelled |
 
-To retrieve individual run results, use the List endpoint for the relevant processor type filtered by `batchId`:
+To retrieve individual run results, use the List endpoint for the relevant type filtered by `batchId`:
+- `GET /parse_runs?batchId={id}`
 - `GET /extract_runs?batchId={id}`
 - `GET /classify_runs?batchId={id}`
 - `GET /split_runs?batchId={id}`

@@ -3,6 +3,8 @@ export * from "./ApiVersionEnum";
 export * from "./ArrayStrategy";
 export * from "./ArrayStrategyType";
 export * from "./BarcodeDetails";
+export * from "./BatchParseRunCompletedWebhookEvent";
+export * from "./BatchParseRunFailedWebhookEvent";
 export * from "./BatchProcessorRunCompletedWebhookEvent";
 export * from "./BatchProcessorRunFailedWebhookEvent";
 export * from "./BatchRun";

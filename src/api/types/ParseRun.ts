@@ -14,10 +14,19 @@ export interface ParseRun {
      * Example: `"pr_xK9mLPqRtN3vS8wF5hB2cQ"`
      */
     id: string;
-    /** The file that was parsed. This file can be used as a parameter for other Extend endpoints, such as `POST /workflow_runs`. */
+    /**
+     * The ID of the batch this run belongs to, if created via `POST /parse_runs/batch`.
+     *
+     * **Availability:** Present when the run was submitted as part of a batch.
+     *
+     * Example: `"bpar_Xj8mK2pL9nR4vT7qY5wZ"`
+     */
+    batchId?: string | null;
+    /** The file that was parsed. This file can be used as a parameter for other Extend endpoints, such as `POST /workflow_runs`. May be `null` for batch parse runs where file ingestion failed. */
     file: Extend.FileSummary;
     /**
      * The status of the parse run:
+     * * `"PENDING"` - The run has been created and is waiting to be processed. Only applies to runs created via `POST /parse_runs/batch`.
      * * `"PROCESSING"` - The file is still being processed
      * * `"PROCESSED"` - The file was successfully processed
      * * `"FAILED"` - The processing failed (see `failureReason` for details)

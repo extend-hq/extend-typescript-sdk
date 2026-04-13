@@ -14,6 +14,8 @@ export const WebhookEndpointEventType = {
     SplitRunFailed: "split_run.failed",
     BatchProcessorRunProcessed: "batch_processor_run.processed",
     BatchProcessorRunFailed: "batch_processor_run.failed",
+    BatchParseRunProcessed: "batch_parse_run.processed",
+    BatchParseRunFailed: "batch_parse_run.failed",
     ExtractorCreated: "extractor.created",
     ExtractorUpdated: "extractor.updated",
     ExtractorDeleted: "extractor.deleted",
