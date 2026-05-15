@@ -212,6 +212,7 @@ describe("ExtractorVersionsClient", () => {
                     modelReasoningInsightsEnabled: true,
                     advancedMultimodalEnabled: true,
                     citationsEnabled: true,
+                    currentDateEnabled: true,
                     arrayCitationStrategy: "item",
                     arrayStrategy: { type: "large_array_heuristics" },
                     excelSheetRanges: [{ start: 1, end: 1 }],
@@ -266,6 +267,7 @@ describe("ExtractorVersionsClient", () => {
                     modelReasoningInsightsEnabled: true,
                     advancedMultimodalEnabled: true,
                     citationsEnabled: true,
+                    currentDateEnabled: true,
                     arrayCitationStrategy: "item",
                     arrayStrategy: {
                         type: "large_array_heuristics",
@@ -503,6 +505,7 @@ describe("ExtractorVersionsClient", () => {
                     modelReasoningInsightsEnabled: true,
                     advancedMultimodalEnabled: true,
                     citationsEnabled: true,
+                    currentDateEnabled: true,
                     arrayCitationStrategy: "item",
                     arrayStrategy: { type: "large_array_heuristics" },
                     excelSheetRanges: [{ start: 1, end: 1 }],
@@ -553,6 +556,7 @@ describe("ExtractorVersionsClient", () => {
                     modelReasoningInsightsEnabled: true,
                     advancedMultimodalEnabled: true,
                     citationsEnabled: true,
+                    currentDateEnabled: true,
                     arrayCitationStrategy: "item",
                     arrayStrategy: {
                         type: "large_array_heuristics",

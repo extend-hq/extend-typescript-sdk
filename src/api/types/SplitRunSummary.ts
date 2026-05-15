@@ -56,11 +56,11 @@ export interface SplitRunSummary {
     /** The URL to view the split run in the Extend dashboard. */
     dashboardUrl: string;
     /**
-     * Usage credits consumed by this run.
+     * Usage credits consumed by this split run. Omits `breakdown` — fetch the full split run by id to see the per-line items.
      *
-     * **Availability:** Present when `status` is `"PROCESSED"`.
+     * **Availability:** Present when `status` is `"PROCESSED"`. Will not be returned for runs created before October 7, 2025 or for customers on legacy billing systems.
      */
-    usage: Extend.RunUsage | null;
+    usage: Extend.RunUsageSummary | null;
     createdAt: Extend.CreatedAt;
     updatedAt: Extend.UpdatedAt;
 }

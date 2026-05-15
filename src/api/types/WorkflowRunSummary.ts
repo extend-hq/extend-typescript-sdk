@@ -64,5 +64,10 @@ export interface WorkflowRunSummary {
     rejectionNote: string | null;
     createdAt: Extend.CreatedAt;
     updatedAt: Extend.UpdatedAt;
-    usage: Extend.RunUsage | null;
+    /**
+     * Usage credits consumed by this workflow run. Omits `breakdown` — fetch the full workflow run by id to see the per-line items for every contributing child run.
+     *
+     * **Availability:** Will not be returned for runs created before October 7, 2025 or for customers on legacy billing systems.
+     */
+    usage: Extend.RunUsageSummary | null;
 }

@@ -57,7 +57,7 @@ describe("ClassifyRunsClient", () => {
                     },
                     parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
                     dashboardUrl: "https://dashboard.extend.ai/runs/clr_Xj8mK2pL9nR4vT7qY5wZ",
-                    usage: { credits: 10 },
+                    usage: { credits: 9, totalCredits: 15 },
                     createdAt: "2024-03-21T16:45:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
                 },
@@ -120,7 +120,8 @@ describe("ClassifyRunsClient", () => {
                     parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
                     dashboardUrl: "https://dashboard.extend.ai/runs/clr_Xj8mK2pL9nR4vT7qY5wZ",
                     usage: {
-                        credits: 10,
+                        credits: 9,
+                        totalCredits: 15,
                     },
                     createdAt: "2024-03-21T16:45:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
@@ -319,7 +320,11 @@ describe("ClassifyRunsClient", () => {
             },
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/clr_Xj8mK2pL9nR4vT7qY5wZ",
-            usage: { credits: 10 },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+            },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
         };
@@ -472,7 +477,15 @@ describe("ClassifyRunsClient", () => {
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/clr_Xj8mK2pL9nR4vT7qY5wZ",
             usage: {
-                credits: 10,
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                    },
+                ],
             },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
@@ -753,7 +766,11 @@ describe("ClassifyRunsClient", () => {
             },
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/clr_Xj8mK2pL9nR4vT7qY5wZ",
-            usage: { credits: 10 },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+            },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
         };
@@ -898,7 +915,15 @@ describe("ClassifyRunsClient", () => {
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/clr_Xj8mK2pL9nR4vT7qY5wZ",
             usage: {
-                credits: 10,
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                    },
+                ],
             },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
@@ -1254,7 +1279,11 @@ describe("ClassifyRunsClient", () => {
             },
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/clr_Xj8mK2pL9nR4vT7qY5wZ",
-            usage: { credits: 10 },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+            },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
         };
@@ -1399,7 +1428,15 @@ describe("ClassifyRunsClient", () => {
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/clr_Xj8mK2pL9nR4vT7qY5wZ",
             usage: {
-                credits: 10,
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                    },
+                ],
             },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",

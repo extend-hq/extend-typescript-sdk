@@ -68,7 +68,11 @@ describe("EditRunsClient", () => {
                 fieldAnnotationTimeMs: 200,
                 fieldFillingTimeMs: 300,
             },
-            usage: { credits: 10 },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+            },
         };
         server
             .mockEndpoint()
@@ -159,7 +163,15 @@ describe("EditRunsClient", () => {
                 fieldFillingTimeMs: 300,
             },
             usage: {
-                credits: 10,
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                    },
+                ],
             },
         });
     });
@@ -408,7 +420,11 @@ describe("EditRunsClient", () => {
                 fieldAnnotationTimeMs: 200,
                 fieldFillingTimeMs: 300,
             },
-            usage: { credits: 10 },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+            },
         };
         server
             .mockEndpoint()
@@ -488,7 +504,15 @@ describe("EditRunsClient", () => {
                 fieldFillingTimeMs: 300,
             },
             usage: {
-                credits: 10,
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                    },
+                ],
             },
         });
     });

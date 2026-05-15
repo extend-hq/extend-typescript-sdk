@@ -23,7 +23,7 @@ export class ParseRunsClient {
     }
 
     /**
-     * List parse runs, with optional filters for status, batch ID, and file name.
+     * List parse runs, with optional filters for status, batch ID, source, and file name.
      *
      * Returns a paginated list of parse runs. Use `GET /parse_runs/{id}` to retrieve the full result including output for a specific run.
      *
@@ -58,6 +58,8 @@ export class ParseRunsClient {
         const {
             status,
             batchId,
+            source,
+            sourceId,
             fileNameContains,
             nextPageToken,
             maxPageSize,
@@ -66,6 +68,8 @@ export class ParseRunsClient {
         const _queryParams: Record<string, unknown> = {
             status: status != null ? status : undefined,
             batchId,
+            source: source != null ? source : undefined,
+            sourceId,
             fileNameContains,
             nextPageToken,
             maxPageSize,

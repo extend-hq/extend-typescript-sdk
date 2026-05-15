@@ -150,7 +150,7 @@ export class WebhookEndpointsClient {
      *         url: "https://example.com/webhooks",
      *         name: "Production webhook",
      *         enabledEvents: ["extract_run.processed", "workflow.created"],
-     *         apiVersion: "2026-02-09"
+     *         apiVersion: "apiVersion"
      *     })
      */
     public create(

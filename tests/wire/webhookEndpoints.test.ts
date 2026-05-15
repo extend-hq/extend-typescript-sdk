@@ -19,7 +19,7 @@ describe("WebhookEndpointsClient", () => {
                     name: "Production webhook",
                     status: "enabled",
                     enabledEvents: ["extract_run.processed", "workflow.created"],
-                    apiVersion: "2026-02-09",
+                    apiVersion: "apiVersion",
                     advancedOptions: {},
                     createdAt: "2024-01-15T09:30:00Z",
                 },
@@ -41,7 +41,7 @@ describe("WebhookEndpointsClient", () => {
                     name: "Production webhook",
                     status: "enabled",
                     enabledEvents: ["extract_run.processed", "workflow.created"],
-                    apiVersion: "2026-02-09",
+                    apiVersion: "apiVersion",
                     advancedOptions: {},
                     createdAt: "2024-01-15T09:30:00Z",
                 },
@@ -153,7 +153,7 @@ describe("WebhookEndpointsClient", () => {
             url: "https://example.com/webhooks",
             name: "Production webhook",
             enabledEvents: ["extract_run.processed", "workflow.created"],
-            apiVersion: "2026-02-09",
+            apiVersion: "apiVersion",
         };
         const rawResponseBody = {
             object: "webhook_endpoint",
@@ -162,7 +162,7 @@ describe("WebhookEndpointsClient", () => {
             name: "Production webhook",
             status: "enabled",
             enabledEvents: ["extract_run.processed", "workflow.created"],
-            apiVersion: "2026-02-09",
+            apiVersion: "apiVersion",
             advancedOptions: { headers: { key: "value" }, payload: { format: "json", urlThresholdBytes: 1 } },
             signingSecret: "wss_Av9uCQNrCIEe0XpEpsQUVjEJYr4udK9N",
             createdAt: "2024-01-15T09:30:00Z",
@@ -180,7 +180,7 @@ describe("WebhookEndpointsClient", () => {
             url: "https://example.com/webhooks",
             name: "Production webhook",
             enabledEvents: ["extract_run.processed", "workflow.created"],
-            apiVersion: "2026-02-09",
+            apiVersion: "apiVersion",
         });
         expect(response).toEqual({
             object: "webhook_endpoint",
@@ -189,7 +189,7 @@ describe("WebhookEndpointsClient", () => {
             name: "Production webhook",
             status: "enabled",
             enabledEvents: ["extract_run.processed", "workflow.created"],
-            apiVersion: "2026-02-09",
+            apiVersion: "apiVersion",
             advancedOptions: {
                 headers: {
                     key: "value",
@@ -211,7 +211,7 @@ describe("WebhookEndpointsClient", () => {
             url: "url",
             name: "x",
             enabledEvents: ["parse_run.processed", "parse_run.processed"],
-            apiVersion: "2026-02-09",
+            apiVersion: "apiVersion",
         };
         const rawResponseBody = { key: "value" };
         server
@@ -228,7 +228,7 @@ describe("WebhookEndpointsClient", () => {
                 url: "url",
                 name: "x",
                 enabledEvents: ["parse_run.processed", "parse_run.processed"],
-                apiVersion: "2026-02-09",
+                apiVersion: "apiVersion",
             });
         }).rejects.toThrow(Extend.BadRequestError);
     });
@@ -240,7 +240,7 @@ describe("WebhookEndpointsClient", () => {
             url: "url",
             name: "x",
             enabledEvents: ["parse_run.processed", "parse_run.processed"],
-            apiVersion: "2026-02-09",
+            apiVersion: "apiVersion",
         };
         const rawResponseBody = { key: "value" };
         server
@@ -257,7 +257,7 @@ describe("WebhookEndpointsClient", () => {
                 url: "url",
                 name: "x",
                 enabledEvents: ["parse_run.processed", "parse_run.processed"],
-                apiVersion: "2026-02-09",
+                apiVersion: "apiVersion",
             });
         }).rejects.toThrow(Extend.UnauthorizedError);
     });
@@ -269,7 +269,7 @@ describe("WebhookEndpointsClient", () => {
             url: "url",
             name: "x",
             enabledEvents: ["parse_run.processed", "parse_run.processed"],
-            apiVersion: "2026-02-09",
+            apiVersion: "apiVersion",
         };
         const rawResponseBody = { code: "code", message: "message", retryable: true };
         server
@@ -286,7 +286,7 @@ describe("WebhookEndpointsClient", () => {
                 url: "url",
                 name: "x",
                 enabledEvents: ["parse_run.processed", "parse_run.processed"],
-                apiVersion: "2026-02-09",
+                apiVersion: "apiVersion",
             });
         }).rejects.toThrow(Extend.PaymentRequiredError);
     });
@@ -298,7 +298,7 @@ describe("WebhookEndpointsClient", () => {
             url: "url",
             name: "x",
             enabledEvents: ["parse_run.processed", "parse_run.processed"],
-            apiVersion: "2026-02-09",
+            apiVersion: "apiVersion",
         };
         const rawResponseBody = { code: "code", message: "message", retryable: true };
         server
@@ -315,7 +315,7 @@ describe("WebhookEndpointsClient", () => {
                 url: "url",
                 name: "x",
                 enabledEvents: ["parse_run.processed", "parse_run.processed"],
-                apiVersion: "2026-02-09",
+                apiVersion: "apiVersion",
             });
         }).rejects.toThrow(Extend.ForbiddenError);
     });
@@ -327,7 +327,7 @@ describe("WebhookEndpointsClient", () => {
             url: "url",
             name: "x",
             enabledEvents: ["parse_run.processed", "parse_run.processed"],
-            apiVersion: "2026-02-09",
+            apiVersion: "apiVersion",
         };
         const rawResponseBody = { key: "value" };
         server
@@ -344,7 +344,7 @@ describe("WebhookEndpointsClient", () => {
                 url: "url",
                 name: "x",
                 enabledEvents: ["parse_run.processed", "parse_run.processed"],
-                apiVersion: "2026-02-09",
+                apiVersion: "apiVersion",
             });
         }).rejects.toThrow(Extend.NotFoundError);
     });
@@ -356,7 +356,7 @@ describe("WebhookEndpointsClient", () => {
             url: "url",
             name: "x",
             enabledEvents: ["parse_run.processed", "parse_run.processed"],
-            apiVersion: "2026-02-09",
+            apiVersion: "apiVersion",
         };
         const rawResponseBody = { code: "code", message: "message", retryable: true };
         server
@@ -373,7 +373,7 @@ describe("WebhookEndpointsClient", () => {
                 url: "url",
                 name: "x",
                 enabledEvents: ["parse_run.processed", "parse_run.processed"],
-                apiVersion: "2026-02-09",
+                apiVersion: "apiVersion",
             });
         }).rejects.toThrow(Extend.UnprocessableEntityError);
     });
@@ -385,7 +385,7 @@ describe("WebhookEndpointsClient", () => {
             url: "url",
             name: "x",
             enabledEvents: ["parse_run.processed", "parse_run.processed"],
-            apiVersion: "2026-02-09",
+            apiVersion: "apiVersion",
         };
         const rawResponseBody = { key: "value" };
         server
@@ -402,7 +402,7 @@ describe("WebhookEndpointsClient", () => {
                 url: "url",
                 name: "x",
                 enabledEvents: ["parse_run.processed", "parse_run.processed"],
-                apiVersion: "2026-02-09",
+                apiVersion: "apiVersion",
             });
         }).rejects.toThrow(Extend.TooManyRequestsError);
     });
@@ -414,7 +414,7 @@ describe("WebhookEndpointsClient", () => {
             url: "url",
             name: "x",
             enabledEvents: ["parse_run.processed", "parse_run.processed"],
-            apiVersion: "2026-02-09",
+            apiVersion: "apiVersion",
         };
         const rawResponseBody = { key: "value" };
         server
@@ -431,7 +431,7 @@ describe("WebhookEndpointsClient", () => {
                 url: "url",
                 name: "x",
                 enabledEvents: ["parse_run.processed", "parse_run.processed"],
-                apiVersion: "2026-02-09",
+                apiVersion: "apiVersion",
             });
         }).rejects.toThrow(Extend.InternalServerError);
     });
@@ -447,7 +447,7 @@ describe("WebhookEndpointsClient", () => {
             name: "Production webhook",
             status: "enabled",
             enabledEvents: ["extract_run.processed", "workflow.created"],
-            apiVersion: "2026-02-09",
+            apiVersion: "apiVersion",
             advancedOptions: { headers: { key: "value" }, payload: { format: "json", urlThresholdBytes: 1 } },
             createdAt: "2024-01-15T09:30:00Z",
         };
@@ -467,7 +467,7 @@ describe("WebhookEndpointsClient", () => {
             name: "Production webhook",
             status: "enabled",
             enabledEvents: ["extract_run.processed", "workflow.created"],
-            apiVersion: "2026-02-09",
+            apiVersion: "apiVersion",
             advancedOptions: {
                 headers: {
                     key: "value",
@@ -636,7 +636,7 @@ describe("WebhookEndpointsClient", () => {
             name: "Production webhook",
             status: "enabled",
             enabledEvents: ["extract_run.processed", "workflow.created"],
-            apiVersion: "2026-02-09",
+            apiVersion: "apiVersion",
             advancedOptions: { headers: { key: "value" }, payload: { format: "json", urlThresholdBytes: 1 } },
             createdAt: "2024-01-15T09:30:00Z",
         };
@@ -657,7 +657,7 @@ describe("WebhookEndpointsClient", () => {
             name: "Production webhook",
             status: "enabled",
             enabledEvents: ["extract_run.processed", "workflow.created"],
-            apiVersion: "2026-02-09",
+            apiVersion: "apiVersion",
             advancedOptions: {
                 headers: {
                     key: "value",

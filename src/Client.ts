@@ -8,6 +8,7 @@ import { ClassifierVersionsClient } from "./api/resources/classifierVersions/cli
 import { ClassifyRunsClient } from "./api/resources/classifyRuns/client/Client";
 import { EditRunsClient } from "./api/resources/editRuns/client/Client";
 import { EditSchemasClient } from "./api/resources/editSchemas/client/Client";
+import { EditTemplatesClient } from "./api/resources/editTemplates/client/Client";
 import { EvaluationSetItemsClient } from "./api/resources/evaluationSetItems/client/Client";
 import { EvaluationSetRunsClient } from "./api/resources/evaluationSetRuns/client/Client";
 import { EvaluationSetsClient } from "./api/resources/evaluationSets/client/Client";
@@ -46,6 +47,7 @@ export class ExtendClient {
     protected _files: FilesClient | undefined;
     protected _parseRuns: ParseRunsClient | undefined;
     protected _editRuns: EditRunsClient | undefined;
+    protected _editTemplates: EditTemplatesClient | undefined;
     protected _editSchemas: EditSchemasClient | undefined;
     protected _extractRuns: ExtractRunsClient | undefined;
     protected _extractors: ExtractorsClient | undefined;
@@ -84,6 +86,10 @@ export class ExtendClient {
 
     public get editRuns(): EditRunsClient {
         return (this._editRuns ??= new EditRunsClient(this._options));
+    }
+
+    public get editTemplates(): EditTemplatesClient {
+        return (this._editTemplates ??= new EditTemplatesClient(this._options));
     }
 
     public get editSchemas(): EditSchemasClient {
