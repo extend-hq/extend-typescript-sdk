@@ -732,7 +732,7 @@ await client.files.upload(createReadStream("path/to/file"), {});
 <dl>
 <dd>
 
-List parse runs, with optional filters for status, batch ID, and file name.
+List parse runs, with optional filters for status, batch ID, source, and file name.
 
 Returns a paginated list of parse runs. Use `GET /parse_runs/{id}` to retrieve the full result including output for a specific run.
 </dd>
@@ -1330,6 +1330,84 @@ Example: `"edr_xK9mLPqRtN3vS8wF5hB2cQ"`
 <dd>
 
 **requestOptions:** `EditRunsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## EditTemplates
+<details><summary><code>client.editTemplates.<a href="/src/api/resources/editTemplates/client/Client.ts">retrieve</a>(id, { ...params }) -> Extend.EditTemplate</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a saved edit template by ID.
+
+Use this endpoint to inspect the source file, default edit configuration, and optional schema generation configuration saved on an edit template. You can reuse the returned `config` with `POST /edit` or `POST /edit_runs`, and reuse `schemaConfig` with `POST /edit_schemas/generate`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.editTemplates.retrieve("edit_template_id_here");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+
+The unique identifier for the edit template.
+
+Example: `"edt_xK9mLPqRtN3vS8wF5hB2cQ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.EditTemplatesRetrieveRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `EditTemplatesClient.RequestOptions` 
     
 </dd>
 </dl>
@@ -7328,7 +7406,7 @@ await client.webhookEndpoints.create({
     url: "https://example.com/webhooks",
     name: "Production webhook",
     enabledEvents: ["extract_run.processed", "workflow.created"],
-    apiVersion: "2026-02-09"
+    apiVersion: "apiVersion"
 });
 
 ```

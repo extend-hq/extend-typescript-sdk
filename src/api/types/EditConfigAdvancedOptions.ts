@@ -6,7 +6,7 @@
 export interface EditConfigAdvancedOptions {
     /** Whether to parse table regions as arrays of objects. Defaults to `false`. */
     tableParsingEnabled?: boolean;
-    /** Whether to flatten the PDF (form widgets will not be editable with a PDF edit). Defaults to `true`. */
+    /** Whether to flatten PDF forms after editing (makes form fields non-editable). Defaults to `true`. */
     flattenPdf?: boolean;
     /** Whether to model radio fields as enums. This ensures only one radio widget is filled. Defaults to false. */
     radioEnumsEnabled?: boolean;

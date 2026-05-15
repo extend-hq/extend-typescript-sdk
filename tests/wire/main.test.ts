@@ -85,7 +85,11 @@ describe("ExtendClient", () => {
                     formattingDetection: [{ type: "change_tracking" }],
                 },
             },
-            usage: { credits: 10 },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+            },
         };
         server
             .mockEndpoint()
@@ -228,7 +232,15 @@ describe("ExtendClient", () => {
                 },
             },
             usage: {
-                credits: 10,
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                    },
+                ],
             },
         });
     });
@@ -480,7 +492,11 @@ describe("ExtendClient", () => {
                 fieldAnnotationTimeMs: 200,
                 fieldFillingTimeMs: 300,
             },
-            usage: { credits: 10 },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+            },
         };
         server
             .mockEndpoint()
@@ -571,7 +587,15 @@ describe("ExtendClient", () => {
                 fieldFillingTimeMs: 300,
             },
             usage: {
-                credits: 10,
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                    },
+                ],
             },
         });
     });
@@ -821,6 +845,7 @@ describe("ExtendClient", () => {
                     modelReasoningInsightsEnabled: true,
                     advancedMultimodalEnabled: true,
                     citationsEnabled: true,
+                    currentDateEnabled: true,
                     arrayCitationStrategy: "item",
                     arrayStrategy: { type: "large_array_heuristics" },
                     excelSheetRanges: [{ start: 1, end: 1 }],
@@ -858,7 +883,11 @@ describe("ExtendClient", () => {
             },
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/exr_Xj8mK2pL9nR4vT7qY5wZ",
-            usage: { credits: 10 },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+            },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
         };
@@ -975,6 +1004,7 @@ describe("ExtendClient", () => {
                     modelReasoningInsightsEnabled: true,
                     advancedMultimodalEnabled: true,
                     citationsEnabled: true,
+                    currentDateEnabled: true,
                     arrayCitationStrategy: "item",
                     arrayStrategy: {
                         type: "large_array_heuristics",
@@ -1043,7 +1073,15 @@ describe("ExtendClient", () => {
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/exr_Xj8mK2pL9nR4vT7qY5wZ",
             usage: {
-                credits: 10,
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                    },
+                ],
             },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
@@ -1333,7 +1371,11 @@ describe("ExtendClient", () => {
             },
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/clr_Xj8mK2pL9nR4vT7qY5wZ",
-            usage: { credits: 10 },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+            },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
         };
@@ -1502,7 +1544,15 @@ describe("ExtendClient", () => {
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/clr_Xj8mK2pL9nR4vT7qY5wZ",
             usage: {
-                credits: 10,
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                    },
+                ],
             },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
@@ -1834,7 +1884,11 @@ describe("ExtendClient", () => {
             },
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/splr_Xj8mK2pL9nR4vT7qY5wZ",
-            usage: { credits: 10 },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+            },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
         };
@@ -2017,7 +2071,15 @@ describe("ExtendClient", () => {
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/splr_Xj8mK2pL9nR4vT7qY5wZ",
             usage: {
-                credits: 10,
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                    },
+                ],
             },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",

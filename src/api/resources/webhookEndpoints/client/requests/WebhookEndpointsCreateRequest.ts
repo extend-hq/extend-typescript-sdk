@@ -8,7 +8,7 @@ import type * as Extend from "../../../../index";
  *         url: "https://example.com/webhooks",
  *         name: "Production webhook",
  *         enabledEvents: ["extract_run.processed", "workflow.created"],
- *         apiVersion: "2026-02-09"
+ *         apiVersion: "apiVersion"
  *     }
  */
 export interface WebhookEndpointsCreateRequest {

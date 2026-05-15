@@ -56,13 +56,11 @@ export interface ClassifyRunSummary {
     /** The URL to view the classify run in the Extend dashboard. */
     dashboardUrl: string;
     /**
-     * Usage credits consumed by this run.
+     * Usage credits consumed by this classify run. Omits `breakdown` — fetch the full classify run by id to see the per-line items.
      *
-     * **Availability:** This field will not be returned for:
-     * * Runs created before October 7, 2025
-     * * Customers on legacy billing systems
+     * **Availability:** Present when `status` is `"PROCESSED"`. Will not be returned for runs created before October 7, 2025 or for customers on legacy billing systems.
      */
-    usage: Extend.RunUsage | null;
+    usage: Extend.RunUsageSummary | null;
     createdAt: Extend.CreatedAt;
     updatedAt: Extend.UpdatedAt;
 }

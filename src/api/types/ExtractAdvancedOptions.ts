@@ -9,6 +9,8 @@ export interface ExtractAdvancedOptions {
     advancedMultimodalEnabled?: boolean;
     /** Whether to enable citations in the output. */
     citationsEnabled?: boolean;
+    /** Whether to include the current date as context for the model during extraction. Defaults to `false`. */
+    currentDateEnabled?: boolean;
     /** Granularity for array citations. This requires citationsEnabled=true and a base processor version that supports property-level array citations (extraction_performance ≥ 4.4.0). */
     arrayCitationStrategy?: Extend.ExtractAdvancedOptionsArrayCitationStrategy;
     /** Strategy for handling large arrays in documents. */

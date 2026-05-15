@@ -40,7 +40,7 @@ describe("WorkflowRunsClient", () => {
                     rejectionNote: "rejectionNote",
                     createdAt: "2024-03-21T16:45:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
-                    usage: { credits: 10 },
+                    usage: { credits: 9, totalCredits: 15 },
                 },
             ],
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
@@ -82,7 +82,8 @@ describe("WorkflowRunsClient", () => {
                     createdAt: "2024-03-21T16:45:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
                     usage: {
-                        credits: 10,
+                        credits: 9,
+                        totalCredits: 15,
                     },
                 },
             ],
@@ -329,12 +330,20 @@ describe("WorkflowRunsClient", () => {
                             outputUrl: "https://...",
                             metrics: { processingTimeMs: 1234, pageCount: 5 },
                             config: { chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } } },
-                            usage: { credits: 10 },
+                            usage: {
+                                credits: 9,
+                                totalCredits: 15,
+                                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+                            },
                         },
                     },
                 },
             ],
-            usage: { credits: 10 },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+            },
         };
         server
             .mockEndpoint()
@@ -535,14 +544,30 @@ describe("WorkflowRunsClient", () => {
                                 },
                             },
                             usage: {
-                                credits: 10,
+                                credits: 9,
+                                totalCredits: 15,
+                                breakdown: [
+                                    {
+                                        object: "extract_run",
+                                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                                        credits: 6,
+                                    },
+                                ],
                             },
                         },
                     },
                 },
             ],
             usage: {
-                credits: 10,
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                    },
+                ],
             },
         });
     });
@@ -898,12 +923,20 @@ describe("WorkflowRunsClient", () => {
                             outputUrl: "https://...",
                             metrics: { processingTimeMs: 1234, pageCount: 5 },
                             config: { chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } } },
-                            usage: { credits: 10 },
+                            usage: {
+                                credits: 9,
+                                totalCredits: 15,
+                                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+                            },
                         },
                     },
                 },
             ],
-            usage: { credits: 10 },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+            },
         };
         server
             .mockEndpoint()
@@ -1096,14 +1129,30 @@ describe("WorkflowRunsClient", () => {
                                 },
                             },
                             usage: {
-                                credits: 10,
+                                credits: 9,
+                                totalCredits: 15,
+                                breakdown: [
+                                    {
+                                        object: "extract_run",
+                                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                                        credits: 6,
+                                    },
+                                ],
                             },
                         },
                     },
                 },
             ],
             usage: {
-                credits: 10,
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                    },
+                ],
             },
         });
     });
@@ -1350,12 +1399,20 @@ describe("WorkflowRunsClient", () => {
                             outputUrl: "https://...",
                             metrics: { processingTimeMs: 1234, pageCount: 5 },
                             config: { chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } } },
-                            usage: { credits: 10 },
+                            usage: {
+                                credits: 9,
+                                totalCredits: 15,
+                                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+                            },
                         },
                     },
                 },
             ],
-            usage: { credits: 10 },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+            },
         };
         server
             .mockEndpoint()
@@ -1555,14 +1612,30 @@ describe("WorkflowRunsClient", () => {
                                 },
                             },
                             usage: {
-                                credits: 10,
+                                credits: 9,
+                                totalCredits: 15,
+                                breakdown: [
+                                    {
+                                        object: "extract_run",
+                                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                                        credits: 6,
+                                    },
+                                ],
                             },
                         },
                     },
                 },
             ],
             usage: {
-                credits: 10,
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                    },
+                ],
             },
         });
     });
@@ -2025,12 +2098,20 @@ describe("WorkflowRunsClient", () => {
                             outputUrl: "https://...",
                             metrics: { processingTimeMs: 1234, pageCount: 5 },
                             config: { chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } } },
-                            usage: { credits: 10 },
+                            usage: {
+                                credits: 9,
+                                totalCredits: 15,
+                                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+                            },
                         },
                     },
                 },
             ],
-            usage: { credits: 10 },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+            },
         };
         server
             .mockEndpoint()
@@ -2223,14 +2304,30 @@ describe("WorkflowRunsClient", () => {
                                 },
                             },
                             usage: {
-                                credits: 10,
+                                credits: 9,
+                                totalCredits: 15,
+                                breakdown: [
+                                    {
+                                        object: "extract_run",
+                                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                                        credits: 6,
+                                    },
+                                ],
                             },
                         },
                     },
                 },
             ],
             usage: {
-                credits: 10,
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                    },
+                ],
             },
         });
     });

@@ -34,4 +34,10 @@ export interface ParseRunStatus {
      * **Availability:** Present when `status` is `"FAILED"`.
      */
     failureMessage?: string | null;
+    /**
+     * Any metadata that was provided when creating the parse run.
+     *
+     * **Availability:** Present when metadata was provided during creation.
+     */
+    metadata?: Extend.RunMetadata | null;
 }

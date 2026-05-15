@@ -17,6 +17,8 @@ export * from "./editRuns/types";
 export * as editSchemas from "./editSchemas";
 export * from "./editSchemas/client/requests";
 export * from "./editSchemas/types";
+export * as editTemplates from "./editTemplates";
+export * from "./editTemplates/client/requests";
 export * as evaluationSetItems from "./evaluationSetItems";
 export * from "./evaluationSetItems/client/requests";
 export * from "./evaluationSetItems/types";

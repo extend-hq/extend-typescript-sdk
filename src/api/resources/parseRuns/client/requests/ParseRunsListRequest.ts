@@ -18,6 +18,14 @@ export interface ParseRunsListRequest {
      */
     batchId?: string;
     /**
+     * Filters parse runs by the source that created them. If not provided, runs from all sources are returned.
+     *
+     * **Note:** When `batchId` is provided, it takes precedence and this filter is ignored.
+     */
+    source?: Extend.ParseRunSource;
+    /** Filters runs by the source ID. */
+    sourceId?: Extend.RunSourceId;
+    /**
      * Filters runs by the name of the file. Only returns runs where the file name contains this string.
      *
      * Example: `"invoice"`
