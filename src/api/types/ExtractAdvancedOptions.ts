@@ -9,8 +9,13 @@ export interface ExtractAdvancedOptions {
     advancedMultimodalEnabled?: boolean;
     /** Whether to enable citations in the output. */
     citationsEnabled?: boolean;
-    /** Whether to include the current date as context for the model during extraction. Defaults to `false`. */
-    currentDateEnabled?: boolean;
+    /**
+     * Controls the granularity of citations returned alongside extracted values. Requires `citationsEnabled=true` and a base processor version that supports bounding box citations.
+     * - `line`: Use OCR lines for citations. This can return one or more relevant OCR lines for each citation. This is the default mode.
+     * - `word`: Narrow each matched citation down to the relevant OCR word span when possible. Note: this might still return line citations in cases where the citation model is unable to reliably narrow down to a word-level citation. Typically, this only makes sense when you are doing array extraction and want precise word citations from a given cell in a table to match an array property, e.g. `line_items.total`.
+     * - `block`: Use parser blocks (e.g. full paragraphs, key-val regions, tables, lists, etc.) and return block-level polygons for each citation. Will have highest recall in terms of overlap with the extracted value source, but least granularity.
+     */
+    citationMode?: Extend.ExtractAdvancedOptionsCitationMode;
     /** Granularity for array citations. This requires citationsEnabled=true and a base processor version that supports property-level array citations (extraction_performance ≥ 4.4.0). */
     arrayCitationStrategy?: Extend.ExtractAdvancedOptionsArrayCitationStrategy;
     /** Strategy for handling large arrays in documents. */
@@ -30,4 +35,6 @@ export interface ExtractAdvancedOptions {
      * To learn more, view the [Review Agent Documentation](https://docs.extend.ai/2026-02-09/product/extraction/review-agent)
      */
     reviewAgent?: Extend.ExtractAdvancedOptionsReviewAgent;
+    /** Whether to include the current date as context for the model during extraction. Defaults to `false`. */
+    currentDateEnabled?: boolean;
 }

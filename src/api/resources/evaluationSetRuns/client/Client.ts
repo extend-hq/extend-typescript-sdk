@@ -23,6 +23,119 @@ export class EvaluationSetRunsClient {
     }
 
     /**
+     * Create and start an async evaluation set run. The response returns the evaluation set run object with its initial status; use `GET /evaluation_set_runs/{id}` to poll for completion.
+     *
+     * Evaluation set runs are currently supported for document processor evaluation sets.
+     *
+     * @param {Extend.EvaluationSetRunsCreateRequest} request
+     * @param {EvaluationSetRunsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.PaymentRequiredError}
+     * @throws {@link Extend.ForbiddenError}
+     * @throws {@link Extend.NotFoundError}
+     * @throws {@link Extend.UnprocessableEntityError}
+     * @throws {@link Extend.TooManyRequestsError}
+     * @throws {@link Extend.InternalServerError}
+     *
+     * @example
+     *     await client.evaluationSetRuns.create({
+     *         evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
+     *         entity: {
+     *             id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+     *             version: "1.0"
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.evaluationSetRuns.create({
+     *         evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
+     *         evaluationSetItemIds: ["evi_kR9mNP12Qw4yTv8BdR3H"]
+     *     })
+     */
+    public create(
+        request: Extend.EvaluationSetRunsCreateRequest,
+        requestOptions?: EvaluationSetRunsClient.RequestOptions,
+    ): core.HttpResponsePromise<Extend.EvaluationSetRun> {
+        return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
+    }
+
+    private async __create(
+        request: Extend.EvaluationSetRunsCreateRequest,
+        requestOptions?: EvaluationSetRunsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.EvaluationSetRun>> {
+        const { "x-extend-workspace-id": extendWorkspaceId, ..._body } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                "evaluation_set_runs",
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryParameters: requestOptions?.queryParams,
+            requestType: "json",
+            body: _body,
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 300) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.EvaluationSetRun, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new Extend.PaymentRequiredError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Extend.ForbiddenError(_response.error.body as Extend.ApiError, _response.rawResponse);
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 422:
+                    throw new Extend.UnprocessableEntityError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new Extend.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Extend.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/evaluation_set_runs");
+    }
+
+    /**
      * Get details of an evaluation set run.
      *
      * @param {string} id - The ID of the evaluation set run.

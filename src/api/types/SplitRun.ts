@@ -14,6 +14,13 @@ export interface SplitRun {
      * Example: `"splr_Xj8mK2pL9nR4vT7qY5wZ"`
      */
     id: string;
+    status: Extend.ProcessorRunStatus;
+    /**
+     * The final output, either reviewed or initial.
+     *
+     * **Availability:** Present when `status` is `"PROCESSED"`.
+     */
+    output: Extend.SplitOutput | null;
     /**
      * The splitter that was used for this run.
      *
@@ -26,13 +33,6 @@ export interface SplitRun {
      * **Availability:** Present when a splitter reference was provided. Not present when using inline `config`.
      */
     splitterVersion: Extend.SplitterVersionSummary | null;
-    status: Extend.ProcessorRunStatus;
-    /**
-     * The final output, either reviewed or initial.
-     *
-     * **Availability:** Present when `status` is `"PROCESSED"`.
-     */
-    output: Extend.SplitOutput | null;
     /**
      * The initial output from the split run, before any review edits.
      *

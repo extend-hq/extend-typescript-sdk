@@ -5,6 +5,333 @@ import { ExtendClient } from "../../src/Client";
 import { mockServerPool } from "../mock-server/MockServerPool";
 
 describe("EvaluationSetRunsClient", () => {
+    test("create (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
+            entity: { id: "ex_Xj8mK2pL9nR4vT7qY5wZ", version: "1.0" },
+        };
+        const rawResponseBody = {
+            object: "evaluation_set_run",
+            id: "eval_set_run_Xj8mK2pL9nR4vT7qY5wZ",
+            evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
+            entity: {
+                object: "extractor",
+                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Extractor",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            entityVersion: {
+                object: "extractor_version",
+                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated extraction fields for new invoice format",
+                version: "draft",
+                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+            metrics: { numFiles: 1.1, numPages: 1.1 },
+            status: "PENDING",
+            options: { fuzzyMatchFields: ["fuzzyMatchFields"], excludeFields: ["excludeFields"] },
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+        };
+        server
+            .mockEndpoint()
+            .post("/evaluation_set_runs")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.evaluationSetRuns.create({
+            evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
+            entity: {
+                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                version: "1.0",
+            },
+        });
+        expect(response).toEqual({
+            object: "evaluation_set_run",
+            id: "eval_set_run_Xj8mK2pL9nR4vT7qY5wZ",
+            evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
+            entity: {
+                object: "extractor",
+                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Extractor",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            entityVersion: {
+                object: "extractor_version",
+                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated extraction fields for new invoice format",
+                version: "draft",
+                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+            metrics: {
+                numFiles: 1.1,
+                numPages: 1.1,
+            },
+            status: "PENDING",
+            options: {
+                fuzzyMatchFields: ["fuzzyMatchFields"],
+                excludeFields: ["excludeFields"],
+            },
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+        });
+    });
+
+    test("create (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
+            evaluationSetItemIds: ["evi_kR9mNP12Qw4yTv8BdR3H"],
+        };
+        const rawResponseBody = {
+            object: "evaluation_set_run",
+            id: "eval_set_run_Xj8mK2pL9nR4vT7qY5wZ",
+            evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
+            entity: {
+                object: "extractor",
+                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Extractor",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            entityVersion: {
+                object: "extractor_version",
+                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated extraction fields for new invoice format",
+                version: "draft",
+                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+            metrics: { numFiles: 1.1, numPages: 1.1 },
+            status: "PENDING",
+            options: { fuzzyMatchFields: ["fuzzyMatchFields"], excludeFields: ["excludeFields"] },
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+        };
+        server
+            .mockEndpoint()
+            .post("/evaluation_set_runs")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.evaluationSetRuns.create({
+            evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
+            evaluationSetItemIds: ["evi_kR9mNP12Qw4yTv8BdR3H"],
+        });
+        expect(response).toEqual({
+            object: "evaluation_set_run",
+            id: "eval_set_run_Xj8mK2pL9nR4vT7qY5wZ",
+            evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
+            entity: {
+                object: "extractor",
+                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Extractor",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            entityVersion: {
+                object: "extractor_version",
+                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated extraction fields for new invoice format",
+                version: "draft",
+                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+            metrics: {
+                numFiles: 1.1,
+                numPages: 1.1,
+            },
+            status: "PENDING",
+            options: {
+                fuzzyMatchFields: ["fuzzyMatchFields"],
+                excludeFields: ["excludeFields"],
+            },
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+        });
+    });
+
+    test("create (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { evaluationSetId: "evaluationSetId" };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/evaluation_set_runs")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetRuns.create({
+                evaluationSetId: "evaluationSetId",
+            });
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("create (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { evaluationSetId: "evaluationSetId" };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/evaluation_set_runs")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetRuns.create({
+                evaluationSetId: "evaluationSetId",
+            });
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("create (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { evaluationSetId: "evaluationSetId" };
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/evaluation_set_runs")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(402)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetRuns.create({
+                evaluationSetId: "evaluationSetId",
+            });
+        }).rejects.toThrow(Extend.PaymentRequiredError);
+    });
+
+    test("create (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { evaluationSetId: "evaluationSetId" };
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/evaluation_set_runs")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetRuns.create({
+                evaluationSetId: "evaluationSetId",
+            });
+        }).rejects.toThrow(Extend.ForbiddenError);
+    });
+
+    test("create (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { evaluationSetId: "evaluationSetId" };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/evaluation_set_runs")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetRuns.create({
+                evaluationSetId: "evaluationSetId",
+            });
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("create (8)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { evaluationSetId: "evaluationSetId" };
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/evaluation_set_runs")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(422)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetRuns.create({
+                evaluationSetId: "evaluationSetId",
+            });
+        }).rejects.toThrow(Extend.UnprocessableEntityError);
+    });
+
+    test("create (9)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { evaluationSetId: "evaluationSetId" };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/evaluation_set_runs")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(429)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetRuns.create({
+                evaluationSetId: "evaluationSetId",
+            });
+        }).rejects.toThrow(Extend.TooManyRequestsError);
+    });
+
+    test("create (10)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { evaluationSetId: "evaluationSetId" };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/evaluation_set_runs")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.evaluationSetRuns.create({
+                evaluationSetId: "evaluationSetId",
+            });
+        }).rejects.toThrow(Extend.InternalServerError);
+    });
+
     test("retrieve (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });

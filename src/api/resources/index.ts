@@ -24,6 +24,7 @@ export * from "./evaluationSetItems/client/requests";
 export * from "./evaluationSetItems/types";
 export * as evaluationSetRuns from "./evaluationSetRuns";
 export * from "./evaluationSetRuns/client/requests";
+export * from "./evaluationSetRuns/types";
 export * as evaluationSets from "./evaluationSets";
 export * from "./evaluationSets/client/requests";
 export * from "./evaluationSets/types";

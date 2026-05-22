@@ -237,21 +237,6 @@ describe("SplitRunsClient", () => {
         const rawResponseBody = {
             object: "split_run",
             id: "splr_Xj8mK2pL9nR4vT7qY5wZ",
-            splitter: {
-                object: "splitter",
-                id: "spl_Xj8mK2pL9nR4vT7qY5wZ",
-                name: "Invoice Packet Splitter",
-                createdAt: "2024-03-21T16:45:00Z",
-                updatedAt: "2024-03-21T16:45:00Z",
-            },
-            splitterVersion: {
-                object: "splitter_version",
-                id: "splv_xK9mLPqRtN3vS8wF5hB2cQ",
-                description: "Updated split rules for multi-invoice packets",
-                version: "draft",
-                splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
-                createdAt: "2024-03-21T16:45:00Z",
-            },
             status: "PENDING",
             output: {
                 splits: [
@@ -267,6 +252,21 @@ describe("SplitRunsClient", () => {
                     },
                 ],
                 isExternal: true,
+            },
+            splitter: {
+                object: "splitter",
+                id: "spl_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Packet Splitter",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            splitterVersion: {
+                object: "splitter_version",
+                id: "splv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated split rules for multi-invoice packets",
+                version: "draft",
+                splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
             },
             initialOutput: {
                 splits: [
@@ -380,21 +380,6 @@ describe("SplitRunsClient", () => {
         expect(response).toEqual({
             object: "split_run",
             id: "splr_Xj8mK2pL9nR4vT7qY5wZ",
-            splitter: {
-                object: "splitter",
-                id: "spl_Xj8mK2pL9nR4vT7qY5wZ",
-                name: "Invoice Packet Splitter",
-                createdAt: "2024-03-21T16:45:00Z",
-                updatedAt: "2024-03-21T16:45:00Z",
-            },
-            splitterVersion: {
-                object: "splitter_version",
-                id: "splv_xK9mLPqRtN3vS8wF5hB2cQ",
-                description: "Updated split rules for multi-invoice packets",
-                version: "draft",
-                splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
-                createdAt: "2024-03-21T16:45:00Z",
-            },
             status: "PENDING",
             output: {
                 splits: [
@@ -410,6 +395,21 @@ describe("SplitRunsClient", () => {
                     },
                 ],
                 isExternal: true,
+            },
+            splitter: {
+                object: "splitter",
+                id: "spl_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Packet Splitter",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            splitterVersion: {
+                object: "splitter_version",
+                id: "splv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated split rules for multi-invoice packets",
+                version: "draft",
+                splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
             },
             initialOutput: {
                 splits: [
@@ -727,21 +727,6 @@ describe("SplitRunsClient", () => {
         const rawResponseBody = {
             object: "split_run",
             id: "splr_Xj8mK2pL9nR4vT7qY5wZ",
-            splitter: {
-                object: "splitter",
-                id: "spl_Xj8mK2pL9nR4vT7qY5wZ",
-                name: "Invoice Packet Splitter",
-                createdAt: "2024-03-21T16:45:00Z",
-                updatedAt: "2024-03-21T16:45:00Z",
-            },
-            splitterVersion: {
-                object: "splitter_version",
-                id: "splv_xK9mLPqRtN3vS8wF5hB2cQ",
-                description: "Updated split rules for multi-invoice packets",
-                version: "draft",
-                splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
-                createdAt: "2024-03-21T16:45:00Z",
-            },
             status: "PENDING",
             output: {
                 splits: [
@@ -757,6 +742,21 @@ describe("SplitRunsClient", () => {
                     },
                 ],
                 isExternal: true,
+            },
+            splitter: {
+                object: "splitter",
+                id: "spl_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Packet Splitter",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            splitterVersion: {
+                object: "splitter_version",
+                id: "splv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated split rules for multi-invoice packets",
+                version: "draft",
+                splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
             },
             initialOutput: {
                 splits: [
@@ -862,21 +862,6 @@ describe("SplitRunsClient", () => {
         expect(response).toEqual({
             object: "split_run",
             id: "splr_Xj8mK2pL9nR4vT7qY5wZ",
-            splitter: {
-                object: "splitter",
-                id: "spl_Xj8mK2pL9nR4vT7qY5wZ",
-                name: "Invoice Packet Splitter",
-                createdAt: "2024-03-21T16:45:00Z",
-                updatedAt: "2024-03-21T16:45:00Z",
-            },
-            splitterVersion: {
-                object: "splitter_version",
-                id: "splv_xK9mLPqRtN3vS8wF5hB2cQ",
-                description: "Updated split rules for multi-invoice packets",
-                version: "draft",
-                splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
-                createdAt: "2024-03-21T16:45:00Z",
-            },
             status: "PENDING",
             output: {
                 splits: [
@@ -892,6 +877,21 @@ describe("SplitRunsClient", () => {
                     },
                 ],
                 isExternal: true,
+            },
+            splitter: {
+                object: "splitter",
+                id: "spl_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Packet Splitter",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            splitterVersion: {
+                object: "splitter_version",
+                id: "splv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated split rules for multi-invoice packets",
+                version: "draft",
+                splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
             },
             initialOutput: {
                 splits: [
@@ -1230,21 +1230,6 @@ describe("SplitRunsClient", () => {
         const rawResponseBody = {
             object: "split_run",
             id: "splr_Xj8mK2pL9nR4vT7qY5wZ",
-            splitter: {
-                object: "splitter",
-                id: "spl_Xj8mK2pL9nR4vT7qY5wZ",
-                name: "Invoice Packet Splitter",
-                createdAt: "2024-03-21T16:45:00Z",
-                updatedAt: "2024-03-21T16:45:00Z",
-            },
-            splitterVersion: {
-                object: "splitter_version",
-                id: "splv_xK9mLPqRtN3vS8wF5hB2cQ",
-                description: "Updated split rules for multi-invoice packets",
-                version: "draft",
-                splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
-                createdAt: "2024-03-21T16:45:00Z",
-            },
             status: "PENDING",
             output: {
                 splits: [
@@ -1260,6 +1245,21 @@ describe("SplitRunsClient", () => {
                     },
                 ],
                 isExternal: true,
+            },
+            splitter: {
+                object: "splitter",
+                id: "spl_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Packet Splitter",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            splitterVersion: {
+                object: "splitter_version",
+                id: "splv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated split rules for multi-invoice packets",
+                version: "draft",
+                splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
             },
             initialOutput: {
                 splits: [
@@ -1365,21 +1365,6 @@ describe("SplitRunsClient", () => {
         expect(response).toEqual({
             object: "split_run",
             id: "splr_Xj8mK2pL9nR4vT7qY5wZ",
-            splitter: {
-                object: "splitter",
-                id: "spl_Xj8mK2pL9nR4vT7qY5wZ",
-                name: "Invoice Packet Splitter",
-                createdAt: "2024-03-21T16:45:00Z",
-                updatedAt: "2024-03-21T16:45:00Z",
-            },
-            splitterVersion: {
-                object: "splitter_version",
-                id: "splv_xK9mLPqRtN3vS8wF5hB2cQ",
-                description: "Updated split rules for multi-invoice packets",
-                version: "draft",
-                splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
-                createdAt: "2024-03-21T16:45:00Z",
-            },
             status: "PENDING",
             output: {
                 splits: [
@@ -1395,6 +1380,21 @@ describe("SplitRunsClient", () => {
                     },
                 ],
                 isExternal: true,
+            },
+            splitter: {
+                object: "splitter",
+                id: "spl_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Packet Splitter",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            splitterVersion: {
+                object: "splitter_version",
+                id: "splv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated split rules for multi-invoice packets",
+                version: "draft",
+                splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
             },
             initialOutput: {
                 splits: [

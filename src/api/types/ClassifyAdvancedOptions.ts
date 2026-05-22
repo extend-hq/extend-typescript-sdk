@@ -7,5 +7,7 @@ export interface ClassifyAdvancedOptions {
     context?: Extend.ClassifyAdvancedOptionsContext;
     /** Enable advanced multimodal processing for better handling of visual elements during classification. */
     advancedMultimodalEnabled?: boolean;
+    /** Enable memory for enhanced processing by learning from past successful classifications. */
+    memoryEnabled?: boolean;
     pageRanges?: Extend.PageRanges;
 }

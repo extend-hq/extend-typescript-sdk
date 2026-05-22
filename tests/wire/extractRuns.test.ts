@@ -234,21 +234,6 @@ describe("ExtractRunsClient", () => {
         const rawResponseBody = {
             object: "extract_run",
             id: "exr_Xj8mK2pL9nR4vT7qY5wZ",
-            extractor: {
-                object: "extractor",
-                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
-                name: "Invoice Extractor",
-                createdAt: "2024-03-21T16:45:00Z",
-                updatedAt: "2024-03-21T16:45:00Z",
-            },
-            extractorVersion: {
-                object: "extractor_version",
-                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
-                description: "Updated extraction fields for new invoice format",
-                version: "draft",
-                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
-                createdAt: "2024-03-21T16:45:00Z",
-            },
             status: "PENDING",
             output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
             initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
@@ -276,7 +261,7 @@ describe("ExtractRunsClient", () => {
                     modelReasoningInsightsEnabled: true,
                     advancedMultimodalEnabled: true,
                     citationsEnabled: true,
-                    currentDateEnabled: true,
+                    citationMode: "line",
                     arrayCitationStrategy: "item",
                     arrayStrategy: { type: "large_array_heuristics" },
                     excelSheetRanges: [{ start: 1, end: 1 }],
@@ -285,6 +270,7 @@ describe("ExtractRunsClient", () => {
                         { start: 1, end: 10 },
                         { start: 20, end: 30 },
                     ],
+                    currentDateEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -298,6 +284,21 @@ describe("ExtractRunsClient", () => {
                         ],
                     },
                 },
+            },
+            extractor: {
+                object: "extractor",
+                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Extractor",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            extractorVersion: {
+                object: "extractor_version",
+                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated extraction fields for new invoice format",
+                version: "draft",
+                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
             },
             file: {
                 object: "file",
@@ -342,21 +343,6 @@ describe("ExtractRunsClient", () => {
         expect(response).toEqual({
             object: "extract_run",
             id: "exr_Xj8mK2pL9nR4vT7qY5wZ",
-            extractor: {
-                object: "extractor",
-                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
-                name: "Invoice Extractor",
-                createdAt: "2024-03-21T16:45:00Z",
-                updatedAt: "2024-03-21T16:45:00Z",
-            },
-            extractorVersion: {
-                object: "extractor_version",
-                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
-                description: "Updated extraction fields for new invoice format",
-                version: "draft",
-                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
-                createdAt: "2024-03-21T16:45:00Z",
-            },
             status: "PENDING",
             output: {
                 value: {
@@ -419,7 +405,7 @@ describe("ExtractRunsClient", () => {
                     modelReasoningInsightsEnabled: true,
                     advancedMultimodalEnabled: true,
                     citationsEnabled: true,
-                    currentDateEnabled: true,
+                    citationMode: "line",
                     arrayCitationStrategy: "item",
                     arrayStrategy: {
                         type: "large_array_heuristics",
@@ -441,6 +427,7 @@ describe("ExtractRunsClient", () => {
                             end: 30,
                         },
                     ],
+                    currentDateEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -465,6 +452,21 @@ describe("ExtractRunsClient", () => {
                         ],
                     },
                 },
+            },
+            extractor: {
+                object: "extractor",
+                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Extractor",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            extractorVersion: {
+                object: "extractor_version",
+                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated extraction fields for new invoice format",
+                version: "draft",
+                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
             },
             file: {
                 object: "file",
@@ -694,21 +696,6 @@ describe("ExtractRunsClient", () => {
         const rawResponseBody = {
             object: "extract_run",
             id: "exr_Xj8mK2pL9nR4vT7qY5wZ",
-            extractor: {
-                object: "extractor",
-                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
-                name: "Invoice Extractor",
-                createdAt: "2024-03-21T16:45:00Z",
-                updatedAt: "2024-03-21T16:45:00Z",
-            },
-            extractorVersion: {
-                object: "extractor_version",
-                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
-                description: "Updated extraction fields for new invoice format",
-                version: "draft",
-                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
-                createdAt: "2024-03-21T16:45:00Z",
-            },
             status: "PENDING",
             output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
             initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
@@ -736,7 +723,7 @@ describe("ExtractRunsClient", () => {
                     modelReasoningInsightsEnabled: true,
                     advancedMultimodalEnabled: true,
                     citationsEnabled: true,
-                    currentDateEnabled: true,
+                    citationMode: "line",
                     arrayCitationStrategy: "item",
                     arrayStrategy: { type: "large_array_heuristics" },
                     excelSheetRanges: [{ start: 1, end: 1 }],
@@ -745,6 +732,7 @@ describe("ExtractRunsClient", () => {
                         { start: 1, end: 10 },
                         { start: 20, end: 30 },
                     ],
+                    currentDateEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -758,6 +746,21 @@ describe("ExtractRunsClient", () => {
                         ],
                     },
                 },
+            },
+            extractor: {
+                object: "extractor",
+                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Extractor",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            extractorVersion: {
+                object: "extractor_version",
+                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated extraction fields for new invoice format",
+                version: "draft",
+                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
             },
             file: {
                 object: "file",
@@ -794,21 +797,6 @@ describe("ExtractRunsClient", () => {
         expect(response).toEqual({
             object: "extract_run",
             id: "exr_Xj8mK2pL9nR4vT7qY5wZ",
-            extractor: {
-                object: "extractor",
-                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
-                name: "Invoice Extractor",
-                createdAt: "2024-03-21T16:45:00Z",
-                updatedAt: "2024-03-21T16:45:00Z",
-            },
-            extractorVersion: {
-                object: "extractor_version",
-                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
-                description: "Updated extraction fields for new invoice format",
-                version: "draft",
-                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
-                createdAt: "2024-03-21T16:45:00Z",
-            },
             status: "PENDING",
             output: {
                 value: {
@@ -871,7 +859,7 @@ describe("ExtractRunsClient", () => {
                     modelReasoningInsightsEnabled: true,
                     advancedMultimodalEnabled: true,
                     citationsEnabled: true,
-                    currentDateEnabled: true,
+                    citationMode: "line",
                     arrayCitationStrategy: "item",
                     arrayStrategy: {
                         type: "large_array_heuristics",
@@ -893,6 +881,7 @@ describe("ExtractRunsClient", () => {
                             end: 30,
                         },
                     ],
+                    currentDateEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -917,6 +906,21 @@ describe("ExtractRunsClient", () => {
                         ],
                     },
                 },
+            },
+            extractor: {
+                object: "extractor",
+                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Extractor",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            extractorVersion: {
+                object: "extractor_version",
+                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated extraction fields for new invoice format",
+                version: "draft",
+                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
             },
             file: {
                 object: "file",
@@ -1221,21 +1225,6 @@ describe("ExtractRunsClient", () => {
         const rawResponseBody = {
             object: "extract_run",
             id: "exr_Xj8mK2pL9nR4vT7qY5wZ",
-            extractor: {
-                object: "extractor",
-                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
-                name: "Invoice Extractor",
-                createdAt: "2024-03-21T16:45:00Z",
-                updatedAt: "2024-03-21T16:45:00Z",
-            },
-            extractorVersion: {
-                object: "extractor_version",
-                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
-                description: "Updated extraction fields for new invoice format",
-                version: "draft",
-                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
-                createdAt: "2024-03-21T16:45:00Z",
-            },
             status: "PENDING",
             output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
             initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
@@ -1263,7 +1252,7 @@ describe("ExtractRunsClient", () => {
                     modelReasoningInsightsEnabled: true,
                     advancedMultimodalEnabled: true,
                     citationsEnabled: true,
-                    currentDateEnabled: true,
+                    citationMode: "line",
                     arrayCitationStrategy: "item",
                     arrayStrategy: { type: "large_array_heuristics" },
                     excelSheetRanges: [{ start: 1, end: 1 }],
@@ -1272,6 +1261,7 @@ describe("ExtractRunsClient", () => {
                         { start: 1, end: 10 },
                         { start: 20, end: 30 },
                     ],
+                    currentDateEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -1285,6 +1275,21 @@ describe("ExtractRunsClient", () => {
                         ],
                     },
                 },
+            },
+            extractor: {
+                object: "extractor",
+                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Extractor",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            extractorVersion: {
+                object: "extractor_version",
+                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated extraction fields for new invoice format",
+                version: "draft",
+                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
             },
             file: {
                 object: "file",
@@ -1321,21 +1326,6 @@ describe("ExtractRunsClient", () => {
         expect(response).toEqual({
             object: "extract_run",
             id: "exr_Xj8mK2pL9nR4vT7qY5wZ",
-            extractor: {
-                object: "extractor",
-                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
-                name: "Invoice Extractor",
-                createdAt: "2024-03-21T16:45:00Z",
-                updatedAt: "2024-03-21T16:45:00Z",
-            },
-            extractorVersion: {
-                object: "extractor_version",
-                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
-                description: "Updated extraction fields for new invoice format",
-                version: "draft",
-                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
-                createdAt: "2024-03-21T16:45:00Z",
-            },
             status: "PENDING",
             output: {
                 value: {
@@ -1398,7 +1388,7 @@ describe("ExtractRunsClient", () => {
                     modelReasoningInsightsEnabled: true,
                     advancedMultimodalEnabled: true,
                     citationsEnabled: true,
-                    currentDateEnabled: true,
+                    citationMode: "line",
                     arrayCitationStrategy: "item",
                     arrayStrategy: {
                         type: "large_array_heuristics",
@@ -1420,6 +1410,7 @@ describe("ExtractRunsClient", () => {
                             end: 30,
                         },
                     ],
+                    currentDateEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -1444,6 +1435,21 @@ describe("ExtractRunsClient", () => {
                         ],
                     },
                 },
+            },
+            extractor: {
+                object: "extractor",
+                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Extractor",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            extractorVersion: {
+                object: "extractor_version",
+                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated extraction fields for new invoice format",
+                version: "draft",
+                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
             },
             file: {
                 object: "file",

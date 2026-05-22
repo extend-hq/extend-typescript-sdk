@@ -3,14 +3,48 @@
 import type * as Extend from "../index";
 
 /**
- * A workflow step run. The shape of the `result` field depends on the `step.type`.
+ * A workflow step run. The shape of the `result` field depends on the `stepType`.
  */
 export type StepRun =
-    | Extend.ParseStepRun
-    | Extend.ExtractStepRun
-    | Extend.ClassifyStepRun
-    | Extend.SplitStepRun
-    | Extend.MergeExtractStepRun
-    | Extend.ConditionalExtractStepRun
-    | Extend.RuleValidationStepRun
-    | Extend.ExternalDataValidationStepRun;
+    | Extend.StepRun.Parse
+    | Extend.StepRun.Extract
+    | Extend.StepRun.Classify
+    | Extend.StepRun.Split
+    | Extend.StepRun.MergeExtract
+    | Extend.StepRun.ConditionalExtract
+    | Extend.StepRun.RuleValidation
+    | Extend.StepRun.ExternalDataValidation;
+
+export namespace StepRun {
+    export interface Parse extends Extend.ParseStepRun {
+        stepType: "PARSE";
+    }
+
+    export interface Extract extends Extend.ExtractStepRun {
+        stepType: "EXTRACT";
+    }
+
+    export interface Classify extends Extend.ClassifyStepRun {
+        stepType: "CLASSIFY";
+    }
+
+    export interface Split extends Extend.SplitStepRun {
+        stepType: "SPLIT";
+    }
+
+    export interface MergeExtract extends Extend.MergeExtractStepRun {
+        stepType: "MERGE_EXTRACT";
+    }
+
+    export interface ConditionalExtract extends Extend.ConditionalExtractStepRun {
+        stepType: "CONDITIONAL_EXTRACT";
+    }
+
+    export interface RuleValidation extends Extend.RuleValidationStepRun {
+        stepType: "RULE_VALIDATION";
+    }
+
+    export interface ExternalDataValidation extends Extend.ExternalDataValidationStepRun {
+        stepType: "EXTERNAL_DATA_VALIDATION";
+    }
+}
