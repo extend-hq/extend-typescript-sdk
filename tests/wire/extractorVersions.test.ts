@@ -212,7 +212,7 @@ describe("ExtractorVersionsClient", () => {
                     modelReasoningInsightsEnabled: true,
                     advancedMultimodalEnabled: true,
                     citationsEnabled: true,
-                    currentDateEnabled: true,
+                    citationMode: "line",
                     arrayCitationStrategy: "item",
                     arrayStrategy: { type: "large_array_heuristics" },
                     excelSheetRanges: [{ start: 1, end: 1 }],
@@ -221,6 +221,7 @@ describe("ExtractorVersionsClient", () => {
                         { start: 1, end: 10 },
                         { start: 20, end: 30 },
                     ],
+                    currentDateEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -267,7 +268,7 @@ describe("ExtractorVersionsClient", () => {
                     modelReasoningInsightsEnabled: true,
                     advancedMultimodalEnabled: true,
                     citationsEnabled: true,
-                    currentDateEnabled: true,
+                    citationMode: "line",
                     arrayCitationStrategy: "item",
                     arrayStrategy: {
                         type: "large_array_heuristics",
@@ -289,6 +290,7 @@ describe("ExtractorVersionsClient", () => {
                             end: 30,
                         },
                     ],
+                    currentDateEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -505,7 +507,7 @@ describe("ExtractorVersionsClient", () => {
                     modelReasoningInsightsEnabled: true,
                     advancedMultimodalEnabled: true,
                     citationsEnabled: true,
-                    currentDateEnabled: true,
+                    citationMode: "line",
                     arrayCitationStrategy: "item",
                     arrayStrategy: { type: "large_array_heuristics" },
                     excelSheetRanges: [{ start: 1, end: 1 }],
@@ -514,6 +516,7 @@ describe("ExtractorVersionsClient", () => {
                         { start: 1, end: 10 },
                         { start: 20, end: 30 },
                     ],
+                    currentDateEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -556,7 +559,7 @@ describe("ExtractorVersionsClient", () => {
                     modelReasoningInsightsEnabled: true,
                     advancedMultimodalEnabled: true,
                     citationsEnabled: true,
-                    currentDateEnabled: true,
+                    citationMode: "line",
                     arrayCitationStrategy: "item",
                     arrayStrategy: {
                         type: "large_array_heuristics",
@@ -578,6 +581,7 @@ describe("ExtractorVersionsClient", () => {
                             end: 30,
                         },
                     ],
+                    currentDateEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",

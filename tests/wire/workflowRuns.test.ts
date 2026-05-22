@@ -238,6 +238,7 @@ describe("WorkflowRunsClient", () => {
             endTime: "2024-03-21T15:35:00Z",
             stepRuns: [
                 {
+                    stepType: "PARSE",
                     object: "workflow_step_run",
                     id: "workflow_step_run_xK9mLPqRtN3vS8wF5hB2cQ",
                     workflowRunId: "workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
@@ -417,6 +418,7 @@ describe("WorkflowRunsClient", () => {
             endTime: "2024-03-21T15:35:00Z",
             stepRuns: [
                 {
+                    stepType: "PARSE",
                     object: "workflow_step_run",
                     id: "workflow_step_run_xK9mLPqRtN3vS8wF5hB2cQ",
                     workflowRunId: "workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
@@ -831,6 +833,7 @@ describe("WorkflowRunsClient", () => {
             endTime: "2024-03-21T15:35:00Z",
             stepRuns: [
                 {
+                    stepType: "PARSE",
                     object: "workflow_step_run",
                     id: "workflow_step_run_xK9mLPqRtN3vS8wF5hB2cQ",
                     workflowRunId: "workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
@@ -1002,6 +1005,7 @@ describe("WorkflowRunsClient", () => {
             endTime: "2024-03-21T15:35:00Z",
             stepRuns: [
                 {
+                    stepType: "PARSE",
                     object: "workflow_step_run",
                     id: "workflow_step_run_xK9mLPqRtN3vS8wF5hB2cQ",
                     workflowRunId: "workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
@@ -1307,6 +1311,7 @@ describe("WorkflowRunsClient", () => {
             endTime: "2024-03-21T15:35:00Z",
             stepRuns: [
                 {
+                    stepType: "PARSE",
                     object: "workflow_step_run",
                     id: "workflow_step_run_xK9mLPqRtN3vS8wF5hB2cQ",
                     workflowRunId: "workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
@@ -1485,6 +1490,7 @@ describe("WorkflowRunsClient", () => {
             endTime: "2024-03-21T15:35:00Z",
             stepRuns: [
                 {
+                    stepType: "PARSE",
                     object: "workflow_step_run",
                     id: "workflow_step_run_xK9mLPqRtN3vS8wF5hB2cQ",
                     workflowRunId: "workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
@@ -2006,6 +2012,7 @@ describe("WorkflowRunsClient", () => {
             endTime: "2024-03-21T15:35:00Z",
             stepRuns: [
                 {
+                    stepType: "PARSE",
                     object: "workflow_step_run",
                     id: "workflow_step_run_xK9mLPqRtN3vS8wF5hB2cQ",
                     workflowRunId: "workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
@@ -2177,6 +2184,7 @@ describe("WorkflowRunsClient", () => {
             endTime: "2024-03-21T15:35:00Z",
             stepRuns: [
                 {
+                    stepType: "PARSE",
                     object: "workflow_step_run",
                     id: "workflow_step_run_xK9mLPqRtN3vS8wF5hB2cQ",
                     workflowRunId: "workflow_run_xKm9pNv3qWsY_jL2tR5Dh",

@@ -20,3 +20,6 @@ tests/unit/fetcher/stream-wrappers/webpack.test.ts
 # Keep ci.yml listed so Fern doesn't regenerate it after the rename
 .github/workflows/ci.yml
 .github/workflows/publish.yml
+.fern/replay.lock
+.fern/replay.yml
+.gitattributes

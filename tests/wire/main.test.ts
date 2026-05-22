@@ -803,21 +803,6 @@ describe("ExtendClient", () => {
         const rawResponseBody = {
             object: "extract_run",
             id: "exr_Xj8mK2pL9nR4vT7qY5wZ",
-            extractor: {
-                object: "extractor",
-                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
-                name: "Invoice Extractor",
-                createdAt: "2024-03-21T16:45:00Z",
-                updatedAt: "2024-03-21T16:45:00Z",
-            },
-            extractorVersion: {
-                object: "extractor_version",
-                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
-                description: "Updated extraction fields for new invoice format",
-                version: "draft",
-                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
-                createdAt: "2024-03-21T16:45:00Z",
-            },
             status: "PENDING",
             output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
             initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
@@ -845,7 +830,7 @@ describe("ExtendClient", () => {
                     modelReasoningInsightsEnabled: true,
                     advancedMultimodalEnabled: true,
                     citationsEnabled: true,
-                    currentDateEnabled: true,
+                    citationMode: "line",
                     arrayCitationStrategy: "item",
                     arrayStrategy: { type: "large_array_heuristics" },
                     excelSheetRanges: [{ start: 1, end: 1 }],
@@ -854,6 +839,7 @@ describe("ExtendClient", () => {
                         { start: 1, end: 10 },
                         { start: 20, end: 30 },
                     ],
+                    currentDateEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -867,6 +853,21 @@ describe("ExtendClient", () => {
                         ],
                     },
                 },
+            },
+            extractor: {
+                object: "extractor",
+                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Extractor",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            extractorVersion: {
+                object: "extractor_version",
+                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated extraction fields for new invoice format",
+                version: "draft",
+                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
             },
             file: {
                 object: "file",
@@ -927,21 +928,6 @@ describe("ExtendClient", () => {
         expect(response).toEqual({
             object: "extract_run",
             id: "exr_Xj8mK2pL9nR4vT7qY5wZ",
-            extractor: {
-                object: "extractor",
-                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
-                name: "Invoice Extractor",
-                createdAt: "2024-03-21T16:45:00Z",
-                updatedAt: "2024-03-21T16:45:00Z",
-            },
-            extractorVersion: {
-                object: "extractor_version",
-                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
-                description: "Updated extraction fields for new invoice format",
-                version: "draft",
-                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
-                createdAt: "2024-03-21T16:45:00Z",
-            },
             status: "PENDING",
             output: {
                 value: {
@@ -1004,7 +990,7 @@ describe("ExtendClient", () => {
                     modelReasoningInsightsEnabled: true,
                     advancedMultimodalEnabled: true,
                     citationsEnabled: true,
-                    currentDateEnabled: true,
+                    citationMode: "line",
                     arrayCitationStrategy: "item",
                     arrayStrategy: {
                         type: "large_array_heuristics",
@@ -1026,6 +1012,7 @@ describe("ExtendClient", () => {
                             end: 30,
                         },
                     ],
+                    currentDateEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -1050,6 +1037,21 @@ describe("ExtendClient", () => {
                         ],
                     },
                 },
+            },
+            extractor: {
+                object: "extractor",
+                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Extractor",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            extractorVersion: {
+                object: "extractor_version",
+                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated extraction fields for new invoice format",
+                version: "draft",
+                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
             },
             file: {
                 object: "file",
@@ -1288,6 +1290,8 @@ describe("ExtendClient", () => {
         const rawResponseBody = {
             object: "classify_run",
             id: "clr_Xj8mK2pL9nR4vT7qY5wZ",
+            status: "PENDING",
+            output: { id: "id", type: "type", confidence: 1.1, insights: [{ type: "reasoning", content: "content" }] },
             classifier: {
                 object: "classifier",
                 id: "cl_Xj8mK2pL9nR4vT7qY5wZ",
@@ -1303,8 +1307,6 @@ describe("ExtendClient", () => {
                 classifierId: "cl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
             },
-            status: "PENDING",
-            output: { id: "id", type: "type", confidence: 1.1, insights: [{ type: "reasoning", content: "content" }] },
             initialOutput: {
                 id: "id",
                 type: "type",
@@ -1338,6 +1340,7 @@ describe("ExtendClient", () => {
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
+                    memoryEnabled: true,
                     pageRanges: [
                         { start: 1, end: 10 },
                         { start: 20, end: 30 },
@@ -1415,6 +1418,18 @@ describe("ExtendClient", () => {
         expect(response).toEqual({
             object: "classify_run",
             id: "clr_Xj8mK2pL9nR4vT7qY5wZ",
+            status: "PENDING",
+            output: {
+                id: "id",
+                type: "type",
+                confidence: 1.1,
+                insights: [
+                    {
+                        type: "reasoning",
+                        content: "content",
+                    },
+                ],
+            },
             classifier: {
                 object: "classifier",
                 id: "cl_Xj8mK2pL9nR4vT7qY5wZ",
@@ -1429,18 +1444,6 @@ describe("ExtendClient", () => {
                 version: "draft",
                 classifierId: "cl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
-            },
-            status: "PENDING",
-            output: {
-                id: "id",
-                type: "type",
-                confidence: 1.1,
-                insights: [
-                    {
-                        type: "reasoning",
-                        content: "content",
-                    },
-                ],
             },
             initialOutput: {
                 id: "id",
@@ -1487,6 +1490,7 @@ describe("ExtendClient", () => {
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
+                    memoryEnabled: true,
                     pageRanges: [
                         {
                             start: 1,
@@ -1769,21 +1773,6 @@ describe("ExtendClient", () => {
         const rawResponseBody = {
             object: "split_run",
             id: "splr_Xj8mK2pL9nR4vT7qY5wZ",
-            splitter: {
-                object: "splitter",
-                id: "spl_Xj8mK2pL9nR4vT7qY5wZ",
-                name: "Invoice Packet Splitter",
-                createdAt: "2024-03-21T16:45:00Z",
-                updatedAt: "2024-03-21T16:45:00Z",
-            },
-            splitterVersion: {
-                object: "splitter_version",
-                id: "splv_xK9mLPqRtN3vS8wF5hB2cQ",
-                description: "Updated split rules for multi-invoice packets",
-                version: "draft",
-                splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
-                createdAt: "2024-03-21T16:45:00Z",
-            },
             status: "PENDING",
             output: {
                 splits: [
@@ -1799,6 +1788,21 @@ describe("ExtendClient", () => {
                     },
                 ],
                 isExternal: true,
+            },
+            splitter: {
+                object: "splitter",
+                id: "spl_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Packet Splitter",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            splitterVersion: {
+                object: "splitter_version",
+                id: "splv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated split rules for multi-invoice packets",
+                version: "draft",
+                splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
             },
             initialOutput: {
                 splits: [
@@ -1930,21 +1934,6 @@ describe("ExtendClient", () => {
         expect(response).toEqual({
             object: "split_run",
             id: "splr_Xj8mK2pL9nR4vT7qY5wZ",
-            splitter: {
-                object: "splitter",
-                id: "spl_Xj8mK2pL9nR4vT7qY5wZ",
-                name: "Invoice Packet Splitter",
-                createdAt: "2024-03-21T16:45:00Z",
-                updatedAt: "2024-03-21T16:45:00Z",
-            },
-            splitterVersion: {
-                object: "splitter_version",
-                id: "splv_xK9mLPqRtN3vS8wF5hB2cQ",
-                description: "Updated split rules for multi-invoice packets",
-                version: "draft",
-                splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
-                createdAt: "2024-03-21T16:45:00Z",
-            },
             status: "PENDING",
             output: {
                 splits: [
@@ -1960,6 +1949,21 @@ describe("ExtendClient", () => {
                     },
                 ],
                 isExternal: true,
+            },
+            splitter: {
+                object: "splitter",
+                id: "spl_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Packet Splitter",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            splitterVersion: {
+                object: "splitter_version",
+                id: "splv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated split rules for multi-invoice packets",
+                version: "draft",
+                splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
             },
             initialOutput: {
                 splits: [

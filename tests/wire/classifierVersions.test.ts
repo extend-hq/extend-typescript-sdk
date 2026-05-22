@@ -219,6 +219,7 @@ describe("ClassifierVersionsClient", () => {
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
+                    memoryEnabled: true,
                     pageRanges: [
                         { start: 1, end: 10 },
                         { start: 20, end: 30 },
@@ -274,6 +275,7 @@ describe("ClassifierVersionsClient", () => {
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
+                    memoryEnabled: true,
                     pageRanges: [
                         {
                             start: 1,
@@ -507,6 +509,7 @@ describe("ClassifierVersionsClient", () => {
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
+                    memoryEnabled: true,
                     pageRanges: [
                         { start: 1, end: 10 },
                         { start: 20, end: 30 },
@@ -558,6 +561,7 @@ describe("ClassifierVersionsClient", () => {
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
+                    memoryEnabled: true,
                     pageRanges: [
                         {
                             start: 1,

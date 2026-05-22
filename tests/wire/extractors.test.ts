@@ -147,9 +147,9 @@ describe("ExtractorsClient", () => {
                 schema: {
                     type: "object",
                     properties: {
-                        vendor_name: { type: "string", description: "The name of the vendor" },
-                        invoice_number: { type: "string", description: "The invoice number" },
-                        total_amount: { type: "number", description: "The total amount due" },
+                        vendor_name: { type: ["string", "null"], description: "The name of the vendor" },
+                        invoice_number: { type: ["string", "null"], description: "The invoice number" },
+                        total_amount: { type: ["number", "null"], description: "The total amount due" },
                     },
                 },
             },
@@ -198,15 +198,15 @@ describe("ExtractorsClient", () => {
                     type: "object",
                     properties: {
                         vendor_name: {
-                            type: "string",
+                            type: ["string", "null"],
                             description: "The name of the vendor",
                         },
                         invoice_number: {
-                            type: "string",
+                            type: ["string", "null"],
                             description: "The invoice number",
                         },
                         total_amount: {
-                            type: "number",
+                            type: ["number", "null"],
                             description: "The total amount due",
                         },
                     },
@@ -261,6 +261,109 @@ describe("ExtractorsClient", () => {
     test("create (2)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            name: "Invoice Extractor",
+            generate: {
+                files: [{ url: "https://example.com/sample-invoice.pdf" }],
+                instructions: "US tax invoice with line items, vendor details, and total amount",
+            },
+        };
+        const rawResponseBody = {
+            object: "extractor",
+            id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+            name: "Invoice Extractor",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+            draftVersion: {
+                object: "extractor_version",
+                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated extraction fields for new invoice format",
+                version: "draft",
+                config: {
+                    baseProcessor: "extraction_performance",
+                    baseVersion: "baseVersion",
+                    extractionRules: "extractionRules",
+                    schema: { key: "value" },
+                    advancedOptions: {
+                        pageRanges: [
+                            { start: 1, end: 10 },
+                            { start: 20, end: 30 },
+                        ],
+                    },
+                    parseConfig: { chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } } },
+                },
+                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+        };
+        server
+            .mockEndpoint()
+            .post("/extractors")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.extractors.create({
+            name: "Invoice Extractor",
+            generate: {
+                files: [
+                    {
+                        url: "https://example.com/sample-invoice.pdf",
+                    },
+                ],
+                instructions: "US tax invoice with line items, vendor details, and total amount",
+            },
+        });
+        expect(response).toEqual({
+            object: "extractor",
+            id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+            name: "Invoice Extractor",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+            draftVersion: {
+                object: "extractor_version",
+                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated extraction fields for new invoice format",
+                version: "draft",
+                config: {
+                    baseProcessor: "extraction_performance",
+                    baseVersion: "baseVersion",
+                    extractionRules: "extractionRules",
+                    schema: {
+                        key: "value",
+                    },
+                    advancedOptions: {
+                        pageRanges: [
+                            {
+                                start: 1,
+                                end: 10,
+                            },
+                            {
+                                start: 20,
+                                end: 30,
+                            },
+                        ],
+                    },
+                    parseConfig: {
+                        chunkingStrategy: {
+                            options: {
+                                minCharacters: 500,
+                                maxCharacters: 10000,
+                            },
+                        },
+                    },
+                },
+                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+        });
+    });
+
+    test("create (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
         const rawResponseBody = { key: "value" };
         server
@@ -279,7 +382,7 @@ describe("ExtractorsClient", () => {
         }).rejects.toThrow(Extend.BadRequestError);
     });
 
-    test("create (3)", async () => {
+    test("create (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -300,7 +403,7 @@ describe("ExtractorsClient", () => {
         }).rejects.toThrow(Extend.UnauthorizedError);
     });
 
-    test("create (4)", async () => {
+    test("create (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -321,7 +424,7 @@ describe("ExtractorsClient", () => {
         }).rejects.toThrow(Extend.PaymentRequiredError);
     });
 
-    test("create (5)", async () => {
+    test("create (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -342,7 +445,7 @@ describe("ExtractorsClient", () => {
         }).rejects.toThrow(Extend.ForbiddenError);
     });
 
-    test("create (6)", async () => {
+    test("create (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -363,7 +466,7 @@ describe("ExtractorsClient", () => {
         }).rejects.toThrow(Extend.NotFoundError);
     });
 
-    test("create (7)", async () => {
+    test("create (8)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -384,7 +487,7 @@ describe("ExtractorsClient", () => {
         }).rejects.toThrow(Extend.UnprocessableEntityError);
     });
 
-    test("create (8)", async () => {
+    test("create (9)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -405,7 +508,7 @@ describe("ExtractorsClient", () => {
         }).rejects.toThrow(Extend.TooManyRequestsError);
     });
 
-    test("create (9)", async () => {
+    test("create (10)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };

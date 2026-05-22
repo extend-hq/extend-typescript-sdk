@@ -2047,6 +2047,8 @@ await client.extractors.list({
 <dd>
 
 Create a new extractor.
+
+You can optionally provide a `generate` object to automatically generate an extraction schema from sample documents using AI. `generate` is mutually exclusive with `config` and `cloneExtractorId`.
 </dd>
 </dl>
 </dd>
@@ -2068,15 +2070,24 @@ await client.extractors.create({
             "type": "object",
             "properties": {
                 "vendor_name": {
-                    "type": "string",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
                     "description": "The name of the vendor"
                 },
                 "invoice_number": {
-                    "type": "string",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
                     "description": "The invoice number"
                 },
                 "total_amount": {
-                    "type": "number",
+                    "type": [
+                        "number",
+                        "null"
+                    ],
                     "description": "The total amount due"
                 }
             }
@@ -7230,6 +7241,77 @@ Example: `"evi_kR9mNP12Qw4yTv8BdR3H"`
 </details>
 
 ## EvaluationSetRuns
+<details><summary><code>client.evaluationSetRuns.<a href="/src/api/resources/evaluationSetRuns/client/Client.ts">create</a>({ ...params }) -> Extend.EvaluationSetRun</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create and start an async evaluation set run. The response returns the evaluation set run object with its initial status; use `GET /evaluation_set_runs/{id}` to poll for completion.
+
+Evaluation set runs are currently supported for document processor evaluation sets.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.evaluationSetRuns.create({
+    evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
+    entity: {
+        id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+        version: "1.0"
+    }
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.EvaluationSetRunsCreateRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `EvaluationSetRunsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.evaluationSetRuns.<a href="/src/api/resources/evaluationSetRuns/client/Client.ts">retrieve</a>(id, { ...params }) -> Extend.EvaluationSetRun</code></summary>
 <dl>
 <dd>

@@ -131,6 +131,8 @@ export class ExtractorsClient {
     /**
      * Create a new extractor.
      *
+     * You can optionally provide a `generate` object to automatically generate an extraction schema from sample documents using AI. `generate` is mutually exclusive with `config` and `cloneExtractorId`.
+     *
      * @param {Extend.ExtractorsCreateRequest} request
      * @param {ExtractorsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -151,19 +153,39 @@ export class ExtractorsClient {
      *                 "type": "object",
      *                 "properties": {
      *                     "vendor_name": {
-     *                         "type": "string",
+     *                         "type": [
+     *                             "string",
+     *                             "null"
+     *                         ],
      *                         "description": "The name of the vendor"
      *                     },
      *                     "invoice_number": {
-     *                         "type": "string",
+     *                         "type": [
+     *                             "string",
+     *                             "null"
+     *                         ],
      *                         "description": "The invoice number"
      *                     },
      *                     "total_amount": {
-     *                         "type": "number",
+     *                         "type": [
+     *                             "number",
+     *                             "null"
+     *                         ],
      *                         "description": "The total amount due"
      *                     }
      *                 }
      *             }
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.extractors.create({
+     *         name: "Invoice Extractor",
+     *         generate: {
+     *             files: [{
+     *                     url: "https://example.com/sample-invoice.pdf"
+     *                 }],
+     *             instructions: "US tax invoice with line items, vendor details, and total amount"
      *         }
      *     })
      */

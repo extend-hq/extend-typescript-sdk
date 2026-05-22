@@ -11,19 +11,39 @@ import type * as Extend from "../../../../index";
  *                 "type": "object",
  *                 "properties": {
  *                     "vendor_name": {
- *                         "type": "string",
+ *                         "type": [
+ *                             "string",
+ *                             "null"
+ *                         ],
  *                         "description": "The name of the vendor"
  *                     },
  *                     "invoice_number": {
- *                         "type": "string",
+ *                         "type": [
+ *                             "string",
+ *                             "null"
+ *                         ],
  *                         "description": "The invoice number"
  *                     },
  *                     "total_amount": {
- *                         "type": "number",
+ *                         "type": [
+ *                             "number",
+ *                             "null"
+ *                         ],
  *                         "description": "The total amount due"
  *                     }
  *                 }
  *             }
+ *         }
+ *     }
+ *
+ * @example
+ *     {
+ *         name: "Invoice Extractor",
+ *         generate: {
+ *             files: [{
+ *                     url: "https://example.com/sample-invoice.pdf"
+ *                 }],
+ *             instructions: "US tax invoice with line items, vendor details, and total amount"
  *         }
  *     }
  */
@@ -31,11 +51,17 @@ export interface ExtractorsCreateRequest {
     /** The name of the extractor. */
     name: string;
     /**
-     * The ID of an existing extractor to clone. If provided, the new extractor will be created with the same config as the extractor with this ID. Cannot be provided together with `config`.
+     * The ID of an existing extractor to clone. If provided, the new extractor will be created with the same config as the extractor with this ID. Cannot be provided together with `config` or `generate`.
      *
      * Example: `"ex_BMdfq_yWM3sT-ZzvCnA3f"`
      */
     cloneExtractorId?: string;
-    /** The configuration for the extractor. Cannot be provided together with `cloneExtractorId`. */
+    /** The configuration for the extractor. Cannot be provided together with `cloneExtractorId` or `generate`. */
     config?: Extend.ExtractConfigJson;
+    /**
+     * If provided, an extraction schema is automatically generated from the supplied sample documents and applied to the extractor's draft. The response includes the extractor with the generated schema already in place.
+     *
+     * Cannot be provided together with `config` or `cloneExtractorId`.
+     */
+    generate?: Extend.ExtractorsCreateRequestGenerate;
 }

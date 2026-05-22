@@ -14,18 +14,6 @@ export interface ExtractRun {
      * Example: `"exr_Xj8mK2pL9nR4vT7qY5wZ"`
      */
     id: string;
-    /**
-     * The extractor that was used for this run.
-     *
-     * **Availability:** Present when an extractor reference was provided. Not present when using inline `config`.
-     */
-    extractor: Extend.ExtractorSummary | null;
-    /**
-     * The version of the extractor that was used for this run.
-     *
-     * **Availability:** Present when an extractor reference was provided. Not present when using inline `config`.
-     */
-    extractorVersion: Extend.ExtractorVersionSummary | null;
     status: Extend.ProcessorRunStatus;
     /**
      * The final output, either reviewed or initial. This is a union of two possible shapes:
@@ -96,6 +84,18 @@ export interface ExtractRun {
      * - **[Legacy config](https://docs.extend.ai/2025-04-21/product/legacy/legacy-schema):** A fields-array config from a previous API version. This shape is only returned when retrieving runs that were originally created with the legacy format. This API version does not support creating runs with legacy configs.
      */
     config: Extend.ExtractConfig;
+    /**
+     * The extractor that was used for this run.
+     *
+     * **Availability:** Present when an extractor reference was provided. Not present when using inline `config`.
+     */
+    extractor: Extend.ExtractorSummary | null;
+    /**
+     * The version of the extractor that was used for this run.
+     *
+     * **Availability:** Present when an extractor reference was provided. Not present when using inline `config`.
+     */
+    extractorVersion: Extend.ExtractorVersionSummary | null;
     /** The file that was processed. */
     file: Extend.FileSummary;
     /**

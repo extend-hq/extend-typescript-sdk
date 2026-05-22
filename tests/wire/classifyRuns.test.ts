@@ -237,6 +237,8 @@ describe("ClassifyRunsClient", () => {
         const rawResponseBody = {
             object: "classify_run",
             id: "clr_Xj8mK2pL9nR4vT7qY5wZ",
+            status: "PENDING",
+            output: { id: "id", type: "type", confidence: 1.1, insights: [{ type: "reasoning", content: "content" }] },
             classifier: {
                 object: "classifier",
                 id: "cl_Xj8mK2pL9nR4vT7qY5wZ",
@@ -252,8 +254,6 @@ describe("ClassifyRunsClient", () => {
                 classifierId: "cl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
             },
-            status: "PENDING",
-            output: { id: "id", type: "type", confidence: 1.1, insights: [{ type: "reasoning", content: "content" }] },
             initialOutput: {
                 id: "id",
                 type: "type",
@@ -287,6 +287,7 @@ describe("ClassifyRunsClient", () => {
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
+                    memoryEnabled: true,
                     pageRanges: [
                         { start: 1, end: 10 },
                         { start: 20, end: 30 },
@@ -348,6 +349,18 @@ describe("ClassifyRunsClient", () => {
         expect(response).toEqual({
             object: "classify_run",
             id: "clr_Xj8mK2pL9nR4vT7qY5wZ",
+            status: "PENDING",
+            output: {
+                id: "id",
+                type: "type",
+                confidence: 1.1,
+                insights: [
+                    {
+                        type: "reasoning",
+                        content: "content",
+                    },
+                ],
+            },
             classifier: {
                 object: "classifier",
                 id: "cl_Xj8mK2pL9nR4vT7qY5wZ",
@@ -362,18 +375,6 @@ describe("ClassifyRunsClient", () => {
                 version: "draft",
                 classifierId: "cl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
-            },
-            status: "PENDING",
-            output: {
-                id: "id",
-                type: "type",
-                confidence: 1.1,
-                insights: [
-                    {
-                        type: "reasoning",
-                        content: "content",
-                    },
-                ],
             },
             initialOutput: {
                 id: "id",
@@ -420,6 +421,7 @@ describe("ClassifyRunsClient", () => {
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
+                    memoryEnabled: true,
                     pageRanges: [
                         {
                             start: 1,
@@ -683,6 +685,8 @@ describe("ClassifyRunsClient", () => {
         const rawResponseBody = {
             object: "classify_run",
             id: "clr_Xj8mK2pL9nR4vT7qY5wZ",
+            status: "PENDING",
+            output: { id: "id", type: "type", confidence: 1.1, insights: [{ type: "reasoning", content: "content" }] },
             classifier: {
                 object: "classifier",
                 id: "cl_Xj8mK2pL9nR4vT7qY5wZ",
@@ -698,8 +702,6 @@ describe("ClassifyRunsClient", () => {
                 classifierId: "cl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
             },
-            status: "PENDING",
-            output: { id: "id", type: "type", confidence: 1.1, insights: [{ type: "reasoning", content: "content" }] },
             initialOutput: {
                 id: "id",
                 type: "type",
@@ -733,6 +735,7 @@ describe("ClassifyRunsClient", () => {
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
+                    memoryEnabled: true,
                     pageRanges: [
                         { start: 1, end: 10 },
                         { start: 20, end: 30 },
@@ -786,6 +789,18 @@ describe("ClassifyRunsClient", () => {
         expect(response).toEqual({
             object: "classify_run",
             id: "clr_Xj8mK2pL9nR4vT7qY5wZ",
+            status: "PENDING",
+            output: {
+                id: "id",
+                type: "type",
+                confidence: 1.1,
+                insights: [
+                    {
+                        type: "reasoning",
+                        content: "content",
+                    },
+                ],
+            },
             classifier: {
                 object: "classifier",
                 id: "cl_Xj8mK2pL9nR4vT7qY5wZ",
@@ -800,18 +815,6 @@ describe("ClassifyRunsClient", () => {
                 version: "draft",
                 classifierId: "cl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
-            },
-            status: "PENDING",
-            output: {
-                id: "id",
-                type: "type",
-                confidence: 1.1,
-                insights: [
-                    {
-                        type: "reasoning",
-                        content: "content",
-                    },
-                ],
             },
             initialOutput: {
                 id: "id",
@@ -858,6 +861,7 @@ describe("ClassifyRunsClient", () => {
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
+                    memoryEnabled: true,
                     pageRanges: [
                         {
                             start: 1,
@@ -1196,6 +1200,8 @@ describe("ClassifyRunsClient", () => {
         const rawResponseBody = {
             object: "classify_run",
             id: "clr_Xj8mK2pL9nR4vT7qY5wZ",
+            status: "PENDING",
+            output: { id: "id", type: "type", confidence: 1.1, insights: [{ type: "reasoning", content: "content" }] },
             classifier: {
                 object: "classifier",
                 id: "cl_Xj8mK2pL9nR4vT7qY5wZ",
@@ -1211,8 +1217,6 @@ describe("ClassifyRunsClient", () => {
                 classifierId: "cl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
             },
-            status: "PENDING",
-            output: { id: "id", type: "type", confidence: 1.1, insights: [{ type: "reasoning", content: "content" }] },
             initialOutput: {
                 id: "id",
                 type: "type",
@@ -1246,6 +1250,7 @@ describe("ClassifyRunsClient", () => {
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
+                    memoryEnabled: true,
                     pageRanges: [
                         { start: 1, end: 10 },
                         { start: 20, end: 30 },
@@ -1299,6 +1304,18 @@ describe("ClassifyRunsClient", () => {
         expect(response).toEqual({
             object: "classify_run",
             id: "clr_Xj8mK2pL9nR4vT7qY5wZ",
+            status: "PENDING",
+            output: {
+                id: "id",
+                type: "type",
+                confidence: 1.1,
+                insights: [
+                    {
+                        type: "reasoning",
+                        content: "content",
+                    },
+                ],
+            },
             classifier: {
                 object: "classifier",
                 id: "cl_Xj8mK2pL9nR4vT7qY5wZ",
@@ -1313,18 +1330,6 @@ describe("ClassifyRunsClient", () => {
                 version: "draft",
                 classifierId: "cl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
-            },
-            status: "PENDING",
-            output: {
-                id: "id",
-                type: "type",
-                confidence: 1.1,
-                insights: [
-                    {
-                        type: "reasoning",
-                        content: "content",
-                    },
-                ],
             },
             initialOutput: {
                 id: "id",
@@ -1371,6 +1376,7 @@ describe("ClassifyRunsClient", () => {
                 advancedOptions: {
                     context: "default",
                     advancedMultimodalEnabled: true,
+                    memoryEnabled: true,
                     pageRanges: [
                         {
                             start: 1,

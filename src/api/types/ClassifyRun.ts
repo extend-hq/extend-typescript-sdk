@@ -14,6 +14,13 @@ export interface ClassifyRun {
      * Example: `"clr_Xj8mK2pL9nR4vT7qY5wZ"`
      */
     id: string;
+    status: Extend.ProcessorRunStatus;
+    /**
+     * The final output, either reviewed or initial.
+     *
+     * **Availability:** Present when `status` is `"PROCESSED"`.
+     */
+    output: Extend.ClassifyOutput | null;
     /**
      * The classifier that was used for this run.
      *
@@ -26,13 +33,6 @@ export interface ClassifyRun {
      * **Availability:** Present when a classifier reference was provided. Not present when using inline `config`.
      */
     classifierVersion: Extend.ClassifierVersionSummary | null;
-    status: Extend.ProcessorRunStatus;
-    /**
-     * The final output, either reviewed or initial.
-     *
-     * **Availability:** Present when `status` is `"PROCESSED"`.
-     */
-    output: Extend.ClassifyOutput | null;
     /**
      * The initial output from the classify run, before any review edits.
      *

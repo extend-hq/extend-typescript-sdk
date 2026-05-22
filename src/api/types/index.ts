@@ -119,6 +119,7 @@ export * from "./ExternalDataValidationStepRun";
 export * from "./ExternalDataValidationStepRunStep";
 export * from "./ExtractAdvancedOptions";
 export * from "./ExtractAdvancedOptionsArrayCitationStrategy";
+export * from "./ExtractAdvancedOptionsCitationMode";
 export * from "./ExtractAdvancedOptionsExcelSheetSelectionStrategy";
 export * from "./ExtractAdvancedOptionsReviewAgent";
 export * from "./ExtractBaseProcessor";
