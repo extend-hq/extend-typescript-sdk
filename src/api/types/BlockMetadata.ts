@@ -10,4 +10,8 @@ export interface BlockMetadata {
     page?: Extend.BlockMetadataPage;
     /** Text direction for this block's content ("ltr" for left-to-right, "rtl" for right-to-left). */
     textDirection?: Extend.BlockMetadataTextDirection;
+    /** Lowest per-word OCR confidence across words in this block, or `null` when word-level confidence is unavailable. */
+    minOcrConfidence?: number | null;
+    /** Average per-word OCR confidence across words in this block, or `null` when word-level confidence is unavailable. */
+    avgOcrConfidence?: number | null;
 }
