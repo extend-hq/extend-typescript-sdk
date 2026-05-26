@@ -8,4 +8,8 @@ import type * as Extend from "../index";
 export interface ChunkMetadata {
     /** The page range this chunk covers. Often will just be a partial page, in which cases `start` and `end` will be the same. */
     pageRange: Extend.ChunkMetadataPageRange;
+    /** Lowest per-word OCR confidence across words in this chunk, or `null` when word-level confidence is unavailable. */
+    minOcrConfidence?: number | null;
+    /** Average per-word OCR confidence across words in this chunk, or `null` when word-level confidence is unavailable. */
+    avgOcrConfidence?: number | null;
 }
