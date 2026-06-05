@@ -19,7 +19,7 @@ import type * as Extend from "../../../../index";
  *     }
  */
 export interface EvaluationSetRunsCreateRequest {
-    /** The workspace ID to target. **Required** when using an organization-scoped API key; optional for workspace-scoped keys (the key is already tied to a workspace). See [Authentication](https://docs.extend.ai/2026-02-09/developers/authentication) for details on API key scopes. */
+    /** The workspace ID to target. **Required** when using an organization-scoped API key; optional for workspace-scoped keys (the key is already tied to a workspace). See [Authentication](https://docs.extend.ai/2026-02-09/api-reference/authentication) for details on API key scopes. */
     "x-extend-workspace-id"?: string;
     /** The ID of the evaluation set to run. */
     evaluationSetId: string;

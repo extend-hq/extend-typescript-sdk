@@ -18,7 +18,7 @@ export declare namespace WebhookSubscriptionsClient {
 export class WebhookSubscriptionsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<WebhookSubscriptionsClient.Options>;
 
-    constructor(options: WebhookSubscriptionsClient.Options) {
+    constructor(options: WebhookSubscriptionsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

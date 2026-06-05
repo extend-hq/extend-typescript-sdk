@@ -54,7 +54,7 @@ describe("EditRunsClient", () => {
             output: {
                 editedFile: {
                     id: "file_Ab3cDE45Fg6hIj7KlM8nO",
-                    presignedUrl: "https://extend-ai-files.s3.amazonaws.com/...",
+                    presignedUrl: "https://extend-files.s3.amazonaws.com/...",
                 },
                 filledValues: { key: "value" },
             },
@@ -146,7 +146,7 @@ describe("EditRunsClient", () => {
             output: {
                 editedFile: {
                     id: "file_Ab3cDE45Fg6hIj7KlM8nO",
-                    presignedUrl: "https://extend-ai-files.s3.amazonaws.com/...",
+                    presignedUrl: "https://extend-files.s3.amazonaws.com/...",
                 },
                 filledValues: {
                     key: "value",
@@ -406,7 +406,7 @@ describe("EditRunsClient", () => {
             output: {
                 editedFile: {
                     id: "file_Ab3cDE45Fg6hIj7KlM8nO",
-                    presignedUrl: "https://extend-ai-files.s3.amazonaws.com/...",
+                    presignedUrl: "https://extend-files.s3.amazonaws.com/...",
                 },
                 filledValues: { key: "value" },
             },
@@ -487,7 +487,7 @@ describe("EditRunsClient", () => {
             output: {
                 editedFile: {
                     id: "file_Ab3cDE45Fg6hIj7KlM8nO",
-                    presignedUrl: "https://extend-ai-files.s3.amazonaws.com/...",
+                    presignedUrl: "https://extend-files.s3.amazonaws.com/...",
                 },
                 filledValues: {
                     key: "value",

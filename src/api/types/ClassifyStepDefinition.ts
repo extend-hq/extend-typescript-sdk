@@ -7,7 +7,7 @@ import type * as Extend from "../index";
  *
  * The classifier reference must include a pinned `version` — `"latest"` is not supported for `CLASSIFY` steps. Use a specific semver string (e.g. `"0.1"`) or `"draft"`. This is because classification IDs used for routing are tied to a specific processor version's config.
  *
- * See the [Classify step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#classify-step).
+ * See the [Classify step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#classify).
  */
 export interface ClassifyStepDefinition {
     name: string;
@@ -18,13 +18,13 @@ export interface ClassifyStepDefinition {
      *
      * The classifier `version` is required and must be a pinned version (semver like `"0.1"` or `"draft"`). `"latest"` is not allowed.
      *
-     * See the [Classify step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#classify-step).
+     * See the [Classify step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#classify).
      */
     config?: Extend.ClassifyStepDefinitionConfig;
     /**
      * Can only be set when `config` is present. Each entry must include a `classificationId` matching a classification `id` from the referenced classifier's configuration. Use the classification's stable `id` (e.g. `"cls_invoice"`), not the `type` string.
      *
-     * See the [Classify step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#classify-step).
+     * See the [Classify step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#classify).
      */
     next?: Extend.ClassificationNextEntry[];
 }

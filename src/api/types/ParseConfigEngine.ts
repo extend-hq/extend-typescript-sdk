@@ -3,7 +3,7 @@
 /**
  * The parsing engine to use. Supported values:
  * * `parse_performance`: Full-featured parsing engine with highest accuracy (default)
- * * `parse_light`: Lightweight parsing engine optimized for speed. This does not have robust layout support and does not support markdown layout target.
+ * * `parse_light`: Lightweight parsing engine optimized for high-volume, cost-sensitive ingestion. Uses the new layout model with full layout support and the markdown target at lower cost and latency, but performs worse than `parse_performance` on lower-quality scans, harder handwriting, larger tables, non-Latin-based languages, and dense checkbox regions.
  */
 export const ParseConfigEngine = {
     ParsePerformance: "parse_performance",

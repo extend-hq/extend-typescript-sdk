@@ -8,14 +8,14 @@ import type * as Extend from "../index";
  */
 export interface ExtractOverrideConfigJson {
     baseProcessor?: Extend.ExtractBaseProcessor;
-    /** The version of the `"extraction_performance"` or `"extraction_light"` processor to use. If not provided, the latest stable version for the selected `baseProcessor` will be used automatically. See [Extraction Changelog](https://docs.extend.ai/2026-02-09/changelog/extraction/extraction-performance) for more details. */
+    /** The version of the `"extraction_performance"` or `"extraction_light"` processor to use. If not provided, the latest stable version for the selected `baseProcessor` will be used automatically. See [Extraction Changelog](https://docs.extend.ai/2026-02-09/model-versioning/extraction/extraction-performance) for more details. */
     baseVersion?: string;
     /** Custom rules to guide the extraction process in natural language. */
     extractionRules?: string;
     /**
      * JSON Schema definition of the data to extract.
      *
-     * See the [JSON Schema guide](https://docs.extend.ai/2026-02-09/product/extraction/schema) for details and examples of schema configuration.
+     * See the [JSON Schema guide](https://docs.extend.ai/2026-02-09/extraction/schema) for details and examples of schema configuration.
      */
     schema?: Extend.JsonObject;
     /** Advanced configuration options. */

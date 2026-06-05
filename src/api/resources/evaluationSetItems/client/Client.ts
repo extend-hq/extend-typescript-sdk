@@ -18,14 +18,14 @@ export declare namespace EvaluationSetItemsClient {
 export class EvaluationSetItemsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<EvaluationSetItemsClient.Options>;
 
-    constructor(options: EvaluationSetItemsClient.Options) {
+    constructor(options: EvaluationSetItemsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
     /**
      * List items in a specific evaluation set.
      *
-     * Returns a summary of each evaluation set item. Use the [Get Evaluation Set Item](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/evaluation/get-evaluation-set-item) endpoint to get the full details of an evaluation set item.
+     * Returns a summary of each evaluation set item. Use the [Get Evaluation Set Item](https://docs.extend.ai/2026-02-09/api-reference/endpoints/evaluation/get-evaluation-set-item) endpoint to get the full details of an evaluation set item.
      *
      * @param {string} evaluationSetId - The ID of the evaluation set.
      *
@@ -146,7 +146,7 @@ export class EvaluationSetItemsClient {
      *
      * **Limit:** You can create up to 100 items at a time.
      *
-     * Learn more about how to create evaluation set items in the [Evaluation Sets](https://docs.extend.ai/2026-02-09/product/evaluation/overview) product page.
+     * Learn more about how to create evaluation set items in the [Evaluation Sets](https://docs.extend.ai/2026-02-09/evaluation/overview) product page.
      *
      * @param {string} evaluationSetId - The ID of the evaluation set.
      *

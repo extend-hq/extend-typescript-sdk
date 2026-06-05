@@ -18,7 +18,7 @@ export declare namespace ProcessorRunClient {
 export class ProcessorRunClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ProcessorRunClient.Options>;
 
-    constructor(options: ProcessorRunClient.Options) {
+    constructor(options: ProcessorRunClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
@@ -128,8 +128,8 @@ export class ProcessorRunClient {
      * - **Synchronous**: Set `sync: true` to wait for completion and get final results in the response (5-minute timeout).
      *
      * **For asynchronous processing:**
-     * - You can [configure webhooks](https://docs.extend.ai/2026-02-09/product/webhooks/configuration) to receive notifications when a processor run is complete or failed.
-     * - Or you can [poll the get endpoint](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/legacy/get-processor-run) for updates on the status of the processor run.
+     * - You can [configure webhooks](https://docs.extend.ai/2026-02-09/webhooks/configuration) to receive notifications when a processor run is complete or failed.
+     * - Or you can [poll the get endpoint](https://docs.extend.ai/2026-02-09/api-reference/endpoints/legacy/get-processor-run) for updates on the status of the processor run.
      *
      * @param {Extend.ProcessorRunCreateRequest} request
      * @param {ProcessorRunClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -210,7 +210,7 @@ export class ProcessorRunClient {
     /**
      * Retrieve details about a specific processor run, including its status, outputs, and any edits made during review.
      *
-     * A common use case for this endpoint is to poll for the status and final output of an async processor run when using the [Run Processor](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/legacy/create-processor-run) endpoint. For instance, if you do not want to not configure webhooks to receive the output via completion/failure events.
+     * A common use case for this endpoint is to poll for the status and final output of an async processor run when using the [Run Processor](https://docs.extend.ai/2026-02-09/api-reference/endpoints/legacy/create-processor-run) endpoint. For instance, if you do not want to not configure webhooks to receive the output via completion/failure events.
      *
      * @param {string} id - The unique identifier for this processor run.
      *

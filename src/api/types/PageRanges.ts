@@ -3,6 +3,6 @@
 import type * as Extend from "../index";
 
 /**
- * Limit processing to the specified page ranges. See [Page Ranges](https://docs.extend.ai/2026-02-09/product/page-ranges).
+ * Limit processing to the specified page ranges. See [Page Ranges](https://docs.extend.ai/2026-02-09/page-ranges).
  */
 export type PageRanges = Extend.PageRangesItem[];

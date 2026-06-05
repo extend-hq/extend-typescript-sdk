@@ -5,7 +5,7 @@ import type * as Extend from "../index";
 /**
  * Routes to different next steps based on ordered conditional branches evaluated against upstream step outputs.
  *
- * See the [Conditional step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#conditional-step).
+ * See the [Conditional step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#conditional).
  */
 export interface ConditionalStepDefinition {
     name: string;
@@ -13,7 +13,7 @@ export interface ConditionalStepDefinition {
     /**
      * Each entry should include a `conditionId` matching a `config.conditions[].id` value.
      *
-     * See the [Conditional step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#conditional-step).
+     * See the [Conditional step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#conditional).
      */
     next?: Extend.ConditionalNextEntry[];
 }

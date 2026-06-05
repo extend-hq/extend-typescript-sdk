@@ -149,7 +149,16 @@ describe("ExtractorsClient", () => {
                     properties: {
                         vendor_name: { type: ["string", "null"], description: "The name of the vendor" },
                         invoice_number: { type: ["string", "null"], description: "The invoice number" },
-                        total_amount: { type: ["number", "null"], description: "The total amount due" },
+                        total_amount: {
+                            type: "object",
+                            "extend:type": "currency",
+                            description: "The total amount due",
+                            properties: {
+                                amount: { type: ["number", "null"] },
+                                iso_4217_currency_code: { type: ["string", "null"] },
+                            },
+                            required: ["amount", "iso_4217_currency_code"],
+                        },
                     },
                 },
             },
@@ -206,8 +215,18 @@ describe("ExtractorsClient", () => {
                             description: "The invoice number",
                         },
                         total_amount: {
-                            type: ["number", "null"],
+                            type: "object",
+                            "extend:type": "currency",
                             description: "The total amount due",
+                            properties: {
+                                amount: {
+                                    type: ["number", "null"],
+                                },
+                                iso_4217_currency_code: {
+                                    type: ["string", "null"],
+                                },
+                            },
+                            required: ["amount", "iso_4217_currency_code"],
                         },
                     },
                 },

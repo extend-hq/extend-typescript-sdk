@@ -9,7 +9,7 @@ import type * as Extend from "../index";
  *
  * The splitter `version` is required and must be a pinned version (semver like `"0.1"` or `"draft"`). `"latest"` is not allowed.
  *
- * See the [Split step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#split-step).
+ * See the [Split step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#split).
  */
 export interface SplitStepDefinitionConfig {
     splitter: Extend.SplitterRef;

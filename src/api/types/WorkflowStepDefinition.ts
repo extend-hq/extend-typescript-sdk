@@ -5,7 +5,7 @@ import type * as Extend from "../index";
 /**
  * A workflow step definition used when creating, updating, deploying, and retrieving workflow versions.
  *
- * See the [Configuring Workflows via API guide](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api) for routing patterns and examples.
+ * See the [Configuring Workflows via API guide](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows) for routing patterns and examples.
  */
 export type WorkflowStepDefinition =
     | Extend.WorkflowStepDefinition.Trigger

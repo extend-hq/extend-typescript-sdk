@@ -9,13 +9,13 @@ export interface ExternalDataValidationStepDefinitionConfig {
     /**
      * HTTP request configuration for the external validation call.
      *
-     * See the [External Data Validation step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#external-data-validation-step).
+     * See the [External Data Validation step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#external-data-validation).
      */
     requestOptions: Extend.ExternalDataValidationStepDefinitionConfigRequestOptions;
     /**
      * Whether to continue or exit the workflow on validation failure. Defaults to `CONTINUE`.
      *
-     * See the [External Data Validation step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#external-data-validation-step).
+     * See the [External Data Validation step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#external-data-validation).
      */
     failureBehavior?: Extend.ExternalDataValidationStepDefinitionConfigFailureBehavior;
 }

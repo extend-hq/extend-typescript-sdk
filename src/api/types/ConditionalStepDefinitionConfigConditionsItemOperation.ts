@@ -3,7 +3,7 @@
 /**
  * The comparison operation for this branch.
  *
- * See the [Conditional step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#conditional-step).
+ * See the [Conditional step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#conditional).
  */
 export const ConditionalStepDefinitionConfigConditionsItemOperation = {
     Equals: "EQUALS",

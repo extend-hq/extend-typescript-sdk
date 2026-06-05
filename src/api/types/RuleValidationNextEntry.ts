@@ -5,7 +5,7 @@ import type * as Extend from "../index";
 /**
  * A next entry for `RULE_VALIDATION` steps. Routes based on whether all validation rules passed.
  *
- * See the [Configuring Workflows via API guide](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api) for end-to-end examples.
+ * See the [Configuring Workflows via API guide](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows) for end-to-end examples.
  */
 export interface RuleValidationNextEntry {
     /** The name of the target step. */

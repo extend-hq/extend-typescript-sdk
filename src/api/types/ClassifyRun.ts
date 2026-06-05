@@ -82,8 +82,8 @@ export interface ClassifyRun {
     edited: boolean;
     /** The configuration used for this classify run. */
     config: Extend.ClassifyConfig;
-    /** The file that was processed. */
-    file: Extend.FileSummary;
+    /** The file that was processed. `null` when the file could not be accessed or processed (for example a run that failed during file ingestion, or a multi-file batch run). */
+    file: Extend.FileSummary | null;
     /**
      * The ID of the parse run that was used for this classify run.
      *

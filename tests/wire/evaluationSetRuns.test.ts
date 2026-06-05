@@ -14,7 +14,7 @@ describe("EvaluationSetRunsClient", () => {
         };
         const rawResponseBody = {
             object: "evaluation_set_run",
-            id: "eval_set_run_Xj8mK2pL9nR4vT7qY5wZ",
+            id: "bpr_Xj8mK2pL9nR4vT7qY5wZ",
             evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
             entity: {
                 object: "extractor",
@@ -55,7 +55,7 @@ describe("EvaluationSetRunsClient", () => {
         });
         expect(response).toEqual({
             object: "evaluation_set_run",
-            id: "eval_set_run_Xj8mK2pL9nR4vT7qY5wZ",
+            id: "bpr_Xj8mK2pL9nR4vT7qY5wZ",
             evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
             entity: {
                 object: "extractor",
@@ -95,7 +95,7 @@ describe("EvaluationSetRunsClient", () => {
         };
         const rawResponseBody = {
             object: "evaluation_set_run",
-            id: "eval_set_run_Xj8mK2pL9nR4vT7qY5wZ",
+            id: "bpr_Xj8mK2pL9nR4vT7qY5wZ",
             evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
             entity: {
                 object: "extractor",
@@ -133,7 +133,7 @@ describe("EvaluationSetRunsClient", () => {
         });
         expect(response).toEqual({
             object: "evaluation_set_run",
-            id: "eval_set_run_Xj8mK2pL9nR4vT7qY5wZ",
+            id: "bpr_Xj8mK2pL9nR4vT7qY5wZ",
             evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
             entity: {
                 object: "extractor",
@@ -338,7 +338,7 @@ describe("EvaluationSetRunsClient", () => {
 
         const rawResponseBody = {
             object: "evaluation_set_run",
-            id: "eval_set_run_Xj8mK2pL9nR4vT7qY5wZ",
+            id: "bpr_Xj8mK2pL9nR4vT7qY5wZ",
             evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
             entity: {
                 object: "extractor",
@@ -363,16 +363,16 @@ describe("EvaluationSetRunsClient", () => {
         };
         server
             .mockEndpoint()
-            .get("/evaluation_set_runs/evaluation_set_run_id_here")
+            .get("/evaluation_set_runs/bpr_Xj8mK2pL9nR4vT7qY5wZ")
             .respondWith()
             .statusCode(200)
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.evaluationSetRuns.retrieve("evaluation_set_run_id_here");
+        const response = await client.evaluationSetRuns.retrieve("bpr_Xj8mK2pL9nR4vT7qY5wZ");
         expect(response).toEqual({
             object: "evaluation_set_run",
-            id: "eval_set_run_Xj8mK2pL9nR4vT7qY5wZ",
+            id: "bpr_Xj8mK2pL9nR4vT7qY5wZ",
             evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
             entity: {
                 object: "extractor",

@@ -18,7 +18,7 @@ export declare namespace ClassifierVersionsClient {
 export class ClassifierVersionsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ClassifierVersionsClient.Options>;
 
-    constructor(options: ClassifierVersionsClient.Options) {
+    constructor(options: ClassifierVersionsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

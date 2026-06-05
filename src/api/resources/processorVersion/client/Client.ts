@@ -18,7 +18,7 @@ export declare namespace ProcessorVersionClient {
 export class ProcessorVersionClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ProcessorVersionClient.Options>;
 
-    constructor(options: ProcessorVersionClient.Options) {
+    constructor(options: ProcessorVersionClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

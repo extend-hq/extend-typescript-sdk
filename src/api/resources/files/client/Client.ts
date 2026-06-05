@@ -20,7 +20,7 @@ export declare namespace FilesClient {
 export class FilesClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<FilesClient.Options>;
 
-    constructor(options: FilesClient.Options) {
+    constructor(options: FilesClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
@@ -346,11 +346,11 @@ export class FilesClient {
     /**
      * Upload and create a new file in Extend.
      *
-     * This endpoint accepts file contents and registers them as a File in Extend, which can be used for [running workflows](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/workflow/create-workflow-run), [creating evaluation set items](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/evaluation/create-evaluation-set-item), [parsing](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/parse/parse-file), etc.
+     * This endpoint accepts file contents and registers them as a File in Extend, which can be used for [running workflows](https://docs.extend.ai/2026-02-09/api-reference/endpoints/workflow/create-workflow-run), [creating evaluation set items](https://docs.extend.ai/2026-02-09/api-reference/endpoints/evaluation/create-evaluation-set-item), [parsing](https://docs.extend.ai/2026-02-09/api-reference/endpoints/parse/parse-file), etc.
      *
      * If an uploaded file is detected as a Word or PowerPoint document, it will be automatically converted to a PDF.
      *
-     * Supported file types can be found [here](https://docs.extend.ai/2026-02-09/product/general/supported-file-types).
+     * Supported file types can be found [here](https://docs.extend.ai/2026-02-09/general/supported-file-types).
      *
      * This endpoint requires multipart form encoding. Most HTTP clients will handle this encoding automatically (see the examples).
      *

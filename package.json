@@ -1,11 +1,12 @@
 {
     "name": "extend-ai",
-    "version": "1.12.0",
+    "version": "1.13.0",
     "private": false,
     "repository": {
         "type": "git",
         "url": "git+https://github.com/extend-hq/extend-typescript-sdk.git"
     },
+    "license": "MIT",
     "main": "./index.js",
     "types": "./index.d.ts",
     "scripts": {

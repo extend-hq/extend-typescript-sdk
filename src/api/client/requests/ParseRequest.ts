@@ -18,7 +18,7 @@ export interface ParseRequest {
      * * `url` - Return a presigned URL to the parsed content in the response body
      */
     responseType?: Extend.ParseRequestResponseType;
-    /** The workspace ID to target. **Required** when using an organization-scoped API key; optional for workspace-scoped keys (the key is already tied to a workspace). See [Authentication](https://docs.extend.ai/2026-02-09/developers/authentication) for details on API key scopes. */
+    /** The workspace ID to target. **Required** when using an organization-scoped API key; optional for workspace-scoped keys (the key is already tied to a workspace). See [Authentication](https://docs.extend.ai/2026-02-09/api-reference/authentication) for details on API key scopes. */
     "x-extend-workspace-id"?: string;
     /** The file to be parsed. Files can be provided as a URL or an Extend file ID. */
     file: Extend.ParseRequestFile;

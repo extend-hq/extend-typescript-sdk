@@ -18,7 +18,7 @@ export declare namespace ParseRunsClient {
 export class ParseRunsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ParseRunsClient.Options>;
 
-    constructor(options: ParseRunsClient.Options) {
+    constructor(options: ParseRunsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
@@ -247,7 +247,7 @@ export class ParseRunsClient {
     /**
      * Retrieve the status and results of a parse run.
      *
-     * Use this endpoint to get results for a parse run that has already completed, or to check on the status of a parse run initiated by the [Create Parse Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/parse/create-parse-run) endpoint.
+     * Use this endpoint to get results for a parse run that has already completed, or to check on the status of a parse run initiated by the [Create Parse Run](https://docs.extend.ai/2026-02-09/api-reference/endpoints/parse/create-parse-run) endpoint.
      *
      * @param {string} id - The unique identifier for the parse run.
      *
@@ -456,7 +456,7 @@ export class ParseRunsClient {
     /**
      * Submit up to **1,000 files** for parsing in a single request. Each file is processed as an independent parse run using the same configuration.
      *
-     * Unlike the single [Parse File (Async)](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/parse/create-parse-run) endpoint, this batch endpoint accepts an `inputs` array and immediately returns a `BatchRun` object containing a batch `id` and a `PENDING` status. The individual runs are then queued and processed asynchronously.
+     * Unlike the single [Parse File (Async)](https://docs.extend.ai/2026-02-09/api-reference/endpoints/parse/create-parse-run) endpoint, this batch endpoint accepts an `inputs` array and immediately returns a `BatchRun` object containing a batch `id` and a `PENDING` status. The individual runs are then queued and processed asynchronously.
      *
      * **Monitoring results:**
      * - **Webhooks (recommended):** Subscribe to `batch_parse_run.processed` and `batch_parse_run.failed` events. The webhook payload indicates the batch has finished — fetch individual run results using `GET /parse_runs?batchId={id}`.
