@@ -310,7 +310,7 @@ describe("WorkflowRunsClient", () => {
                                                 type: "text",
                                                 content: "content",
                                                 details: { type: "table_details", rowCount: 1, columnCount: 1 },
-                                                metadata: {},
+                                                metadata: { sheet: { index: 0, name: "Sheet1" } },
                                                 polygon: [{ x: 10, y: 20 }],
                                                 boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
                                             },
@@ -499,7 +499,12 @@ describe("WorkflowRunsClient", () => {
                                                     rowCount: 1,
                                                     columnCount: 1,
                                                 },
-                                                metadata: {},
+                                                metadata: {
+                                                    sheet: {
+                                                        index: 0,
+                                                        name: "Sheet1",
+                                                    },
+                                                },
                                                 polygon: [
                                                     {
                                                         x: 10,
@@ -905,7 +910,7 @@ describe("WorkflowRunsClient", () => {
                                                 type: "text",
                                                 content: "content",
                                                 details: { type: "table_details", rowCount: 1, columnCount: 1 },
-                                                metadata: {},
+                                                metadata: { sheet: { index: 0, name: "Sheet1" } },
                                                 polygon: [{ x: 10, y: 20 }],
                                                 boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
                                             },
@@ -1086,7 +1091,12 @@ describe("WorkflowRunsClient", () => {
                                                     rowCount: 1,
                                                     columnCount: 1,
                                                 },
-                                                metadata: {},
+                                                metadata: {
+                                                    sheet: {
+                                                        index: 0,
+                                                        name: "Sheet1",
+                                                    },
+                                                },
                                                 polygon: [
                                                     {
                                                         x: 10,
@@ -1383,7 +1393,7 @@ describe("WorkflowRunsClient", () => {
                                                 type: "text",
                                                 content: "content",
                                                 details: { type: "table_details", rowCount: 1, columnCount: 1 },
-                                                metadata: {},
+                                                metadata: { sheet: { index: 0, name: "Sheet1" } },
                                                 polygon: [{ x: 10, y: 20 }],
                                                 boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
                                             },
@@ -1571,7 +1581,12 @@ describe("WorkflowRunsClient", () => {
                                                     rowCount: 1,
                                                     columnCount: 1,
                                                 },
-                                                metadata: {},
+                                                metadata: {
+                                                    sheet: {
+                                                        index: 0,
+                                                        name: "Sheet1",
+                                                    },
+                                                },
                                                 polygon: [
                                                     {
                                                         x: 10,
@@ -2084,7 +2099,7 @@ describe("WorkflowRunsClient", () => {
                                                 type: "text",
                                                 content: "content",
                                                 details: { type: "table_details", rowCount: 1, columnCount: 1 },
-                                                metadata: {},
+                                                metadata: { sheet: { index: 0, name: "Sheet1" } },
                                                 polygon: [{ x: 10, y: 20 }],
                                                 boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
                                             },
@@ -2265,7 +2280,12 @@ describe("WorkflowRunsClient", () => {
                                                     rowCount: 1,
                                                     columnCount: 1,
                                                 },
-                                                metadata: {},
+                                                metadata: {
+                                                    sheet: {
+                                                        index: 0,
+                                                        name: "Sheet1",
+                                                    },
+                                                },
                                                 polygon: [
                                                     {
                                                         x: 10,

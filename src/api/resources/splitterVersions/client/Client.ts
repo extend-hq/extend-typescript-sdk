@@ -18,7 +18,7 @@ export declare namespace SplitterVersionsClient {
 export class SplitterVersionsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<SplitterVersionsClient.Options>;
 
-    constructor(options: SplitterVersionsClient.Options) {
+    constructor(options: SplitterVersionsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

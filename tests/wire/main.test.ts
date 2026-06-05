@@ -43,7 +43,7 @@ describe("ExtendClient", () => {
                                 type: "text",
                                 content: "content",
                                 details: { type: "table_details", rowCount: 1, columnCount: 1 },
-                                metadata: {},
+                                metadata: { sheet: { index: 0, name: "Sheet1" } },
                                 polygon: [{ x: 10, y: 20 }],
                                 boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
                             },
@@ -155,7 +155,12 @@ describe("ExtendClient", () => {
                                     rowCount: 1,
                                     columnCount: 1,
                                 },
-                                metadata: {},
+                                metadata: {
+                                    sheet: {
+                                        index: 0,
+                                        name: "Sheet1",
+                                    },
+                                },
                                 polygon: [
                                     {
                                         x: 10,
@@ -478,7 +483,7 @@ describe("ExtendClient", () => {
             output: {
                 editedFile: {
                     id: "file_Ab3cDE45Fg6hIj7KlM8nO",
-                    presignedUrl: "https://extend-ai-files.s3.amazonaws.com/...",
+                    presignedUrl: "https://extend-files.s3.amazonaws.com/...",
                 },
                 filledValues: { key: "value" },
             },
@@ -570,7 +575,7 @@ describe("ExtendClient", () => {
             output: {
                 editedFile: {
                     id: "file_Ab3cDE45Fg6hIj7KlM8nO",
-                    presignedUrl: "https://extend-ai-files.s3.amazonaws.com/...",
+                    presignedUrl: "https://extend-files.s3.amazonaws.com/...",
                 },
                 filledValues: {
                     key: "value",
@@ -794,7 +799,16 @@ describe("ExtendClient", () => {
                     properties: {
                         vendor_name: { type: "string", description: "The name of the vendor" },
                         invoice_number: { type: "string", description: "The invoice number" },
-                        total_amount: { type: "number", description: "The total amount due" },
+                        total_amount: {
+                            type: "object",
+                            "extend:type": "currency",
+                            description: "The total amount due",
+                            properties: {
+                                amount: { type: ["number", "null"] },
+                                iso_4217_currency_code: { type: ["string", "null"] },
+                            },
+                            required: ["amount", "iso_4217_currency_code"],
+                        },
                     },
                 },
             },
@@ -915,8 +929,18 @@ describe("ExtendClient", () => {
                             description: "The invoice number",
                         },
                         total_amount: {
-                            type: "number",
+                            type: "object",
+                            "extend:type": "currency",
                             description: "The total amount due",
+                            properties: {
+                                amount: {
+                                    type: ["number", "null"],
+                                },
+                                iso_4217_currency_code: {
+                                    type: ["string", "null"],
+                                },
+                            },
+                            required: ["amount", "iso_4217_currency_code"],
                         },
                     },
                 },

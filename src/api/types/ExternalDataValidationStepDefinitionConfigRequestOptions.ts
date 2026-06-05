@@ -5,7 +5,7 @@ import type * as Extend from "../index";
 /**
  * HTTP request configuration for the external validation call.
  *
- * See the [External Data Validation step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#external-data-validation-step).
+ * See the [External Data Validation step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#external-data-validation).
  */
 export interface ExternalDataValidationStepDefinitionConfigRequestOptions {
     /** The URL to send the validation request to. */
@@ -14,13 +14,13 @@ export interface ExternalDataValidationStepDefinitionConfigRequestOptions {
     /**
      * Optional HTTP headers to include on the external validation request.
      *
-     * See the [External Data Validation step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#external-data-validation-step).
+     * See the [External Data Validation step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#external-data-validation).
      */
     headers?: Record<string, string>;
     /**
      * Content type of the request body sent to the external endpoint.
      *
-     * See the [External Data Validation step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#external-data-validation-step).
+     * See the [External Data Validation step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#external-data-validation).
      */
     contentType?: Extend.ExternalDataValidationStepDefinitionConfigRequestOptionsContentType;
 }

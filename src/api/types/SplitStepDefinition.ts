@@ -7,7 +7,7 @@ import type * as Extend from "../index";
  *
  * The splitter reference must include a pinned `version` — `"latest"` is not supported for `SPLIT` steps. Use a specific semver string (e.g. `"0.1"`) or `"draft"`. This is because classification IDs used for routing are tied to a specific processor version's config.
  *
- * See the [Split step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#split-step).
+ * See the [Split step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#split).
  */
 export interface SplitStepDefinition {
     name: string;
@@ -18,13 +18,13 @@ export interface SplitStepDefinition {
      *
      * The splitter `version` is required and must be a pinned version (semver like `"0.1"` or `"draft"`). `"latest"` is not allowed.
      *
-     * See the [Split step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#split-step).
+     * See the [Split step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#split).
      */
     config?: Extend.SplitStepDefinitionConfig;
     /**
      * Can only be set when `config` is present. Each entry must include a `classificationId` matching a split classification `id` from the referenced splitter's configuration. Use the classification's stable `id` (e.g. `"cls_receipt"`), not the `type` string.
      *
-     * See the [Split step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#split-step).
+     * See the [Split step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#split).
      */
     next?: Extend.ClassificationNextEntry[];
 }

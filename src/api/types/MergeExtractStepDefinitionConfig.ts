@@ -6,7 +6,7 @@ export interface MergeExtractStepDefinitionConfig {
     /**
      * How to order fields when merging. Defaults to confidence.
      *
-     * See the [Merge Extract step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#merge-extract-step).
+     * See the [Merge Extract step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#merge-extract).
      */
     mergeOrder?: Extend.MergeExtractStepDefinitionConfigMergeOrder;
 }

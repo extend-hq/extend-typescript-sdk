@@ -14,7 +14,7 @@ export interface WorkflowVersionsCreateRequest {
      *
      * All configurable steps (`EXTRACT`, `CLASSIFY`, `SPLIT`, `CONDITIONAL_EXTRACT`, `RULE_VALIDATION`, `EXTERNAL_DATA_VALIDATION`) must include `config` when deploying. Unconfigured steps are rejected with a 400.
      *
-     * See the [Configuring Workflows via API guide](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api) for step definitions, branching patterns, and examples.
+     * See the [Configuring Workflows via API guide](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows) for step definitions, branching patterns, and examples.
      */
     steps?: Extend.WorkflowStepDefinition[];
 }

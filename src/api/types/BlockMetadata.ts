@@ -8,6 +8,8 @@ import type * as Extend from "../index";
 export interface BlockMetadata {
     /** Information about the page this block appears on. */
     page?: Extend.BlockMetadataPage;
+    /** Spreadsheet sheet metadata. Present for blocks parsed from spreadsheet files, such as Excel workbooks. */
+    sheet?: Extend.BlockMetadataSheet;
     /** Text direction for this block's content ("ltr" for left-to-right, "rtl" for right-to-left). */
     textDirection?: Extend.BlockMetadataTextDirection;
     /** Lowest per-word OCR confidence across words in this block, or `null` when word-level confidence is unavailable. */

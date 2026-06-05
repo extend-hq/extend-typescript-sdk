@@ -6,7 +6,7 @@ export interface ConditionalStepDefinitionConfig {
     /**
      * Ordered conditional branches for this step. Use `IF` for the first branch, `ELSE_IF` for additional branches, and `ELSE` for the fallback branch.
      *
-     * See the [Conditional step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#conditional-step).
+     * See the [Conditional step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#conditional).
      */
     conditions: Extend.ConditionalStepDefinitionConfigConditionsItem[];
 }

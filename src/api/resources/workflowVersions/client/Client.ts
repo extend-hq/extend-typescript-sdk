@@ -18,7 +18,7 @@ export declare namespace WorkflowVersionsClient {
 export class WorkflowVersionsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<WorkflowVersionsClient.Options>;
 
-    constructor(options: WorkflowVersionsClient.Options) {
+    constructor(options: WorkflowVersionsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

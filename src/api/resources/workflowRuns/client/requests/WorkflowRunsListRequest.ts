@@ -17,7 +17,7 @@ export interface WorkflowRunsListRequest {
      */
     workflowId?: string;
     /**
-     * Filters workflow runs by the batch ID. This is useful for fetching all runs for a given batch created via the [Batch Run Workflow](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/workflow/batch-create-workflow-runs) endpoint.
+     * Filters workflow runs by the batch ID. This is useful for fetching all runs for a given batch created via the [Batch Run Workflow](https://docs.extend.ai/2026-02-09/api-reference/endpoints/workflow/batch-create-workflow-runs) endpoint.
      *
      * Example: `"batch_7Ws31-F5"`
      */
@@ -32,6 +32,6 @@ export interface WorkflowRunsListRequest {
     sortDir?: Extend.SortDir;
     nextPageToken?: Extend.NextPageToken;
     maxPageSize?: Extend.MaxPageSize;
-    /** The workspace ID to target. **Required** when using an organization-scoped API key; optional for workspace-scoped keys (the key is already tied to a workspace). See [Authentication](https://docs.extend.ai/2026-02-09/developers/authentication) for details on API key scopes. */
+    /** The workspace ID to target. **Required** when using an organization-scoped API key; optional for workspace-scoped keys (the key is already tied to a workspace). See [Authentication](https://docs.extend.ai/2026-02-09/api-reference/authentication) for details on API key scopes. */
     "x-extend-workspace-id"?: string;
 }

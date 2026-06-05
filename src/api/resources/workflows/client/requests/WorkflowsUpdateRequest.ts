@@ -25,7 +25,7 @@ export interface WorkflowsUpdateRequest {
     /**
      * The new step definitions for the draft version. Replaces all existing draft steps.
      *
-     * See the [Configuring Workflows via API guide](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api) for step definitions, branching patterns, and examples.
+     * See the [Configuring Workflows via API guide](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows) for step definitions, branching patterns, and examples.
      */
     steps?: Extend.WorkflowStepDefinition[];
 }

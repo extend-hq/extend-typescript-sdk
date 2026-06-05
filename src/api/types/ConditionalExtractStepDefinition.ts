@@ -7,7 +7,7 @@ import type * as Extend from "../index";
  *
  * Each extractor reference must include an explicit `version`. Valid values are `"latest"`, `"draft"`, or a specific semver string (e.g. `"1.0"`).
  *
- * See the [Conditional Extract step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#conditional-extract-step).
+ * See the [Conditional Extract step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#conditional-extract).
  */
 export interface ConditionalExtractStepDefinition {
     name: string;

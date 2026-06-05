@@ -18,7 +18,7 @@ export declare namespace ExtractorVersionsClient {
 export class ExtractorVersionsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ExtractorVersionsClient.Options>;
 
-    constructor(options: ExtractorVersionsClient.Options) {
+    constructor(options: ExtractorVersionsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

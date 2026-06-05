@@ -18,7 +18,7 @@ export declare namespace WorkflowsClient {
 export class WorkflowsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<WorkflowsClient.Options>;
 
-    constructor(options: WorkflowsClient.Options) {
+    constructor(options: WorkflowsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

@@ -5,7 +5,7 @@ import type * as Extend from "../index";
 /**
  * Collects outputs from multiple upstream branches before continuing.
  *
- * See the [Collect step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#collect-step).
+ * See the [Collect step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#collect).
  */
 export interface CollectStepDefinition {
     name: string;

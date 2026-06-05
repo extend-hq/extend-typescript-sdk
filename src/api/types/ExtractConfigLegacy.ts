@@ -3,9 +3,9 @@
 import type * as Extend from "../index";
 
 export interface ExtractConfigLegacy {
-    /** The base processor to use. For extractors, this can be either `"extraction_performance"` or `"extraction_light"`. Defaults to `"extraction_performance"` if not provided. See [Extraction Changelog](https://docs.extend.ai/2026-02-09/changelog/extraction/extraction-performance) for more details. */
+    /** The base processor to use. For extractors, this can be either `"extraction_performance"` or `"extraction_light"`. Defaults to `"extraction_performance"` if not provided. See [Extraction Changelog](https://docs.extend.ai/2026-02-09/model-versioning/extraction/extraction-performance) for more details. */
     baseProcessor?: Extend.ExtractConfigLegacyBaseProcessor;
-    /** The version of the `"extraction_performance"` or `"extraction_light"` processor to use. If not provided, the latest stable version for the selected `baseProcessor` will be used automatically. See [Extraction Changelog](https://docs.extend.ai/2026-02-09/changelog/extraction/extraction-performance) for more details. */
+    /** The version of the `"extraction_performance"` or `"extraction_light"` processor to use. If not provided, the latest stable version for the selected `baseProcessor` will be used automatically. See [Extraction Changelog](https://docs.extend.ai/2026-02-09/model-versioning/extraction/extraction-performance) for more details. */
     baseVersion?: string;
     /** Custom rules to guide the extraction process in natural language. */
     extractionRules?: string;

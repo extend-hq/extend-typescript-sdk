@@ -9,7 +9,7 @@ import type * as Extend from "../index";
  *
  * The classifier `version` is required and must be a pinned version (semver like `"0.1"` or `"draft"`). `"latest"` is not allowed.
  *
- * See the [Classify step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#classify-step).
+ * See the [Classify step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#classify).
  */
 export interface ClassifyStepDefinitionConfig {
     classifier: Extend.ClassifierRef;

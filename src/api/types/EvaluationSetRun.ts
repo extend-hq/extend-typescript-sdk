@@ -8,7 +8,7 @@ export interface EvaluationSetRun {
     /**
      * The unique identifier for this evaluation set run.
      *
-     * Example: `"eval_set_run_Xj8mK2pL9nR4vT7qY5wZ"`
+     * Example: `"bpr_Xj8mK2pL9nR4vT7qY5wZ"`
      */
     id: string;
     /**

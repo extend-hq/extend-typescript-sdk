@@ -5,7 +5,7 @@ import type * as Extend from "../index";
 /**
  * Parses file content (OCR, text extraction). Every workflow should have exactly one parse step immediately after the trigger.
  *
- * See the [Parse step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#parse-step).
+ * See the [Parse step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#parse).
  */
 export interface ParseStepDefinition {
     name: string;

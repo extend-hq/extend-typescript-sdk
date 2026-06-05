@@ -18,7 +18,7 @@ export declare namespace EditRunsClient {
 export class EditRunsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<EditRunsClient.Options>;
 
-    constructor(options: EditRunsClient.Options) {
+    constructor(options: EditRunsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
@@ -134,7 +134,7 @@ export class EditRunsClient {
     /**
      * Retrieve the status and results of an edit run.
      *
-     * Use this endpoint to get results for an edit run that has already completed, or to check on the status of an edit run initiated via the [Create Edit Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/edit/create-edit-run) endpoint.
+     * Use this endpoint to get results for an edit run that has already completed, or to check on the status of an edit run initiated via the [Create Edit Run](https://docs.extend.ai/2026-02-09/api-reference/endpoints/edit/create-edit-run) endpoint.
      *
      * @param {string} id - The unique identifier for the edit run.
      *

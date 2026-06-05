@@ -3,7 +3,7 @@
 /**
  * Standard error response format for all Extend API errors.
  *
- * See the [Error Codes documentation](https://docs.extend.ai/2026-02-09/developers/error-codes) for error handling recommendations.
+ * See the [Error Codes documentation](https://docs.extend.ai/2026-02-09/api-reference/error-handling) for error handling recommendations.
  */
 export interface ApiError {
     /** Error code for programmatic handling. */

@@ -25,11 +25,27 @@ import type * as Extend from "../../../../index";
  *                         "description": "The invoice number"
  *                     },
  *                     "total_amount": {
- *                         "type": [
- *                             "number",
- *                             "null"
- *                         ],
- *                         "description": "The total amount due"
+ *                         "type": "object",
+ *                         "extend:type": "currency",
+ *                         "description": "The total amount due",
+ *                         "properties": {
+ *                             "amount": {
+ *                                 "type": [
+ *                                     "number",
+ *                                     "null"
+ *                                 ]
+ *                             },
+ *                             "iso_4217_currency_code": {
+ *                                 "type": [
+ *                                     "string",
+ *                                     "null"
+ *                                 ]
+ *                             }
+ *                         },
+ *                         "required": [
+ *                             "amount",
+ *                             "iso_4217_currency_code"
+ *                         ]
  *                     }
  *                 }
  *             }

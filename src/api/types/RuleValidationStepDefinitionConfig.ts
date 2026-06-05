@@ -9,7 +9,7 @@ export interface RuleValidationStepDefinitionConfig {
     /**
      * Validation rules for this step. Each rule defines a name and a boolean formula.
      *
-     * See the [Rule Validation step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#rule-validation-step).
+     * See the [Rule Validation step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#rule-validation).
      */
     rules: Extend.RuleValidationStepDefinitionConfigRulesItem[];
 }

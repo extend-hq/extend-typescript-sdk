@@ -18,7 +18,7 @@ export declare namespace ClassifyRunsClient {
 export class ClassifyRunsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ClassifyRunsClient.Options>;
 
-    constructor(options: ClassifyRunsClient.Options) {
+    constructor(options: ClassifyRunsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
@@ -253,7 +253,7 @@ export class ClassifyRunsClient {
     /**
      * Retrieve details about a specific classify run, including its status and outputs.
      *
-     * A common use case for this endpoint is to poll for the status and final output of a classify run when using the [Create Classify Run](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/classify/create-classify-run) endpoint. For instance, if you do not want to not configure webhooks to receive the output via completion/failure events.
+     * A common use case for this endpoint is to poll for the status and final output of a classify run when using the [Create Classify Run](https://docs.extend.ai/2026-02-09/api-reference/endpoints/classify/create-classify-run) endpoint. For instance, if you do not want to not configure webhooks to receive the output via completion/failure events.
      *
      * @param {string} id - The unique identifier for this classify run.
      *
@@ -560,7 +560,7 @@ export class ClassifyRunsClient {
     /**
      * Submit up to **1,000 files** for classification in a single request. Each file is processed as an independent classify run using the same classifier and configuration.
      *
-     * Unlike the single [Classify File (Async)](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/classify/create-classify-run) endpoint, this batch endpoint accepts an `inputs` array and immediately returns a `BatchRun` object containing a batch `id` and a `PENDING` status. The individual runs are then queued and processed asynchronously.
+     * Unlike the single [Classify File (Async)](https://docs.extend.ai/2026-02-09/api-reference/endpoints/classify/create-classify-run) endpoint, this batch endpoint accepts an `inputs` array and immediately returns a `BatchRun` object containing a batch `id` and a `PENDING` status. The individual runs are then queued and processed asynchronously.
      *
      * **Monitoring results:**
      * - **Webhooks (recommended):** Subscribe to `batch_processor_run.processed` and `batch_processor_run.failed` events. The webhook payload indicates the batch has finished — fetch individual run results using `GET /classify_runs?batchId={id}`.

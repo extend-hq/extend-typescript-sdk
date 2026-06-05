@@ -5,7 +5,7 @@ export interface RuleValidationStepDefinitionConfigRulesItem {
     /**
      * Boolean formula used to validate the workflow data for this rule.
      *
-     * See the [Rule Validation step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#rule-validation-step) and [Formulas](https://docs.extend.ai/2026-02-09/product/workflows/formulas).
+     * See the [Rule Validation step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#rule-validation) and [Formulas](https://docs.extend.ai/2026-02-09/workflows/formulas).
      */
     formula: string;
     description?: string;

@@ -18,7 +18,7 @@ export declare namespace EvaluationSetRunsClient {
 export class EvaluationSetRunsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<EvaluationSetRunsClient.Options>;
 
-    constructor(options: EvaluationSetRunsClient.Options) {
+    constructor(options: EvaluationSetRunsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
@@ -140,7 +140,7 @@ export class EvaluationSetRunsClient {
      *
      * @param {string} id - The ID of the evaluation set run.
      *
-     *                      Example: `"evr_Xj8mK2pL9nR4vT7qY5wZ"`
+     *                      Example: `"bpr_Xj8mK2pL9nR4vT7qY5wZ"`
      * @param {Extend.EvaluationSetRunsRetrieveRequest} request
      * @param {EvaluationSetRunsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -154,7 +154,7 @@ export class EvaluationSetRunsClient {
      * @throws {@link Extend.InternalServerError}
      *
      * @example
-     *     await client.evaluationSetRuns.retrieve("evaluation_set_run_id_here")
+     *     await client.evaluationSetRuns.retrieve("bpr_Xj8mK2pL9nR4vT7qY5wZ")
      */
     public retrieve(
         id: string,

@@ -4,7 +4,7 @@ import type * as Extend from "../index";
 
 export interface SplitConfig {
     baseProcessor?: Extend.SplitBaseProcessor;
-    /** The version of the `"splitting_performance"` or `"splitting_light"` processor to use. If not provided, the latest stable version for the selected `baseProcessor` will be used automatically. See [Splitting Changelog](https://docs.extend.ai/2026-02-09/changelog/splitting/splitting-performance) for more details. */
+    /** The version of the `"splitting_performance"` or `"splitting_light"` processor to use. If not provided, the latest stable version for the selected `baseProcessor` will be used automatically. See [Splitting Changelog](https://docs.extend.ai/2026-02-09/model-versioning/splitting/splitting-performance) for more details. */
     baseVersion?: string;
     splitClassifications: Extend.SplitClassifications;
     /** Custom rules to guide the document splitting process in natural language. */

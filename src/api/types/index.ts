@@ -13,6 +13,7 @@ export * from "./Block";
 export * from "./BlockDetails";
 export * from "./BlockMetadata";
 export * from "./BlockMetadataPage";
+export * from "./BlockMetadataSheet";
 export * from "./BlockMetadataTextDirection";
 export * from "./BlockPolygonItem";
 export * from "./BlockType";

@@ -4,6 +4,7 @@ import * as core from "../core";
 import * as errors from "../errors/index";
 
 const TOKEN_PARAM = "token" as const;
+const ENV_TOKEN = "EXTEND_API_KEY" as const;
 
 export class BearerAuthProvider implements core.AuthProvider {
     private readonly options: BearerAuthProvider.Options;
@@ -13,7 +14,7 @@ export class BearerAuthProvider implements core.AuthProvider {
     }
 
     public static canCreate(options: Partial<BearerAuthProvider.Options>): boolean {
-        return options?.[TOKEN_PARAM] != null;
+        return options?.[TOKEN_PARAM] != null || process.env?.[ENV_TOKEN] != null;
     }
 
     public async getAuthRequest({
@@ -21,7 +22,7 @@ export class BearerAuthProvider implements core.AuthProvider {
     }: {
         endpointMetadata?: core.EndpointMetadata;
     } = {}): Promise<core.AuthRequest> {
-        const token = await core.Supplier.get(this.options[TOKEN_PARAM]);
+        const token = (await core.Supplier.get(this.options[TOKEN_PARAM])) ?? process.env?.[ENV_TOKEN];
         if (token == null) {
             throw new errors.ExtendError({
                 message: BearerAuthProvider.AUTH_CONFIG_ERROR_MESSAGE,
@@ -37,9 +38,9 @@ export class BearerAuthProvider implements core.AuthProvider {
 export namespace BearerAuthProvider {
     export const AUTH_SCHEME = "BearerAuth" as const;
     export const AUTH_CONFIG_ERROR_MESSAGE: string =
-        `Please provide '${TOKEN_PARAM}' when initializing the client` as const;
+        `Please provide '${TOKEN_PARAM}' when initializing the client, or set the '${ENV_TOKEN}' environment variable` as const;
     export type Options = AuthOptions;
-    export type AuthOptions = { [TOKEN_PARAM]: core.Supplier<core.BearerToken> };
+    export type AuthOptions = { [TOKEN_PARAM]?: core.Supplier<core.BearerToken> | undefined };
 
     export function createInstance(options: Options): core.AuthProvider {
         return new BearerAuthProvider(options);

@@ -18,7 +18,7 @@ export declare namespace EditTemplatesClient {
 export class EditTemplatesClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<EditTemplatesClient.Options>;
 
-    constructor(options: EditTemplatesClient.Options) {
+    constructor(options: EditTemplatesClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

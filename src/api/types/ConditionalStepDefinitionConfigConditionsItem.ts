@@ -9,19 +9,19 @@ export interface ConditionalStepDefinitionConfigConditionsItem {
     /**
      * The comparison operation for this branch.
      *
-     * See the [Conditional step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#conditional-step).
+     * See the [Conditional step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#conditional).
      */
     operation?: Extend.ConditionalStepDefinitionConfigConditionsItemOperation;
     /**
      * The left operand expression. This is typically a workflow variable or dynamic expression.
      *
-     * See the [Conditional step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#conditional-step).
+     * See the [Conditional step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#conditional).
      */
     leftOperand?: string;
     /**
      * The right operand value. This is typically a literal comparison value and is omitted for fallback branches like `ELSE`.
      *
-     * See the [Conditional step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#conditional-step).
+     * See the [Conditional step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#conditional).
      */
     rightOperand?: string;
 }

@@ -8,7 +8,7 @@ import type * as Extend from "../index";
  */
 export interface ClassifyOverrideConfig {
     baseProcessor?: Extend.ClassifyBaseProcessor;
-    /** The version of the `"classification_performance"` or `"classification_light"` processor to use. If not provided, the latest stable version for the selected `baseProcessor` will be used automatically. See [Classification Changelog](https://docs.extend.ai/2026-02-09/changelog/classification/classification-performance) for more details. */
+    /** The version of the `"classification_performance"` or `"classification_light"` processor to use. If not provided, the latest stable version for the selected `baseProcessor` will be used automatically. See [Classification Changelog](https://docs.extend.ai/2026-02-09/model-versioning/classification/classification-performance) for more details. */
     baseVersion?: string;
     classifications?: Extend.Classifications;
     /** Custom rules to guide the classification process in natural language. */

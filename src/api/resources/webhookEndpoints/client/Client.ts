@@ -18,7 +18,7 @@ export declare namespace WebhookEndpointsClient {
 export class WebhookEndpointsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<WebhookEndpointsClient.Options>;
 
-    constructor(options: WebhookEndpointsClient.Options) {
+    constructor(options: WebhookEndpointsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
@@ -129,9 +129,9 @@ export class WebhookEndpointsClient {
     /**
      * Create a new webhook endpoint. The response includes a `signingSecret` that is only returned once — store it securely for verifying webhook signatures.
      *
-     * The `enabledEvents` array specifies which global event types this endpoint should receive. Use the [Webhook Events](https://docs.extend.ai/2026-02-09/developers/api-reference/webhook-events) reference to see available event types.
+     * The `enabledEvents` array specifies which global event types this endpoint should receive. Use the [Webhook Events](https://docs.extend.ai/2026-02-09/api-reference/webhook-events) reference to see available event types.
      *
-     * To subscribe to events scoped to a specific resource (e.g., a single extractor or workflow), use [Create Webhook Subscription](https://docs.extend.ai/2026-02-09/developers/api-reference/endpoints/webhook/create-webhook-subscription) after creating the endpoint.
+     * To subscribe to events scoped to a specific resource (e.g., a single extractor or workflow), use [Create Webhook Subscription](https://docs.extend.ai/2026-02-09/api-reference/endpoints/webhook/create-webhook-subscription) after creating the endpoint.
      *
      * @param {Extend.WebhookEndpointsCreateRequest} request
      * @param {WebhookEndpointsClient.RequestOptions} requestOptions - Request-specific configuration.

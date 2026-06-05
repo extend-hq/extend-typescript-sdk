@@ -18,7 +18,7 @@ export declare namespace BatchRunsClient {
 export class BatchRunsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<BatchRunsClient.Options>;
 
-    constructor(options: BatchRunsClient.Options) {
+    constructor(options: BatchRunsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 

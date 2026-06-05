@@ -5,7 +5,7 @@ import type * as Extend from "../index";
 /**
  * Sends extraction data to an external HTTP endpoint for validation.
  *
- * See the [External Data Validation step docs](https://docs.extend.ai/2026-02-09/product/workflows/configuring-workflows-via-api#external-data-validation-step).
+ * See the [External Data Validation step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#external-data-validation).
  */
 export interface ExternalDataValidationStepDefinition {
     name: string;
