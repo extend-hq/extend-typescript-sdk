@@ -43,8 +43,12 @@ function createMockParseRun(
     outputUrl: null,
     metrics: null,
     usage: null,
+    // `metadata` is intentionally omitted: it is a required field on the
+    // regenerated `ParseRun` type but does not exist on older generated
+    // types. The cast below keeps this mock compiling across both, since the
+    // wrapper polling logic under test never reads `metadata`.
     ...overrides,
-  };
+  } as Extend.ParseRun;
 }
 
 // ============================================================================
