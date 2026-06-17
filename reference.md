@@ -168,7 +168,7 @@ Extract structured data from a file synchronously, waiting for the result before
 
 **Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /extract_runs` with [polling or webhooks](https://docs.extend.ai/2026-02-09/general/async-processing) instead, as it provides better reliability for large files and avoids timeout issues.
 
-The Extract endpoint allows you to extract structured data from files using an existing extractor or an inline configuration.
+The Extract endpoint allows you to extract structured data from files using an existing extractor, an inline configuration, or no configuration at all. When neither is provided, Extend automatically infers a schema from the document before extraction — no extractor or schema is required.
 
 For more details, see the [Extract File guide](https://docs.extend.ai/2026-02-09/extraction/overview).
 </dd>
@@ -1013,6 +1013,83 @@ Example: `"pr_xK9mLPqRtN3vS8wF5hB2cQ"`
 <dd>
 
 **request:** `Extend.ParseRunsDeleteRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ParseRunsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.parseRuns.<a href="/src/api/resources/parseRuns/client/Client.ts">cancel</a>(id, { ...params }) -> Extend.ParseRun</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Cancel an in-progress parse run.
+
+Note: Only parse runs with a status of `"PROCESSING"` can be cancelled. Parse runs that have already completed, failed, or been cancelled cannot be cancelled again.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.parseRuns.cancel("parse_run_id_here");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+
+The ID of the parse run to cancel.
+
+Example: `"pr_xK9mLPqRtN3vS8wF5hB2cQ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.ParseRunsCancelRequest` 
     
 </dd>
 </dl>
@@ -5567,7 +5644,7 @@ Unlike the single [Run Workflow](https://docs.extend.ai/2026-02-09/api-reference
 
 Our recommended usage pattern is to integrate with [Webhooks](https://docs.extend.ai/2026-02-09/webhooks/configuration) for consuming results, using the `metadata` and `batchId` to match up results to the original inputs in your downstream systems. However, you can integrate in a polling mechanism by using a combination of the [List Workflow Runs](https://docs.extend.ai/2026-02-09/api-reference/endpoints/workflow/list-workflow-runs) endpoint to fetch all runs via a batch, and then [Get Workflow Run](https://docs.extend.ai/2026-02-09/api-reference/endpoints/workflow/get-workflow-run) to fetch the full outputs each run.
 
-**Priority:** All workflow runs created through this batch endpoint are automatically assigned a priority of 90.
+**Priority:** By default, workflow runs created through this batch endpoint are assigned a priority of 90. You can override this by passing an optional `priority` value (1–100) in the request body — lower values run first.
 
 **Processing and Monitoring:**
 Upon successful submission, the endpoint returns a `batchId`. The individual workflow runs are then queued for processing.

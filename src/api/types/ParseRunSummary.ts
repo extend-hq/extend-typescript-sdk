@@ -3,9 +3,9 @@
 import type * as Extend from "../index";
 
 /**
- * Parse run object.
+ * Summary representation of a parse run.
  */
-export interface ParseRun {
+export interface ParseRunSummary {
     /** The type of object. Will always be `"parse_run"`. */
     object: "parse_run";
     /**
@@ -21,7 +21,7 @@ export interface ParseRun {
      *
      * Example: `"bpar_Xj8mK2pL9nR4vT7qY5wZ"`
      */
-    batchId?: string | null;
+    batchId: string | null;
     /** The file that was parsed. This file can be used as a parameter for other Extend endpoints, such as `POST /workflow_runs`. May be `null` for batch parse runs where file ingestion failed. */
     file: Extend.FileSummary;
     /**
@@ -31,7 +31,7 @@ export interface ParseRun {
      * * `"PROCESSED"` - The file was successfully processed
      * * `"FAILED"` - The processing failed (see `failureReason` for details)
      */
-    status: Extend.ParseRunStatusEnum;
+    status: Extend.ParseRunSummaryStatus;
     /**
      * The reason for failure.
      *
@@ -68,29 +68,17 @@ export interface ParseRun {
      */
     metadata: Extend.RunMetadata | null;
     /**
-     * The parse run output.
-     *
-     * **Availability:** Present when `status` is `"PROCESSED"` and the request was made without the `responseType=url` query parameter. Contains the parsed chunks.
-     */
-    output: Extend.ParseRunOutput | null;
-    /**
-     * A presigned URL to download the parse run output as a JSON file. The object shape is the same as the `output` field. Expires after 15 minutes.
-     *
-     * **Availability:** Present when `status` is `"PROCESSED"` and the request was made with `responseType=url` query parameter.
-     */
-    outputUrl: string | null;
-    /**
      * Metrics about the parsing process.
      *
      * **Availability:** Present when `status` is `"PROCESSED"`.
      */
-    metrics: Extend.ParseRunMetrics | null;
-    /** The configuration used for the parsing process, including any default values that were applied. */
-    config: Extend.ParseConfig;
+    metrics: Extend.ParseRunSummaryMetrics | null;
     /**
-     * Usage credits consumed by this parse run.
+     * Usage credits consumed by this parse run. Omits `breakdown` — fetch the full parse run by id to see the per-line items.
      *
      * **Availability:** Present when `status` is `"PROCESSED"`, the run was created after October 7, 2025, and the customer is on the current billing system.
      */
-    usage: Extend.RunUsage | null;
+    usage: Extend.RunUsageSummary | null;
+    createdAt: Extend.CreatedAt;
+    updatedAt: Extend.UpdatedAt;
 }

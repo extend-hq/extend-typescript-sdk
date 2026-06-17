@@ -6,14 +6,18 @@ export interface ExtractConfigJson {
     baseProcessor?: Extend.ExtractBaseProcessor;
     /** The version of the `"extraction_performance"` or `"extraction_light"` processor to use. If not provided, the latest stable version for the selected `baseProcessor` will be used automatically. See [Extraction Changelog](https://docs.extend.ai/2026-02-09/model-versioning/extraction/extraction-performance) for more details. */
     baseVersion?: string;
-    /** Custom rules to guide the extraction process in natural language. */
+    /**
+     * Custom rules to guide the extraction process in natural language.
+     *
+     * When `schema` is omitted, `extractionRules` also serves as schema generation instructions — for example, `"Invoice with vendor name, line items, and total due"`. Providing focused instructions produces a more targeted inferred schema.
+     */
     extractionRules?: string;
     /**
-     * JSON Schema definition of the data to extract.
+     * JSON Schema definition of the data to extract. **Optional** — if omitted, Extend automatically infers a schema from the document before running extraction. No extractor is required.
      *
      * See the [JSON Schema guide](https://docs.extend.ai/2026-02-09/extraction/schema) for details and examples of schema configuration.
      */
-    schema: Extend.JsonObject;
+    schema?: Extend.JsonObject;
     /** Advanced configuration options. */
     advancedOptions?: Extend.ExtractAdvancedOptions;
     /** Configuration options for the parsing process. */

@@ -1,3 +1,4 @@
+export type { ParseRunsCancelRequest } from "./ParseRunsCancelRequest";
 export type { ParseRunsCreateBatchRequest } from "./ParseRunsCreateBatchRequest";
 export type { ParseRunsCreateRequest } from "./ParseRunsCreateRequest";
 export type { ParseRunsDeleteRequest } from "./ParseRunsDeleteRequest";

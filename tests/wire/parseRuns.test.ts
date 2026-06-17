@@ -38,46 +38,11 @@ describe("ParseRunsClient", () => {
                     status: "PENDING",
                     failureReason: "FILE_TYPE_NOT_SUPPORTED",
                     failureMessage: "File type not supported for parsing.",
-                    output: {
-                        chunks: [
-                            {
-                                object: "chunk",
-                                type: "page",
-                                content: "This is the content of the chunk.",
-                                metadata: { pageRange: { start: 1, end: 1 } },
-                                blocks: [
-                                    {
-                                        object: "block",
-                                        id: "id",
-                                        type: "text",
-                                        content: "content",
-                                        details: { type: "table_details", rowCount: 1, columnCount: 1 },
-                                        metadata: { sheet: { index: 0, name: "Sheet1" } },
-                                        polygon: [{ x: 10, y: 20 }],
-                                        boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
-                                    },
-                                ],
-                            },
-                        ],
-                        ocr: {
-                            words: [
-                                {
-                                    content: "content",
-                                    boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
-                                    confidence: 1.1,
-                                    pageNumber: 1.1,
-                                },
-                            ],
-                        },
-                    },
-                    outputUrl: "https://...",
+                    metadata: { key: "value" },
                     metrics: { processingTimeMs: 1234, pageCount: 5 },
-                    config: { chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } } },
-                    usage: {
-                        credits: 9,
-                        totalCredits: 15,
-                        breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
-                    },
+                    usage: { credits: 9, totalCredits: 15 },
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
                 },
             ],
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
@@ -116,91 +81,19 @@ describe("ParseRunsClient", () => {
                     status: "PENDING",
                     failureReason: "FILE_TYPE_NOT_SUPPORTED",
                     failureMessage: "File type not supported for parsing.",
-                    output: {
-                        chunks: [
-                            {
-                                object: "chunk",
-                                type: "page",
-                                content: "This is the content of the chunk.",
-                                metadata: {
-                                    pageRange: {
-                                        start: 1,
-                                        end: 1,
-                                    },
-                                },
-                                blocks: [
-                                    {
-                                        object: "block",
-                                        id: "id",
-                                        type: "text",
-                                        content: "content",
-                                        details: {
-                                            type: "table_details",
-                                            rowCount: 1,
-                                            columnCount: 1,
-                                        },
-                                        metadata: {
-                                            sheet: {
-                                                index: 0,
-                                                name: "Sheet1",
-                                            },
-                                        },
-                                        polygon: [
-                                            {
-                                                x: 10,
-                                                y: 20,
-                                            },
-                                        ],
-                                        boundingBox: {
-                                            left: 10,
-                                            top: 10,
-                                            right: 20,
-                                            bottom: 20,
-                                        },
-                                    },
-                                ],
-                            },
-                        ],
-                        ocr: {
-                            words: [
-                                {
-                                    content: "content",
-                                    boundingBox: {
-                                        left: 10,
-                                        top: 10,
-                                        right: 20,
-                                        bottom: 20,
-                                    },
-                                    confidence: 1.1,
-                                    pageNumber: 1.1,
-                                },
-                            ],
-                        },
+                    metadata: {
+                        key: "value",
                     },
-                    outputUrl: "https://...",
                     metrics: {
                         processingTimeMs: 1234,
                         pageCount: 5,
                     },
-                    config: {
-                        chunkingStrategy: {
-                            options: {
-                                minCharacters: 500,
-                                maxCharacters: 10000,
-                            },
-                        },
-                    },
                     usage: {
                         credits: 9,
                         totalCredits: 15,
-                        breakdown: [
-                            {
-                                object: "extract_run",
-                                id: "pr_3UZSj69pYZDKHFuuX57ic",
-                                credits: 6,
-                            },
-                        ],
                     },
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
                 },
             ],
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
@@ -327,6 +220,7 @@ describe("ParseRunsClient", () => {
             status: "PENDING",
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported for parsing.",
+            metadata: { key: "value" },
             output: {
                 chunks: [
                     {
@@ -386,7 +280,30 @@ describe("ParseRunsClient", () => {
             usage: {
                 credits: 9,
                 totalCredits: 15,
-                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                        charges: [
+                            {
+                                product: "extraction_performance",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 30,
+                                pages: [2, 4, 7],
+                            },
+                            { product: "review_agent", unit: "page", quantity: 10, credits: 10, pages: [2, 4, 7] },
+                            {
+                                product: "agentic_text_correction",
+                                unit: "page",
+                                quantity: 3,
+                                credits: 3,
+                                pages: [2, 4, 7],
+                            },
+                        ],
+                    },
+                ],
             },
         };
         server
@@ -430,6 +347,9 @@ describe("ParseRunsClient", () => {
             status: "PENDING",
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported for parsing.",
+            metadata: {
+                key: "value",
+            },
             output: {
                 chunks: [
                     {
@@ -542,6 +462,29 @@ describe("ParseRunsClient", () => {
                         object: "extract_run",
                         id: "pr_3UZSj69pYZDKHFuuX57ic",
                         credits: 6,
+                        charges: [
+                            {
+                                product: "extraction_performance",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 30,
+                                pages: [2, 4, 7],
+                            },
+                            {
+                                product: "review_agent",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 10,
+                                pages: [2, 4, 7],
+                            },
+                            {
+                                product: "agentic_text_correction",
+                                unit: "page",
+                                quantity: 3,
+                                credits: 3,
+                                pages: [2, 4, 7],
+                            },
+                        ],
                     },
                 ],
             },
@@ -756,6 +699,7 @@ describe("ParseRunsClient", () => {
             status: "PENDING",
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported for parsing.",
+            metadata: { key: "value" },
             output: {
                 chunks: [
                     {
@@ -815,7 +759,30 @@ describe("ParseRunsClient", () => {
             usage: {
                 credits: 9,
                 totalCredits: 15,
-                breakdown: [{ object: "extract_run", id: "pr_3UZSj69pYZDKHFuuX57ic", credits: 6 }],
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                        charges: [
+                            {
+                                product: "extraction_performance",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 30,
+                                pages: [2, 4, 7],
+                            },
+                            { product: "review_agent", unit: "page", quantity: 10, credits: 10, pages: [2, 4, 7] },
+                            {
+                                product: "agentic_text_correction",
+                                unit: "page",
+                                quantity: 3,
+                                credits: 3,
+                                pages: [2, 4, 7],
+                            },
+                        ],
+                    },
+                ],
             },
         };
         server
@@ -853,6 +820,9 @@ describe("ParseRunsClient", () => {
             status: "PENDING",
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported for parsing.",
+            metadata: {
+                key: "value",
+            },
             output: {
                 chunks: [
                     {
@@ -965,6 +935,29 @@ describe("ParseRunsClient", () => {
                         object: "extract_run",
                         id: "pr_3UZSj69pYZDKHFuuX57ic",
                         credits: 6,
+                        charges: [
+                            {
+                                product: "extraction_performance",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 30,
+                                pages: [2, 4, 7],
+                            },
+                            {
+                                product: "review_agent",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 10,
+                                pages: [2, 4, 7],
+                            },
+                            {
+                                product: "agentic_text_correction",
+                                unit: "page",
+                                quantity: 3,
+                                credits: 3,
+                                pages: [2, 4, 7],
+                            },
+                        ],
                     },
                 ],
             },
@@ -1179,6 +1172,439 @@ describe("ParseRunsClient", () => {
 
         await expect(async () => {
             return await client.parseRuns.delete("id");
+        }).rejects.toThrow(Extend.InternalServerError);
+    });
+
+    test("cancel (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = {
+            object: "parse_run",
+            id: "pr_xK9mLPqRtN3vS8wF5hB2cQ",
+            batchId: "bpar_Xj8mK2pL9nR4vT7qY5wZ",
+            file: {
+                object: "file",
+                id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                name: "Invoices.pdf",
+                type: "PDF",
+                parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                metadata: {
+                    pageCount: 30,
+                    parentSplit: { id: "id", type: "Invoice", identifier: "other_2_9", startPage: 1, endPage: 10 },
+                },
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            status: "PENDING",
+            failureReason: "FILE_TYPE_NOT_SUPPORTED",
+            failureMessage: "File type not supported for parsing.",
+            metadata: { key: "value" },
+            output: {
+                chunks: [
+                    {
+                        object: "chunk",
+                        type: "page",
+                        content: "This is the content of the chunk.",
+                        metadata: { pageRange: { start: 1, end: 1 } },
+                        blocks: [
+                            {
+                                object: "block",
+                                id: "id",
+                                type: "text",
+                                content: "content",
+                                details: { type: "table_details", rowCount: 1, columnCount: 1 },
+                                metadata: { sheet: { index: 0, name: "Sheet1" } },
+                                polygon: [{ x: 10, y: 20 }],
+                                boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
+                            },
+                        ],
+                    },
+                ],
+                ocr: {
+                    words: [
+                        {
+                            content: "content",
+                            boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
+                            confidence: 1.1,
+                            pageNumber: 1.1,
+                        },
+                    ],
+                },
+            },
+            outputUrl: "https://...",
+            metrics: { processingTimeMs: 1234, pageCount: 5 },
+            config: {
+                target: "markdown",
+                chunkingStrategy: { type: "page", options: { minCharacters: 500, maxCharacters: 10000 } },
+                engine: "parse_performance",
+                engineVersion: "engineVersion",
+                advancedOptions: {
+                    pageRotationEnabled: true,
+                    pageRanges: [
+                        { start: 1, end: 10 },
+                        { start: 20, end: 30 },
+                    ],
+                    excelParsingMode: "basic",
+                    excelSkipHiddenContent: true,
+                    excelUseRawCellValues: true,
+                    excelSkipCalculation: true,
+                    verticalGroupingThreshold: 1.1,
+                    alwaysConvertToPdf: true,
+                    enrichmentFormat: "xml",
+                    imageConversionQuality: "high",
+                    formattingDetection: [{ type: "change_tracking" }],
+                },
+            },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                        charges: [
+                            {
+                                product: "extraction_performance",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 30,
+                                pages: [2, 4, 7],
+                            },
+                            { product: "review_agent", unit: "page", quantity: 10, credits: 10, pages: [2, 4, 7] },
+                            {
+                                product: "agentic_text_correction",
+                                unit: "page",
+                                quantity: 3,
+                                credits: 3,
+                                pages: [2, 4, 7],
+                            },
+                        ],
+                    },
+                ],
+            },
+        };
+        server
+            .mockEndpoint()
+            .post("/parse_runs/parse_run_id_here/cancel")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.parseRuns.cancel("parse_run_id_here");
+        expect(response).toEqual({
+            object: "parse_run",
+            id: "pr_xK9mLPqRtN3vS8wF5hB2cQ",
+            batchId: "bpar_Xj8mK2pL9nR4vT7qY5wZ",
+            file: {
+                object: "file",
+                id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                name: "Invoices.pdf",
+                type: "PDF",
+                parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                metadata: {
+                    pageCount: 30,
+                    parentSplit: {
+                        id: "id",
+                        type: "Invoice",
+                        identifier: "other_2_9",
+                        startPage: 1,
+                        endPage: 10,
+                    },
+                },
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            status: "PENDING",
+            failureReason: "FILE_TYPE_NOT_SUPPORTED",
+            failureMessage: "File type not supported for parsing.",
+            metadata: {
+                key: "value",
+            },
+            output: {
+                chunks: [
+                    {
+                        object: "chunk",
+                        type: "page",
+                        content: "This is the content of the chunk.",
+                        metadata: {
+                            pageRange: {
+                                start: 1,
+                                end: 1,
+                            },
+                        },
+                        blocks: [
+                            {
+                                object: "block",
+                                id: "id",
+                                type: "text",
+                                content: "content",
+                                details: {
+                                    type: "table_details",
+                                    rowCount: 1,
+                                    columnCount: 1,
+                                },
+                                metadata: {
+                                    sheet: {
+                                        index: 0,
+                                        name: "Sheet1",
+                                    },
+                                },
+                                polygon: [
+                                    {
+                                        x: 10,
+                                        y: 20,
+                                    },
+                                ],
+                                boundingBox: {
+                                    left: 10,
+                                    top: 10,
+                                    right: 20,
+                                    bottom: 20,
+                                },
+                            },
+                        ],
+                    },
+                ],
+                ocr: {
+                    words: [
+                        {
+                            content: "content",
+                            boundingBox: {
+                                left: 10,
+                                top: 10,
+                                right: 20,
+                                bottom: 20,
+                            },
+                            confidence: 1.1,
+                            pageNumber: 1.1,
+                        },
+                    ],
+                },
+            },
+            outputUrl: "https://...",
+            metrics: {
+                processingTimeMs: 1234,
+                pageCount: 5,
+            },
+            config: {
+                target: "markdown",
+                chunkingStrategy: {
+                    type: "page",
+                    options: {
+                        minCharacters: 500,
+                        maxCharacters: 10000,
+                    },
+                },
+                engine: "parse_performance",
+                engineVersion: "engineVersion",
+                advancedOptions: {
+                    pageRotationEnabled: true,
+                    pageRanges: [
+                        {
+                            start: 1,
+                            end: 10,
+                        },
+                        {
+                            start: 20,
+                            end: 30,
+                        },
+                    ],
+                    excelParsingMode: "basic",
+                    excelSkipHiddenContent: true,
+                    excelUseRawCellValues: true,
+                    excelSkipCalculation: true,
+                    verticalGroupingThreshold: 1.1,
+                    alwaysConvertToPdf: true,
+                    enrichmentFormat: "xml",
+                    imageConversionQuality: "high",
+                    formattingDetection: [
+                        {
+                            type: "change_tracking",
+                        },
+                    ],
+                },
+            },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                        charges: [
+                            {
+                                product: "extraction_performance",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 30,
+                                pages: [2, 4, 7],
+                            },
+                            {
+                                product: "review_agent",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 10,
+                                pages: [2, 4, 7],
+                            },
+                            {
+                                product: "agentic_text_correction",
+                                unit: "page",
+                                quantity: 3,
+                                credits: 3,
+                                pages: [2, 4, 7],
+                            },
+                        ],
+                    },
+                ],
+            },
+        });
+    });
+
+    test("cancel (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/parse_runs/id/cancel")
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parseRuns.cancel("id");
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("cancel (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/parse_runs/id/cancel")
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parseRuns.cancel("id");
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("cancel (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/parse_runs/id/cancel")
+            .respondWith()
+            .statusCode(402)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parseRuns.cancel("id");
+        }).rejects.toThrow(Extend.PaymentRequiredError);
+    });
+
+    test("cancel (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/parse_runs/id/cancel")
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parseRuns.cancel("id");
+        }).rejects.toThrow(Extend.ForbiddenError);
+    });
+
+    test("cancel (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/parse_runs/id/cancel")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parseRuns.cancel("id");
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("cancel (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/parse_runs/id/cancel")
+            .respondWith()
+            .statusCode(422)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parseRuns.cancel("id");
+        }).rejects.toThrow(Extend.UnprocessableEntityError);
+    });
+
+    test("cancel (8)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/parse_runs/id/cancel")
+            .respondWith()
+            .statusCode(429)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parseRuns.cancel("id");
+        }).rejects.toThrow(Extend.TooManyRequestsError);
+    });
+
+    test("cancel (9)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/parse_runs/id/cancel")
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.parseRuns.cancel("id");
         }).rejects.toThrow(Extend.InternalServerError);
     });
 

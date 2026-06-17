@@ -413,7 +413,7 @@ export class ExtendClient {
      *
      * **Note:** This endpoint is intended for onboarding and testing only. For production workloads, use `POST /extract_runs` with [polling or webhooks](https://docs.extend.ai/2026-02-09/general/async-processing) instead, as it provides better reliability for large files and avoids timeout issues.
      *
-     * The Extract endpoint allows you to extract structured data from files using an existing extractor or an inline configuration.
+     * The Extract endpoint allows you to extract structured data from files using an existing extractor, an inline configuration, or no configuration at all. When neither is provided, Extend automatically infers a schema from the document before extraction — no extractor or schema is required.
      *
      * For more details, see the [Extract File guide](https://docs.extend.ai/2026-02-09/extraction/overview).
      *

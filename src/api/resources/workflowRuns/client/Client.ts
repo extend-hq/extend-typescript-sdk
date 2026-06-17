@@ -668,7 +668,7 @@ export class WorkflowRunsClient {
      *
      * Our recommended usage pattern is to integrate with [Webhooks](https://docs.extend.ai/2026-02-09/webhooks/configuration) for consuming results, using the `metadata` and `batchId` to match up results to the original inputs in your downstream systems. However, you can integrate in a polling mechanism by using a combination of the [List Workflow Runs](https://docs.extend.ai/2026-02-09/api-reference/endpoints/workflow/list-workflow-runs) endpoint to fetch all runs via a batch, and then [Get Workflow Run](https://docs.extend.ai/2026-02-09/api-reference/endpoints/workflow/get-workflow-run) to fetch the full outputs each run.
      *
-     * **Priority:** All workflow runs created through this batch endpoint are automatically assigned a priority of 90.
+     * **Priority:** By default, workflow runs created through this batch endpoint are assigned a priority of 90. You can override this by passing an optional `priority` value (1–100) in the request body — lower values run first.
      *
      * **Processing and Monitoring:**
      * Upon successful submission, the endpoint returns a `batchId`. The individual workflow runs are then queued for processing.

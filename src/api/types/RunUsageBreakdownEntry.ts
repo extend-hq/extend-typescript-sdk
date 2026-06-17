@@ -3,7 +3,7 @@
 import type * as Extend from "../index";
 
 /**
- * One line item in a run's `usage.breakdown`. Each entry corresponds to a concrete chargeable resource that contributed credits to the parent operation.
+ * One line item in a run's `usage.breakdown`. Each entry corresponds to a concrete chargeable resource that contributed credits to the parent operation. When `charges` is present, it itemizes the cost drivers behind this entry's `credits`.
  */
 export interface RunUsageBreakdownEntry {
     /** The public object type of the contributing resource. Mirrors the top-level `object` field on the corresponding endpoint so callers can fetch the underlying resource by id if they want more detail. */
@@ -12,4 +12,10 @@ export interface RunUsageBreakdownEntry {
     id: string;
     /** Credits charged to the contributing resource. */
     credits: number;
+    /**
+     * Itemized cost drivers that make up this entry's `credits`. When present, `sum(charges[].credits) === credits`.
+     *
+     * **Availability:** Present on runs persisted on or after June 10, 2026. Runs persisted before that date will omit this field.
+     */
+    charges?: Extend.RunUsageBreakdownCharge[];
 }

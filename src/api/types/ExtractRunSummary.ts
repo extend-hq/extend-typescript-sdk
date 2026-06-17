@@ -27,6 +27,20 @@ export interface ExtractRunSummary {
      * The reason for failure.
      *
      * **Availability:** Present when `status` is `"FAILED"`.
+     *
+     * Possible values include:
+     * * `ABORTED` - The run was aborted by the user
+     * * `INTERNAL_ERROR` - An unexpected internal error occurred
+     * * `FAILED_TO_PROCESS_FILE` - Failed to process the file (e.g., OCR failure, file access issues)
+     * * `INVALID_PROCESSOR` - The processor configuration is invalid
+     * * `INVALID_CONFIGURATION` - The provided configuration is incompatible with the selected model
+     * * `PARSING_ERROR` - Failed to parse the extraction output
+     * * `PRE_PROCESSING_FAILURE` - An error occurred during preprocessing (e.g., chunking)
+     * * `POST_PROCESSING_FAILURE` - An error occurred during postprocessing
+     * * `OUT_OF_CREDITS` - Insufficient credits to run the extraction
+     * * `SCHEMA_GENERATION_FAILED` - Automatic schema inference failed (only applies when `schema` is omitted). The file could not be parsed or a schema could not be generated from it.
+     *
+     * **Note:** Additional failure reasons may be added in the future. Your integration should handle unknown values gracefully.
      */
     failureReason: string | null;
     /**
