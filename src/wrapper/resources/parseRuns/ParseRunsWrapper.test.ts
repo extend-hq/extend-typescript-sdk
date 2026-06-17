@@ -39,6 +39,7 @@ function createMockParseRun(
     },
     failureReason: null,
     failureMessage: null,
+    metadata: null,
     output: null,
     outputUrl: null,
     metrics: null,
