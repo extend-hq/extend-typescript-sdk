@@ -10,4 +10,6 @@ export interface ParseConfigBlockOptionsFigures {
     figureImageClippingEnabled?: boolean;
     /** Whether to enable advanced chart extraction using vision models for improved data extraction from charts. */
     advancedChartExtractionEnabled?: boolean;
+    /** Custom instructions injected into the vision model prompt used to analyze and summarize figures. Use to steer figure descriptions toward your use case (e.g. domain terminology, details to always capture). Requires `enabled: true`. Available on `parse_performance` >= `2.0.0` and `parse_light` >= `1.0.0`. */
+    customInstructions?: string;
 }

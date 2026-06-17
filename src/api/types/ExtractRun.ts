@@ -51,6 +51,7 @@ export interface ExtractRun {
      * * `PRE_PROCESSING_FAILURE` - An error occurred during preprocessing (e.g., chunking)
      * * `POST_PROCESSING_FAILURE` - An error occurred during postprocessing
      * * `OUT_OF_CREDITS` - Insufficient credits to run the extraction
+     * * `SCHEMA_GENERATION_FAILED` - Automatic schema inference failed (only applies when `schema` is omitted). The file could not be parsed or a schema could not be generated from it.
      *
      * **Note:** Additional failure reasons may be added in the future. Your integration should handle unknown values gracefully.
      */

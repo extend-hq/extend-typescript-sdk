@@ -29,4 +29,6 @@ export interface WorkflowRunsCreateBatchRequest {
     workflow: Extend.WorkflowReference;
     /** An array of input objects to be processed by the workflow. Each object represents a single workflow run to be created. The array must contain at least 1 input and at most 1000 inputs. */
     inputs: Extend.WorkflowRunsCreateBatchRequestInputsItem[];
+    /** An optional value used to determine the relative order of runs when rate limiting is in effect. Lower values will be prioritized before higher values. Defaults to 90 if not specified. */
+    priority?: number;
 }

@@ -4,6 +4,6 @@ import type * as Extend from "../../../index";
 
 export interface ParseRunsListResponse {
     object: "list";
-    data: Extend.ParseRun[];
+    data: Extend.ParseRunSummary[];
     nextPageToken?: Extend.NextPageToken;
 }
