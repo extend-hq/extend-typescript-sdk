@@ -124,6 +124,7 @@ const sampleExtractRunPayload: Extend.ExtractRun = {
     createdAt: "2024-01-01T00:00:00Z",
     updatedAt: "2024-01-01T00:00:00Z",
   },
+  files: null,
   dashboardUrl: "https://dashboard.extend.ai/extract-runs/extract_run_def456",
   edits: {},
   usage: { credits: 1 },
