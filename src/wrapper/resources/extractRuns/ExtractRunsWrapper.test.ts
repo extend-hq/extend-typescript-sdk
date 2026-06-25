@@ -62,6 +62,7 @@ function createMockExtractRun(
       createdAt: "2024-01-01T00:00:00Z",
       updatedAt: "2024-01-01T00:00:00Z",
     },
+    files: null,
     dashboardUrl:
       "https://dashboard.extend.ai/extract-runs/extract_run_test123",
     edits: {},
