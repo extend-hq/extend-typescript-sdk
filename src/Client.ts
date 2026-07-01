@@ -415,6 +415,8 @@ export class ExtendClient {
      *
      * The Extract endpoint allows you to extract structured data from files using an existing extractor, an inline configuration, or no configuration at all. When neither is provided, Extend automatically infers a schema from the document before extraction — no extractor or schema is required.
      *
+     * Pass `file` for a single document, or `package` to extract from multiple files in a single run. Exactly one of `file` or `package` must be provided.
+     *
      * For more details, see the [Extract File guide](https://docs.extend.ai/2026-02-09/extraction/overview).
      *
      * @param {Extend.ExtractRequest} request
@@ -475,14 +477,14 @@ export class ExtendClient {
      *     })
      */
     public extract(
-        request: Extend.ExtractRequest,
+        request: Extend.ExtractRequest = {},
         requestOptions?: ExtendClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.ExtractRun> {
         return core.HttpResponsePromise.fromPromise(this.__extract(request, requestOptions));
     }
 
     private async __extract(
-        request: Extend.ExtractRequest,
+        request: Extend.ExtractRequest = {},
         requestOptions?: ExtendClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ExtractRun>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();

@@ -992,6 +992,21 @@ describe("ExtendClient", () => {
                 createdAt: "2024-03-21T16:45:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
             },
+            files: [
+                {
+                    object: "file",
+                    id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    name: "Invoices.pdf",
+                    type: "PDF",
+                    parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                    metadata: {
+                        pageCount: 30,
+                        parentSplit: { id: "id", type: "Invoice", identifier: "other_2_9", startPage: 1, endPage: 10 },
+                    },
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/exr_Xj8mK2pL9nR4vT7qY5wZ",
             usage: {
@@ -1215,6 +1230,27 @@ describe("ExtendClient", () => {
                 createdAt: "2024-03-21T16:45:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
             },
+            files: [
+                {
+                    object: "file",
+                    id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    name: "Invoices.pdf",
+                    type: "PDF",
+                    parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                    metadata: {
+                        pageCount: 30,
+                        parentSplit: {
+                            id: "id",
+                            type: "Invoice",
+                            identifier: "other_2_9",
+                            startPage: 1,
+                            endPage: 10,
+                        },
+                    },
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/exr_Xj8mK2pL9nR4vT7qY5wZ",
             usage: {
@@ -1259,7 +1295,7 @@ describe("ExtendClient", () => {
     test("extract (2)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -1271,18 +1307,14 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.extract({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.extract();
         }).rejects.toThrow(Extend.BadRequestError);
     });
 
     test("extract (3)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -1294,18 +1326,14 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.extract({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.extract();
         }).rejects.toThrow(Extend.UnauthorizedError);
     });
 
     test("extract (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { code: "code", message: "message", retryable: true };
         server
             .mockEndpoint()
@@ -1317,18 +1345,14 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.extract({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.extract();
         }).rejects.toThrow(Extend.PaymentRequiredError);
     });
 
     test("extract (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { code: "code", message: "message", retryable: true };
         server
             .mockEndpoint()
@@ -1340,18 +1364,14 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.extract({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.extract();
         }).rejects.toThrow(Extend.ForbiddenError);
     });
 
     test("extract (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -1363,18 +1383,14 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.extract({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.extract();
         }).rejects.toThrow(Extend.NotFoundError);
     });
 
     test("extract (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { code: "code", message: "message", retryable: true };
         server
             .mockEndpoint()
@@ -1386,18 +1402,14 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.extract({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.extract();
         }).rejects.toThrow(Extend.UnprocessableEntityError);
     });
 
     test("extract (8)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -1409,18 +1421,14 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.extract({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.extract();
         }).rejects.toThrow(Extend.TooManyRequestsError);
     });
 
     test("extract (9)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -1432,11 +1440,7 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.extract({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.extract();
         }).rejects.toThrow(Extend.InternalServerError);
     });
 
