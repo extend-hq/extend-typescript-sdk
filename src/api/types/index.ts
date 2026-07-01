@@ -266,6 +266,8 @@ export * from "./MergeExtractStepDefinitionConfig";
 export * from "./MergeExtractStepDefinitionConfigMergeOrder";
 export * from "./MergeExtractStepRun";
 export * from "./MergeExtractStepRunStep";
+export * from "./MultiFileRunPackage";
+export * from "./MultiFileRunPackageFilesItem";
 export * from "./NextPageToken";
 export * from "./PageRanges";
 export * from "./PageRangesItem";

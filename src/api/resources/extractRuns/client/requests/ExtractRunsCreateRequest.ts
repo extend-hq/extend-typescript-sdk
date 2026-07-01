@@ -12,14 +12,38 @@ import type * as Extend from "../../../../index";
  *             url: "https://example.com/invoice.pdf"
  *         }
  *     }
+ *
+ * @example
+ *     {
+ *         extractor: {
+ *             id: "ex_1234567890"
+ *         },
+ *         "package": {
+ *             files: [{
+ *                     url: "https://example.com/invoice1.pdf"
+ *                 }, {
+ *                     url: "https://example.com/invoice2.pdf"
+ *                 }]
+ *         }
+ *     }
  */
 export interface ExtractRunsCreateRequest {
     /** Reference to an existing extractor. Mutually exclusive with `config` — provide one or the other, or omit both to have Extend infer a schema from the document. */
     extractor?: Extend.ExtractRunsCreateRequestExtractor;
     /** Inline extract configuration. Mutually exclusive with `extractor` — provide one or the other, or omit both to have Extend infer a schema from the document. */
     config?: Extend.ExtractConfigJson;
-    /** The file to be extracted from. Files can be provided as a URL, Extend file ID, or raw text. */
-    file: Extend.ExtractRunsCreateRequestFile;
+    /**
+     * The file to be extracted from. Mutually exclusive with `package` — provide one or the other.
+     *
+     * Files can be provided as a URL, Extend file ID, or raw text.
+     */
+    file?: Extend.ExtractRunsCreateRequestFile;
+    /**
+     * A collection of files to extract from together in a single run. Mutually exclusive with `file` — provide one or the other.
+     *
+     * See [Multifile Extraction](https://docs.extend.ai/2026-02-09/extraction/multifile) for details.
+     */
+    package?: Extend.MultiFileRunPackage;
     priority?: Extend.RunPriority;
     metadata?: Extend.RunMetadata;
 }

@@ -3,6 +3,8 @@
 import type * as Extend from "../../../index";
 
 /**
- * The file to be extracted from. Files can be provided as a URL, Extend file ID, or raw text.
+ * The file to be extracted from. Mutually exclusive with `package` — provide one or the other.
+ *
+ * Files can be provided as a URL, Extend file ID, or raw text.
  */
 export type ExtractRunsCreateRequestFile = Extend.FileFromUrl | Extend.FileFromId | Extend.FileFromText;

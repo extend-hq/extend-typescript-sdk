@@ -97,8 +97,14 @@ export interface ExtractRun {
      * **Availability:** Present when an extractor reference was provided. Not present when using inline `config`.
      */
     extractorVersion: Extend.ExtractorVersionSummary | null;
-    /** The file that was processed. `null` when the file could not be accessed or processed (for example a run that failed during file ingestion, or a multi-file batch run). */
+    /** The file that was processed. `null` for multifile runs (use `files` instead), and `null` when the file could not be accessed or processed (for example, a run that failed during file ingestion). */
     file: Extend.FileSummary | null;
+    /**
+     * The files that were processed, in the order they were submitted. Only populated for multifile runs (created with `package`).
+     *
+     * For single-file runs, this is `null` — use `file` instead.
+     */
+    files: Extend.FileSummary[] | null;
     /**
      * The ID of the parse run that was used for this extract run.
      *

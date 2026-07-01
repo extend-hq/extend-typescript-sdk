@@ -55,6 +55,27 @@ describe("ExtractRunsClient", () => {
                         createdAt: "2024-03-21T16:45:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
                     },
+                    files: [
+                        {
+                            object: "file",
+                            id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                            name: "Invoices.pdf",
+                            type: null,
+                            parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                            metadata: {
+                                pageCount: 30,
+                                parentSplit: {
+                                    id: "id",
+                                    type: "Invoice",
+                                    identifier: "other_2_9",
+                                    startPage: 1,
+                                    endPage: 10,
+                                },
+                            },
+                            createdAt: "2024-03-21T16:45:00Z",
+                            updatedAt: "2024-03-21T16:45:00Z",
+                        },
+                    ],
                     parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
                     dashboardUrl: "https://dashboard.extend.ai/runs/exr_Xj8mK2pL9nR4vT7qY5wZ",
                     usage: { credits: 9, totalCredits: 15 },
@@ -117,6 +138,27 @@ describe("ExtractRunsClient", () => {
                         createdAt: "2024-03-21T16:45:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
                     },
+                    files: [
+                        {
+                            object: "file",
+                            id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                            name: "Invoices.pdf",
+                            type: null,
+                            parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                            metadata: {
+                                pageCount: 30,
+                                parentSplit: {
+                                    id: "id",
+                                    type: "Invoice",
+                                    identifier: "other_2_9",
+                                    startPage: 1,
+                                    endPage: 10,
+                                },
+                            },
+                            createdAt: "2024-03-21T16:45:00Z",
+                            updatedAt: "2024-03-21T16:45:00Z",
+                        },
+                    ],
                     parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
                     dashboardUrl: "https://dashboard.extend.ai/runs/exr_Xj8mK2pL9nR4vT7qY5wZ",
                     usage: {
@@ -313,6 +355,21 @@ describe("ExtractRunsClient", () => {
                 createdAt: "2024-03-21T16:45:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
             },
+            files: [
+                {
+                    object: "file",
+                    id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    name: "Invoices.pdf",
+                    type: "PDF",
+                    parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                    metadata: {
+                        pageCount: 30,
+                        parentSplit: { id: "id", type: "Invoice", identifier: "other_2_9", startPage: 1, endPage: 10 },
+                    },
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/exr_Xj8mK2pL9nR4vT7qY5wZ",
             usage: {
@@ -510,6 +567,27 @@ describe("ExtractRunsClient", () => {
                 createdAt: "2024-03-21T16:45:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
             },
+            files: [
+                {
+                    object: "file",
+                    id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    name: "Invoices.pdf",
+                    type: "PDF",
+                    parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                    metadata: {
+                        pageCount: 30,
+                        parentSplit: {
+                            id: "id",
+                            type: "Invoice",
+                            identifier: "other_2_9",
+                            startPage: 1,
+                            endPage: 10,
+                        },
+                    },
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/exr_Xj8mK2pL9nR4vT7qY5wZ",
             usage: {
@@ -554,7 +632,379 @@ describe("ExtractRunsClient", () => {
     test("create (2)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {
+            extractor: { id: "ex_1234567890" },
+            package: {
+                files: [{ url: "https://example.com/invoice1.pdf" }, { url: "https://example.com/invoice2.pdf" }],
+            },
+        };
+        const rawResponseBody = {
+            object: "extract_run",
+            id: "exr_Xj8mK2pL9nR4vT7qY5wZ",
+            status: "PENDING",
+            output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
+            initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
+            reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
+            failureReason: "PARSING_ERROR",
+            failureMessage: "failureMessage",
+            metadata: { key: "value" },
+            reviewed: false,
+            edited: false,
+            edits: {
+                key: {
+                    originalValue: { key: "value" },
+                    editedValue: { key: "value" },
+                    notes: "This is a note about the edit.",
+                    page: 15,
+                    fieldType: "string",
+                },
+            },
+            config: {
+                baseProcessor: "extraction_performance",
+                baseVersion: "baseVersion",
+                extractionRules: "extractionRules",
+                schema: { key: "value" },
+                advancedOptions: {
+                    modelReasoningInsightsEnabled: true,
+                    advancedMultimodalEnabled: true,
+                    citationsEnabled: true,
+                    citationMode: "line",
+                    arrayCitationStrategy: "item",
+                    arrayStrategy: { type: "large_array_heuristics" },
+                    excelSheetRanges: [{ start: 1, end: 1 }],
+                    excelSheetSelectionStrategy: "intelligent",
+                    pageRanges: [
+                        { start: 1, end: 10 },
+                        { start: 20, end: 30 },
+                    ],
+                    currentDateEnabled: true,
+                },
+                parseConfig: {
+                    target: "markdown",
+                    chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } },
+                    engine: "parse_performance",
+                    engineVersion: "engineVersion",
+                    advancedOptions: {
+                        pageRanges: [
+                            { start: 1, end: 10 },
+                            { start: 20, end: 30 },
+                        ],
+                    },
+                },
+            },
+            extractor: {
+                object: "extractor",
+                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Extractor",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            extractorVersion: {
+                object: "extractor_version",
+                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated extraction fields for new invoice format",
+                version: "draft",
+                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+            file: {
+                object: "file",
+                id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                name: "Invoices.pdf",
+                type: "PDF",
+                parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                metadata: {
+                    pageCount: 30,
+                    parentSplit: { id: "id", type: "Invoice", identifier: "other_2_9", startPage: 1, endPage: 10 },
+                },
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            files: [
+                {
+                    object: "file",
+                    id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    name: "Invoices.pdf",
+                    type: "PDF",
+                    parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                    metadata: {
+                        pageCount: 30,
+                        parentSplit: { id: "id", type: "Invoice", identifier: "other_2_9", startPage: 1, endPage: 10 },
+                    },
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
+            parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
+            dashboardUrl: "https://dashboard.extend.ai/runs/exr_Xj8mK2pL9nR4vT7qY5wZ",
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                        charges: [
+                            {
+                                product: "extraction_performance",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 30,
+                                pages: [2, 4, 7],
+                            },
+                            { product: "review_agent", unit: "page", quantity: 10, credits: 10, pages: [2, 4, 7] },
+                            {
+                                product: "agentic_text_correction",
+                                unit: "page",
+                                quantity: 3,
+                                credits: 3,
+                                pages: [2, 4, 7],
+                            },
+                        ],
+                    },
+                ],
+            },
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+        };
+        server
+            .mockEndpoint()
+            .post("/extract_runs")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.extractRuns.create({
+            extractor: {
+                id: "ex_1234567890",
+            },
+            package: {
+                files: [
+                    {
+                        url: "https://example.com/invoice1.pdf",
+                    },
+                    {
+                        url: "https://example.com/invoice2.pdf",
+                    },
+                ],
+            },
+        });
+        expect(response).toEqual({
+            object: "extract_run",
+            id: "exr_Xj8mK2pL9nR4vT7qY5wZ",
+            status: "PENDING",
+            output: {
+                value: {
+                    key: "value",
+                },
+                metadata: {
+                    key: {
+                        logprobsConfidence: null,
+                    },
+                },
+            },
+            initialOutput: {
+                value: {
+                    key: "value",
+                },
+                metadata: {
+                    key: {
+                        logprobsConfidence: null,
+                    },
+                },
+            },
+            reviewedOutput: {
+                value: {
+                    key: "value",
+                },
+                metadata: {
+                    key: {
+                        logprobsConfidence: null,
+                    },
+                },
+            },
+            failureReason: "PARSING_ERROR",
+            failureMessage: "failureMessage",
+            metadata: {
+                key: "value",
+            },
+            reviewed: false,
+            edited: false,
+            edits: {
+                key: {
+                    originalValue: {
+                        key: "value",
+                    },
+                    editedValue: {
+                        key: "value",
+                    },
+                    notes: "This is a note about the edit.",
+                    page: 15,
+                    fieldType: "string",
+                },
+            },
+            config: {
+                baseProcessor: "extraction_performance",
+                baseVersion: "baseVersion",
+                extractionRules: "extractionRules",
+                schema: {
+                    key: "value",
+                },
+                advancedOptions: {
+                    modelReasoningInsightsEnabled: true,
+                    advancedMultimodalEnabled: true,
+                    citationsEnabled: true,
+                    citationMode: "line",
+                    arrayCitationStrategy: "item",
+                    arrayStrategy: {
+                        type: "large_array_heuristics",
+                    },
+                    excelSheetRanges: [
+                        {
+                            start: 1,
+                            end: 1,
+                        },
+                    ],
+                    excelSheetSelectionStrategy: "intelligent",
+                    pageRanges: [
+                        {
+                            start: 1,
+                            end: 10,
+                        },
+                        {
+                            start: 20,
+                            end: 30,
+                        },
+                    ],
+                    currentDateEnabled: true,
+                },
+                parseConfig: {
+                    target: "markdown",
+                    chunkingStrategy: {
+                        options: {
+                            minCharacters: 500,
+                            maxCharacters: 10000,
+                        },
+                    },
+                    engine: "parse_performance",
+                    engineVersion: "engineVersion",
+                    advancedOptions: {
+                        pageRanges: [
+                            {
+                                start: 1,
+                                end: 10,
+                            },
+                            {
+                                start: 20,
+                                end: 30,
+                            },
+                        ],
+                    },
+                },
+            },
+            extractor: {
+                object: "extractor",
+                id: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                name: "Invoice Extractor",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            extractorVersion: {
+                object: "extractor_version",
+                id: "exv_xK9mLPqRtN3vS8wF5hB2cQ",
+                description: "Updated extraction fields for new invoice format",
+                version: "draft",
+                extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+            file: {
+                object: "file",
+                id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                name: "Invoices.pdf",
+                type: "PDF",
+                parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                metadata: {
+                    pageCount: 30,
+                    parentSplit: {
+                        id: "id",
+                        type: "Invoice",
+                        identifier: "other_2_9",
+                        startPage: 1,
+                        endPage: 10,
+                    },
+                },
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            files: [
+                {
+                    object: "file",
+                    id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    name: "Invoices.pdf",
+                    type: "PDF",
+                    parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                    metadata: {
+                        pageCount: 30,
+                        parentSplit: {
+                            id: "id",
+                            type: "Invoice",
+                            identifier: "other_2_9",
+                            startPage: 1,
+                            endPage: 10,
+                        },
+                    },
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
+            parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
+            dashboardUrl: "https://dashboard.extend.ai/runs/exr_Xj8mK2pL9nR4vT7qY5wZ",
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                        charges: [
+                            {
+                                product: "extraction_performance",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 30,
+                                pages: [2, 4, 7],
+                            },
+                            {
+                                product: "review_agent",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 10,
+                                pages: [2, 4, 7],
+                            },
+                            {
+                                product: "agentic_text_correction",
+                                unit: "page",
+                                quantity: 3,
+                                credits: 3,
+                                pages: [2, 4, 7],
+                            },
+                        ],
+                    },
+                ],
+            },
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+        });
+    });
+
+    test("create (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -566,18 +1016,14 @@ describe("ExtractRunsClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.extractRuns.create({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.extractRuns.create();
         }).rejects.toThrow(Extend.BadRequestError);
     });
 
-    test("create (3)", async () => {
+    test("create (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -589,18 +1035,14 @@ describe("ExtractRunsClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.extractRuns.create({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.extractRuns.create();
         }).rejects.toThrow(Extend.UnauthorizedError);
     });
 
-    test("create (4)", async () => {
+    test("create (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { code: "code", message: "message", retryable: true };
         server
             .mockEndpoint()
@@ -612,18 +1054,14 @@ describe("ExtractRunsClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.extractRuns.create({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.extractRuns.create();
         }).rejects.toThrow(Extend.PaymentRequiredError);
     });
 
-    test("create (5)", async () => {
+    test("create (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { code: "code", message: "message", retryable: true };
         server
             .mockEndpoint()
@@ -635,18 +1073,14 @@ describe("ExtractRunsClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.extractRuns.create({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.extractRuns.create();
         }).rejects.toThrow(Extend.ForbiddenError);
     });
 
-    test("create (6)", async () => {
+    test("create (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -658,18 +1092,14 @@ describe("ExtractRunsClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.extractRuns.create({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.extractRuns.create();
         }).rejects.toThrow(Extend.NotFoundError);
     });
 
-    test("create (7)", async () => {
+    test("create (8)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { code: "code", message: "message", retryable: true };
         server
             .mockEndpoint()
@@ -681,18 +1111,14 @@ describe("ExtractRunsClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.extractRuns.create({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.extractRuns.create();
         }).rejects.toThrow(Extend.UnprocessableEntityError);
     });
 
-    test("create (8)", async () => {
+    test("create (9)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -704,18 +1130,14 @@ describe("ExtractRunsClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.extractRuns.create({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.extractRuns.create();
         }).rejects.toThrow(Extend.TooManyRequestsError);
     });
 
-    test("create (9)", async () => {
+    test("create (10)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -727,11 +1149,7 @@ describe("ExtractRunsClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.extractRuns.create({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.extractRuns.create();
         }).rejects.toThrow(Extend.InternalServerError);
     });
 
@@ -821,6 +1239,21 @@ describe("ExtractRunsClient", () => {
                 createdAt: "2024-03-21T16:45:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
             },
+            files: [
+                {
+                    object: "file",
+                    id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    name: "Invoices.pdf",
+                    type: "PDF",
+                    parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                    metadata: {
+                        pageCount: 30,
+                        parentSplit: { id: "id", type: "Invoice", identifier: "other_2_9", startPage: 1, endPage: 10 },
+                    },
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/exr_Xj8mK2pL9nR4vT7qY5wZ",
             usage: {
@@ -1010,6 +1443,27 @@ describe("ExtractRunsClient", () => {
                 createdAt: "2024-03-21T16:45:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
             },
+            files: [
+                {
+                    object: "file",
+                    id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    name: "Invoices.pdf",
+                    type: "PDF",
+                    parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                    metadata: {
+                        pageCount: 30,
+                        parentSplit: {
+                            id: "id",
+                            type: "Invoice",
+                            identifier: "other_2_9",
+                            startPage: 1,
+                            endPage: 10,
+                        },
+                    },
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/exr_Xj8mK2pL9nR4vT7qY5wZ",
             usage: {
@@ -1396,6 +1850,21 @@ describe("ExtractRunsClient", () => {
                 createdAt: "2024-03-21T16:45:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
             },
+            files: [
+                {
+                    object: "file",
+                    id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    name: "Invoices.pdf",
+                    type: "PDF",
+                    parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                    metadata: {
+                        pageCount: 30,
+                        parentSplit: { id: "id", type: "Invoice", identifier: "other_2_9", startPage: 1, endPage: 10 },
+                    },
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/exr_Xj8mK2pL9nR4vT7qY5wZ",
             usage: {
@@ -1585,6 +2054,27 @@ describe("ExtractRunsClient", () => {
                 createdAt: "2024-03-21T16:45:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
             },
+            files: [
+                {
+                    object: "file",
+                    id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    name: "Invoices.pdf",
+                    type: "PDF",
+                    parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                    metadata: {
+                        pageCount: 30,
+                        parentSplit: {
+                            id: "id",
+                            type: "Invoice",
+                            identifier: "other_2_9",
+                            startPage: 1,
+                            endPage: 10,
+                        },
+                    },
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
             parseRunId: "pr_Xj8mK2pL9nR4vT7qY5wZ",
             dashboardUrl: "https://dashboard.extend.ai/runs/exr_Xj8mK2pL9nR4vT7qY5wZ",
             usage: {

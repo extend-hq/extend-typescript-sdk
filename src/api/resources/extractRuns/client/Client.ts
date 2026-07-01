@@ -172,16 +172,30 @@ export class ExtractRunsClient {
      *             url: "https://example.com/invoice.pdf"
      *         }
      *     })
+     *
+     * @example
+     *     await client.extractRuns.create({
+     *         extractor: {
+     *             id: "ex_1234567890"
+     *         },
+     *         "package": {
+     *             files: [{
+     *                     url: "https://example.com/invoice1.pdf"
+     *                 }, {
+     *                     url: "https://example.com/invoice2.pdf"
+     *                 }]
+     *         }
+     *     })
      */
     public create(
-        request: Extend.ExtractRunsCreateRequest,
+        request: Extend.ExtractRunsCreateRequest = {},
         requestOptions?: ExtractRunsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.ExtractRun> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: Extend.ExtractRunsCreateRequest,
+        request: Extend.ExtractRunsCreateRequest = {},
         requestOptions?: ExtractRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.ExtractRun>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();

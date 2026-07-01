@@ -170,6 +170,8 @@ Extract structured data from a file synchronously, waiting for the result before
 
 The Extract endpoint allows you to extract structured data from files using an existing extractor, an inline configuration, or no configuration at all. When neither is provided, Extend automatically infers a schema from the document before extraction — no extractor or schema is required.
 
+Pass `file` for a single document, or `package` to extract from multiple files in a single run. Exactly one of `file` or `package` must be provided.
+
 For more details, see the [Extract File guide](https://docs.extend.ai/2026-02-09/extraction/overview).
 </dd>
 </dl>
