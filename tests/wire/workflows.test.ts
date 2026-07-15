@@ -284,6 +284,90 @@ describe("WorkflowsClient", () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
+            name: "Portable Invoice Processing",
+            steps: [
+                { type: "TRIGGER", name: "name" },
+                { type: "PARSE", name: "name" },
+                { type: "EXTRACT", name: "name" },
+                { type: "HUMAN_REVIEW", name: "name" },
+            ],
+        };
+        const rawResponseBody = {
+            object: "workflow",
+            id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
+            name: "Invoice Processing",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+            draftVersion: {
+                object: "workflow_version",
+                id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+                version: "1",
+                name: "Production v1",
+                steps: [{ type: "TRIGGER", name: "name", next: [{ step: "parse" }] }],
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+        };
+        server
+            .mockEndpoint()
+            .post("/workflows")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.workflows.create({
+            name: "Portable Invoice Processing",
+            steps: [
+                {
+                    type: "TRIGGER",
+                    name: "name",
+                },
+                {
+                    type: "PARSE",
+                    name: "name",
+                },
+                {
+                    type: "EXTRACT",
+                    name: "name",
+                },
+                {
+                    type: "HUMAN_REVIEW",
+                    name: "name",
+                },
+            ],
+        });
+        expect(response).toEqual({
+            object: "workflow",
+            id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
+            name: "Invoice Processing",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+            draftVersion: {
+                object: "workflow_version",
+                id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+                version: "1",
+                name: "Production v1",
+                steps: [
+                    {
+                        type: "TRIGGER",
+                        name: "name",
+                        next: [
+                            {
+                                step: "parse",
+                            },
+                        ],
+                    },
+                ],
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+        });
+    });
+
+    test("create (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
             name: "Document Routing",
             steps: [
                 { type: "TRIGGER", name: "name" },
@@ -374,7 +458,7 @@ describe("WorkflowsClient", () => {
         });
     });
 
-    test("create (4)", async () => {
+    test("create (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -395,7 +479,7 @@ describe("WorkflowsClient", () => {
         }).rejects.toThrow(Extend.BadRequestError);
     });
 
-    test("create (5)", async () => {
+    test("create (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -416,7 +500,7 @@ describe("WorkflowsClient", () => {
         }).rejects.toThrow(Extend.UnauthorizedError);
     });
 
-    test("create (6)", async () => {
+    test("create (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -437,7 +521,7 @@ describe("WorkflowsClient", () => {
         }).rejects.toThrow(Extend.PaymentRequiredError);
     });
 
-    test("create (7)", async () => {
+    test("create (8)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -458,7 +542,7 @@ describe("WorkflowsClient", () => {
         }).rejects.toThrow(Extend.ForbiddenError);
     });
 
-    test("create (8)", async () => {
+    test("create (9)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -479,7 +563,7 @@ describe("WorkflowsClient", () => {
         }).rejects.toThrow(Extend.NotFoundError);
     });
 
-    test("create (9)", async () => {
+    test("create (10)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -500,7 +584,7 @@ describe("WorkflowsClient", () => {
         }).rejects.toThrow(Extend.UnprocessableEntityError);
     });
 
-    test("create (10)", async () => {
+    test("create (11)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };
@@ -521,7 +605,7 @@ describe("WorkflowsClient", () => {
         }).rejects.toThrow(Extend.TooManyRequestsError);
     });
 
-    test("create (11)", async () => {
+    test("create (12)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { name: "name" };

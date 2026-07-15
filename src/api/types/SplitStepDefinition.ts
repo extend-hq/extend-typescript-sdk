@@ -5,7 +5,10 @@ import type * as Extend from "../index";
 /**
  * Splits a multi-document file into individual documents using a splitter. Routes to different next steps based on split type.
  *
- * The splitter reference must include a pinned `version` — `"latest"` is not supported for `SPLIT` steps. Use a specific semver string (e.g. `"0.1"`) or `"draft"`. This is because classification IDs used for routing are tied to a specific processor version's config.
+ * The step's splitter can be specified in one of two ways:
+ *
+ * - **Saved reference** (`splitter`): references a saved splitter by ID. The reference must include a pinned `version` — `"latest"` is not supported for `SPLIT` steps. Use a specific semver string (e.g. `"0.1"`) or `"draft"`. This is because classification IDs used for routing are tied to a specific processor version's config.
+ * - **Inline config** (`splitterConfig`): embeds the full splitter configuration directly in the step. No saved splitter is needed, so the workflow definition contains no workspace-specific processor IDs and is portable across workspaces. Routing (`next[].classificationId`) validates against the inline `splitClassifications` array.
  *
  * See the [Split step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#split).
  */
@@ -14,15 +17,15 @@ export interface SplitStepDefinition {
     /**
      * Optional on create/update. Required before the workflow can be deployed. Omitted in responses when the step is not yet configured.
      *
-     * Reference to the splitter used by this step. The `next[].classificationId` values must match split classification `id` values (not `type` strings) from the referenced splitter's configuration. For example, if the splitter defines `{ "id": "cls_receipt", "type": "receipt" }`, use `"cls_receipt"` as the `classificationId`.
+     * When present, must contain exactly one of `splitter` (saved processor reference) or `splitterConfig` (inline configuration) — not both.
      *
-     * The splitter `version` is required and must be a pinned version (semver like `"0.1"` or `"draft"`). `"latest"` is not allowed.
+     * The `next[].classificationId` values must match split classification `id` values (not `type` strings) from the splitter's configuration — the referenced version's config for a saved reference, or the inline `splitClassifications` array for an inline config. For example, if the splitter defines `{ "id": "cls_receipt", "type": "receipt" }`, use `"cls_receipt"` as the `classificationId`.
      *
      * See the [Split step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#split).
      */
     config?: Extend.SplitStepDefinitionConfig;
     /**
-     * Can only be set when `config` is present. Each entry must include a `classificationId` matching a split classification `id` from the referenced splitter's configuration. Use the classification's stable `id` (e.g. `"cls_receipt"`), not the `type` string.
+     * Can only be set when `config` is present. Each entry must include a `classificationId` matching a split classification `id` from the splitter's configuration (saved or inline). Use the classification's stable `id` (e.g. `"cls_receipt"`), not the `type` string.
      *
      * See the [Split step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#split).
      */

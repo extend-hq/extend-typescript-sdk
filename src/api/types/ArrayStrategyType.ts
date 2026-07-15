@@ -8,7 +8,7 @@
  *
  * - `large_array_max_context`: Optimizes for accuracy over latency in documents with very large arrays.
  *
- *   This strategy will do multiple passes through the entire document to ensure there is no context loss across any chunks/pages, maximizing accuracy for complex array extraction, but adding material latency.
+ *   This strategy will do multiple passes through the entire document to ensure there is no context loss across any chunks/pages, maximizing accuracy for complex array extraction, but adding material latency. This strategy incurs additional extraction credits when enabled.
  *
  * - `large_array_overlap_context`: Balances accuracy and latency in documents with very large arrays.
  *

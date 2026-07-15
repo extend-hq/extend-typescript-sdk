@@ -45,6 +45,7 @@ describe("EditTemplatesClient", () => {
                     flattenPdf: true,
                     radioEnumsEnabled: true,
                     nativeFieldsOnly: true,
+                    conditionalGenerationEnabled: true,
                 },
             },
             schemaConfig: {
@@ -59,7 +60,12 @@ describe("EditTemplatesClient", () => {
                     anyOf: [{}],
                 },
                 instructions: "instructions",
-                advancedOptions: { tableParsingEnabled: true, radioEnumsEnabled: true, nativeFieldsOnly: true },
+                advancedOptions: {
+                    tableParsingEnabled: true,
+                    radioEnumsEnabled: true,
+                    nativeFieldsOnly: true,
+                    conditionalGenerationEnabled: true,
+                },
             },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
@@ -119,6 +125,7 @@ describe("EditTemplatesClient", () => {
                     flattenPdf: true,
                     radioEnumsEnabled: true,
                     nativeFieldsOnly: true,
+                    conditionalGenerationEnabled: true,
                 },
             },
             schemaConfig: {
@@ -141,6 +148,7 @@ describe("EditTemplatesClient", () => {
                     tableParsingEnabled: true,
                     radioEnumsEnabled: true,
                     nativeFieldsOnly: true,
+                    conditionalGenerationEnabled: true,
                 },
             },
             createdAt: "2024-03-21T16:45:00Z",

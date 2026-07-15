@@ -38,6 +38,27 @@ describe("WorkflowRunsClient", () => {
                     endTime: "2024-01-15T09:30:00Z",
                     batchId: "batchId",
                     rejectionNote: "rejectionNote",
+                    files: [
+                        {
+                            object: "file",
+                            id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                            name: "Invoices.pdf",
+                            type: null,
+                            parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                            metadata: {
+                                pageCount: 30,
+                                parentSplit: {
+                                    id: "id",
+                                    type: "Invoice",
+                                    identifier: "other_2_9",
+                                    startPage: 1,
+                                    endPage: 10,
+                                },
+                            },
+                            createdAt: "2024-03-21T16:45:00Z",
+                            updatedAt: "2024-03-21T16:45:00Z",
+                        },
+                    ],
                     createdAt: "2024-03-21T16:45:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
                     usage: { credits: 9, totalCredits: 15 },
@@ -79,6 +100,27 @@ describe("WorkflowRunsClient", () => {
                     endTime: "2024-01-15T09:30:00Z",
                     batchId: "batchId",
                     rejectionNote: "rejectionNote",
+                    files: [
+                        {
+                            object: "file",
+                            id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                            name: "Invoices.pdf",
+                            type: null,
+                            parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                            metadata: {
+                                pageCount: 30,
+                                parentSplit: {
+                                    id: "id",
+                                    type: "Invoice",
+                                    identifier: "other_2_9",
+                                    startPage: 1,
+                                    endPage: 10,
+                                },
+                            },
+                            createdAt: "2024-03-21T16:45:00Z",
+                            updatedAt: "2024-03-21T16:45:00Z",
+                        },
+                    ],
                     createdAt: "2024-03-21T16:45:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
                     usage: {
@@ -310,7 +352,7 @@ describe("WorkflowRunsClient", () => {
                                                 id: "id",
                                                 type: "text",
                                                 content: "content",
-                                                details: { type: "table_details", rowCount: 1, columnCount: 1 },
+                                                details: { type: "text_details", cellReference: "A1:C1" },
                                                 metadata: { sheet: { index: 0, name: "Sheet1" } },
                                                 polygon: [{ x: 10, y: 20 }],
                                                 boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
@@ -549,9 +591,8 @@ describe("WorkflowRunsClient", () => {
                                                 type: "text",
                                                 content: "content",
                                                 details: {
-                                                    type: "table_details",
-                                                    rowCount: 1,
-                                                    columnCount: 1,
+                                                    type: "text_details",
+                                                    cellReference: "A1:C1",
                                                 },
                                                 metadata: {
                                                     sheet: {
@@ -1010,7 +1051,7 @@ describe("WorkflowRunsClient", () => {
                                                 id: "id",
                                                 type: "text",
                                                 content: "content",
-                                                details: { type: "table_details", rowCount: 1, columnCount: 1 },
+                                                details: { type: "text_details", cellReference: "A1:C1" },
                                                 metadata: { sheet: { index: 0, name: "Sheet1" } },
                                                 polygon: [{ x: 10, y: 20 }],
                                                 boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
@@ -1241,9 +1282,8 @@ describe("WorkflowRunsClient", () => {
                                                 type: "text",
                                                 content: "content",
                                                 details: {
-                                                    type: "table_details",
-                                                    rowCount: 1,
-                                                    columnCount: 1,
+                                                    type: "text_details",
+                                                    cellReference: "A1:C1",
                                                 },
                                                 metadata: {
                                                     sheet: {
@@ -1593,7 +1633,7 @@ describe("WorkflowRunsClient", () => {
                                                 id: "id",
                                                 type: "text",
                                                 content: "content",
-                                                details: { type: "table_details", rowCount: 1, columnCount: 1 },
+                                                details: { type: "text_details", cellReference: "A1:C1" },
                                                 metadata: { sheet: { index: 0, name: "Sheet1" } },
                                                 polygon: [{ x: 10, y: 20 }],
                                                 boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
@@ -1831,9 +1871,8 @@ describe("WorkflowRunsClient", () => {
                                                 type: "text",
                                                 content: "content",
                                                 details: {
-                                                    type: "table_details",
-                                                    rowCount: 1,
-                                                    columnCount: 1,
+                                                    type: "text_details",
+                                                    cellReference: "A1:C1",
                                                 },
                                                 metadata: {
                                                     sheet: {
@@ -2399,7 +2438,7 @@ describe("WorkflowRunsClient", () => {
                                                 id: "id",
                                                 type: "text",
                                                 content: "content",
-                                                details: { type: "table_details", rowCount: 1, columnCount: 1 },
+                                                details: { type: "text_details", cellReference: "A1:C1" },
                                                 metadata: { sheet: { index: 0, name: "Sheet1" } },
                                                 polygon: [{ x: 10, y: 20 }],
                                                 boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
@@ -2630,9 +2669,8 @@ describe("WorkflowRunsClient", () => {
                                                 type: "text",
                                                 content: "content",
                                                 details: {
-                                                    type: "table_details",
-                                                    rowCount: 1,
-                                                    columnCount: 1,
+                                                    type: "text_details",
+                                                    cellReference: "A1:C1",
                                                 },
                                                 metadata: {
                                                     sheet: {

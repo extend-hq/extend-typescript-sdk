@@ -6,13 +6,13 @@
  */
 export interface FilesRetrieveRequest {
     /**
-     * **Deprecated:** Use `POST /parse_runs` instead to parse file contents.
+     * **Deprecated:** Use `POST /parse_runs` instead to parse file contents and get contents or `GET /parse_runs/{id}` to retrieve the results async if file is already parsed. Files parsed with versions >2.x will not support this parameter.
      *
      * If set to true, the raw text content of the file will be included in the response.
      */
     rawText?: boolean;
     /**
-     * **Deprecated:** Use `POST /parse_runs` instead to parse file contents.
+     * **Deprecated:** Use `POST /parse_runs` instead to parse file contents and get contents or `GET /parse_runs/{id}` to retrieve the results async if file is already parsed. Files parsed with versions >2.x will not support this parameter.
      *
      * If set to true, the markdown content of the file will be included in the response.
      *
@@ -20,7 +20,7 @@ export interface FilesRetrieveRequest {
      */
     markdown?: boolean;
     /**
-     * **Deprecated:** Use `POST /parse_runs` instead to parse file contents.
+     * **Deprecated:** Use `POST /parse_runs` instead to parse file contents and get contents or `GET /parse_runs/{id}` to retrieve the results async if file is already parsed. Files parsed with versions >2.x will not support this parameter.
      *
      * If set to true, the html content of the file will be included in the response.
      *

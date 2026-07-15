@@ -91,7 +91,7 @@ Edit a file synchronously, waiting for the result before returning. This endpoin
 
 The Edit endpoint allows you to detect and fill form fields in PDF documents.
 
-For more details, see the [Edit File guide](https://docs.extend.ai/2026-02-09/editing/edit).
+For more details, see the [Edit File guide](https://docs.extend.ai/2026-02-09/editing/overview). See [Editing Error Handling](https://docs.extend.ai/2026-02-09/editing/error-handling) for HTTP errors and run failure reasons.
 </dd>
 </dl>
 </dd>
@@ -133,6 +133,81 @@ await client.edit({
 <dd>
 
 **request:** `Extend.EditRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ExtendClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.<a href="/src/Client.ts">detectForm</a>({ ...params }) -> Extend.FormDetectionRun</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Detect fields in a PDF form and wait for the generated edit schema before returning. This endpoint has a 5-minute timeout.
+
+For production workloads, use `POST /form_detection_runs` and poll `GET /form_detection_runs/{id}` instead. The response is a completed `form_detection_run`; its `output.schema` can be passed directly to `POST /edit` or `POST /edit_runs`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.detectForm({
+    file: {
+        url: "https://example.com/form.pdf"
+    },
+    config: {
+        instructions: "Detect the form fields and use human-readable field names.",
+        advancedOptions: {
+            radioEnumsEnabled: true
+        }
+    }
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.DetectFormRequest` 
     
 </dd>
 </dl>
@@ -283,7 +358,7 @@ Classify a document synchronously, waiting for the result before returning. This
 
 The Classify endpoint allows you to classify documents using an existing classifier or an inline configuration.
 
-For more details, see the [Classify File guide](https://docs.extend.ai/2026-02-09/classification/configuring-a-classifier).
+For more details, see the [Classify File guide](https://docs.extend.ai/2026-02-09/classification/configuration).
 </dd>
 </dl>
 </dd>
@@ -371,7 +446,7 @@ Split a document synchronously, waiting for the result before returning. This en
 
 The Split endpoint allows you to split documents into multiple parts using an existing splitter or an inline configuration.
 
-For more details, see the [Split File guide](https://docs.extend.ai/2026-02-09/splitting/configuring-a-splitter).
+For more details, see the [Split File guide](https://docs.extend.ai/2026-02-09/splitting/configuration).
 </dd>
 </dl>
 </dd>
@@ -1454,7 +1529,7 @@ Example: `"edr_xK9mLPqRtN3vS8wF5hB2cQ"`
 
 Retrieve a saved edit template by ID.
 
-Use this endpoint to inspect the source file, default edit configuration, and optional schema generation configuration saved on an edit template. You can reuse the returned `config` with `POST /edit` or `POST /edit_runs`, and reuse `schemaConfig` with `POST /edit_schemas/generate`.
+Use this endpoint to inspect the source file, default edit configuration, and optional schema generation configuration saved on an edit template. You can reuse the returned `config` with `POST /edit` or `POST /edit_runs`, and reuse `schemaConfig` with `POST /detect_form` or `POST /form_detection_runs`.
 </dd>
 </dl>
 </dd>
@@ -1530,13 +1605,15 @@ Example: `"edt_xK9mLPqRtN3vS8wF5hB2cQ"`
 <dl>
 <dd>
 
+**Deprecated:** Use `POST /detect_form` for synchronous form detection or `POST /form_detection_runs` for asynchronous processing.
+
 Detect fields in a PDF form and synchronously return an edit schema payload.
 
 Use this endpoint when you want Extend to bootstrap an `EditRootJSON` schema from an existing form, optionally mapping an existing schema onto the detected fields.
 
 This endpoint returns the generated schema directly. There are no schema generation run resources to poll or delete.
 
-For more details, see the [Generate Edit Schema guide](https://docs.extend.ai/2026-02-09/editing/generate-edit-schema) and the [Edit File guide](https://docs.extend.ai/2026-02-09/editing/edit).
+For more details, see the [Detect Form guide](https://docs.extend.ai/2026-02-09/editing/detect-form) and the [Edit File guide](https://docs.extend.ai/2026-02-09/editing/overview).
 </dd>
 </dl>
 </dd>
@@ -1586,6 +1663,159 @@ await client.editSchemas.generate({
 <dd>
 
 **requestOptions:** `EditSchemasClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## FormDetectionRuns
+<details><summary><code>client.formDetectionRuns.<a href="/src/api/resources/formDetectionRuns/client/Client.ts">create</a>({ ...params }) -> Extend.FormDetectionRun</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Start detecting fields in a PDF form and return immediately with a `form_detection_run` resource, typically in the `PROCESSING` state.
+
+Poll `GET /form_detection_runs/{id}` until the status is `PROCESSED` or `FAILED`. When processing succeeds, `output.schema` contains an edit schema you can pass directly to `POST /edit` or `POST /edit_runs`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.formDetectionRuns.create({
+    file: {
+        url: "https://example.com/form.pdf"
+    },
+    config: {
+        instructions: "Detect the form fields and use human-readable field names.",
+        advancedOptions: {
+            radioEnumsEnabled: true
+        }
+    }
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.FormDetectionRunsCreateRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `FormDetectionRunsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.formDetectionRuns.<a href="/src/api/resources/formDetectionRuns/client/Client.ts">retrieve</a>(id, { ...params }) -> Extend.FormDetectionRun</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve the status and results of a form detection run.
+
+Use this endpoint to poll a run created with `POST /form_detection_runs`. When `status` is `PROCESSED`, `output.schema` contains the generated edit schema.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.formDetectionRuns.retrieve("sgr_xK9mLPqRtN3vS8wF5hB2cQ");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+
+The unique identifier for the form detection run.
+
+Example: `"sgr_xK9mLPqRtN3vS8wF5hB2cQ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.FormDetectionRunsRetrieveRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `FormDetectionRunsClient.RequestOptions` 
     
 </dd>
 </dl>

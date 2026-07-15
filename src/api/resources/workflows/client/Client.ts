@@ -167,6 +167,24 @@ export class WorkflowsClient {
      *
      * @example
      *     await client.workflows.create({
+     *         name: "Portable Invoice Processing",
+     *         steps: [{
+     *                 type: "TRIGGER",
+     *                 name: "name"
+     *             }, {
+     *                 type: "PARSE",
+     *                 name: "name"
+     *             }, {
+     *                 type: "EXTRACT",
+     *                 name: "name"
+     *             }, {
+     *                 type: "HUMAN_REVIEW",
+     *                 name: "name"
+     *             }]
+     *     })
+     *
+     * @example
+     *     await client.workflows.create({
      *         name: "Document Routing",
      *         steps: [{
      *                 type: "TRIGGER",

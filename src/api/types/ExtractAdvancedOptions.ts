@@ -16,7 +16,11 @@ export interface ExtractAdvancedOptions {
      * - `block`: Use parser blocks (e.g. full paragraphs, key-val regions, tables, lists, etc.) and return block-level polygons for each citation. Will have highest recall in terms of overlap with the extracted value source, but least granularity.
      */
     citationMode?: Extend.ExtractAdvancedOptionsCitationMode;
-    /** Granularity for array citations. This requires citationsEnabled=true and a base processor version that supports property-level array citations (extraction_performance ≥ 4.4.0). */
+    /**
+     * Granularity for array citations. Requires turning on citations: `citationsEnabled=true`.
+     * - `item`: Creates item-level citations for array fields. This will return a single bbox citation for each "item" in the array e.g. line_items[0], line_items[1], etc.
+     * - `property`: Creates property-level citations (cell-level citations) for array fields. This will return a citation for each property/cell for every item/row in the array, e.g. line_items[0].description, line_items[1].price, etc.
+     */
     arrayCitationStrategy?: Extend.ExtractAdvancedOptionsArrayCitationStrategy;
     /** Strategy for handling large arrays in documents. */
     arrayStrategy?: Extend.ArrayStrategy;
@@ -31,6 +35,8 @@ export interface ExtractAdvancedOptions {
      * When enabled, each field in the output metadata will include a `reviewAgentScore` (1-5)
      * and may include additional `insights` of type `issue` or `review_summary` to help identify
      * fields that may need manual review.
+     *
+     * Enabling the review agent incurs additional credits.
      *
      * To learn more, view the [Review Agent Documentation](https://docs.extend.ai/2026-02-09/extraction/review-agent)
      */

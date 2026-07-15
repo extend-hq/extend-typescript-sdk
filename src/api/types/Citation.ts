@@ -3,6 +3,8 @@
 import type * as Extend from "../index";
 
 export interface Citation {
+    /** ID of the file the cited content was found in. On multifile runs, join this against the run's `files` array to determine which input file the citation refers to; on single-file runs it equals the run's `file.id`. */
+    fileId?: string;
     page?: Extend.CitationPage;
     /** The text that was referenced */
     referenceText?: string | null;

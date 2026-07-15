@@ -16,6 +16,7 @@ import { ExtractorsClient } from "./api/resources/extractors/client/Client";
 import { ExtractorVersionsClient } from "./api/resources/extractorVersions/client/Client";
 import { ExtractRunsClient } from "./api/resources/extractRuns/client/Client";
 import { FilesClient } from "./api/resources/files/client/Client";
+import { FormDetectionRunsClient } from "./api/resources/formDetectionRuns/client/Client";
 import { ParseRunsClient } from "./api/resources/parseRuns/client/Client";
 import { ProcessorClient } from "./api/resources/processor/client/Client";
 import { ProcessorRunClient } from "./api/resources/processorRun/client/Client";
@@ -49,6 +50,7 @@ export class ExtendClient {
     protected _editRuns: EditRunsClient | undefined;
     protected _editTemplates: EditTemplatesClient | undefined;
     protected _editSchemas: EditSchemasClient | undefined;
+    protected _formDetectionRuns: FormDetectionRunsClient | undefined;
     protected _extractRuns: ExtractRunsClient | undefined;
     protected _extractors: ExtractorsClient | undefined;
     protected _extractorVersions: ExtractorVersionsClient | undefined;
@@ -94,6 +96,10 @@ export class ExtendClient {
 
     public get editSchemas(): EditSchemasClient {
         return (this._editSchemas ??= new EditSchemasClient(this._options));
+    }
+
+    public get formDetectionRuns(): FormDetectionRunsClient {
+        return (this._formDetectionRuns ??= new FormDetectionRunsClient(this._options));
     }
 
     public get extractRuns(): ExtractRunsClient {
@@ -304,7 +310,7 @@ export class ExtendClient {
      *
      * The Edit endpoint allows you to detect and fill form fields in PDF documents.
      *
-     * For more details, see the [Edit File guide](https://docs.extend.ai/2026-02-09/editing/edit).
+     * For more details, see the [Edit File guide](https://docs.extend.ai/2026-02-09/editing/overview). See [Editing Error Handling](https://docs.extend.ai/2026-02-09/editing/error-handling) for HTTP errors and run failure reasons.
      *
      * @param {Extend.EditRequest} request
      * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -406,6 +412,113 @@ export class ExtendClient {
         }
 
         return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/edit");
+    }
+
+    /**
+     * Detect fields in a PDF form and wait for the generated edit schema before returning. This endpoint has a 5-minute timeout.
+     *
+     * For production workloads, use `POST /form_detection_runs` and poll `GET /form_detection_runs/{id}` instead. The response is a completed `form_detection_run`; its `output.schema` can be passed directly to `POST /edit` or `POST /edit_runs`.
+     *
+     * @param {Extend.DetectFormRequest} request
+     * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.PaymentRequiredError}
+     * @throws {@link Extend.ForbiddenError}
+     * @throws {@link Extend.NotFoundError}
+     * @throws {@link Extend.UnprocessableEntityError}
+     * @throws {@link Extend.TooManyRequestsError}
+     * @throws {@link Extend.InternalServerError}
+     *
+     * @example
+     *     await client.detectForm({
+     *         file: {
+     *             url: "https://example.com/form.pdf"
+     *         },
+     *         config: {
+     *             instructions: "Detect the form fields and use human-readable field names.",
+     *             advancedOptions: {
+     *                 radioEnumsEnabled: true
+     *             }
+     *         }
+     *     })
+     */
+    public detectForm(
+        request: Extend.DetectFormRequest,
+        requestOptions?: ExtendClient.RequestOptions,
+    ): core.HttpResponsePromise<Extend.FormDetectionRun> {
+        return core.HttpResponsePromise.fromPromise(this.__detectForm(request, requestOptions));
+    }
+
+    private async __detectForm(
+        request: Extend.DetectFormRequest,
+        requestOptions?: ExtendClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.FormDetectionRun>> {
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09" }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                "detect_form",
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryParameters: requestOptions?.queryParams,
+            requestType: "json",
+            body: request,
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 300) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.FormDetectionRun, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new Extend.PaymentRequiredError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Extend.ForbiddenError(_response.error.body as Extend.ApiError, _response.rawResponse);
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 422:
+                    throw new Extend.UnprocessableEntityError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new Extend.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Extend.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/detect_form");
     }
 
     /**
@@ -560,7 +673,7 @@ export class ExtendClient {
      *
      * The Classify endpoint allows you to classify documents using an existing classifier or an inline configuration.
      *
-     * For more details, see the [Classify File guide](https://docs.extend.ai/2026-02-09/classification/configuring-a-classifier).
+     * For more details, see the [Classify File guide](https://docs.extend.ai/2026-02-09/classification/configuration).
      *
      * @param {Extend.ClassifyRequest} request
      * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -680,7 +793,7 @@ export class ExtendClient {
      *
      * The Split endpoint allows you to split documents into multiple parts using an existing splitter or an inline configuration.
      *
-     * For more details, see the [Split File guide](https://docs.extend.ai/2026-02-09/splitting/configuring-a-splitter).
+     * For more details, see the [Split File guide](https://docs.extend.ai/2026-02-09/splitting/configuration).
      *
      * @param {Extend.SplitRequest} request
      * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.

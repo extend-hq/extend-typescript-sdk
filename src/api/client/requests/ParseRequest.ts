@@ -24,4 +24,5 @@ export interface ParseRequest {
     file: Extend.ParseRequestFile;
     config?: Extend.ParseConfig;
     metadata?: Extend.RunMetadata;
+    dataRetention?: Extend.DataRetention;
 }

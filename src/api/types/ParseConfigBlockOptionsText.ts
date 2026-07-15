@@ -8,6 +8,6 @@ import type * as Extend from "../index";
 export interface ParseConfigBlockOptionsText {
     /** Whether an additional vision model will be utilized for advanced signature detection. Recommended for most use cases, but should be disabled if signature detection is not necessary and latency is a concern. */
     signatureDetectionEnabled?: boolean;
-    /** Options for agentic text processing using VLM-based review and correction. */
+    /** Options for agentic text processing using VLM-based review and correction. Enabling this incurs additional credits on pages where agentic text correction is triggered. */
     agentic?: Extend.ParseConfigBlockOptionsTextAgentic;
 }

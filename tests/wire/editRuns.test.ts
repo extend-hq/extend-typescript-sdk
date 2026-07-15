@@ -49,6 +49,7 @@ describe("EditRunsClient", () => {
                     flattenPdf: true,
                     radioEnumsEnabled: true,
                     nativeFieldsOnly: true,
+                    conditionalGenerationEnabled: true,
                 },
             },
             output: {
@@ -164,6 +165,7 @@ describe("EditRunsClient", () => {
                     flattenPdf: true,
                     radioEnumsEnabled: true,
                     nativeFieldsOnly: true,
+                    conditionalGenerationEnabled: true,
                 },
             },
             output: {
@@ -447,6 +449,7 @@ describe("EditRunsClient", () => {
                     flattenPdf: true,
                     radioEnumsEnabled: true,
                     nativeFieldsOnly: true,
+                    conditionalGenerationEnabled: true,
                 },
             },
             output: {
@@ -551,6 +554,7 @@ describe("EditRunsClient", () => {
                     flattenPdf: true,
                     radioEnumsEnabled: true,
                     nativeFieldsOnly: true,
+                    conditionalGenerationEnabled: true,
                 },
             },
             output: {
