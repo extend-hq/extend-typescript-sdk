@@ -5,7 +5,7 @@
  *
  * This field will not be returned for processor runs created before October 7, 2025, or for customers on legacy billing systems.
  *
- * For more details on how credits work, see our [Credits Guide](https://docs.extend.ai/2026-02-09/general/how-credits-work).
+ * For more details on how credits work, see our [Credits Guide](https://docs.extend.ai/general/how-credits-work).
  */
 export interface LegacyDocumentProcessorRunCredits {
     /** The number of credits consumed specifically for document processing in this processor run. This does not include file parsing credits. */

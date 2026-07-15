@@ -28,6 +28,24 @@ import type * as Extend from "../../../../index";
  *
  * @example
  *     {
+ *         name: "Portable Invoice Processing",
+ *         steps: [{
+ *                 type: "TRIGGER",
+ *                 name: "name"
+ *             }, {
+ *                 type: "PARSE",
+ *                 name: "name"
+ *             }, {
+ *                 type: "EXTRACT",
+ *                 name: "name"
+ *             }, {
+ *                 type: "HUMAN_REVIEW",
+ *                 name: "name"
+ *             }]
+ *     }
+ *
+ * @example
+ *     {
  *         name: "Document Routing",
  *         steps: [{
  *                 type: "TRIGGER",

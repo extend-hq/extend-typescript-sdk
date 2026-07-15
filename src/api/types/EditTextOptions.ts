@@ -14,4 +14,6 @@ export interface EditTextOptions {
     combing?: boolean;
     /** Maximum number of characters allowed */
     maxLength?: number;
+    /** Whether text can wrap across multiple lines */
+    multiLine?: boolean;
 }

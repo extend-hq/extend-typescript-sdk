@@ -5,12 +5,23 @@ import type * as Extend from "../index";
 /**
  * Optional on create/update. Required before the workflow can be deployed. Omitted in responses when the step is not yet configured.
  *
- * Reference to the splitter used by this step. The `next[].classificationId` values must match split classification `id` values (not `type` strings) from the referenced splitter's configuration. For example, if the splitter defines `{ "id": "cls_receipt", "type": "receipt" }`, use `"cls_receipt"` as the `classificationId`.
+ * When present, must contain exactly one of `splitter` (saved processor reference) or `splitterConfig` (inline configuration) — not both.
  *
- * The splitter `version` is required and must be a pinned version (semver like `"0.1"` or `"draft"`). `"latest"` is not allowed.
+ * The `next[].classificationId` values must match split classification `id` values (not `type` strings) from the splitter's configuration — the referenced version's config for a saved reference, or the inline `splitClassifications` array for an inline config. For example, if the splitter defines `{ "id": "cls_receipt", "type": "receipt" }`, use `"cls_receipt"` as the `classificationId`.
  *
  * See the [Split step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#split).
  */
 export interface SplitStepDefinitionConfig {
-    splitter: Extend.SplitterRef;
+    /**
+     * Reference to a saved splitter. Provide either this or `splitterConfig`, not both.
+     *
+     * The `version` is required and must be a pinned version (semver like `"0.1"` or `"draft"`). `"latest"` is not allowed.
+     */
+    splitter?: Extend.SplitterRef;
+    /**
+     * Inline splitter configuration. Provide either this or `splitter`, not both. Same shape as the `config` accepted by [Create Split Run](https://docs.extend.ai/2026-02-09/api-reference/endpoints/split/create-split-run).
+     *
+     * Inline configs are returned verbatim in responses (there is no saved processor, so no `version` is involved).
+     */
+    splitterConfig?: Extend.SplitConfig;
 }

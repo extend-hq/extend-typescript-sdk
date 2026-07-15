@@ -40,6 +40,7 @@ export interface EditRun {
      * * `INVALID_OPTIONS` - The provided configuration options are invalid
      * * `EMPTY_SCHEMA` - No schema was provided and no fields could be detected
      * * `OUT_OF_CREDITS` - Insufficient credits to process the file
+     * * `SCHEMA_VALIDATION_ERROR` - The generated output value failed validation against the edit schema
      *
      * **Note:** Additional failure reasons may be added in the future. Your integration should handle unknown values gracefully.
      */

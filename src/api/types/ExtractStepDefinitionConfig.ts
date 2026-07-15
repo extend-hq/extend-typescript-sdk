@@ -4,7 +4,16 @@ import type * as Extend from "../index";
 
 /**
  * Optional on create/update. Required before the workflow can be deployed. Omitted in responses when the step is not yet configured.
+ *
+ * When present, must contain exactly one of `extractor` (saved processor reference) or `extractorConfig` (inline configuration) — not both.
  */
 export interface ExtractStepDefinitionConfig {
-    extractor: Extend.ExtractorRef;
+    /** Reference to a saved extractor. Provide either this or `extractorConfig`, not both. */
+    extractor?: Extend.ExtractorRef;
+    /**
+     * Inline extractor configuration. Provide either this or `extractor`, not both. Unlike the run endpoints, `schema` is required — schema-less extraction is not supported in workflows.
+     *
+     * Inline configs are returned verbatim in responses (there is no saved processor, so no `version` is involved).
+     */
+    extractorConfig?: Extend.WorkflowInlineExtractConfig;
 }

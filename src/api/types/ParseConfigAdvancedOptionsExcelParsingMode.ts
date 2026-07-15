@@ -4,7 +4,7 @@
  * Controls how Excel files are parsed.
  *
  * * `basic`: Fast, deterministic parsing.
- * * `advanced`: Enable layout block detection for complex spreadsheets.
+ * * `advanced`: Enable layout block detection for complex spreadsheets. This mode incurs additional credits when enabled.
  *
  * For `.xls` files, `basic` mode is always used.
  */

@@ -62,6 +62,8 @@ export interface WorkflowRunSummary {
      * Example: `"Invalid invoice format"`
      */
     rejectionNote: string | null;
+    /** The input files that this workflow run was executed on. Provided directly on the list response so you don't need to fetch each run individually to inspect its input. */
+    files: Extend.FileSummary[];
     createdAt: Extend.CreatedAt;
     updatedAt: Extend.UpdatedAt;
     /**

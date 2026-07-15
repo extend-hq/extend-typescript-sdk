@@ -5,7 +5,7 @@ import type * as Extend from "../index";
 /**
  * Runs extractors based on formula conditions.
  *
- * Each extractor reference must include an explicit `version`. Valid values are `"latest"`, `"draft"`, or a specific semver string (e.g. `"1.0"`).
+ * Each extractor reference must include an explicit `version`. Valid values are `"latest"`, `"draft"`, or a specific semver string (e.g. `"1.0"`). Rules only support saved extractor references — inline configs are not supported in `CONDITIONAL_EXTRACT` rules.
  *
  * See the [Conditional Extract step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#conditional-extract).
  */

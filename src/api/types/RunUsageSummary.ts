@@ -7,7 +7,7 @@
  * * Runs created before October 7, 2025
  * * Customers on legacy billing systems
  *
- * For more details on how credits work, see our [Credits Guide](https://docs.extend.ai/2026-02-09/general/how-credits-work).
+ * For more details on how credits work, see our [Credits Guide](https://docs.extend.ai/general/how-credits-work).
  */
 export interface RunUsageSummary {
     /** The credits consumed by this run. For most run types this is the line item for the run's own work; for `workflow_run` this is the aggregate across all child runs. */

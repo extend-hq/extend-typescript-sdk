@@ -16,4 +16,5 @@ export interface ParseRunsCreateRequest {
     file: Extend.ParseRunsCreateRequestFile;
     config?: Extend.ParseConfig;
     metadata?: Extend.RunMetadata;
+    dataRetention?: Extend.DataRetention;
 }

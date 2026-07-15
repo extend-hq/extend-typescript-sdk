@@ -23,4 +23,6 @@ export interface ApiError {
      * when contacting Extend support about an error.
      */
     requestId?: string;
+    /** Link to relevant documentation when one is available. */
+    docUrl?: string;
 }

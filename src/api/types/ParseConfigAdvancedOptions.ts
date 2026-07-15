@@ -10,7 +10,7 @@ export interface ParseConfigAdvancedOptions {
      * Controls how Excel files are parsed.
      *
      * * `basic`: Fast, deterministic parsing.
-     * * `advanced`: Enable layout block detection for complex spreadsheets.
+     * * `advanced`: Enable layout block detection for complex spreadsheets. This mode incurs additional credits when enabled.
      *
      * For `.xls` files, `basic` mode is always used.
      */
@@ -21,6 +21,10 @@ export interface ParseConfigAdvancedOptions {
     excelUseRawCellValues?: boolean;
     /** Whether to skip formula recalculation when opening Excel workbooks. Significantly improves parsing speed for formula-heavy spreadsheets. Disable if cell values depend on volatile functions like NOW() or TODAY(). */
     excelSkipCalculation?: boolean;
+    /** Whether to include spreadsheet cell provenance when parsing Excel files in advanced mode. When enabled, table cell block details include source cell references and formulas, text or heading block details can include source ranges, and HTML table output includes `data-cell` and `data-formula` attributes. */
+    excelIncludeCellMetadata?: boolean;
+    /** Whether to include spreadsheet cell formatting when parsing Excel files in advanced mode. When enabled, table cell block details include structured formatting such as bold, italic, font color, and background color, and HTML table output preserves inline cell styles. */
+    excelIncludeCellFormatting?: boolean;
     /** Multiplier for the Y-axis threshold used to determine if text blocks should be placed on the same line or not (0.1-5.0, default 1.0). Higher values group elements that are further apart vertically. Only applies when the spatial target is set. */
     verticalGroupingThreshold?: number;
     /** Options for returning raw OCR data in the response. */

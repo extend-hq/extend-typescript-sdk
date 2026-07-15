@@ -6,6 +6,7 @@ import type * as Extend from "../index";
  * Additional details specific to the block type. The schema depends on the block type.
  */
 export type BlockDetails =
+    | Extend.TextDetails
     | Extend.TableDetails
     | Extend.TableCellDetails
     | Extend.FigureDetails

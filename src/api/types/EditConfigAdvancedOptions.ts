@@ -12,4 +12,6 @@ export interface EditConfigAdvancedOptions {
     radioEnumsEnabled?: boolean;
     /** If enabled, only native AcroForm from the PDF will be imported and used in the schema (skips object detection). Defaults to false. */
     nativeFieldsOnly?: boolean;
+    /** When enabled and no `config.schema` is supplied, reads requirements explicitly stated in the form and adds supported root-level JSON Schema conditional validation rules to the generated schema. If generated edit values do not satisfy the rules, the Edit run fails with `SCHEMA_VALIDATION_ERROR`. Has no effect when a schema is supplied. Defaults to `false`. */
+    conditionalGenerationEnabled?: boolean;
 }

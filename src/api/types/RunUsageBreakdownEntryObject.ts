@@ -7,6 +7,7 @@ export const RunUsageBreakdownEntryObject = {
     SplitRun: "split_run",
     ParseRun: "parse_run",
     EditRun: "edit_run",
+    FormDetectionRun: "form_detection_run",
 } as const;
 export type RunUsageBreakdownEntryObject =
     | (typeof RunUsageBreakdownEntryObject)[keyof typeof RunUsageBreakdownEntryObject]

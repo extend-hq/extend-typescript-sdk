@@ -5,7 +5,10 @@ import type * as Extend from "../index";
 /**
  * Classifies documents using a classifier. Routes to different next steps based on classification result.
  *
- * The classifier reference must include a pinned `version` — `"latest"` is not supported for `CLASSIFY` steps. Use a specific semver string (e.g. `"0.1"`) or `"draft"`. This is because classification IDs used for routing are tied to a specific processor version's config.
+ * The step's classifier can be specified in one of two ways:
+ *
+ * - **Saved reference** (`classifier`): references a saved classifier by ID. The reference must include a pinned `version` — `"latest"` is not supported for `CLASSIFY` steps. Use a specific semver string (e.g. `"0.1"`) or `"draft"`. This is because classification IDs used for routing are tied to a specific processor version's config.
+ * - **Inline config** (`classifierConfig`): embeds the full classifier configuration directly in the step. No saved classifier is needed, so the workflow definition contains no workspace-specific processor IDs and is portable across workspaces. Routing (`next[].classificationId`) validates against the inline `classifications` array.
  *
  * See the [Classify step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#classify).
  */
@@ -14,15 +17,15 @@ export interface ClassifyStepDefinition {
     /**
      * Optional on create/update. Required before the workflow can be deployed. Omitted in responses when the step is not yet configured.
      *
-     * Reference to the classifier used by this step. The `next[].classificationId` values must match classification `id` values (not `type` strings) from the referenced classifier's configuration. For example, if the classifier defines `{ "id": "cls_invoice", "type": "invoice" }`, use `"cls_invoice"` as the `classificationId`.
+     * When present, must contain exactly one of `classifier` (saved processor reference) or `classifierConfig` (inline configuration) — not both.
      *
-     * The classifier `version` is required and must be a pinned version (semver like `"0.1"` or `"draft"`). `"latest"` is not allowed.
+     * The `next[].classificationId` values must match classification `id` values (not `type` strings) from the classifier's configuration — the referenced version's config for a saved reference, or the inline `classifications` array for an inline config. For example, if the classifier defines `{ "id": "cls_invoice", "type": "invoice" }`, use `"cls_invoice"` as the `classificationId`.
      *
      * See the [Classify step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#classify).
      */
     config?: Extend.ClassifyStepDefinitionConfig;
     /**
-     * Can only be set when `config` is present. Each entry must include a `classificationId` matching a classification `id` from the referenced classifier's configuration. Use the classification's stable `id` (e.g. `"cls_invoice"`), not the `type` string.
+     * Can only be set when `config` is present. Each entry must include a `classificationId` matching a classification `id` from the classifier's configuration (saved or inline). Use the classification's stable `id` (e.g. `"cls_invoice"`), not the `type` string.
      *
      * See the [Classify step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#classify).
      */

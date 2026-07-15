@@ -5,13 +5,20 @@ import type * as Extend from "../index";
 /**
  * Extracts structured data from parsed content using an extractor.
  *
- * The extractor reference must include an explicit `version`. Valid values are `"latest"`, `"draft"`, or a specific semver string (e.g. `"1.0"`).
+ * The step's extractor can be specified in one of two ways:
+ *
+ * - **Saved reference** (`extractor`): references a saved extractor by ID. The reference must include an explicit `version` — `"latest"`, `"draft"`, or a specific semver string (e.g. `"1.0"`).
+ * - **Inline config** (`extractorConfig`): embeds the full extractor configuration directly in the step. No saved extractor is needed, so the workflow definition contains no workspace-specific processor IDs and is portable across workspaces.
  *
  * See the [Extract step docs](https://docs.extend.ai/2026-02-09/workflows/configuring-workflows#extract).
  */
 export interface ExtractStepDefinition {
     name: string;
-    /** Optional on create/update. Required before the workflow can be deployed. Omitted in responses when the step is not yet configured. */
+    /**
+     * Optional on create/update. Required before the workflow can be deployed. Omitted in responses when the step is not yet configured.
+     *
+     * When present, must contain exactly one of `extractor` (saved processor reference) or `extractorConfig` (inline configuration) — not both.
+     */
     config?: Extend.ExtractStepDefinitionConfig;
     /** Can only be set when `config` is present. */
     next?: Extend.SimpleNextEntry[];
