@@ -21,6 +21,7 @@ export interface EvaluationSetRun {
     entity: Extend.EvaluationSetRunEntity;
     /** The version of the extractor, classifier, or splitter that was run. */
     entityVersion: Extend.EvaluationSetRunEntityVersion;
+    /** Metrics for the evaluation set run. The shape depends on the entity type. */
     metrics: Extend.EvaluationSetRunMetrics;
     status: Extend.BatchRunStatus;
     /** The options for the evaluation set run. */

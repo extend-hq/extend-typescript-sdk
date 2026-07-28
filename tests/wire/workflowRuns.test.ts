@@ -723,7 +723,517 @@ describe("WorkflowRunsClient", () => {
     test("create (2)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { workflow: { id: "id" }, file: { url: "url" } };
+        const rawRequestBody = {
+            workflow: { id: "wf_1234567890" },
+            package: {
+                files: [
+                    { url: "https://example.com/invoice.pdf" },
+                    { url: "https://example.com/bill-of-lading.pdf" },
+                    { id: "file_xK9mLPqRtN3vS8wF5hB2cQ" },
+                ],
+            },
+        };
+        const rawResponseBody = {
+            object: "workflow_run",
+            id: "workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
+            workflow: {
+                object: "workflow",
+                id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
+                name: "Invoice Processing",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            workflowVersion: {
+                object: "workflow_version",
+                id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+                version: "1",
+                name: "Production v1",
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+            dashboardUrl: "https://dashboard.extend.ai/workflows/workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
+            status: "PENDING",
+            metadata: { key: "value" },
+            batchId: "batch_7Ws31-F5",
+            files: [
+                {
+                    object: "file",
+                    id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    name: "Invoices.pdf",
+                    type: "PDF",
+                    parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                    metadata: {
+                        pageCount: 30,
+                        parentSplit: { id: "id", type: "Invoice", identifier: "other_2_9", startPage: 1, endPage: 10 },
+                    },
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
+            failureReason: "failureReason",
+            failureMessage: "failureMessage",
+            initialRunAt: "2025-04-28T17:01:39Z",
+            reviewedByUser: "jane.doe@example.com",
+            reviewed: true,
+            rejectionNote: "rejectionNote",
+            reviewedAt: "2024-03-21T16:45:00Z",
+            startTime: "2024-03-21T15:30:00Z",
+            endTime: "2024-03-21T15:35:00Z",
+            stepRuns: [
+                {
+                    stepType: "PARSE",
+                    object: "workflow_step_run",
+                    id: "workflow_step_run_xK9mLPqRtN3vS8wF5hB2cQ",
+                    workflowRunId: "workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
+                    status: "PENDING",
+                    files: [
+                        {
+                            object: "file",
+                            id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                            name: "Invoices.pdf",
+                            type: null,
+                            parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                            metadata: {
+                                pageCount: 30,
+                                parentSplit: {
+                                    id: "id",
+                                    type: "Invoice",
+                                    identifier: "other_2_9",
+                                    startPage: 1,
+                                    endPage: 10,
+                                },
+                            },
+                            createdAt: "2024-03-21T16:45:00Z",
+                            updatedAt: "2024-03-21T16:45:00Z",
+                        },
+                    ],
+                    step: {
+                        object: "workflow_step",
+                        id: "step_xK9mLPqRtN3vS8wF5hB2cQ",
+                        name: "Validate Invoice Total",
+                    },
+                    result: {
+                        parseRun: {
+                            object: "parse_run",
+                            id: "pr_xK9mLPqRtN3vS8wF5hB2cQ",
+                            batchId: "bpar_Xj8mK2pL9nR4vT7qY5wZ",
+                            file: {
+                                object: "file",
+                                id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                                name: "Invoices.pdf",
+                                type: null,
+                                parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                                metadata: {
+                                    pageCount: 30,
+                                    parentSplit: {
+                                        id: "id",
+                                        type: "Invoice",
+                                        identifier: "other_2_9",
+                                        startPage: 1,
+                                        endPage: 10,
+                                    },
+                                },
+                                createdAt: "2024-03-21T16:45:00Z",
+                                updatedAt: "2024-03-21T16:45:00Z",
+                            },
+                            status: "PENDING",
+                            failureReason: "FILE_TYPE_NOT_SUPPORTED",
+                            failureMessage: "File type not supported for parsing.",
+                            metadata: null,
+                            output: {
+                                chunks: [
+                                    {
+                                        object: "chunk",
+                                        type: "page",
+                                        content: "This is the content of the chunk.",
+                                        metadata: { pageRange: { start: 1, end: 1 } },
+                                        blocks: [
+                                            {
+                                                object: "block",
+                                                id: "id",
+                                                type: "text",
+                                                content: "content",
+                                                details: { type: "text_details", cellReference: "A1:C1" },
+                                                metadata: { sheet: { index: 0, name: "Sheet1" } },
+                                                polygon: [{ x: 10, y: 20 }],
+                                                boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
+                                            },
+                                        ],
+                                    },
+                                ],
+                                ocr: {
+                                    words: [
+                                        {
+                                            content: "content",
+                                            boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
+                                            confidence: 1.1,
+                                            pageNumber: 1.1,
+                                        },
+                                    ],
+                                },
+                            },
+                            outputUrl: "https://...",
+                            metrics: { processingTimeMs: 1234, pageCount: 5 },
+                            config: { chunkingStrategy: { options: { minCharacters: 500, maxCharacters: 10000 } } },
+                            usage: {
+                                credits: 9,
+                                totalCredits: 15,
+                                breakdown: [
+                                    {
+                                        object: "extract_run",
+                                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                                        credits: 6,
+                                        charges: [
+                                            {
+                                                product: "extraction_performance",
+                                                unit: "page",
+                                                quantity: 10,
+                                                credits: 30,
+                                                pages: [2, 4, 7],
+                                            },
+                                            {
+                                                product: "review_agent",
+                                                unit: "page",
+                                                quantity: 10,
+                                                credits: 10,
+                                                pages: [2, 4, 7],
+                                            },
+                                            {
+                                                product: "agentic_text_correction",
+                                                unit: "page",
+                                                quantity: 3,
+                                                credits: 3,
+                                                pages: [2, 4, 7],
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                        },
+                    },
+                },
+            ],
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                        charges: [
+                            {
+                                product: "extraction_performance",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 30,
+                                pages: [2, 4, 7],
+                            },
+                            { product: "review_agent", unit: "page", quantity: 10, credits: 10, pages: [2, 4, 7] },
+                            {
+                                product: "agentic_text_correction",
+                                unit: "page",
+                                quantity: 3,
+                                credits: 3,
+                                pages: [2, 4, 7],
+                            },
+                        ],
+                    },
+                ],
+            },
+        };
+        server
+            .mockEndpoint()
+            .post("/workflow_runs")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.workflowRuns.create({
+            workflow: {
+                id: "wf_1234567890",
+            },
+            package: {
+                files: [
+                    {
+                        url: "https://example.com/invoice.pdf",
+                    },
+                    {
+                        url: "https://example.com/bill-of-lading.pdf",
+                    },
+                    {
+                        id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    },
+                ],
+            },
+        });
+        expect(response).toEqual({
+            object: "workflow_run",
+            id: "workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
+            workflow: {
+                object: "workflow",
+                id: "workflow_BMlfq_yWM3sT-ZzvCnA3f",
+                name: "Invoice Processing",
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            workflowVersion: {
+                object: "workflow_version",
+                id: "workflow_version_Zk9mNP12Qw4-yTv8BdR3H",
+                version: "1",
+                name: "Production v1",
+                createdAt: "2024-03-21T16:45:00Z",
+            },
+            dashboardUrl: "https://dashboard.extend.ai/workflows/workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
+            status: "PENDING",
+            metadata: {
+                key: "value",
+            },
+            batchId: "batch_7Ws31-F5",
+            files: [
+                {
+                    object: "file",
+                    id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    name: "Invoices.pdf",
+                    type: "PDF",
+                    parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                    metadata: {
+                        pageCount: 30,
+                        parentSplit: {
+                            id: "id",
+                            type: "Invoice",
+                            identifier: "other_2_9",
+                            startPage: 1,
+                            endPage: 10,
+                        },
+                    },
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
+            failureReason: "failureReason",
+            failureMessage: "failureMessage",
+            initialRunAt: "2025-04-28T17:01:39Z",
+            reviewedByUser: "jane.doe@example.com",
+            reviewed: true,
+            rejectionNote: "rejectionNote",
+            reviewedAt: "2024-03-21T16:45:00Z",
+            startTime: "2024-03-21T15:30:00Z",
+            endTime: "2024-03-21T15:35:00Z",
+            stepRuns: [
+                {
+                    stepType: "PARSE",
+                    object: "workflow_step_run",
+                    id: "workflow_step_run_xK9mLPqRtN3vS8wF5hB2cQ",
+                    workflowRunId: "workflow_run_xKm9pNv3qWsY_jL2tR5Dh",
+                    status: "PENDING",
+                    files: [
+                        {
+                            object: "file",
+                            id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                            name: "Invoices.pdf",
+                            type: null,
+                            parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                            metadata: {
+                                pageCount: 30,
+                                parentSplit: {
+                                    id: "id",
+                                    type: "Invoice",
+                                    identifier: "other_2_9",
+                                    startPage: 1,
+                                    endPage: 10,
+                                },
+                            },
+                            createdAt: "2024-03-21T16:45:00Z",
+                            updatedAt: "2024-03-21T16:45:00Z",
+                        },
+                    ],
+                    step: {
+                        object: "workflow_step",
+                        id: "step_xK9mLPqRtN3vS8wF5hB2cQ",
+                        name: "Validate Invoice Total",
+                    },
+                    result: {
+                        parseRun: {
+                            object: "parse_run",
+                            id: "pr_xK9mLPqRtN3vS8wF5hB2cQ",
+                            batchId: "bpar_Xj8mK2pL9nR4vT7qY5wZ",
+                            file: {
+                                object: "file",
+                                id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                                name: "Invoices.pdf",
+                                type: null,
+                                parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                                metadata: {
+                                    pageCount: 30,
+                                    parentSplit: {
+                                        id: "id",
+                                        type: "Invoice",
+                                        identifier: "other_2_9",
+                                        startPage: 1,
+                                        endPage: 10,
+                                    },
+                                },
+                                createdAt: "2024-03-21T16:45:00Z",
+                                updatedAt: "2024-03-21T16:45:00Z",
+                            },
+                            status: "PENDING",
+                            failureReason: "FILE_TYPE_NOT_SUPPORTED",
+                            failureMessage: "File type not supported for parsing.",
+                            metadata: null,
+                            output: {
+                                chunks: [
+                                    {
+                                        object: "chunk",
+                                        type: "page",
+                                        content: "This is the content of the chunk.",
+                                        metadata: {
+                                            pageRange: {
+                                                start: 1,
+                                                end: 1,
+                                            },
+                                        },
+                                        blocks: [
+                                            {
+                                                object: "block",
+                                                id: "id",
+                                                type: "text",
+                                                content: "content",
+                                                details: {
+                                                    type: "text_details",
+                                                    cellReference: "A1:C1",
+                                                },
+                                                metadata: {
+                                                    sheet: {
+                                                        index: 0,
+                                                        name: "Sheet1",
+                                                    },
+                                                },
+                                                polygon: [
+                                                    {
+                                                        x: 10,
+                                                        y: 20,
+                                                    },
+                                                ],
+                                                boundingBox: {
+                                                    left: 10,
+                                                    top: 10,
+                                                    right: 20,
+                                                    bottom: 20,
+                                                },
+                                            },
+                                        ],
+                                    },
+                                ],
+                                ocr: {
+                                    words: [
+                                        {
+                                            content: "content",
+                                            boundingBox: {
+                                                left: 10,
+                                                top: 10,
+                                                right: 20,
+                                                bottom: 20,
+                                            },
+                                            confidence: 1.1,
+                                            pageNumber: 1.1,
+                                        },
+                                    ],
+                                },
+                            },
+                            outputUrl: "https://...",
+                            metrics: {
+                                processingTimeMs: 1234,
+                                pageCount: 5,
+                            },
+                            config: {
+                                chunkingStrategy: {
+                                    options: {
+                                        minCharacters: 500,
+                                        maxCharacters: 10000,
+                                    },
+                                },
+                            },
+                            usage: {
+                                credits: 9,
+                                totalCredits: 15,
+                                breakdown: [
+                                    {
+                                        object: "extract_run",
+                                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                                        credits: 6,
+                                        charges: [
+                                            {
+                                                product: "extraction_performance",
+                                                unit: "page",
+                                                quantity: 10,
+                                                credits: 30,
+                                                pages: [2, 4, 7],
+                                            },
+                                            {
+                                                product: "review_agent",
+                                                unit: "page",
+                                                quantity: 10,
+                                                credits: 10,
+                                                pages: [2, 4, 7],
+                                            },
+                                            {
+                                                product: "agentic_text_correction",
+                                                unit: "page",
+                                                quantity: 3,
+                                                credits: 3,
+                                                pages: [2, 4, 7],
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                        },
+                    },
+                },
+            ],
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                        charges: [
+                            {
+                                product: "extraction_performance",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 30,
+                                pages: [2, 4, 7],
+                            },
+                            {
+                                product: "review_agent",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 10,
+                                pages: [2, 4, 7],
+                            },
+                            {
+                                product: "agentic_text_correction",
+                                unit: "page",
+                                quantity: 3,
+                                credits: 3,
+                                pages: [2, 4, 7],
+                            },
+                        ],
+                    },
+                ],
+            },
+        });
+    });
+
+    test("create (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { workflow: { id: "id" } };
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -739,17 +1249,14 @@ describe("WorkflowRunsClient", () => {
                 workflow: {
                     id: "id",
                 },
-                file: {
-                    url: "url",
-                },
             });
         }).rejects.toThrow(Extend.BadRequestError);
     });
 
-    test("create (3)", async () => {
+    test("create (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { workflow: { id: "id" }, file: { url: "url" } };
+        const rawRequestBody = { workflow: { id: "id" } };
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -765,17 +1272,14 @@ describe("WorkflowRunsClient", () => {
                 workflow: {
                     id: "id",
                 },
-                file: {
-                    url: "url",
-                },
             });
         }).rejects.toThrow(Extend.UnauthorizedError);
     });
 
-    test("create (4)", async () => {
+    test("create (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { workflow: { id: "id" }, file: { url: "url" } };
+        const rawRequestBody = { workflow: { id: "id" } };
         const rawResponseBody = { code: "code", message: "message", retryable: true };
         server
             .mockEndpoint()
@@ -791,17 +1295,14 @@ describe("WorkflowRunsClient", () => {
                 workflow: {
                     id: "id",
                 },
-                file: {
-                    url: "url",
-                },
             });
         }).rejects.toThrow(Extend.PaymentRequiredError);
     });
 
-    test("create (5)", async () => {
+    test("create (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { workflow: { id: "id" }, file: { url: "url" } };
+        const rawRequestBody = { workflow: { id: "id" } };
         const rawResponseBody = { code: "code", message: "message", retryable: true };
         server
             .mockEndpoint()
@@ -817,17 +1318,14 @@ describe("WorkflowRunsClient", () => {
                 workflow: {
                     id: "id",
                 },
-                file: {
-                    url: "url",
-                },
             });
         }).rejects.toThrow(Extend.ForbiddenError);
     });
 
-    test("create (6)", async () => {
+    test("create (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { workflow: { id: "id" }, file: { url: "url" } };
+        const rawRequestBody = { workflow: { id: "id" } };
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -843,17 +1341,14 @@ describe("WorkflowRunsClient", () => {
                 workflow: {
                     id: "id",
                 },
-                file: {
-                    url: "url",
-                },
             });
         }).rejects.toThrow(Extend.NotFoundError);
     });
 
-    test("create (7)", async () => {
+    test("create (8)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { workflow: { id: "id" }, file: { url: "url" } };
+        const rawRequestBody = { workflow: { id: "id" } };
         const rawResponseBody = { code: "code", message: "message", retryable: true };
         server
             .mockEndpoint()
@@ -869,17 +1364,14 @@ describe("WorkflowRunsClient", () => {
                 workflow: {
                     id: "id",
                 },
-                file: {
-                    url: "url",
-                },
             });
         }).rejects.toThrow(Extend.UnprocessableEntityError);
     });
 
-    test("create (8)", async () => {
+    test("create (9)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { workflow: { id: "id" }, file: { url: "url" } };
+        const rawRequestBody = { workflow: { id: "id" } };
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -895,17 +1387,14 @@ describe("WorkflowRunsClient", () => {
                 workflow: {
                     id: "id",
                 },
-                file: {
-                    url: "url",
-                },
             });
         }).rejects.toThrow(Extend.TooManyRequestsError);
     });
 
-    test("create (9)", async () => {
+    test("create (10)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { workflow: { id: "id" }, file: { url: "url" } };
+        const rawRequestBody = { workflow: { id: "id" } };
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -920,9 +1409,6 @@ describe("WorkflowRunsClient", () => {
             return await client.workflowRuns.create({
                 workflow: {
                     id: "id",
-                },
-                file: {
-                    url: "url",
                 },
             });
         }).rejects.toThrow(Extend.InternalServerError);
