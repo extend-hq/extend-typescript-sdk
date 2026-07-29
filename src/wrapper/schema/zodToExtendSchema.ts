@@ -1,6 +1,11 @@
 /**
  * Converts Zod schemas to Extend's JSON Schema format.
  *
+ * Extraction can return null for any field, so primitive and enum object properties
+ * must be declared .nullable() (or .optional()) — conversion throws otherwise. This
+ * keeps z.infer truthful about the output and mirrors the API's strict schema
+ * validation, which rejects non-nullable primitives.
+ *
  * Note: The API performs comprehensive validation and transformation of schemas.
  * This module focuses on structural conversion and compile-time type safety.
  * Complex validation (nesting limits, property counts, property key format) is handled server-side.
@@ -239,11 +244,27 @@ export function zodToExtendSchema(zodSchema: z.ZodObject<z.ZodRawShape>): Extend
 }
 
 /**
+ * Throws if a primitive or enum object property is not marked nullable or optional.
+ *
+ * Extraction returns null for any field it cannot find, and the emitted JSON Schema
+ * always allows null for primitives and enums. Requiring .nullable()/.optional() keeps
+ * z.infer truthful about the output type instead of silently widening it on the wire.
+ */
+function assertNullableProperty(isNullable: boolean, isOptional: boolean, example: string, path: string[]): void {
+    if (!isNullable && !isOptional) {
+        throw new SchemaConversionError(
+            `Field must be nullable because extraction can return null for any field. Add .nullable() (e.g. ${example})`,
+            path,
+        );
+    }
+}
+
+/**
  * Converts a Zod type to an Extend JSON Schema type.
  */
 function convertZodType(zodType: z.ZodType, path: string[], depth: number): ExtendJSONSchema {
     // Unwrap nullable/optional wrappers, also collects description from any wrapper in the chain
-    const { innerType, description } = unwrapType(zodType);
+    const { innerType, isNullable, isOptional, description } = unwrapType(zodType);
 
     // Check for custom extend types first
     const extendType = getExtendType(zodType) ?? getExtendType(innerType);
@@ -291,6 +312,7 @@ function convertZodType(zodType: z.ZodType, path: string[], depth: number): Exte
 
     // Handle standard Zod types
     if (isZodString(innerType)) {
+        assertNullableProperty(isNullable, isOptional, "z.string().nullable()", path);
         const result: ExtendStringJSONSchema = { type: ["string", "null"] };
         if (description) result.description = description;
         return result;
@@ -299,22 +321,26 @@ function convertZodType(zodType: z.ZodType, path: string[], depth: number): Exte
     if (isZodNumber(innerType)) {
         // Check if it's an integer
         if (hasIntegerCheck(innerType)) {
+            assertNullableProperty(isNullable, isOptional, "z.number().int().nullable()", path);
             const result: ExtendIntegerJSONSchema = { type: ["integer", "null"] };
             if (description) result.description = description;
             return result;
         }
+        assertNullableProperty(isNullable, isOptional, "z.number().nullable()", path);
         const result: ExtendNumberJSONSchema = { type: ["number", "null"] };
         if (description) result.description = description;
         return result;
     }
 
     if (isZodBoolean(innerType)) {
+        assertNullableProperty(isNullable, isOptional, "z.boolean().nullable()", path);
         const result: ExtendBooleanJSONSchema = { type: ["boolean", "null"] };
         if (description) result.description = description;
         return result;
     }
 
     if (isZodEnum(innerType)) {
+        assertNullableProperty(isNullable, isOptional, "z.enum([...]).nullable()", path);
         const enumValues = getEnumOptions(innerType);
         const enumWithNull: (string | null)[] = [...enumValues];
         if (!enumWithNull.includes(null)) {
@@ -340,6 +366,12 @@ function convertZodType(zodType: z.ZodType, path: string[], depth: number): Exte
     if (isZodLiteral(innerType)) {
         const literalValue = getLiteralValue(innerType);
         if (typeof literalValue === "string") {
+            assertNullableProperty(
+                isNullable,
+                isOptional,
+                `z.literal(${JSON.stringify(literalValue)}).nullable()`,
+                path,
+            );
             const result: ExtendEnumJSONSchema = { enum: [literalValue, null] };
             if (description) result.description = description;
             return result;
