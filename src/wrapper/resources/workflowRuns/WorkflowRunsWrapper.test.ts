@@ -34,6 +34,7 @@ function createMockWorkflowRun(
       name: "Test Workflow",
       createdAt: "2024-01-01T00:00:00Z",
       updatedAt: "2024-01-01T00:00:00Z",
+      createdBy: null,
     },
     workflowVersion: {
       object: "workflow_version",
@@ -41,6 +42,7 @@ function createMockWorkflowRun(
       version: "1",
       name: "Test Workflow v1",
       createdAt: "2024-01-01T00:00:00Z",
+      createdBy: null,
     },
     status: "PROCESSED",
     dashboardUrl:

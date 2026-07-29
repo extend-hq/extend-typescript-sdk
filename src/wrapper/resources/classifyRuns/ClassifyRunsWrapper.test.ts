@@ -42,6 +42,7 @@ function createMockClassifyRun(
       classifierId: "classifier_123",
       description: null,
       createdAt: "2024-01-01T00:00:00Z",
+      createdBy: null,
     },
     status: "PROCESSED",
     output: { id: "class_1", type: "invoice", confidence: 0.95, insights: [] },
