@@ -18,6 +18,7 @@ describe("WorkflowVersionsClient", () => {
                     version: "1",
                     name: "Production v1",
                     createdAt: "2024-03-21T16:45:00Z",
+                    createdBy: { type: "user", email: "matt@extend.app" },
                 },
             ],
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
@@ -42,6 +43,10 @@ describe("WorkflowVersionsClient", () => {
                     version: "1",
                     name: "Production v1",
                     createdAt: "2024-03-21T16:45:00Z",
+                    createdBy: {
+                        type: "user",
+                        email: "matt@extend.app",
+                    },
                 },
             ],
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
@@ -203,6 +208,7 @@ describe("WorkflowVersionsClient", () => {
             name: "Production v1",
             steps: [{ type: "TRIGGER", name: "name", next: [{ step: "parse" }] }],
             createdAt: "2024-03-21T16:45:00Z",
+            createdBy: { type: "user", email: "matt@extend.app" },
         };
         server
             .mockEndpoint()
@@ -231,6 +237,10 @@ describe("WorkflowVersionsClient", () => {
                 },
             ],
             createdAt: "2024-03-21T16:45:00Z",
+            createdBy: {
+                type: "user",
+                email: "matt@extend.app",
+            },
         });
     });
 
@@ -397,6 +407,7 @@ describe("WorkflowVersionsClient", () => {
             name: "Production v1",
             steps: [{ type: "TRIGGER", name: "name", next: [{ step: "parse" }] }],
             createdAt: "2024-03-21T16:45:00Z",
+            createdBy: { type: "user", email: "matt@extend.app" },
         };
         server
             .mockEndpoint()
@@ -424,6 +435,10 @@ describe("WorkflowVersionsClient", () => {
                 },
             ],
             createdAt: "2024-03-21T16:45:00Z",
+            createdBy: {
+                type: "user",
+                email: "matt@extend.app",
+            },
         });
     });
 

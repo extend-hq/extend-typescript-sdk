@@ -13,4 +13,5 @@ export interface EvaluationSetItemSummary {
     id: string;
     /** A summary of the file associated with the evaluation set item. */
     file: Extend.FileSummary;
+    createdBy: Extend.CreatedBy | null;
 }

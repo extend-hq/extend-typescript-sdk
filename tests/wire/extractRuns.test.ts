@@ -29,6 +29,7 @@ describe("ExtractRunsClient", () => {
                         version: "draft",
                         extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                         createdAt: "2024-03-21T16:45:00Z",
+                        createdBy: { type: "user", email: "matt@extend.app" },
                     },
                     status: "PENDING",
                     failureReason: "PARSING_ERROR",
@@ -110,6 +111,10 @@ describe("ExtractRunsClient", () => {
                         version: "draft",
                         extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                         createdAt: "2024-03-21T16:45:00Z",
+                        createdBy: {
+                            type: "user",
+                            email: "matt@extend.app",
+                        },
                     },
                     status: "PENDING",
                     failureReason: "PARSING_ERROR",
@@ -277,9 +282,9 @@ describe("ExtractRunsClient", () => {
             object: "extract_run",
             id: "exr_Xj8mK2pL9nR4vT7qY5wZ",
             status: "PENDING",
-            output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
-            initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
-            reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
+            output: { value: { key: "value" }, metadata: { key: {} } },
+            initialOutput: { value: { key: "value" }, metadata: { key: {} } },
+            reviewedOutput: { value: { key: "value" }, metadata: { key: {} } },
             failureReason: "PARSING_ERROR",
             failureMessage: "failureMessage",
             metadata: { key: "value" },
@@ -341,6 +346,7 @@ describe("ExtractRunsClient", () => {
                 version: "draft",
                 extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: { type: "user", email: "matt@extend.app" },
             },
             file: {
                 object: "file",
@@ -429,9 +435,7 @@ describe("ExtractRunsClient", () => {
                     key: "value",
                 },
                 metadata: {
-                    key: {
-                        logprobsConfidence: null,
-                    },
+                    key: {},
                 },
             },
             initialOutput: {
@@ -439,9 +443,7 @@ describe("ExtractRunsClient", () => {
                     key: "value",
                 },
                 metadata: {
-                    key: {
-                        logprobsConfidence: null,
-                    },
+                    key: {},
                 },
             },
             reviewedOutput: {
@@ -449,9 +451,7 @@ describe("ExtractRunsClient", () => {
                     key: "value",
                 },
                 metadata: {
-                    key: {
-                        logprobsConfidence: null,
-                    },
+                    key: {},
                 },
             },
             failureReason: "PARSING_ERROR",
@@ -547,6 +547,10 @@ describe("ExtractRunsClient", () => {
                 version: "draft",
                 extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: {
+                    type: "user",
+                    email: "matt@extend.app",
+                },
             },
             file: {
                 object: "file",
@@ -642,9 +646,9 @@ describe("ExtractRunsClient", () => {
             object: "extract_run",
             id: "exr_Xj8mK2pL9nR4vT7qY5wZ",
             status: "PENDING",
-            output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
-            initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
-            reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
+            output: { value: { key: "value" }, metadata: { key: {} } },
+            initialOutput: { value: { key: "value" }, metadata: { key: {} } },
+            reviewedOutput: { value: { key: "value" }, metadata: { key: {} } },
             failureReason: "PARSING_ERROR",
             failureMessage: "failureMessage",
             metadata: { key: "value" },
@@ -706,6 +710,7 @@ describe("ExtractRunsClient", () => {
                 version: "draft",
                 extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: { type: "user", email: "matt@extend.app" },
             },
             file: {
                 object: "file",
@@ -801,9 +806,7 @@ describe("ExtractRunsClient", () => {
                     key: "value",
                 },
                 metadata: {
-                    key: {
-                        logprobsConfidence: null,
-                    },
+                    key: {},
                 },
             },
             initialOutput: {
@@ -811,9 +814,7 @@ describe("ExtractRunsClient", () => {
                     key: "value",
                 },
                 metadata: {
-                    key: {
-                        logprobsConfidence: null,
-                    },
+                    key: {},
                 },
             },
             reviewedOutput: {
@@ -821,9 +822,7 @@ describe("ExtractRunsClient", () => {
                     key: "value",
                 },
                 metadata: {
-                    key: {
-                        logprobsConfidence: null,
-                    },
+                    key: {},
                 },
             },
             failureReason: "PARSING_ERROR",
@@ -919,6 +918,10 @@ describe("ExtractRunsClient", () => {
                 version: "draft",
                 extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: {
+                    type: "user",
+                    email: "matt@extend.app",
+                },
             },
             file: {
                 object: "file",
@@ -1161,9 +1164,9 @@ describe("ExtractRunsClient", () => {
             object: "extract_run",
             id: "exr_Xj8mK2pL9nR4vT7qY5wZ",
             status: "PENDING",
-            output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
-            initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
-            reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
+            output: { value: { key: "value" }, metadata: { key: {} } },
+            initialOutput: { value: { key: "value" }, metadata: { key: {} } },
+            reviewedOutput: { value: { key: "value" }, metadata: { key: {} } },
             failureReason: "PARSING_ERROR",
             failureMessage: "failureMessage",
             metadata: { key: "value" },
@@ -1225,6 +1228,7 @@ describe("ExtractRunsClient", () => {
                 version: "draft",
                 extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: { type: "user", email: "matt@extend.app" },
             },
             file: {
                 object: "file",
@@ -1305,9 +1309,7 @@ describe("ExtractRunsClient", () => {
                     key: "value",
                 },
                 metadata: {
-                    key: {
-                        logprobsConfidence: null,
-                    },
+                    key: {},
                 },
             },
             initialOutput: {
@@ -1315,9 +1317,7 @@ describe("ExtractRunsClient", () => {
                     key: "value",
                 },
                 metadata: {
-                    key: {
-                        logprobsConfidence: null,
-                    },
+                    key: {},
                 },
             },
             reviewedOutput: {
@@ -1325,9 +1325,7 @@ describe("ExtractRunsClient", () => {
                     key: "value",
                 },
                 metadata: {
-                    key: {
-                        logprobsConfidence: null,
-                    },
+                    key: {},
                 },
             },
             failureReason: "PARSING_ERROR",
@@ -1423,6 +1421,10 @@ describe("ExtractRunsClient", () => {
                 version: "draft",
                 extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: {
+                    type: "user",
+                    email: "matt@extend.app",
+                },
             },
             file: {
                 object: "file",
@@ -1772,9 +1774,9 @@ describe("ExtractRunsClient", () => {
             object: "extract_run",
             id: "exr_Xj8mK2pL9nR4vT7qY5wZ",
             status: "PENDING",
-            output: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
-            initialOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
-            reviewedOutput: { value: { key: "value" }, metadata: { key: { logprobsConfidence: null } } },
+            output: { value: { key: "value" }, metadata: { key: {} } },
+            initialOutput: { value: { key: "value" }, metadata: { key: {} } },
+            reviewedOutput: { value: { key: "value" }, metadata: { key: {} } },
             failureReason: "PARSING_ERROR",
             failureMessage: "failureMessage",
             metadata: { key: "value" },
@@ -1836,6 +1838,7 @@ describe("ExtractRunsClient", () => {
                 version: "draft",
                 extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: { type: "user", email: "matt@extend.app" },
             },
             file: {
                 object: "file",
@@ -1916,9 +1919,7 @@ describe("ExtractRunsClient", () => {
                     key: "value",
                 },
                 metadata: {
-                    key: {
-                        logprobsConfidence: null,
-                    },
+                    key: {},
                 },
             },
             initialOutput: {
@@ -1926,9 +1927,7 @@ describe("ExtractRunsClient", () => {
                     key: "value",
                 },
                 metadata: {
-                    key: {
-                        logprobsConfidence: null,
-                    },
+                    key: {},
                 },
             },
             reviewedOutput: {
@@ -1936,9 +1935,7 @@ describe("ExtractRunsClient", () => {
                     key: "value",
                 },
                 metadata: {
-                    key: {
-                        logprobsConfidence: null,
-                    },
+                    key: {},
                 },
             },
             failureReason: "PARSING_ERROR",
@@ -2034,6 +2031,10 @@ describe("ExtractRunsClient", () => {
                 version: "draft",
                 extractorId: "ex_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: {
+                    type: "user",
+                    email: "matt@extend.app",
+                },
             },
             file: {
                 object: "file",

@@ -45,6 +45,7 @@ const sampleWorkflowRunPayload: Extend.WorkflowRun = {
     name: "Test Workflow",
     createdAt: "2024-01-01T00:00:00Z",
     updatedAt: "2024-01-01T00:00:00Z",
+    createdBy: null,
   },
   workflowVersion: {
     object: "workflow_version",
@@ -52,6 +53,7 @@ const sampleWorkflowRunPayload: Extend.WorkflowRun = {
     version: "1",
     name: "Test Workflow v1",
     createdAt: "2024-01-01T00:00:00Z",
+    createdBy: null,
   },
   dashboardUrl: "https://dashboard.extend.ai/workflows/workflow_run_abc123",
   status: "PROCESSED",
@@ -105,6 +107,7 @@ const sampleExtractRunPayload: Extend.ExtractRun = {
     extractorId: "extractor_123",
     description: null,
     createdAt: "2024-01-01T00:00:00Z",
+    createdBy: null,
   },
   status: "PROCESSED",
   output: { value: { field: "value" }, metadata: {} },

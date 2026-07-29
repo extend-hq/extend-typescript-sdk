@@ -17,4 +17,5 @@ export interface WorkflowVersion {
     /** The step definitions for this version. */
     steps: Extend.WorkflowStepDefinition[];
     createdAt: Extend.CreatedAt;
+    createdBy: Extend.CreatedBy | null;
 }

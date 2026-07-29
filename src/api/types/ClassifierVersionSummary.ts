@@ -30,4 +30,5 @@ export interface ClassifierVersionSummary {
      */
     classifierId: string;
     createdAt: Extend.CreatedAt;
+    createdBy: Extend.CreatedBy | null;
 }

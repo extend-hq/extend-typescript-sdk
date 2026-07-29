@@ -32,4 +32,5 @@ export interface SplitterVersion {
      */
     splitterId: string;
     createdAt: Extend.CreatedAt;
+    createdBy: Extend.CreatedBy | null;
 }

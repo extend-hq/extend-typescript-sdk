@@ -27,4 +27,5 @@ export interface WebhookEndpointCreate {
     signingSecret: string;
     /** The date and time the webhook endpoint was created. */
     createdAt: string;
+    createdBy: Extend.CreatedBy | null;
 }

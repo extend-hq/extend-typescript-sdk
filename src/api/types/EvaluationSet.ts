@@ -27,4 +27,5 @@ export interface EvaluationSet {
     entity: Extend.EvaluationSetEntity;
     createdAt: Extend.CreatedAt;
     updatedAt: Extend.UpdatedAt;
+    createdBy: Extend.CreatedBy | null;
 }

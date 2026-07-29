@@ -15,4 +15,5 @@ export interface Workflow {
     createdAt: Extend.CreatedAt;
     updatedAt: Extend.UpdatedAt;
     draftVersion: Extend.WorkflowVersion;
+    createdBy: Extend.CreatedBy | null;
 }

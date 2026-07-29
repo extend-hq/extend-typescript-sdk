@@ -29,6 +29,7 @@ describe("SplitRunsClient", () => {
                         version: "draft",
                         splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
                         createdAt: "2024-03-21T16:45:00Z",
+                        createdBy: { type: "user", email: "matt@extend.app" },
                     },
                     status: "PENDING",
                     failureReason: "PARSING_ERROR",
@@ -89,6 +90,10 @@ describe("SplitRunsClient", () => {
                         version: "draft",
                         splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
                         createdAt: "2024-03-21T16:45:00Z",
+                        createdBy: {
+                            type: "user",
+                            email: "matt@extend.app",
+                        },
                     },
                     status: "PENDING",
                     failureReason: "PARSING_ERROR",
@@ -267,6 +272,7 @@ describe("SplitRunsClient", () => {
                 version: "draft",
                 splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: { type: "user", email: "matt@extend.app" },
             },
             initialOutput: {
                 splits: [
@@ -433,6 +439,10 @@ describe("SplitRunsClient", () => {
                 version: "draft",
                 splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: {
+                    type: "user",
+                    email: "matt@extend.app",
+                },
             },
             initialOutput: {
                 splits: [
@@ -803,6 +813,7 @@ describe("SplitRunsClient", () => {
                 version: "draft",
                 splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: { type: "user", email: "matt@extend.app" },
             },
             initialOutput: {
                 splits: [
@@ -961,6 +972,10 @@ describe("SplitRunsClient", () => {
                 version: "draft",
                 splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: {
+                    type: "user",
+                    email: "matt@extend.app",
+                },
             },
             initialOutput: {
                 splits: [
@@ -1352,6 +1367,7 @@ describe("SplitRunsClient", () => {
                 version: "draft",
                 splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: { type: "user", email: "matt@extend.app" },
             },
             initialOutput: {
                 splits: [
@@ -1510,6 +1526,10 @@ describe("SplitRunsClient", () => {
                 version: "draft",
                 splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: {
+                    type: "user",
+                    email: "matt@extend.app",
+                },
             },
             initialOutput: {
                 splits: [

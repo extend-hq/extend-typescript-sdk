@@ -18,6 +18,7 @@ describe("WorkflowsClient", () => {
                     name: "Invoice Processing",
                     createdAt: "2024-03-21T16:45:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
+                    createdBy: { type: "user", email: "matt@extend.app" },
                 },
             ],
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
@@ -36,6 +37,10 @@ describe("WorkflowsClient", () => {
                     name: "Invoice Processing",
                     createdAt: "2024-03-21T16:45:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
+                    createdBy: {
+                        type: "user",
+                        email: "matt@extend.app",
+                    },
                 },
             ],
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
@@ -155,7 +160,9 @@ describe("WorkflowsClient", () => {
                 name: "Production v1",
                 steps: [{ type: "TRIGGER", name: "name", next: [{ step: "parse" }] }],
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: { type: "user", email: "matt@extend.app" },
             },
+            createdBy: { type: "user", email: "matt@extend.app" },
         };
         server
             .mockEndpoint()
@@ -192,6 +199,14 @@ describe("WorkflowsClient", () => {
                     },
                 ],
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: {
+                    type: "user",
+                    email: "matt@extend.app",
+                },
+            },
+            createdBy: {
+                type: "user",
+                email: "matt@extend.app",
             },
         });
     });
@@ -221,7 +236,9 @@ describe("WorkflowsClient", () => {
                 name: "Production v1",
                 steps: [{ type: "TRIGGER", name: "name", next: [{ step: "parse" }] }],
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: { type: "user", email: "matt@extend.app" },
             },
+            createdBy: { type: "user", email: "matt@extend.app" },
         };
         server
             .mockEndpoint()
@@ -276,6 +293,14 @@ describe("WorkflowsClient", () => {
                     },
                 ],
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: {
+                    type: "user",
+                    email: "matt@extend.app",
+                },
+            },
+            createdBy: {
+                type: "user",
+                email: "matt@extend.app",
             },
         });
     });
@@ -305,7 +330,9 @@ describe("WorkflowsClient", () => {
                 name: "Production v1",
                 steps: [{ type: "TRIGGER", name: "name", next: [{ step: "parse" }] }],
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: { type: "user", email: "matt@extend.app" },
             },
+            createdBy: { type: "user", email: "matt@extend.app" },
         };
         server
             .mockEndpoint()
@@ -360,6 +387,14 @@ describe("WorkflowsClient", () => {
                     },
                 ],
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: {
+                    type: "user",
+                    email: "matt@extend.app",
+                },
+            },
+            createdBy: {
+                type: "user",
+                email: "matt@extend.app",
             },
         });
     });
@@ -391,7 +426,9 @@ describe("WorkflowsClient", () => {
                 name: "Production v1",
                 steps: [{ type: "TRIGGER", name: "name", next: [{ step: "parse" }] }],
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: { type: "user", email: "matt@extend.app" },
             },
+            createdBy: { type: "user", email: "matt@extend.app" },
         };
         server
             .mockEndpoint()
@@ -454,6 +491,14 @@ describe("WorkflowsClient", () => {
                     },
                 ],
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: {
+                    type: "user",
+                    email: "matt@extend.app",
+                },
+            },
+            createdBy: {
+                type: "user",
+                email: "matt@extend.app",
             },
         });
     });
@@ -643,7 +688,9 @@ describe("WorkflowsClient", () => {
                 name: "Production v1",
                 steps: [{ type: "TRIGGER", name: "name", next: [{ step: "parse" }] }],
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: { type: "user", email: "matt@extend.app" },
             },
+            createdBy: { type: "user", email: "matt@extend.app" },
         };
         server
             .mockEndpoint()
@@ -677,6 +724,14 @@ describe("WorkflowsClient", () => {
                     },
                 ],
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: {
+                    type: "user",
+                    email: "matt@extend.app",
+                },
+            },
+            createdBy: {
+                type: "user",
+                email: "matt@extend.app",
             },
         });
     });
@@ -794,7 +849,9 @@ describe("WorkflowsClient", () => {
                 name: "Production v1",
                 steps: [{ type: "TRIGGER", name: "name", next: [{ step: "parse" }] }],
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: { type: "user", email: "matt@extend.app" },
             },
+            createdBy: { type: "user", email: "matt@extend.app" },
         };
         server
             .mockEndpoint()
@@ -831,6 +888,14 @@ describe("WorkflowsClient", () => {
                     },
                 ],
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: {
+                    type: "user",
+                    email: "matt@extend.app",
+                },
+            },
+            createdBy: {
+                type: "user",
+                email: "matt@extend.app",
             },
         });
     });
@@ -857,7 +922,9 @@ describe("WorkflowsClient", () => {
                 name: "Production v1",
                 steps: [{ type: "TRIGGER", name: "name", next: [{ step: "parse" }] }],
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: { type: "user", email: "matt@extend.app" },
             },
+            createdBy: { type: "user", email: "matt@extend.app" },
         };
         server
             .mockEndpoint()
@@ -903,6 +970,14 @@ describe("WorkflowsClient", () => {
                     },
                 ],
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: {
+                    type: "user",
+                    email: "matt@extend.app",
+                },
+            },
+            createdBy: {
+                type: "user",
+                email: "matt@extend.app",
             },
         });
     });

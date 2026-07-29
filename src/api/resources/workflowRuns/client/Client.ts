@@ -141,7 +141,9 @@ export class WorkflowRunsClient {
     }
 
     /**
-     * Run a workflow with a file. A workflow is a sequence of steps that process files and data in a specific order to achieve a desired outcome.
+     * Run a workflow. A workflow is a sequence of steps that process files and data in a specific order to achieve a desired outcome.
+     *
+     * Pass `file` for a single document, or `package` to process 2-50 files together as one package in a single run. Exactly one of `file` or `package` must be provided.
      *
      * The request returns immediately with a `PROCESSING` status. Use webhooks or poll the Get Workflow Run endpoint for results.
      *
@@ -164,6 +166,22 @@ export class WorkflowRunsClient {
      *         },
      *         file: {
      *             url: "https://example.com/invoice.pdf"
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.workflowRuns.create({
+     *         workflow: {
+     *             id: "wf_1234567890"
+     *         },
+     *         "package": {
+     *             files: [{
+     *                     url: "https://example.com/invoice.pdf"
+     *                 }, {
+     *                     url: "https://example.com/bill-of-lading.pdf"
+     *                 }, {
+     *                     id: "file_xK9mLPqRtN3vS8wF5hB2cQ"
+     *                 }]
      *         }
      *     })
      */

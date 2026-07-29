@@ -22,6 +22,7 @@ describe("WebhookEndpointsClient", () => {
                     apiVersion: "apiVersion",
                     advancedOptions: {},
                     createdAt: "2024-01-15T09:30:00Z",
+                    createdBy: { type: "user", email: "matt@extend.app" },
                 },
             ],
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
@@ -44,6 +45,10 @@ describe("WebhookEndpointsClient", () => {
                     apiVersion: "apiVersion",
                     advancedOptions: {},
                     createdAt: "2024-01-15T09:30:00Z",
+                    createdBy: {
+                        type: "user",
+                        email: "matt@extend.app",
+                    },
                 },
             ],
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
@@ -166,6 +171,7 @@ describe("WebhookEndpointsClient", () => {
             advancedOptions: { headers: { key: "value" }, payload: { format: "json", urlThresholdBytes: 1 } },
             signingSecret: "wss_Av9uCQNrCIEe0XpEpsQUVjEJYr4udK9N",
             createdAt: "2024-01-15T09:30:00Z",
+            createdBy: { type: "user", email: "matt@extend.app" },
         };
         server
             .mockEndpoint()
@@ -201,6 +207,10 @@ describe("WebhookEndpointsClient", () => {
             },
             signingSecret: "wss_Av9uCQNrCIEe0XpEpsQUVjEJYr4udK9N",
             createdAt: "2024-01-15T09:30:00Z",
+            createdBy: {
+                type: "user",
+                email: "matt@extend.app",
+            },
         });
     });
 
@@ -450,6 +460,7 @@ describe("WebhookEndpointsClient", () => {
             apiVersion: "apiVersion",
             advancedOptions: { headers: { key: "value" }, payload: { format: "json", urlThresholdBytes: 1 } },
             createdAt: "2024-01-15T09:30:00Z",
+            createdBy: { type: "user", email: "matt@extend.app" },
         };
         server
             .mockEndpoint()
@@ -478,6 +489,10 @@ describe("WebhookEndpointsClient", () => {
                 },
             },
             createdAt: "2024-01-15T09:30:00Z",
+            createdBy: {
+                type: "user",
+                email: "matt@extend.app",
+            },
         });
     });
 
@@ -639,6 +654,7 @@ describe("WebhookEndpointsClient", () => {
             apiVersion: "apiVersion",
             advancedOptions: { headers: { key: "value" }, payload: { format: "json", urlThresholdBytes: 1 } },
             createdAt: "2024-01-15T09:30:00Z",
+            createdBy: { type: "user", email: "matt@extend.app" },
         };
         server
             .mockEndpoint()
@@ -668,6 +684,10 @@ describe("WebhookEndpointsClient", () => {
                 },
             },
             createdAt: "2024-01-15T09:30:00Z",
+            createdBy: {
+                type: "user",
+                email: "matt@extend.app",
+            },
         });
     });
 
