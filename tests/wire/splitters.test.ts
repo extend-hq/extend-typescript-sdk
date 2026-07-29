@@ -195,6 +195,7 @@ describe("SplittersClient", () => {
                 },
                 splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: { type: "user", email: "matt@extend.app" },
             },
         };
         server
@@ -277,6 +278,10 @@ describe("SplittersClient", () => {
                 },
                 splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: {
+                    type: "user",
+                    email: "matt@extend.app",
+                },
             },
         });
     });
@@ -487,6 +492,7 @@ describe("SplittersClient", () => {
                 },
                 splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: { type: "user", email: "matt@extend.app" },
             },
         };
         server
@@ -545,6 +551,10 @@ describe("SplittersClient", () => {
                 },
                 splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: {
+                    type: "user",
+                    email: "matt@extend.app",
+                },
             },
         });
     });
@@ -683,6 +693,7 @@ describe("SplittersClient", () => {
                 },
                 splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: { type: "user", email: "matt@extend.app" },
             },
         };
         server
@@ -744,6 +755,10 @@ describe("SplittersClient", () => {
                 },
                 splitterId: "spl_Xj8mK2pL9nR4vT7qY5wZ",
                 createdAt: "2024-03-21T16:45:00Z",
+                createdBy: {
+                    type: "user",
+                    email: "matt@extend.app",
+                },
             },
         });
     });

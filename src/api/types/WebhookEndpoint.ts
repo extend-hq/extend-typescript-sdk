@@ -18,4 +18,5 @@ export interface WebhookEndpoint {
     advancedOptions: Extend.WebhookAdvancedOptions | null;
     /** The date and time the webhook endpoint was created. */
     createdAt: string;
+    createdBy: Extend.CreatedBy | null;
 }

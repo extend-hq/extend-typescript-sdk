@@ -37,4 +37,5 @@ export interface ExtractorVersion {
      */
     extractorId: string;
     createdAt: Extend.CreatedAt;
+    createdBy: Extend.CreatedBy | null;
 }

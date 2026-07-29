@@ -15,4 +15,5 @@ export interface WorkflowVersionSummary {
     /** The name of the workflow version. */
     name: string | null;
     createdAt: Extend.CreatedAt;
+    createdBy: Extend.CreatedBy | null;
 }

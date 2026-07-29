@@ -26,6 +26,7 @@ describe("EvaluationSetsClient", () => {
                     },
                     createdAt: "2024-03-21T16:45:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
+                    createdBy: { type: "user", email: "matt@extend.app" },
                 },
             ],
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
@@ -53,6 +54,10 @@ describe("EvaluationSetsClient", () => {
                     },
                     createdAt: "2024-03-21T16:45:00Z",
                     updatedAt: "2024-03-21T16:45:00Z",
+                    createdBy: {
+                        type: "user",
+                        email: "matt@extend.app",
+                    },
                 },
             ],
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
@@ -177,6 +182,7 @@ describe("EvaluationSetsClient", () => {
             },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
+            createdBy: { type: "user", email: "matt@extend.app" },
         };
         server
             .mockEndpoint()
@@ -206,6 +212,10 @@ describe("EvaluationSetsClient", () => {
             },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
+            createdBy: {
+                type: "user",
+                email: "matt@extend.app",
+            },
         });
     });
 
@@ -403,6 +413,7 @@ describe("EvaluationSetsClient", () => {
             },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
+            createdBy: { type: "user", email: "matt@extend.app" },
         };
         server
             .mockEndpoint()
@@ -427,6 +438,10 @@ describe("EvaluationSetsClient", () => {
             },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
+            createdBy: {
+                type: "user",
+                email: "matt@extend.app",
+            },
         });
     });
 

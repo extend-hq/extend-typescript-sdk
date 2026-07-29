@@ -34,6 +34,7 @@ describe("EvaluationSetItemsClient", () => {
                         createdAt: "2024-03-21T16:45:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
                     },
+                    createdBy: { type: "user", email: "matt@extend.app" },
                 },
             ],
             nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ=",
@@ -73,6 +74,10 @@ describe("EvaluationSetItemsClient", () => {
                         },
                         createdAt: "2024-03-21T16:45:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
+                    },
+                    createdBy: {
+                        type: "user",
+                        email: "matt@extend.app",
                     },
                 },
             ],
@@ -263,6 +268,7 @@ describe("EvaluationSetItemsClient", () => {
                         updatedAt: "2024-03-21T16:45:00Z",
                     },
                     expectedOutput: {},
+                    createdBy: { type: "user", email: "matt@extend.app" },
                 },
             ],
         };
@@ -315,6 +321,10 @@ describe("EvaluationSetItemsClient", () => {
                         updatedAt: "2024-03-21T16:45:00Z",
                     },
                     expectedOutput: {},
+                    createdBy: {
+                        type: "user",
+                        email: "matt@extend.app",
+                    },
                 },
             ],
         });
@@ -622,6 +632,7 @@ describe("EvaluationSetItemsClient", () => {
                 updatedAt: "2024-03-21T16:45:00Z",
             },
             expectedOutput: { value: { key: "value" } },
+            createdBy: { type: "user", email: "matt@extend.app" },
         };
         server
             .mockEndpoint()
@@ -662,6 +673,10 @@ describe("EvaluationSetItemsClient", () => {
                 value: {
                     key: "value",
                 },
+            },
+            createdBy: {
+                type: "user",
+                email: "matt@extend.app",
             },
         });
     });
@@ -834,6 +849,7 @@ describe("EvaluationSetItemsClient", () => {
                 updatedAt: "2024-03-21T16:45:00Z",
             },
             expectedOutput: { value: { key: "value" } },
+            createdBy: { type: "user", email: "matt@extend.app" },
         };
         server
             .mockEndpoint()
@@ -884,6 +900,10 @@ describe("EvaluationSetItemsClient", () => {
                 value: {
                     key: "value",
                 },
+            },
+            createdBy: {
+                type: "user",
+                email: "matt@extend.app",
             },
         });
     });

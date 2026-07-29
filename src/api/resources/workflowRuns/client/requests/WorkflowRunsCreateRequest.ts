@@ -12,12 +12,30 @@ import type * as Extend from "../../../../index";
  *             url: "https://example.com/invoice.pdf"
  *         }
  *     }
+ *
+ * @example
+ *     {
+ *         workflow: {
+ *             id: "wf_1234567890"
+ *         },
+ *         "package": {
+ *             files: [{
+ *                     url: "https://example.com/invoice.pdf"
+ *                 }, {
+ *                     url: "https://example.com/bill-of-lading.pdf"
+ *                 }, {
+ *                     id: "file_xK9mLPqRtN3vS8wF5hB2cQ"
+ *                 }]
+ *         }
+ *     }
  */
 export interface WorkflowRunsCreateRequest {
     workflow: Extend.WorkflowReference;
-    /** The file to be processed. Supported file types can be found [here](https://docs.extend.ai/2026-02-09/general/supported-file-types). Files can be provided as a URL, an Extend file ID, or raw text. If you wish to process more at a time, consider using the [Batch Run Workflow](https://docs.extend.ai/2026-02-09/api-reference/endpoints/workflow/batch-create-workflow-runs) endpoint. */
-    file: Extend.WorkflowRunsCreateRequestFile;
-    /** Predetermined outputs to be used for the workflow run. Generally not recommended for most use cases, however, can be useful in cases of overriding a classification in a workflow, or a subset of extraction fields when data is known. */
+    /** The file to be processed. Supported file types can be found [here](https://docs.extend.ai/2026-02-09/general/supported-file-types). Files can be provided as a URL, an Extend file ID, or raw text. Mutually exclusive with `package` — provide one or the other. If you wish to process many files as independent runs, consider using the [Batch Run Workflow](https://docs.extend.ai/2026-02-09/api-reference/endpoints/workflow/batch-create-workflow-runs) endpoint. */
+    file?: Extend.WorkflowRunsCreateRequestFile;
+    /** A set of 2–50 files to process together in a single workflow run. Mutually exclusive with `file` — provide one or the other. */
+    package?: Extend.WorkflowRunPackage;
+    /** Predetermined outputs to be used for the workflow run. Generally not recommended for most use cases, however, can be useful in cases of overriding a classification in a workflow, or a subset of extraction fields when data is known. Not supported on package runs — a package run produces a single merged result across all files and cannot accept pre-supplied per-processor outputs. */
     outputs?: Extend.WorkflowRunsCreateRequestOutputsItem[];
     priority?: Extend.RunPriority;
     metadata?: Extend.RunMetadata;

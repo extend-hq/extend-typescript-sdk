@@ -21,4 +21,5 @@ export interface EvaluationSetItem {
     file: Extend.FileSummary;
     /** The expected output that will be used to evaluate the performance of the extractor, classifier, or splitter associated with the evaluation set. This must conform to the output schema of the entity associated with the evaluation set. */
     expectedOutput: Extend.ProvidedProcessorOutput;
+    createdBy: Extend.CreatedBy | null;
 }

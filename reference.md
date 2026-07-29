@@ -5488,7 +5488,9 @@ await client.workflowRuns.list({
 <dl>
 <dd>
 
-Run a workflow with a file. A workflow is a sequence of steps that process files and data in a specific order to achieve a desired outcome.
+Run a workflow. A workflow is a sequence of steps that process files and data in a specific order to achieve a desired outcome.
+
+Pass `file` for a single document, or `package` to process 2-50 files together as one package in a single run. Exactly one of `file` or `package` must be provided.
 
 The request returns immediately with a `PROCESSING` status. Use webhooks or poll the Get Workflow Run endpoint for results.
 </dd>
