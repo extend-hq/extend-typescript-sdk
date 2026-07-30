@@ -1,10 +1,10 @@
 /**
  * Converts Zod schemas to Extend's JSON Schema format.
  *
- * Extraction can return null for any field, so primitive and enum object properties
- * must be declared .nullable() (or .optional()) — conversion throws otherwise. This
- * keeps z.infer truthful about the output and mirrors the API's strict schema
- * validation, which rejects non-nullable primitives.
+ * Primitive and enum object properties must be declared .nullable() (or equivalent
+ * forms like .nullish() / z.union([T, z.null()])) — conversion throws otherwise.
+ * That keeps z.infer aligned with the wire schema, which always allows null for
+ * those fields, and mirrors the API's rejection of non-nullable primitives.
  *
  * Note: The API performs comprehensive validation and transformation of schemas.
  * This module focuses on structural conversion and compile-time type safety.
@@ -122,6 +122,20 @@ function isZodDefault(schema: z.ZodType): schema is z.ZodDefault<z.ZodType> {
 }
 
 /**
+ * Type guard for null schema.
+ */
+function isZodNull(schema: z.ZodType): boolean {
+    return schema instanceof z.ZodNull || getZodTypeName(schema) === "null";
+}
+
+/**
+ * Type guard for union schema.
+ */
+function isZodUnion(schema: z.ZodType): boolean {
+    return schema instanceof z.ZodUnion || getZodTypeName(schema) === "union";
+}
+
+/**
  * Checks if a ZodNumber has an integer constraint.
  */
 function hasIntegerCheck(schema: z.ZodNumber): boolean {
@@ -146,7 +160,36 @@ function getInnerType(
 }
 
 /**
- * Unwraps nullable, optional, and default wrappers from a Zod type.
+ * Gets union options when present.
+ */
+function getUnionOptions(schema: z.ZodType): z.ZodType[] | undefined {
+    if ("options" in schema && Array.isArray(schema.options)) {
+        return schema.options as z.ZodType[];
+    }
+    return undefined;
+}
+
+/**
+ * If the schema is a two-member union of T | null, returns T; otherwise undefined.
+ */
+function getUnionNullInnerType(schema: z.ZodType): z.ZodType | undefined {
+    if (!isZodUnion(schema)) {
+        return undefined;
+    }
+    const options = getUnionOptions(schema);
+    if (!options || options.length !== 2) {
+        return undefined;
+    }
+    const nonNull = options.filter((option) => !isZodNull(option));
+    const nullOptions = options.filter((option) => isZodNull(option));
+    if (nonNull.length === 1 && nullOptions.length === 1) {
+        return nonNull[0];
+    }
+    return undefined;
+}
+
+/**
+ * Unwraps nullable, optional, default, and T | null union wrappers from a Zod type.
  */
 function unwrapType(zodType: z.ZodType): {
     innerType: z.ZodType;
@@ -173,7 +216,14 @@ function unwrapType(zodType: z.ZodType): {
             current = getInnerType(current);
             description = description ?? current.description;
         } else {
-            break;
+            const unionInner = getUnionNullInnerType(current);
+            if (unionInner) {
+                isNullable = true;
+                current = unionInner;
+                description = description ?? current.description;
+            } else {
+                break;
+            }
         }
     }
 
@@ -232,6 +282,8 @@ export function zodToExtendSchema(zodSchema: z.ZodObject<z.ZodRawShape>): Extend
     for (const key of Object.keys(shape)) {
         const value = shape[key] as z.ZodType;
         properties[key] = convertZodType(value, [key], 0);
+        // Extraction always returns every schema key (null when missing), so all
+        // properties are required on the wire — including Zod .optional() fields.
         required.push(key);
     }
 
@@ -244,16 +296,18 @@ export function zodToExtendSchema(zodSchema: z.ZodObject<z.ZodRawShape>): Extend
 }
 
 /**
- * Throws if a primitive or enum object property is not marked nullable or optional.
+ * Throws if a primitive or enum object property is not marked nullable.
  *
- * Extraction returns null for any field it cannot find, and the emitted JSON Schema
- * always allows null for primitives and enums. Requiring .nullable()/.optional() keeps
- * z.infer truthful about the output type instead of silently widening it on the wire.
+ * The API requires nullability for primitive and enum fields (missing values are
+ * returned as null). Requiring .nullable() (or .nullish() / z.union([T, z.null()]))
+ * keeps z.infer truthful instead of silently widening the wire schema.
+ *
+ * .optional() alone is not enough: it infers `T | undefined` while extraction returns null.
  */
-function assertNullableProperty(isNullable: boolean, isOptional: boolean, example: string, path: string[]): void {
-    if (!isNullable && !isOptional) {
+function assertNullableProperty(isNullable: boolean, example: string, path: string[]): void {
+    if (!isNullable) {
         throw new SchemaConversionError(
-            `Field must be nullable because extraction can return null for any field. Add .nullable() (e.g. ${example})`,
+            `Primitive and enum fields must be .nullable() because the API returns null for missing values. Add .nullable() (e.g. ${example})`,
             path,
         );
     }
@@ -264,7 +318,7 @@ function assertNullableProperty(isNullable: boolean, isOptional: boolean, exampl
  */
 function convertZodType(zodType: z.ZodType, path: string[], depth: number): ExtendJSONSchema {
     // Unwrap nullable/optional wrappers, also collects description from any wrapper in the chain
-    const { innerType, isNullable, isOptional, description } = unwrapType(zodType);
+    const { innerType, isNullable, description } = unwrapType(zodType);
 
     // Check for custom extend types first
     const extendType = getExtendType(zodType) ?? getExtendType(innerType);
@@ -312,7 +366,7 @@ function convertZodType(zodType: z.ZodType, path: string[], depth: number): Exte
 
     // Handle standard Zod types
     if (isZodString(innerType)) {
-        assertNullableProperty(isNullable, isOptional, "z.string().nullable()", path);
+        assertNullableProperty(isNullable, "z.string().nullable()", path);
         const result: ExtendStringJSONSchema = { type: ["string", "null"] };
         if (description) result.description = description;
         return result;
@@ -321,26 +375,26 @@ function convertZodType(zodType: z.ZodType, path: string[], depth: number): Exte
     if (isZodNumber(innerType)) {
         // Check if it's an integer
         if (hasIntegerCheck(innerType)) {
-            assertNullableProperty(isNullable, isOptional, "z.number().int().nullable()", path);
+            assertNullableProperty(isNullable, "z.number().int().nullable()", path);
             const result: ExtendIntegerJSONSchema = { type: ["integer", "null"] };
             if (description) result.description = description;
             return result;
         }
-        assertNullableProperty(isNullable, isOptional, "z.number().nullable()", path);
+        assertNullableProperty(isNullable, "z.number().nullable()", path);
         const result: ExtendNumberJSONSchema = { type: ["number", "null"] };
         if (description) result.description = description;
         return result;
     }
 
     if (isZodBoolean(innerType)) {
-        assertNullableProperty(isNullable, isOptional, "z.boolean().nullable()", path);
+        assertNullableProperty(isNullable, "z.boolean().nullable()", path);
         const result: ExtendBooleanJSONSchema = { type: ["boolean", "null"] };
         if (description) result.description = description;
         return result;
     }
 
     if (isZodEnum(innerType)) {
-        assertNullableProperty(isNullable, isOptional, "z.enum([...]).nullable()", path);
+        assertNullableProperty(isNullable, "z.enum([...]).nullable()", path);
         const enumValues = getEnumOptions(innerType);
         const enumWithNull: (string | null)[] = [...enumValues];
         if (!enumWithNull.includes(null)) {
@@ -366,12 +420,7 @@ function convertZodType(zodType: z.ZodType, path: string[], depth: number): Exte
     if (isZodLiteral(innerType)) {
         const literalValue = getLiteralValue(innerType);
         if (typeof literalValue === "string") {
-            assertNullableProperty(
-                isNullable,
-                isOptional,
-                `z.literal(${JSON.stringify(literalValue)}).nullable()`,
-                path,
-            );
+            assertNullableProperty(isNullable, `z.literal(${JSON.stringify(literalValue)}).nullable()`, path);
             const result: ExtendEnumJSONSchema = { enum: [literalValue, null] };
             if (description) result.description = description;
             return result;
@@ -389,10 +438,11 @@ function convertZodType(zodType: z.ZodType, path: string[], depth: number): Exte
  * Array items can be objects or primitive types, and primitive items are NOT nullable.
  */
 function convertArrayItemType(itemType: z.ZodType, path: string[], depth: number): ExtendArrayJSONSchema["items"] {
-    const { innerType } = unwrapType(itemType);
+    const { innerType, isNullable, isOptional } = unwrapType(itemType);
     const extendType = getExtendType(itemType) ?? getExtendType(innerType);
 
-    // Handle custom types in arrays
+    // Handle custom types in arrays (markers short-circuit before nullability checks;
+    // helpers like extendDate() are already nullable on the Zod side for object fields).
     if (extendType === DATE_TYPE_MARKER) {
         return { type: "string", "extend:type": "date" };
     }
@@ -423,6 +473,13 @@ function convertArrayItemType(itemType: z.ZodType, path: string[], depth: number
             required: ["printed_name", "signature_date", "is_signed", "title_or_role"],
             additionalProperties: false,
         };
+    }
+
+    if (isNullable || isOptional) {
+        throw new SchemaConversionError(
+            "Array items cannot be .nullable() or .optional(); the API requires non-nullable item types. Use a bare primitive (e.g. z.string()) or object.",
+            path,
+        );
     }
 
     // Handle standard types for array items (non-nullable)

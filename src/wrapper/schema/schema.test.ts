@@ -338,9 +338,55 @@ describe("zodToExtendSchema", () => {
             });
         });
 
-        it("should unwrap optional", () => {
+        it("should accept .nullish()", () => {
             const zodSchema = z.object({
-                field: z.string().optional(),
+                field: z.string().nullish(),
+            });
+
+            const jsonSchema = zodToExtendSchema(zodSchema);
+
+            expect(jsonSchema.properties.field).toEqual({
+                type: ["string", "null"],
+            });
+            expect(jsonSchema.required).toEqual(["field"]);
+        });
+
+        it("should accept z.union([T, z.null()]) as nullable", () => {
+            const zodSchema = z.object({
+                field: z.union([z.string(), z.null()]),
+            });
+
+            const jsonSchema = zodToExtendSchema(zodSchema);
+
+            expect(jsonSchema.properties.field).toEqual({
+                type: ["string", "null"],
+            });
+            expect(jsonSchema.required).toEqual(["field"]);
+        });
+
+        it("should keep .nullable().optional() keys in required", () => {
+            const zodSchema = z.object({
+                required_field: z.string().nullable(),
+                optional_field: z.string().nullable().optional(),
+            });
+
+            const jsonSchema = zodToExtendSchema(zodSchema);
+
+            expect(jsonSchema.required).toEqual(["required_field", "optional_field"]);
+        });
+
+        it("should throw for .default() without .nullable()", () => {
+            expect(() => zodToExtendSchema(z.object({ field: z.string().default("x") }))).toThrow(
+                SchemaConversionError,
+            );
+            expect(() => zodToExtendSchema(z.object({ field: z.string().default("x") }))).toThrow(
+                /\.nullable\(\)/,
+            );
+        });
+
+        it("should accept .nullable().default()", () => {
+            const zodSchema = z.object({
+                field: z.string().nullable().default(null),
             });
 
             const jsonSchema = zodToExtendSchema(zodSchema);
@@ -393,9 +439,19 @@ describe("zodToExtendSchema", () => {
             expect(() => zodToExtendSchema(zodSchema)).toThrow(/at path: field/);
         });
 
+        it("should throw for .optional() alone", () => {
+            const zodSchema = z.object({
+                field: z.enum(["a", "b"]).optional(),
+            });
+
+            expect(() => zodToExtendSchema(zodSchema)).toThrow(SchemaConversionError);
+            expect(() => zodToExtendSchema(zodSchema)).toThrow(/\.nullable\(\)/);
+            expect(() => zodToExtendSchema(zodSchema)).toThrow(/at path: field/);
+        });
+
         it("should include the suggested fix for the specific type", () => {
             expect(() => zodToExtendSchema(z.object({ invoice_number: z.string() }))).toThrow(
-                "Field must be nullable because extraction can return null for any field. " +
+                "Primitive and enum fields must be .nullable() because the API returns null for missing values. " +
                     "Add .nullable() (e.g. z.string().nullable()) at path: invoice_number",
             );
         });
@@ -420,18 +476,6 @@ describe("zodToExtendSchema", () => {
             });
 
             expect(() => zodToExtendSchema(zodSchema)).toThrow(/at path: line_items\.quantity/);
-        });
-
-        it("should accept .optional() alone", () => {
-            const zodSchema = z.object({
-                field: z.enum(["a", "b"]).optional(),
-            });
-
-            const jsonSchema = zodToExtendSchema(zodSchema);
-
-            expect(jsonSchema.properties.field).toEqual({
-                enum: ["a", "b", null],
-            });
         });
 
         it("should accept .nullable() before .describe()", () => {
@@ -460,7 +504,7 @@ describe("zodToExtendSchema", () => {
             });
         });
 
-        it("should keep array items exempt from the nullable requirement", () => {
+        it("should keep bare array items exempt from the nullable requirement", () => {
             const zodSchema = z.object({
                 tags: z.array(z.string()),
             });
@@ -471,6 +515,42 @@ describe("zodToExtendSchema", () => {
                 type: "array",
                 items: { type: "string" },
             });
+        });
+
+        it("should throw when array items are explicitly .nullable()", () => {
+            const zodSchema = z.object({
+                tags: z.array(z.string().nullable()),
+            });
+
+            expect(() => zodToExtendSchema(zodSchema)).toThrow(SchemaConversionError);
+            expect(() => zodToExtendSchema(zodSchema)).toThrow(/Array items cannot be/);
+            expect(() => zodToExtendSchema(zodSchema)).toThrow(/at path: tags/);
+        });
+
+        it("should emit the same schema for equivalent nullable forms", () => {
+            const expected = {
+                type: "object",
+                properties: {
+                    field: { type: ["string", "null"], description: "A field" },
+                },
+                required: ["field"],
+                additionalProperties: false,
+            };
+
+            expect(
+                zodToExtendSchema(
+                    z.object({
+                        field: z.string().nullable().describe("A field"),
+                    }),
+                ),
+            ).toEqual(expected);
+            expect(
+                zodToExtendSchema(
+                    z.object({
+                        field: z.union([z.string(), z.null()]).describe("A field"),
+                    }),
+                ),
+            ).toEqual(expected);
         });
     });
 });

@@ -16,7 +16,7 @@ docs/
 # Prevent Fern from overwriting custom test file
 tests/unit/fetcher/stream-wrappers/webpack.test.ts
 
-# Publish workflow — customized to publish v0.x with --tag v0 instead of latest
+# Publish workflow — customized to publish v0.x with --tag v0, and to accept v1*/v2* tags
 # Keep ci.yml listed so Fern doesn't regenerate it after the rename
 .github/workflows/ci.yml
 .github/workflows/publish.yml

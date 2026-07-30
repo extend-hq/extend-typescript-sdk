@@ -91,7 +91,7 @@ console.log(result.output.value.total.amount);             // number | null
 console.log(result.output.value.total.iso_4217_currency_code); // string | null
 ```
 
-Primitive and enum fields (`z.string()`, `z.number()`, `z.boolean()`, `z.enum()`, `z.literal()`) must be marked `.nullable()` (or `.optional()`) — extraction returns `null` for any field it can't find in a document, and requiring the wrapper keeps the inferred output type honest. Schema conversion throws a `SchemaConversionError` naming the offending field otherwise. Array items are exempt (`z.array(z.string())` is valid), and objects, arrays, `extendCurrency()`, and `extendSignature()` fields need no wrapper.
+Mark primitive and enum fields `.nullable()` — extraction returns `null` when a value isn't found, so your inferred types stay accurate. Array items, nested objects, and the `extendDate()` / `extendCurrency()` / `extendSignature()` helpers don't need an extra wrapper.
 
 ### Custom field types
 
