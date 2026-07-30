@@ -87,9 +87,9 @@ jobs:
             publish --access public --tag beta
           elif [[ ${GITHUB_REF} == refs/tags/v0* ]]; then
             publish --access public --tag v0
-          elif [[ ${GITHUB_REF} == refs/tags/v1* ]]; then
+          elif [[ ${GITHUB_REF} == refs/tags/v1* || ${GITHUB_REF} == refs/tags/v2* ]]; then
             publish --access public
           else
-            echo "::error::Unexpected tag format '$TAG_NAME'. Expected v0.x.x, v1.x.x, or pre-release (alpha/beta)."
+            echo "::error::Unexpected tag format '$TAG_NAME'. Expected v0.x.x, v1.x.x, v2.x.x, or pre-release (alpha/beta)."
             exit 1
           fi

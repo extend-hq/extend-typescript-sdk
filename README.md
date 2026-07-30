@@ -91,6 +91,8 @@ console.log(result.output.value.total.amount);             // number | null
 console.log(result.output.value.total.iso_4217_currency_code); // string | null
 ```
 
+Mark primitive and enum fields `.nullable()` — extraction returns `null` when a value isn't found, so your inferred types stay accurate. Array items, nested objects, and the `extendDate()` / `extendCurrency()` / `extendSignature()` helpers don't need an extra wrapper.
+
 ### Custom field types
 
 The SDK provides helpers for Extend-specific field types that map to specialized extraction behavior:
