@@ -1,10 +1,5 @@
 import { z } from "zod";
-import {
-    extendDate,
-    extendCurrency,
-    extendSignature,
-    SchemaConversionError,
-} from "./index";
+import { extendDate, extendCurrency, extendSignature, SchemaConversionError } from "./index";
 import { zodToExtendSchema } from "./zodToExtendSchema";
 import { hasExtendType, getExtendType } from "./customTypes";
 import { DATE_TYPE_MARKER, CURRENCY_TYPE_MARKER, SIGNATURE_TYPE_MARKER } from "./types";
@@ -126,7 +121,7 @@ describe("zodToExtendSchema", () => {
     describe("enum types", () => {
         it("should convert enum with null added", () => {
             const zodSchema = z.object({
-                status: z.enum(["active", "inactive"]),
+                status: z.enum(["active", "inactive"]).nullable(),
             });
 
             const jsonSchema = zodToExtendSchema(zodSchema);
@@ -138,7 +133,7 @@ describe("zodToExtendSchema", () => {
 
         it("should preserve description on enums", () => {
             const zodSchema = z.object({
-                status: z.enum(["active", "inactive"]).describe("Account status"),
+                status: z.enum(["active", "inactive"]).nullable().describe("Account status"),
             });
 
             const jsonSchema = zodToExtendSchema(zodSchema);
@@ -153,7 +148,7 @@ describe("zodToExtendSchema", () => {
     describe("literal types", () => {
         it("should convert string literal to enum with null", () => {
             const zodSchema = z.object({
-                type: z.literal("invoice"),
+                type: z.literal("invoice").nullable(),
             });
 
             const jsonSchema = zodToExtendSchema(zodSchema);
@@ -165,9 +160,11 @@ describe("zodToExtendSchema", () => {
 
         it("should throw for non-string literals", () => {
             expect(() =>
-                zodToExtendSchema(z.object({
-                    value: z.literal(42),
-                })),
+                zodToExtendSchema(
+                    z.object({
+                        value: z.literal(42),
+                    }),
+                ),
             ).toThrow(SchemaConversionError);
         });
     });
@@ -341,9 +338,55 @@ describe("zodToExtendSchema", () => {
             });
         });
 
-        it("should unwrap optional", () => {
+        it("should accept .nullish()", () => {
             const zodSchema = z.object({
-                field: z.string().optional(),
+                field: z.string().nullish(),
+            });
+
+            const jsonSchema = zodToExtendSchema(zodSchema);
+
+            expect(jsonSchema.properties.field).toEqual({
+                type: ["string", "null"],
+            });
+            expect(jsonSchema.required).toEqual(["field"]);
+        });
+
+        it("should accept z.union([T, z.null()]) as nullable", () => {
+            const zodSchema = z.object({
+                field: z.union([z.string(), z.null()]),
+            });
+
+            const jsonSchema = zodToExtendSchema(zodSchema);
+
+            expect(jsonSchema.properties.field).toEqual({
+                type: ["string", "null"],
+            });
+            expect(jsonSchema.required).toEqual(["field"]);
+        });
+
+        it("should keep .nullable().optional() keys in required", () => {
+            const zodSchema = z.object({
+                required_field: z.string().nullable(),
+                optional_field: z.string().nullable().optional(),
+            });
+
+            const jsonSchema = zodToExtendSchema(zodSchema);
+
+            expect(jsonSchema.required).toEqual(["required_field", "optional_field"]);
+        });
+
+        it("should throw for .default() without .nullable()", () => {
+            expect(() => zodToExtendSchema(z.object({ field: z.string().default("x") }))).toThrow(
+                SchemaConversionError,
+            );
+            expect(() => zodToExtendSchema(z.object({ field: z.string().default("x") }))).toThrow(
+                /\.nullable\(\)/,
+            );
+        });
+
+        it("should accept .nullable().default()", () => {
+            const zodSchema = z.object({
+                field: z.string().nullable().default(null),
             });
 
             const jsonSchema = zodToExtendSchema(zodSchema);
@@ -377,6 +420,137 @@ describe("zodToExtendSchema", () => {
                 type: ["string", "null"],
                 description: "Description here",
             });
+        });
+    });
+
+    describe("non-nullable primitive rejection", () => {
+        it.each([
+            ["string", z.string()],
+            ["number", z.number()],
+            ["integer", z.number().int()],
+            ["boolean", z.boolean()],
+            ["enum", z.enum(["a", "b"])],
+            ["literal", z.literal("x")],
+        ])("should throw for bare %s property", (_name, type) => {
+            const zodSchema = z.object({ field: type as z.ZodType });
+
+            expect(() => zodToExtendSchema(zodSchema)).toThrow(SchemaConversionError);
+            expect(() => zodToExtendSchema(zodSchema)).toThrow(/\.nullable\(\)/);
+            expect(() => zodToExtendSchema(zodSchema)).toThrow(/at path: field/);
+        });
+
+        it("should throw for .optional() alone", () => {
+            const zodSchema = z.object({
+                field: z.enum(["a", "b"]).optional(),
+            });
+
+            expect(() => zodToExtendSchema(zodSchema)).toThrow(SchemaConversionError);
+            expect(() => zodToExtendSchema(zodSchema)).toThrow(/\.nullable\(\)/);
+            expect(() => zodToExtendSchema(zodSchema)).toThrow(/at path: field/);
+        });
+
+        it("should include the suggested fix for the specific type", () => {
+            expect(() => zodToExtendSchema(z.object({ invoice_number: z.string() }))).toThrow(
+                "Primitive and enum fields must be .nullable() because the API returns null for missing values. " +
+                    "Add .nullable() (e.g. z.string().nullable()) at path: invoice_number",
+            );
+        });
+
+        it("should report the full path for nested object properties", () => {
+            const zodSchema = z.object({
+                vendor: z.object({
+                    name: z.string(),
+                }),
+            });
+
+            expect(() => zodToExtendSchema(zodSchema)).toThrow(/at path: vendor\.name/);
+        });
+
+        it("should report the full path for properties inside array-of-object items", () => {
+            const zodSchema = z.object({
+                line_items: z.array(
+                    z.object({
+                        quantity: z.number(),
+                    }),
+                ),
+            });
+
+            expect(() => zodToExtendSchema(zodSchema)).toThrow(/at path: line_items\.quantity/);
+        });
+
+        it("should accept .nullable() before .describe()", () => {
+            const zodSchema = z.object({
+                field: z.string().nullable().describe("A field"),
+            });
+
+            const jsonSchema = zodToExtendSchema(zodSchema);
+
+            expect(jsonSchema.properties.field).toEqual({
+                type: ["string", "null"],
+                description: "A field",
+            });
+        });
+
+        it("should accept .describe() before .nullable()", () => {
+            const zodSchema = z.object({
+                field: z.string().describe("A field").nullable(),
+            });
+
+            const jsonSchema = zodToExtendSchema(zodSchema);
+
+            expect(jsonSchema.properties.field).toEqual({
+                type: ["string", "null"],
+                description: "A field",
+            });
+        });
+
+        it("should keep bare array items exempt from the nullable requirement", () => {
+            const zodSchema = z.object({
+                tags: z.array(z.string()),
+            });
+
+            const jsonSchema = zodToExtendSchema(zodSchema);
+
+            expect(jsonSchema.properties.tags).toEqual({
+                type: "array",
+                items: { type: "string" },
+            });
+        });
+
+        it("should throw when array items are explicitly .nullable()", () => {
+            const zodSchema = z.object({
+                tags: z.array(z.string().nullable()),
+            });
+
+            expect(() => zodToExtendSchema(zodSchema)).toThrow(SchemaConversionError);
+            expect(() => zodToExtendSchema(zodSchema)).toThrow(/Array items cannot be/);
+            expect(() => zodToExtendSchema(zodSchema)).toThrow(/at path: tags/);
+        });
+
+        it("should emit the same schema for equivalent nullable forms", () => {
+            const expected = {
+                type: "object",
+                properties: {
+                    field: { type: ["string", "null"], description: "A field" },
+                },
+                required: ["field"],
+                additionalProperties: false,
+            };
+
+            expect(
+                zodToExtendSchema(
+                    z.object({
+                        field: z.string().nullable().describe("A field"),
+                    }),
+                ),
+            ).toEqual(expected);
+            expect(
+                zodToExtendSchema(
+                    z.object({
+                        field: z.union([z.string(), z.null()]).describe("A field"),
+                    }),
+                ),
+            ).toEqual(expected);
         });
     });
 });
@@ -493,6 +667,18 @@ describe("extendCurrency", () => {
         });
     });
 
+    it("should convert with .optional() and .nullable() wrappers", () => {
+        const zodSchema = z.object({
+            optional_total: extendCurrency().optional(),
+            nullable_total: extendCurrency().nullable(),
+        });
+
+        const jsonSchema = zodToExtendSchema(zodSchema);
+
+        expect((jsonSchema.properties.optional_total as Record<string, unknown>)["extend:type"]).toBe("currency");
+        expect((jsonSchema.properties.nullable_total as Record<string, unknown>)["extend:type"]).toBe("currency");
+    });
+
     it("should work in arrays", () => {
         const zodSchema = z.object({
             amounts: z.array(extendCurrency()),
@@ -555,6 +741,18 @@ describe("extendSignature", () => {
         expect(jsonSchema.properties.signature.description).toBe("Customer signature");
     });
 
+    it("should convert with .optional() and .nullable() wrappers", () => {
+        const zodSchema = z.object({
+            optional_signature: extendSignature().optional(),
+            nullable_signature: extendSignature().nullable(),
+        });
+
+        const jsonSchema = zodToExtendSchema(zodSchema);
+
+        expect((jsonSchema.properties.optional_signature as Record<string, unknown>)["extend:type"]).toBe("signature");
+        expect((jsonSchema.properties.nullable_signature as Record<string, unknown>)["extend:type"]).toBe("signature");
+    });
+
     it("should work in arrays", () => {
         const zodSchema = z.object({
             signatures: z.array(extendSignature()),
@@ -609,25 +807,31 @@ describe("unsupported types", () => {
     it("should throw for unsupported zod types", () => {
         // z.undefined() is not supported
         expect(() =>
-            zodToExtendSchema(z.object({
-                field: z.undefined() as unknown as z.ZodType,
-            })),
+            zodToExtendSchema(
+                z.object({
+                    field: z.undefined() as unknown as z.ZodType,
+                }),
+            ),
         ).toThrow(SchemaConversionError);
     });
 
     it("should throw for array of enums", () => {
         expect(() =>
-            zodToExtendSchema(z.object({
-                statuses: z.array(z.enum(["a", "b"])),
-            })),
+            zodToExtendSchema(
+                z.object({
+                    statuses: z.array(z.enum(["a", "b"])),
+                }),
+            ),
         ).toThrow(SchemaConversionError);
     });
 
     it("should throw for array of literals", () => {
         expect(() =>
-            zodToExtendSchema(z.object({
-                values: z.array(z.literal("test")),
-            })),
+            zodToExtendSchema(
+                z.object({
+                    values: z.array(z.literal("test")),
+                }),
+            ),
         ).toThrow(SchemaConversionError);
     });
 });
@@ -659,7 +863,7 @@ describe("complex schemas", () => {
                     }),
                 )
                 .describe("Invoice line items"),
-            status: z.enum(["draft", "sent", "paid", "overdue"]).describe("Invoice status"),
+            status: z.enum(["draft", "sent", "paid", "overdue"]).nullable().describe("Invoice status"),
         });
 
         const jsonSchema = zodToExtendSchema(InvoiceSchema);
@@ -670,12 +874,8 @@ describe("complex schemas", () => {
         expect(jsonSchema.required).toContain("line_items");
 
         // Verify custom types
-        expect((jsonSchema.properties.invoice_date as Record<string, unknown>)["extend:type"]).toBe(
-            "date",
-        );
-        expect((jsonSchema.properties.total_amount as Record<string, unknown>)["extend:type"]).toBe(
-            "currency",
-        );
+        expect((jsonSchema.properties.invoice_date as Record<string, unknown>)["extend:type"]).toBe("date");
+        expect((jsonSchema.properties.total_amount as Record<string, unknown>)["extend:type"]).toBe("currency");
 
         // Verify array items have currency types
         const lineItemsSchema = jsonSchema.properties.line_items as {
@@ -700,11 +900,7 @@ describe("complex schemas", () => {
 
         const jsonSchema = zodToExtendSchema(ContractSchema);
 
-        expect((jsonSchema.properties.party_a_signature as Record<string, unknown>)["extend:type"]).toBe(
-            "signature",
-        );
-        expect((jsonSchema.properties.party_b_signature as Record<string, unknown>)["extend:type"]).toBe(
-            "signature",
-        );
+        expect((jsonSchema.properties.party_a_signature as Record<string, unknown>)["extend:type"]).toBe("signature");
+        expect((jsonSchema.properties.party_b_signature as Record<string, unknown>)["extend:type"]).toBe("signature");
     });
 });
