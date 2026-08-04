@@ -1,5 +1,7 @@
 # Extend TypeScript Library
 
+Official TypeScript/Node.js SDK for [Extend](https://www.extend.ai) (extend.ai) — the document processing API. Parse, extract, classify, split, and edit PDFs and 30+ file types via npm (`extend-ai`).
+
 [![npm version](https://img.shields.io/npm/v/extend-ai.svg)](https://www.npmjs.com/package/extend-ai)
 [![Node.js](https://img.shields.io/node/v/extend-ai.svg)](https://www.npmjs.com/package/extend-ai)
 
