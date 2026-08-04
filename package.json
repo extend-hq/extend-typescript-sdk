@@ -1,7 +1,7 @@
 {
     "name": "extend-ai",
     "version": "2.0.0",
-    "description": "Official TypeScript/Node.js SDK for Extend (extend.ai) — the document processing API. Parse, extract, classify, split, and edit PDFs and 30+ file types",
+    "description": "Official TypeScript/Node.js SDK for Extend (extend.ai) — the document processing API. Parse, extract, classify, split, and edit PDFs and 35+ file types",
     "keywords": [
         "extend",
         "document processing",
