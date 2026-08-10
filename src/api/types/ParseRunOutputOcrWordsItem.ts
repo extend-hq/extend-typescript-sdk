@@ -11,4 +11,6 @@ export interface ParseRunOutputOcrWordsItem {
     confidence: number;
     /** The page number where the word was detected. */
     pageNumber: number;
+    /** The `id` of the block (see the `Block` schema) this word was assigned to, based on bounding-box overlap. Omitted when the word doesn't fall within any block's bounding box. */
+    blockId?: string;
 }

@@ -24,9 +24,21 @@
         "packageJson": {
             "dependencies": {
                 "zod": "^4.3.6"
-            }
+            },
+            "description": "Official TypeScript/Node.js SDK for Extend (extend.ai) — the document processing API. Parse, extract, classify, split, and edit PDFs and 35+ file types",
+            "keywords": [
+                "extend",
+                "document processing",
+                "ocr",
+                "pdf parsing",
+                "data extraction",
+                "document ai",
+                "idp",
+                "extend.ai"
+            ],
+            "homepage": "https://docs.extend.ai/sdks"
         }
     },
-    "originGitCommit": "7b03863142dc076a666913af995a7d8ab567fcc0",
-    "sdkVersion": "2.0.0"
+    "originGitCommit": "204f01f5a6e9ad6585d71b0ad6315aef1be1f537",
+    "sdkVersion": "2.1.0"
 }

@@ -252,6 +252,13 @@ describe("ParseRunsClient", () => {
                         },
                     ],
                 },
+                metadata: {
+                    originalMimeType: "originalMimeType",
+                    finalMimeType: "finalMimeType",
+                    pages: [
+                        { number: 1, rotationApplied: null, originalPageWidth: 1.1, originalPageHeight: 1.1, dpi: 1.1 },
+                    ],
+                },
             },
             outputUrl: "https://...",
             metrics: { processingTimeMs: 1234, pageCount: 5 },
@@ -408,6 +415,19 @@ describe("ParseRunsClient", () => {
                             },
                             confidence: 1.1,
                             pageNumber: 1.1,
+                        },
+                    ],
+                },
+                metadata: {
+                    originalMimeType: "originalMimeType",
+                    finalMimeType: "finalMimeType",
+                    pages: [
+                        {
+                            number: 1,
+                            rotationApplied: null,
+                            originalPageWidth: 1.1,
+                            originalPageHeight: 1.1,
+                            dpi: 1.1,
                         },
                     ],
                 },
@@ -734,6 +754,13 @@ describe("ParseRunsClient", () => {
                         },
                     ],
                 },
+                metadata: {
+                    originalMimeType: "originalMimeType",
+                    finalMimeType: "finalMimeType",
+                    pages: [
+                        { number: 1, rotationApplied: null, originalPageWidth: 1.1, originalPageHeight: 1.1, dpi: 1.1 },
+                    ],
+                },
             },
             outputUrl: "https://...",
             metrics: { processingTimeMs: 1234, pageCount: 5 },
@@ -884,6 +911,19 @@ describe("ParseRunsClient", () => {
                             },
                             confidence: 1.1,
                             pageNumber: 1.1,
+                        },
+                    ],
+                },
+                metadata: {
+                    originalMimeType: "originalMimeType",
+                    finalMimeType: "finalMimeType",
+                    pages: [
+                        {
+                            number: 1,
+                            rotationApplied: null,
+                            originalPageWidth: 1.1,
+                            originalPageHeight: 1.1,
+                            dpi: 1.1,
                         },
                     ],
                 },
@@ -1237,6 +1277,13 @@ describe("ParseRunsClient", () => {
                         },
                     ],
                 },
+                metadata: {
+                    originalMimeType: "originalMimeType",
+                    finalMimeType: "finalMimeType",
+                    pages: [
+                        { number: 1, rotationApplied: null, originalPageWidth: 1.1, originalPageHeight: 1.1, dpi: 1.1 },
+                    ],
+                },
             },
             outputUrl: "https://...",
             metrics: { processingTimeMs: 1234, pageCount: 5 },
@@ -1387,6 +1434,19 @@ describe("ParseRunsClient", () => {
                             },
                             confidence: 1.1,
                             pageNumber: 1.1,
+                        },
+                    ],
+                },
+                metadata: {
+                    originalMimeType: "originalMimeType",
+                    finalMimeType: "finalMimeType",
+                    pages: [
+                        {
+                            number: 1,
+                            rotationApplied: null,
+                            originalPageWidth: 1.1,
+                            originalPageHeight: 1.1,
+                            dpi: 1.1,
                         },
                     ],
                 },

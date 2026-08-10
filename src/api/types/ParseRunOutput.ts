@@ -12,4 +12,6 @@ export interface ParseRunOutput {
     chunks: Extend.Chunk[];
     /** Raw OCR data from the parsing process. Only included when `returnOcr` is configured in the parse config's advanced options. */
     ocr?: Extend.ParseRunOutputOcr;
+    /** Rotation, dimension, and file-type metadata about the parse output. `null` for parse runs that completed before this field was introduced. */
+    metadata?: Extend.ParseRunOutputMetadata | null;
 }
