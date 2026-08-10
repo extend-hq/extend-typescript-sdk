@@ -95,6 +95,8 @@ console.log(result.output.value.total.iso_4217_currency_code); // string | null
 
 Mark primitive and enum fields `.nullable()` — extraction returns `null` when a value isn't found, so your inferred types stay accurate. Array items, nested objects, and the `extendDate()` / `extendCurrency()` / `extendSignature()` helpers don't need an extra wrapper.
 
+Metadata set via `.meta()` is carried into the JSON Schema: `{ "extend:name": "..." }` names a field, and enums accept `{ "extend:descriptions": ["..."] }` with one description per enum value.
+
 ### Custom field types
 
 The SDK provides helpers for Extend-specific field types that map to specialized extraction behavior:
@@ -105,7 +107,7 @@ The SDK provides helpers for Extend-specific field types that map to specialized
 | `extendCurrency()` | `{ amount: number \| null, iso_4217_currency_code: string \| null }` | Currency with amount and code |
 | `extendSignature()` | `{ printed_name, signature_date, is_signed, title_or_role }` | Signature detection |
 
-All helpers support `.describe()`, `.optional()`, and `.nullable()` chaining.
+All helpers support `.describe()`, `.meta()`, `.optional()`, and `.nullable()` chaining.
 
 ## Polling helpers
 

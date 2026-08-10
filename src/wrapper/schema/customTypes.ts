@@ -42,6 +42,14 @@ function attachExtendType<T extends z.ZodType, M extends symbol>(schema: T, mark
         return attachExtendType(newSchema, marker);
     } as typeof schema.nullable;
 
+    // Wrap .meta() so the metadata clone keeps the marker; the no-arg
+    // getter overload returns metadata, not a schema, so it passes through.
+    const originalMeta = schema.meta.bind(schema) as (meta?: object) => T;
+    schema.meta = function (meta?: object) {
+        if (meta === undefined) return originalMeta();
+        return attachExtendType(originalMeta(meta), marker);
+    } as typeof schema.meta;
+
     return schema as T & { _extendType: M };
 }
 
