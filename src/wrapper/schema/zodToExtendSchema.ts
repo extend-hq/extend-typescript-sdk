@@ -196,31 +196,37 @@ function unwrapType(zodType: z.ZodType): {
     isNullable: boolean;
     isOptional: boolean;
     description: string | undefined;
+    meta: object | undefined;
 } {
     let current: z.ZodType = zodType;
     let isNullable = false;
     let isOptional = false;
     // Track descriptions through the unwrapping chain (first one wins)
     let description: string | undefined = zodType.description;
+    let meta: object | undefined = zodType.meta() ?? undefined;
 
     while (true) {
         if (isZodNullable(current)) {
             isNullable = true;
             current = getInnerType(current);
             description = description ?? current.description;
+            meta = meta ?? current.meta();
         } else if (isZodOptional(current)) {
             isOptional = true;
             current = getInnerType(current);
             description = description ?? current.description;
+            meta = meta ?? current.meta();
         } else if (isZodDefault(current)) {
             current = getInnerType(current);
             description = description ?? current.description;
+            meta = meta ?? current.meta();
         } else {
             const unionInner = getUnionNullInnerType(current);
             if (unionInner) {
                 isNullable = true;
                 current = unionInner;
                 description = description ?? current.description;
+                meta = meta ?? current.meta();
             } else {
                 break;
             }
@@ -229,8 +235,35 @@ function unwrapType(zodType: z.ZodType): {
 
     // Also check the final inner type for description
     description = description ?? current.description;
+    meta = meta ?? current.meta();
 
-    return { innerType: current, isNullable, isOptional, description };
+    return { innerType: current, isNullable, isOptional, description, meta };
+}
+/**
+ * Reads a string-valued extend keyword from schema metadata.
+ * Unrelated keys and wrong-typed values are ignored.
+ */
+function getMetaString(meta: object | undefined, key: string): string | undefined {
+    if (!meta) return undefined;
+    for (const [metaKey, value] of Object.entries(meta)) {
+        if (metaKey === key && typeof value === "string") {
+            return value;
+        }
+    }
+    return undefined;
+}
+
+/**
+ * Reads a string-array extend keyword (e.g. "extend:descriptions") from schema metadata.
+ */
+function getMetaStringArray(meta: object | undefined, key: string): string[] | undefined {
+    if (!meta) return undefined;
+    for (const [metaKey, value] of Object.entries(meta)) {
+        if (metaKey === key && Array.isArray(value) && value.every((item) => typeof item === "string")) {
+            return value;
+        }
+    }
+    return undefined;
 }
 
 /**
@@ -318,7 +351,11 @@ function assertNullableProperty(isNullable: boolean, example: string, path: stri
  */
 function convertZodType(zodType: z.ZodType, path: string[], depth: number): ExtendJSONSchema {
     // Unwrap nullable/optional wrappers, also collects description from any wrapper in the chain
-    const { innerType, isNullable, description } = unwrapType(zodType);
+    const { innerType, isNullable, description, meta } = unwrapType(zodType);
+
+    // extend:* keywords live in .meta(); unrelated or wrong-typed keys are ignored
+    const extendName = getMetaString(meta, "extend:name");
+    const extendDescriptions = getMetaStringArray(meta, "extend:descriptions");
 
     // Check for custom extend types first
     const extendType = getExtendType(zodType) ?? getExtendType(innerType);
@@ -329,6 +366,7 @@ function convertZodType(zodType: z.ZodType, path: string[], depth: number): Exte
             "extend:type": "date",
         };
         if (description) result.description = description;
+        if (extendName) result["extend:name"] = extendName;
         return result;
     }
 
@@ -344,6 +382,7 @@ function convertZodType(zodType: z.ZodType, path: string[], depth: number): Exte
             additionalProperties: false,
         };
         if (description) result.description = description;
+        if (extendName) result["extend:name"] = extendName;
         return result;
     }
 
@@ -361,6 +400,7 @@ function convertZodType(zodType: z.ZodType, path: string[], depth: number): Exte
             additionalProperties: false,
         };
         if (description) result.description = description;
+        if (extendName) result["extend:name"] = extendName;
         return result;
     }
 
@@ -369,6 +409,7 @@ function convertZodType(zodType: z.ZodType, path: string[], depth: number): Exte
         assertNullableProperty(isNullable, "z.string().nullable()", path);
         const result: ExtendStringJSONSchema = { type: ["string", "null"] };
         if (description) result.description = description;
+        if (extendName) result["extend:name"] = extendName;
         return result;
     }
 
@@ -378,11 +419,13 @@ function convertZodType(zodType: z.ZodType, path: string[], depth: number): Exte
             assertNullableProperty(isNullable, "z.number().int().nullable()", path);
             const result: ExtendIntegerJSONSchema = { type: ["integer", "null"] };
             if (description) result.description = description;
+            if (extendName) result["extend:name"] = extendName;
             return result;
         }
         assertNullableProperty(isNullable, "z.number().nullable()", path);
         const result: ExtendNumberJSONSchema = { type: ["number", "null"] };
         if (description) result.description = description;
+        if (extendName) result["extend:name"] = extendName;
         return result;
     }
 
@@ -390,6 +433,7 @@ function convertZodType(zodType: z.ZodType, path: string[], depth: number): Exte
         assertNullableProperty(isNullable, "z.boolean().nullable()", path);
         const result: ExtendBooleanJSONSchema = { type: ["boolean", "null"] };
         if (description) result.description = description;
+        if (extendName) result["extend:name"] = extendName;
         return result;
     }
 
@@ -402,6 +446,8 @@ function convertZodType(zodType: z.ZodType, path: string[], depth: number): Exte
         }
         const result: ExtendEnumJSONSchema = { enum: enumWithNull };
         if (description) result.description = description;
+        if (extendName) result["extend:name"] = extendName;
+        if (extendDescriptions) result["extend:descriptions"] = extendDescriptions;
         return result;
     }
 
@@ -410,11 +456,12 @@ function convertZodType(zodType: z.ZodType, path: string[], depth: number): Exte
         const items = convertArrayItemType(itemType, path, depth);
         const result: ExtendArrayJSONSchema = { type: "array", items };
         if (description) result.description = description;
+        if (extendName) result["extend:name"] = extendName;
         return result;
     }
 
     if (isZodObject(innerType)) {
-        return convertObjectType(innerType, path, depth + 1, description);
+        return convertObjectType(innerType, path, depth + 1, description, extendName);
     }
 
     if (isZodLiteral(innerType)) {
@@ -423,6 +470,8 @@ function convertZodType(zodType: z.ZodType, path: string[], depth: number): Exte
             assertNullableProperty(isNullable, `z.literal(${JSON.stringify(literalValue)}).nullable()`, path);
             const result: ExtendEnumJSONSchema = { enum: [literalValue, null] };
             if (description) result.description = description;
+            if (extendName) result["extend:name"] = extendName;
+            if (extendDescriptions) result["extend:descriptions"] = extendDescriptions;
             return result;
         }
         throw new SchemaConversionError(`Unsupported literal type: ${typeof literalValue}`, path);
@@ -518,6 +567,7 @@ function convertObjectType(
     path: string[],
     depth: number,
     description?: string,
+    extendName?: string,
 ): ExtendObjectJSONSchema {
     const shape = getObjectShape(objectType);
     const properties: Record<string, ExtendJSONSchema> = {};
@@ -535,6 +585,7 @@ function convertObjectType(
         required,
         additionalProperties: false,
     };
-    if (description) result.description = description;
+        if (description) result.description = description;
+        if (extendName) result["extend:name"] = extendName;
     return result;
 }

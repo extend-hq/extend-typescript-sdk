@@ -116,6 +116,63 @@ describe("zodToExtendSchema", () => {
                 description: "Customer age in years",
             });
         });
+
+        it("should include extend:name from meta", () => {
+            const zodSchema = z.object({
+                name: z.string().nullable().meta({ "extend:name": "CustomerName" }),
+                age: z.number().nullable().meta({ "extend:name": "CustomerAge" }),
+            });
+
+            const jsonSchema = zodToExtendSchema(zodSchema);
+
+            expect(jsonSchema.properties.name).toEqual({
+                type: ["string", "null"],
+                "extend:name": "CustomerName",
+            });
+            expect(jsonSchema.properties.age).toEqual({
+                type: ["number", "null"],
+                "extend:name": "CustomerAge",
+            });
+        });
+
+        it("should keep description and extend:name when both are set", () => {
+            const zodSchema = z.object({
+                name: z.string().nullable().describe("The customer name").meta({ "extend:name": "CustomerName" }),
+            });
+
+            const jsonSchema = zodToExtendSchema(zodSchema);
+
+            expect(jsonSchema.properties.name).toEqual({
+                type: ["string", "null"],
+                description: "The customer name",
+                "extend:name": "CustomerName",
+            });
+        });
+
+        it("should read meta from the inner type when the wrapper has none", () => {
+            const zodSchema = z.object({
+                name: z.string().meta({ "extend:name": "CustomerName" }).nullable(),
+            });
+
+            const jsonSchema = zodToExtendSchema(zodSchema);
+
+            expect(jsonSchema.properties.name).toEqual({
+                type: ["string", "null"],
+                "extend:name": "CustomerName",
+            });
+        });
+
+        it("should ignore unrelated meta keys", () => {
+            const zodSchema = z.object({
+                name: z.string().nullable().meta({ title: "Not an extend key", id: "x" }),
+            });
+
+            const jsonSchema = zodToExtendSchema(zodSchema);
+
+            expect(jsonSchema.properties.name).toEqual({
+                type: ["string", "null"],
+            });
+        });
     });
 
     describe("enum types", () => {
@@ -141,6 +198,26 @@ describe("zodToExtendSchema", () => {
             expect(jsonSchema.properties.status).toEqual({
                 enum: ["active", "inactive", null],
                 description: "Account status",
+            });
+        });
+
+        it("should include extend:descriptions and extend:name from meta", () => {
+            const zodSchema = z.object({
+                status: z
+                    .enum(["active", "inactive"])
+                    .nullable()
+                    .meta({
+                        "extend:descriptions": ["Account is active", "Account is inactive"],
+                        "extend:name": "AccountStatus",
+                    }),
+            });
+
+            const jsonSchema = zodToExtendSchema(zodSchema);
+
+            expect(jsonSchema.properties.status).toEqual({
+                enum: ["active", "inactive", null],
+                "extend:descriptions": ["Account is active", "Account is inactive"],
+                "extend:name": "AccountStatus",
             });
         });
     });
@@ -261,6 +338,20 @@ describe("zodToExtendSchema", () => {
                 description: "List of items",
             });
         });
+
+        it("should include extend:name on arrays from meta", () => {
+            const zodSchema = z.object({
+                items: z.array(z.string()).meta({ "extend:name": "Items" }),
+            });
+
+            const jsonSchema = zodToExtendSchema(zodSchema);
+
+            expect(jsonSchema.properties.items).toEqual({
+                type: "array",
+                items: { type: "string" },
+                "extend:name": "Items",
+            });
+        });
     });
 
     describe("nested objects", () => {
@@ -320,6 +411,28 @@ describe("zodToExtendSchema", () => {
                     },
                 },
                 required: ["level2"],
+                additionalProperties: false,
+            });
+        });
+
+        it("should include extend:name on nested objects from meta", () => {
+            const zodSchema = z.object({
+                address: z
+                    .object({
+                        street: z.string().nullable(),
+                    })
+                    .meta({ "extend:name": "Address" }),
+            });
+
+            const jsonSchema = zodToExtendSchema(zodSchema);
+
+            expect(jsonSchema.properties.address).toEqual({
+                type: "object",
+                "extend:name": "Address",
+                properties: {
+                    street: { type: ["string", "null"] },
+                },
+                required: ["street"],
                 additionalProperties: false,
             });
         });
@@ -591,6 +704,20 @@ describe("extendDate", () => {
             type: ["string", "null"],
             "extend:type": "date",
             description: "The invoice date",
+        });
+    });
+
+    it("should preserve marker and extend:name through .meta()", () => {
+        const zodSchema = z.object({
+            invoice_date: extendDate().meta({ "extend:name": "InvoiceDate" }),
+        });
+
+        const jsonSchema = zodToExtendSchema(zodSchema);
+
+        expect(jsonSchema.properties.invoice_date).toEqual({
+            type: ["string", "null"],
+            "extend:type": "date",
+            "extend:name": "InvoiceDate",
         });
     });
 
