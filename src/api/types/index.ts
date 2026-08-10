@@ -315,6 +315,8 @@ export * from "./ParseRun";
 export * from "./ParseRunFailedWebhookEvent";
 export * from "./ParseRunMetrics";
 export * from "./ParseRunOutput";
+export * from "./ParseRunOutputMetadata";
+export * from "./ParseRunOutputMetadataPagesItem";
 export * from "./ParseRunOutputOcr";
 export * from "./ParseRunOutputOcrWordsItem";
 export * from "./ParseRunProcessedWebhookEvent";

@@ -5,7 +5,7 @@ import type * as Extend from "../index";
 /**
  * Controls data retention for this run. When omitted or set to `workspace_default`, Extend uses your workspace's configured retention policy. Set `mode` to `zero` to request zero data retention for the run, which deletes supported run data after processing instead of retaining it under the workspace policy.
  *
- * Zero data retention is only available for eligible organizations and plans. If your organization is not eligible, the request will fail with a 400 error.
+ * Zero data retention is available to all customers on paid plans upon request. If you're on a free plan, the request will fail with a 400 error. If you'd like to request ZDR to be enabled, please reach out to support@extend.ai.
  */
 export interface DataRetention {
     /**
