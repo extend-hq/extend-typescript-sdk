@@ -330,6 +330,7 @@ export class ExtendClient {
      *             url: "https://example.com/form.pdf"
      *         },
      *         config: {
+     *             engineVersion: "0.0.1",
      *             instructions: "Fill out the form with the provided data",
      *             advancedOptions: {
      *                 flattenPdf: true
@@ -417,7 +418,7 @@ export class ExtendClient {
     /**
      * Detect fields in a PDF form and wait for the generated edit schema before returning. This endpoint has a 5-minute timeout.
      *
-     * For production workloads, use `POST /form_detection_runs` and poll `GET /form_detection_runs/{id}` instead. The response is a completed `form_detection_run`; its `output.schema` can be passed directly to `POST /edit` or `POST /edit_runs`.
+     * For production workloads, use `POST /form_detection_runs` and receive the result by webhook or poll `GET /form_detection_runs/{id}` instead. The response is a completed `form_detection_run`; its `output.schema` can be passed directly to `POST /edit` or `POST /edit_runs`.
      *
      * @param {Extend.DetectFormRequest} request
      * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -437,6 +438,7 @@ export class ExtendClient {
      *             url: "https://example.com/form.pdf"
      *         },
      *         config: {
+     *             engineVersion: "0.0.1",
      *             instructions: "Detect the form fields and use human-readable field names.",
      *             advancedOptions: {
      *                 radioEnumsEnabled: true

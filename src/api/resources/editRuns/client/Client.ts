@@ -47,6 +47,7 @@ export class EditRunsClient {
      *             url: "https://example.com/form.pdf"
      *         },
      *         config: {
+     *             engineVersion: "0.0.1",
      *             instructions: "Fill out the form with the provided data",
      *             advancedOptions: {
      *                 flattenPdf: true

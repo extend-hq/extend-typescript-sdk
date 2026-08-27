@@ -2,6 +2,9 @@
 
 import type * as Extend from "../index";
 
+/**
+ * Triggered after an API-created EditRun finishes filling the document's form fields. If no schema was provided, the EditRun first creates an internal FormDetectionRun; that internal run does not emit Form Detection webhooks.
+ */
 export interface EditRunProcessedWebhookEvent {
     /** Unique identifier for the event */
     eventId: string;

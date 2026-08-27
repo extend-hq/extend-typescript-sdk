@@ -111,6 +111,7 @@ await client.edit({
         url: "https://example.com/form.pdf"
     },
     config: {
+        engineVersion: "0.0.1",
         instructions: "Fill out the form with the provided data",
         advancedOptions: {
             flattenPdf: true
@@ -166,7 +167,7 @@ await client.edit({
 
 Detect fields in a PDF form and wait for the generated edit schema before returning. This endpoint has a 5-minute timeout.
 
-For production workloads, use `POST /form_detection_runs` and poll `GET /form_detection_runs/{id}` instead. The response is a completed `form_detection_run`; its `output.schema` can be passed directly to `POST /edit` or `POST /edit_runs`.
+For production workloads, use `POST /form_detection_runs` and receive the result by webhook or poll `GET /form_detection_runs/{id}` instead. The response is a completed `form_detection_run`; its `output.schema` can be passed directly to `POST /edit` or `POST /edit_runs`.
 </dd>
 </dl>
 </dd>
@@ -186,6 +187,7 @@ await client.detectForm({
         url: "https://example.com/form.pdf"
     },
     config: {
+        engineVersion: "0.0.1",
         instructions: "Detect the form fields and use human-readable field names.",
         advancedOptions: {
             radioEnumsEnabled: true
@@ -1319,6 +1321,7 @@ await client.editRuns.create({
         url: "https://example.com/form.pdf"
     },
     config: {
+        engineVersion: "0.0.1",
         instructions: "Fill out the form with the provided data",
         advancedOptions: {
             flattenPdf: true
@@ -1633,6 +1636,7 @@ await client.editSchemas.generate({
         url: "https://example.com/form.pdf"
     },
     config: {
+        engineVersion: "0.0.1",
         instructions: "Detect the form fields and use human-readable field names.",
         advancedOptions: {
             radioEnumsEnabled: true
@@ -1689,7 +1693,7 @@ await client.editSchemas.generate({
 
 Start detecting fields in a PDF form and return immediately with a `form_detection_run` resource, typically in the `PROCESSING` state.
 
-Poll `GET /form_detection_runs/{id}` until the status is `PROCESSED` or `FAILED`. When processing succeeds, `output.schema` contains an edit schema you can pass directly to `POST /edit` or `POST /edit_runs`.
+Subscribe to the `form_detection_run.processed` and `form_detection_run.failed` webhook events, or poll `GET /form_detection_runs/{id}` until the status is `PROCESSED` or `FAILED`. When processing succeeds, `output.schema` contains an edit schema you can pass directly to `POST /edit` or `POST /edit_runs`.
 </dd>
 </dl>
 </dd>
@@ -1709,6 +1713,7 @@ await client.formDetectionRuns.create({
         url: "https://example.com/form.pdf"
     },
     config: {
+        engineVersion: "0.0.1",
         instructions: "Detect the form fields and use human-readable field names.",
         advancedOptions: {
             radioEnumsEnabled: true

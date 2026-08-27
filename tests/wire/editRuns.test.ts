@@ -10,7 +10,11 @@ describe("EditRunsClient", () => {
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
             file: { url: "https://example.com/form.pdf" },
-            config: { instructions: "Fill out the form with the provided data", advancedOptions: { flattenPdf: true } },
+            config: {
+                engineVersion: "0.0.1",
+                instructions: "Fill out the form with the provided data",
+                advancedOptions: { flattenPdf: true },
+            },
         };
         const rawResponseBody = {
             object: "edit_run",
@@ -32,6 +36,7 @@ describe("EditRunsClient", () => {
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported. Edit runs currently require a PDF.",
             config: {
+                engineVersion: "0.0.1",
                 schema: {
                     type: "object",
                     properties: { key: {} },
@@ -112,6 +117,7 @@ describe("EditRunsClient", () => {
                 url: "https://example.com/form.pdf",
             },
             config: {
+                engineVersion: "0.0.1",
                 instructions: "Fill out the form with the provided data",
                 advancedOptions: {
                     flattenPdf: true,
@@ -144,6 +150,7 @@ describe("EditRunsClient", () => {
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported. Edit runs currently require a PDF.",
             config: {
+                engineVersion: "0.0.1",
                 schema: {
                     type: "object",
                     properties: {
@@ -432,6 +439,7 @@ describe("EditRunsClient", () => {
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported. Edit runs currently require a PDF.",
             config: {
+                engineVersion: "0.0.1",
                 schema: {
                     type: "object",
                     properties: { key: {} },
@@ -533,6 +541,7 @@ describe("EditRunsClient", () => {
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported. Edit runs currently require a PDF.",
             config: {
+                engineVersion: "0.0.1",
                 schema: {
                     type: "object",
                     properties: {

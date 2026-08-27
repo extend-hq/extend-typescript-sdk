@@ -2,6 +2,9 @@
 
 import type * as Extend from "../index";
 
+/**
+ * Triggered when an API-created EditRun fails before it finishes filling the document's form fields. A failure in an internal FormDetectionRun is reported through this parent EditRun event; the internal run does not emit a Form Detection webhook.
+ */
 export interface EditRunFailedWebhookEvent {
     /** Unique identifier for the event */
     eventId: string;

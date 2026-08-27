@@ -6,6 +6,8 @@ import type * as Extend from "../index";
  * Configuration options for the editing process.
  */
 export interface EditConfig {
+    /** The Edit engine version to use. Use an exact version for reproducible results, or `latest` to use the latest stable version. Defaults to `0.0.1` when omitted. Responses contain the resolved exact version. */
+    engineVersion?: string;
     schema?: Extend.EditRootJson;
     /** Custom instructions provided for the edit operation. */
     instructions?: string;
