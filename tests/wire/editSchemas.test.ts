@@ -11,6 +11,7 @@ describe("EditSchemasClient", () => {
         const rawRequestBody = {
             file: { url: "https://example.com/form.pdf" },
             config: {
+                engineVersion: "0.0.1",
                 instructions: "Detect the form fields and use human-readable field names.",
                 advancedOptions: { radioEnumsEnabled: true },
             },
@@ -64,6 +65,7 @@ describe("EditSchemasClient", () => {
                 url: "https://example.com/form.pdf",
             },
             config: {
+                engineVersion: "0.0.1",
                 instructions: "Detect the form fields and use human-readable field names.",
                 advancedOptions: {
                     radioEnumsEnabled: true,

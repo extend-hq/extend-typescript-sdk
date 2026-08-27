@@ -43,6 +43,8 @@ export type WebhookEvent =
     | Extend.WebhookEvent.ParseRunFailed
     | Extend.WebhookEvent.EditRunProcessed
     | Extend.WebhookEvent.EditRunFailed
+    | Extend.WebhookEvent.FormDetectionRunProcessed
+    | Extend.WebhookEvent.FormDetectionRunFailed
     | Extend.WebhookEvent.WorkflowCreated
     | Extend.WebhookEvent.WorkflowDeployed
     | Extend.WebhookEvent.WorkflowDeleted
@@ -141,6 +143,14 @@ export namespace WebhookEvent {
 
     export interface EditRunFailed extends Extend.EditRunFailedWebhookEvent {
         eventType: "edit_run.failed";
+    }
+
+    export interface FormDetectionRunProcessed extends Extend.FormDetectionRunProcessedWebhookEvent {
+        eventType: "form_detection_run.processed";
+    }
+
+    export interface FormDetectionRunFailed extends Extend.FormDetectionRunFailedWebhookEvent {
+        eventType: "form_detection_run.failed";
     }
 
     export interface WorkflowCreated extends Extend.WorkflowCreatedWebhookEvent {

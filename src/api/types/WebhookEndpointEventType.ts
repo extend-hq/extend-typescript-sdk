@@ -6,6 +6,8 @@ export const WebhookEndpointEventType = {
     ParseRunFailed: "parse_run.failed",
     EditRunProcessed: "edit_run.processed",
     EditRunFailed: "edit_run.failed",
+    FormDetectionRunProcessed: "form_detection_run.processed",
+    FormDetectionRunFailed: "form_detection_run.failed",
     ExtractRunProcessed: "extract_run.processed",
     ExtractRunFailed: "extract_run.failed",
     ClassifyRunProcessed: "classify_run.processed",

@@ -512,7 +512,11 @@ describe("ExtendClient", () => {
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
             file: { url: "https://example.com/form.pdf" },
-            config: { instructions: "Fill out the form with the provided data", advancedOptions: { flattenPdf: true } },
+            config: {
+                engineVersion: "0.0.1",
+                instructions: "Fill out the form with the provided data",
+                advancedOptions: { flattenPdf: true },
+            },
         };
         const rawResponseBody = {
             object: "edit_run",
@@ -534,6 +538,7 @@ describe("ExtendClient", () => {
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported. Edit runs currently require a PDF.",
             config: {
+                engineVersion: "0.0.1",
                 schema: {
                     type: "object",
                     properties: { key: {} },
@@ -614,6 +619,7 @@ describe("ExtendClient", () => {
                 url: "https://example.com/form.pdf",
             },
             config: {
+                engineVersion: "0.0.1",
                 instructions: "Fill out the form with the provided data",
                 advancedOptions: {
                     flattenPdf: true,
@@ -646,6 +652,7 @@ describe("ExtendClient", () => {
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported. Edit runs currently require a PDF.",
             config: {
+                engineVersion: "0.0.1",
                 schema: {
                     type: "object",
                     properties: {
@@ -916,6 +923,7 @@ describe("ExtendClient", () => {
         const rawRequestBody = {
             file: { url: "https://example.com/form.pdf" },
             config: {
+                engineVersion: "0.0.1",
                 instructions: "Detect the form fields and use human-readable field names.",
                 advancedOptions: { radioEnumsEnabled: true },
             },
@@ -940,6 +948,7 @@ describe("ExtendClient", () => {
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported. Form schema detection currently requires a PDF.",
             config: {
+                engineVersion: "0.0.1",
                 inputSchema: {
                     type: "object",
                     properties: { key: {} },
@@ -1037,6 +1046,7 @@ describe("ExtendClient", () => {
                 url: "https://example.com/form.pdf",
             },
             config: {
+                engineVersion: "0.0.1",
                 instructions: "Detect the form fields and use human-readable field names.",
                 advancedOptions: {
                     radioEnumsEnabled: true,
@@ -1069,6 +1079,7 @@ describe("ExtendClient", () => {
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported. Form schema detection currently requires a PDF.",
             config: {
+                engineVersion: "0.0.1",
                 inputSchema: {
                     type: "object",
                     properties: {
