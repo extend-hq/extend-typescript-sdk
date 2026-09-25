@@ -11,7 +11,13 @@ export interface EvaluationSetItemSummary {
      * Example: `"evi_kR9mNP12Qw4yTv8BdR3H"`
      */
     id: string;
-    /** A summary of the file associated with the evaluation set item. */
-    file: Extend.FileSummary;
+    /** A summary of the file associated with the evaluation set item. `null` for multifile items (use `files` instead). */
+    file: Extend.FileSummary | null;
+    /**
+     * The files associated with a multifile evaluation set item, in the order they were submitted. Only populated for items created with `fileIds`.
+     *
+     * For single-file items, this is `null` — use `file` instead.
+     */
+    files: Extend.FileSummary[] | null;
     createdBy: Extend.CreatedBy | null;
 }

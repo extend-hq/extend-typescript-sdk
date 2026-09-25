@@ -34,6 +34,27 @@ describe("EvaluationSetItemsClient", () => {
                         createdAt: "2024-03-21T16:45:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
                     },
+                    files: [
+                        {
+                            object: "file",
+                            id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                            name: "Invoices.pdf",
+                            type: null,
+                            parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                            metadata: {
+                                pageCount: 30,
+                                parentSplit: {
+                                    id: "id",
+                                    type: "Invoice",
+                                    identifier: "other_2_9",
+                                    startPage: 1,
+                                    endPage: 10,
+                                },
+                            },
+                            createdAt: "2024-03-21T16:45:00Z",
+                            updatedAt: "2024-03-21T16:45:00Z",
+                        },
+                    ],
                     createdBy: { type: "user", email: "matt@extend.app" },
                 },
             ],
@@ -75,6 +96,27 @@ describe("EvaluationSetItemsClient", () => {
                         createdAt: "2024-03-21T16:45:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
                     },
+                    files: [
+                        {
+                            object: "file",
+                            id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                            name: "Invoices.pdf",
+                            type: null,
+                            parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                            metadata: {
+                                pageCount: 30,
+                                parentSplit: {
+                                    id: "id",
+                                    type: "Invoice",
+                                    identifier: "other_2_9",
+                                    startPage: 1,
+                                    endPage: 10,
+                                },
+                            },
+                            createdAt: "2024-03-21T16:45:00Z",
+                            updatedAt: "2024-03-21T16:45:00Z",
+                        },
+                    ],
                     createdBy: {
                         type: "user",
                         email: "matt@extend.app",
@@ -267,6 +309,27 @@ describe("EvaluationSetItemsClient", () => {
                         createdAt: "2024-03-21T16:45:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
                     },
+                    files: [
+                        {
+                            object: "file",
+                            id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                            name: "Invoices.pdf",
+                            type: null,
+                            parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                            metadata: {
+                                pageCount: 30,
+                                parentSplit: {
+                                    id: "id",
+                                    type: "Invoice",
+                                    identifier: "other_2_9",
+                                    startPage: 1,
+                                    endPage: 10,
+                                },
+                            },
+                            createdAt: "2024-03-21T16:45:00Z",
+                            updatedAt: "2024-03-21T16:45:00Z",
+                        },
+                    ],
                     expectedOutput: {},
                     createdBy: { type: "user", email: "matt@extend.app" },
                 },
@@ -320,6 +383,27 @@ describe("EvaluationSetItemsClient", () => {
                         createdAt: "2024-03-21T16:45:00Z",
                         updatedAt: "2024-03-21T16:45:00Z",
                     },
+                    files: [
+                        {
+                            object: "file",
+                            id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                            name: "Invoices.pdf",
+                            type: null,
+                            parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                            metadata: {
+                                pageCount: 30,
+                                parentSplit: {
+                                    id: "id",
+                                    type: "Invoice",
+                                    identifier: "other_2_9",
+                                    startPage: 1,
+                                    endPage: 10,
+                                },
+                            },
+                            createdAt: "2024-03-21T16:45:00Z",
+                            updatedAt: "2024-03-21T16:45:00Z",
+                        },
+                    ],
                     expectedOutput: {},
                     createdBy: {
                         type: "user",
@@ -335,10 +419,148 @@ describe("EvaluationSetItemsClient", () => {
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
             items: [
-                { fileId: "fileId", expectedOutput: {} },
-                { fileId: "fileId", expectedOutput: {} },
+                {
+                    fileIds: ["file_xK9mLPqRtN3vS8wF5hB2cQ", "file_aB3cD4eF5gH6iJ7kL8mN9o"],
+                    expectedOutput: {
+                        value: { vendor_name: "Acme Corp", invoice_number: "INV-001", total_amount: 1500 },
+                    },
+                },
             ],
         };
+        const rawResponseBody = {
+            evaluationSetItems: [
+                {
+                    object: "evaluation_set_item",
+                    id: "evi_kR9mNP12Qw4yTv8BdR3H",
+                    evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
+                    file: {
+                        object: "file",
+                        id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                        name: "Invoices.pdf",
+                        type: null,
+                        parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                        metadata: {
+                            pageCount: 30,
+                            parentSplit: {
+                                id: "id",
+                                type: "Invoice",
+                                identifier: "other_2_9",
+                                startPage: 1,
+                                endPage: 10,
+                            },
+                        },
+                        createdAt: "2024-03-21T16:45:00Z",
+                        updatedAt: "2024-03-21T16:45:00Z",
+                    },
+                    files: [
+                        {
+                            object: "file",
+                            id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                            name: "Invoices.pdf",
+                            type: null,
+                            parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                            metadata: {
+                                pageCount: 30,
+                                parentSplit: {
+                                    id: "id",
+                                    type: "Invoice",
+                                    identifier: "other_2_9",
+                                    startPage: 1,
+                                    endPage: 10,
+                                },
+                            },
+                            createdAt: "2024-03-21T16:45:00Z",
+                            updatedAt: "2024-03-21T16:45:00Z",
+                        },
+                    ],
+                    expectedOutput: {},
+                    createdBy: { type: "user", email: "matt@extend.app" },
+                },
+            ],
+        };
+        server
+            .mockEndpoint()
+            .post("/evaluation_sets/evaluation_set_id_here/items")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.evaluationSetItems.create("evaluation_set_id_here", {
+            items: [
+                {
+                    fileIds: ["file_xK9mLPqRtN3vS8wF5hB2cQ", "file_aB3cD4eF5gH6iJ7kL8mN9o"],
+                    expectedOutput: {
+                        value: {
+                            vendor_name: "Acme Corp",
+                            invoice_number: "INV-001",
+                            total_amount: 1500,
+                        },
+                    },
+                },
+            ],
+        });
+        expect(response).toEqual({
+            evaluationSetItems: [
+                {
+                    object: "evaluation_set_item",
+                    id: "evi_kR9mNP12Qw4yTv8BdR3H",
+                    evaluationSetId: "ev_2LcgeY_mp2T5yPaEuq5Lw",
+                    file: {
+                        object: "file",
+                        id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                        name: "Invoices.pdf",
+                        type: null,
+                        parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                        metadata: {
+                            pageCount: 30,
+                            parentSplit: {
+                                id: "id",
+                                type: "Invoice",
+                                identifier: "other_2_9",
+                                startPage: 1,
+                                endPage: 10,
+                            },
+                        },
+                        createdAt: "2024-03-21T16:45:00Z",
+                        updatedAt: "2024-03-21T16:45:00Z",
+                    },
+                    files: [
+                        {
+                            object: "file",
+                            id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                            name: "Invoices.pdf",
+                            type: null,
+                            parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                            metadata: {
+                                pageCount: 30,
+                                parentSplit: {
+                                    id: "id",
+                                    type: "Invoice",
+                                    identifier: "other_2_9",
+                                    startPage: 1,
+                                    endPage: 10,
+                                },
+                            },
+                            createdAt: "2024-03-21T16:45:00Z",
+                            updatedAt: "2024-03-21T16:45:00Z",
+                        },
+                    ],
+                    expectedOutput: {},
+                    createdBy: {
+                        type: "user",
+                        email: "matt@extend.app",
+                    },
+                },
+            ],
+        });
+    });
+
+    test("create (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { items: [{ expectedOutput: {} }, { expectedOutput: {} }] };
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -353,11 +575,9 @@ describe("EvaluationSetItemsClient", () => {
             return await client.evaluationSetItems.create("evaluationSetId", {
                 items: [
                     {
-                        fileId: "fileId",
                         expectedOutput: {},
                     },
                     {
-                        fileId: "fileId",
                         expectedOutput: {},
                     },
                 ],
@@ -365,15 +585,10 @@ describe("EvaluationSetItemsClient", () => {
         }).rejects.toThrow(Extend.BadRequestError);
     });
 
-    test("create (3)", async () => {
+    test("create (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = {
-            items: [
-                { fileId: "fileId", expectedOutput: {} },
-                { fileId: "fileId", expectedOutput: {} },
-            ],
-        };
+        const rawRequestBody = { items: [{ expectedOutput: {} }, { expectedOutput: {} }] };
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -388,11 +603,9 @@ describe("EvaluationSetItemsClient", () => {
             return await client.evaluationSetItems.create("evaluationSetId", {
                 items: [
                     {
-                        fileId: "fileId",
                         expectedOutput: {},
                     },
                     {
-                        fileId: "fileId",
                         expectedOutput: {},
                     },
                 ],
@@ -400,15 +613,10 @@ describe("EvaluationSetItemsClient", () => {
         }).rejects.toThrow(Extend.UnauthorizedError);
     });
 
-    test("create (4)", async () => {
+    test("create (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = {
-            items: [
-                { fileId: "fileId", expectedOutput: {} },
-                { fileId: "fileId", expectedOutput: {} },
-            ],
-        };
+        const rawRequestBody = { items: [{ expectedOutput: {} }, { expectedOutput: {} }] };
         const rawResponseBody = { code: "code", message: "message", retryable: true };
         server
             .mockEndpoint()
@@ -423,11 +631,9 @@ describe("EvaluationSetItemsClient", () => {
             return await client.evaluationSetItems.create("evaluationSetId", {
                 items: [
                     {
-                        fileId: "fileId",
                         expectedOutput: {},
                     },
                     {
-                        fileId: "fileId",
                         expectedOutput: {},
                     },
                 ],
@@ -435,15 +641,10 @@ describe("EvaluationSetItemsClient", () => {
         }).rejects.toThrow(Extend.PaymentRequiredError);
     });
 
-    test("create (5)", async () => {
+    test("create (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = {
-            items: [
-                { fileId: "fileId", expectedOutput: {} },
-                { fileId: "fileId", expectedOutput: {} },
-            ],
-        };
+        const rawRequestBody = { items: [{ expectedOutput: {} }, { expectedOutput: {} }] };
         const rawResponseBody = { code: "code", message: "message", retryable: true };
         server
             .mockEndpoint()
@@ -458,11 +659,9 @@ describe("EvaluationSetItemsClient", () => {
             return await client.evaluationSetItems.create("evaluationSetId", {
                 items: [
                     {
-                        fileId: "fileId",
                         expectedOutput: {},
                     },
                     {
-                        fileId: "fileId",
                         expectedOutput: {},
                     },
                 ],
@@ -470,15 +669,10 @@ describe("EvaluationSetItemsClient", () => {
         }).rejects.toThrow(Extend.ForbiddenError);
     });
 
-    test("create (6)", async () => {
+    test("create (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = {
-            items: [
-                { fileId: "fileId", expectedOutput: {} },
-                { fileId: "fileId", expectedOutput: {} },
-            ],
-        };
+        const rawRequestBody = { items: [{ expectedOutput: {} }, { expectedOutput: {} }] };
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -493,11 +687,9 @@ describe("EvaluationSetItemsClient", () => {
             return await client.evaluationSetItems.create("evaluationSetId", {
                 items: [
                     {
-                        fileId: "fileId",
                         expectedOutput: {},
                     },
                     {
-                        fileId: "fileId",
                         expectedOutput: {},
                     },
                 ],
@@ -505,15 +697,10 @@ describe("EvaluationSetItemsClient", () => {
         }).rejects.toThrow(Extend.NotFoundError);
     });
 
-    test("create (7)", async () => {
+    test("create (8)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = {
-            items: [
-                { fileId: "fileId", expectedOutput: {} },
-                { fileId: "fileId", expectedOutput: {} },
-            ],
-        };
+        const rawRequestBody = { items: [{ expectedOutput: {} }, { expectedOutput: {} }] };
         const rawResponseBody = { code: "code", message: "message", retryable: true };
         server
             .mockEndpoint()
@@ -528,11 +715,9 @@ describe("EvaluationSetItemsClient", () => {
             return await client.evaluationSetItems.create("evaluationSetId", {
                 items: [
                     {
-                        fileId: "fileId",
                         expectedOutput: {},
                     },
                     {
-                        fileId: "fileId",
                         expectedOutput: {},
                     },
                 ],
@@ -540,15 +725,10 @@ describe("EvaluationSetItemsClient", () => {
         }).rejects.toThrow(Extend.UnprocessableEntityError);
     });
 
-    test("create (8)", async () => {
+    test("create (9)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = {
-            items: [
-                { fileId: "fileId", expectedOutput: {} },
-                { fileId: "fileId", expectedOutput: {} },
-            ],
-        };
+        const rawRequestBody = { items: [{ expectedOutput: {} }, { expectedOutput: {} }] };
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -563,11 +743,9 @@ describe("EvaluationSetItemsClient", () => {
             return await client.evaluationSetItems.create("evaluationSetId", {
                 items: [
                     {
-                        fileId: "fileId",
                         expectedOutput: {},
                     },
                     {
-                        fileId: "fileId",
                         expectedOutput: {},
                     },
                 ],
@@ -575,15 +753,10 @@ describe("EvaluationSetItemsClient", () => {
         }).rejects.toThrow(Extend.TooManyRequestsError);
     });
 
-    test("create (9)", async () => {
+    test("create (10)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = {
-            items: [
-                { fileId: "fileId", expectedOutput: {} },
-                { fileId: "fileId", expectedOutput: {} },
-            ],
-        };
+        const rawRequestBody = { items: [{ expectedOutput: {} }, { expectedOutput: {} }] };
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -598,11 +771,9 @@ describe("EvaluationSetItemsClient", () => {
             return await client.evaluationSetItems.create("evaluationSetId", {
                 items: [
                     {
-                        fileId: "fileId",
                         expectedOutput: {},
                     },
                     {
-                        fileId: "fileId",
                         expectedOutput: {},
                     },
                 ],
@@ -631,6 +802,21 @@ describe("EvaluationSetItemsClient", () => {
                 createdAt: "2024-03-21T16:45:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
             },
+            files: [
+                {
+                    object: "file",
+                    id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    name: "Invoices.pdf",
+                    type: "PDF",
+                    parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                    metadata: {
+                        pageCount: 30,
+                        parentSplit: { id: "id", type: "Invoice", identifier: "other_2_9", startPage: 1, endPage: 10 },
+                    },
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
             expectedOutput: { value: { key: "value" } },
             createdBy: { type: "user", email: "matt@extend.app" },
         };
@@ -669,6 +855,27 @@ describe("EvaluationSetItemsClient", () => {
                 createdAt: "2024-03-21T16:45:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
             },
+            files: [
+                {
+                    object: "file",
+                    id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    name: "Invoices.pdf",
+                    type: "PDF",
+                    parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                    metadata: {
+                        pageCount: 30,
+                        parentSplit: {
+                            id: "id",
+                            type: "Invoice",
+                            identifier: "other_2_9",
+                            startPage: 1,
+                            endPage: 10,
+                        },
+                    },
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
             expectedOutput: {
                 value: {
                     key: "value",
@@ -848,6 +1055,21 @@ describe("EvaluationSetItemsClient", () => {
                 createdAt: "2024-03-21T16:45:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
             },
+            files: [
+                {
+                    object: "file",
+                    id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    name: "Invoices.pdf",
+                    type: "PDF",
+                    parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                    metadata: {
+                        pageCount: 30,
+                        parentSplit: { id: "id", type: "Invoice", identifier: "other_2_9", startPage: 1, endPage: 10 },
+                    },
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
             expectedOutput: { value: { key: "value" } },
             createdBy: { type: "user", email: "matt@extend.app" },
         };
@@ -896,6 +1118,27 @@ describe("EvaluationSetItemsClient", () => {
                 createdAt: "2024-03-21T16:45:00Z",
                 updatedAt: "2024-03-21T16:45:00Z",
             },
+            files: [
+                {
+                    object: "file",
+                    id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                    name: "Invoices.pdf",
+                    type: "PDF",
+                    parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                    metadata: {
+                        pageCount: 30,
+                        parentSplit: {
+                            id: "id",
+                            type: "Invoice",
+                            identifier: "other_2_9",
+                            startPage: 1,
+                            endPage: 10,
+                        },
+                    },
+                    createdAt: "2024-03-21T16:45:00Z",
+                    updatedAt: "2024-03-21T16:45:00Z",
+                },
+            ],
             expectedOutput: {
                 value: {
                     key: "value",

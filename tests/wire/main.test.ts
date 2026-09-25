@@ -513,7 +513,7 @@ describe("ExtendClient", () => {
         const rawRequestBody = {
             file: { url: "https://example.com/form.pdf" },
             config: {
-                engineVersion: "0.0.1",
+                engineVersion: "1.0.0",
                 instructions: "Fill out the form with the provided data",
                 advancedOptions: { flattenPdf: true },
             },
@@ -538,7 +538,7 @@ describe("ExtendClient", () => {
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported. Edit runs currently require a PDF.",
             config: {
-                engineVersion: "0.0.1",
+                engineVersion: "1.0.0",
                 schema: {
                     type: "object",
                     properties: { key: {} },
@@ -619,7 +619,7 @@ describe("ExtendClient", () => {
                 url: "https://example.com/form.pdf",
             },
             config: {
-                engineVersion: "0.0.1",
+                engineVersion: "1.0.0",
                 instructions: "Fill out the form with the provided data",
                 advancedOptions: {
                     flattenPdf: true,
@@ -652,7 +652,7 @@ describe("ExtendClient", () => {
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported. Edit runs currently require a PDF.",
             config: {
-                engineVersion: "0.0.1",
+                engineVersion: "1.0.0",
                 schema: {
                     type: "object",
                     properties: {
@@ -736,7 +736,217 @@ describe("ExtendClient", () => {
     test("edit (2)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = { templateId: "edt_xK9mLPqRtN3vS8wF5hB2cQ" };
+        const rawResponseBody = {
+            object: "edit_run",
+            id: "edr_xK9mLPqRtN3vS8wF5hB2cQ",
+            file: {
+                object: "file",
+                id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                name: "Invoices.pdf",
+                type: "PDF",
+                parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                metadata: {
+                    pageCount: 30,
+                    parentSplit: { id: "id", type: "Invoice", identifier: "other_2_9", startPage: 1, endPage: 10 },
+                },
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            status: "PROCESSING",
+            failureReason: "FILE_TYPE_NOT_SUPPORTED",
+            failureMessage: "File type not supported. Edit runs currently require a PDF.",
+            config: {
+                engineVersion: "1.0.0",
+                schema: {
+                    type: "object",
+                    properties: { key: {} },
+                    required: ["required"],
+                    additionalProperties: true,
+                    dependentRequired: { key: ["value"] },
+                    allOf: [{}],
+                    oneOf: [{}],
+                    anyOf: [{}],
+                },
+                instructions: "instructions",
+                schemaGenerationInstructions: "schemaGenerationInstructions",
+                advancedOptions: {
+                    tableParsingEnabled: true,
+                    flattenPdf: true,
+                    radioEnumsEnabled: true,
+                    nativeFieldsOnly: true,
+                    conditionalGenerationEnabled: true,
+                },
+            },
+            output: {
+                editedFile: {
+                    id: "file_Ab3cDE45Fg6hIj7KlM8nO",
+                    presignedUrl: "https://extend-files.s3.amazonaws.com/...",
+                },
+                filledValues: { key: "value" },
+            },
+            metrics: {
+                processingTimeMs: 1234,
+                pageCount: 5,
+                fieldCount: 10,
+                fieldsDetectedCount: 8,
+                fieldsAnnotatedCount: 10,
+                fieldDetectionTimeMs: 500,
+                fieldAnnotationTimeMs: 200,
+                fieldFillingTimeMs: 300,
+            },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                        charges: [
+                            {
+                                product: "extraction_performance",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 30,
+                                pages: [2, 4, 7],
+                            },
+                            { product: "review_agent", unit: "page", quantity: 10, credits: 10, pages: [2, 4, 7] },
+                            {
+                                product: "agentic_text_correction",
+                                unit: "page",
+                                quantity: 3,
+                                credits: 3,
+                                pages: [2, 4, 7],
+                            },
+                        ],
+                    },
+                ],
+            },
+        };
+        server
+            .mockEndpoint()
+            .post("/edit")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.edit({
+            templateId: "edt_xK9mLPqRtN3vS8wF5hB2cQ",
+        });
+        expect(response).toEqual({
+            object: "edit_run",
+            id: "edr_xK9mLPqRtN3vS8wF5hB2cQ",
+            file: {
+                object: "file",
+                id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                name: "Invoices.pdf",
+                type: "PDF",
+                parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                metadata: {
+                    pageCount: 30,
+                    parentSplit: {
+                        id: "id",
+                        type: "Invoice",
+                        identifier: "other_2_9",
+                        startPage: 1,
+                        endPage: 10,
+                    },
+                },
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            status: "PROCESSING",
+            failureReason: "FILE_TYPE_NOT_SUPPORTED",
+            failureMessage: "File type not supported. Edit runs currently require a PDF.",
+            config: {
+                engineVersion: "1.0.0",
+                schema: {
+                    type: "object",
+                    properties: {
+                        key: {},
+                    },
+                    required: ["required"],
+                    additionalProperties: true,
+                    dependentRequired: {
+                        key: ["value"],
+                    },
+                    allOf: [{}],
+                    oneOf: [{}],
+                    anyOf: [{}],
+                },
+                instructions: "instructions",
+                schemaGenerationInstructions: "schemaGenerationInstructions",
+                advancedOptions: {
+                    tableParsingEnabled: true,
+                    flattenPdf: true,
+                    radioEnumsEnabled: true,
+                    nativeFieldsOnly: true,
+                    conditionalGenerationEnabled: true,
+                },
+            },
+            output: {
+                editedFile: {
+                    id: "file_Ab3cDE45Fg6hIj7KlM8nO",
+                    presignedUrl: "https://extend-files.s3.amazonaws.com/...",
+                },
+                filledValues: {
+                    key: "value",
+                },
+            },
+            metrics: {
+                processingTimeMs: 1234,
+                pageCount: 5,
+                fieldCount: 10,
+                fieldsDetectedCount: 8,
+                fieldsAnnotatedCount: 10,
+                fieldDetectionTimeMs: 500,
+                fieldAnnotationTimeMs: 200,
+                fieldFillingTimeMs: 300,
+            },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                        charges: [
+                            {
+                                product: "extraction_performance",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 30,
+                                pages: [2, 4, 7],
+                            },
+                            {
+                                product: "review_agent",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 10,
+                                pages: [2, 4, 7],
+                            },
+                            {
+                                product: "agentic_text_correction",
+                                unit: "page",
+                                quantity: 3,
+                                credits: 3,
+                                pages: [2, 4, 7],
+                            },
+                        ],
+                    },
+                ],
+            },
+        });
+    });
+
+    test("edit (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -748,18 +958,14 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.edit({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.edit();
         }).rejects.toThrow(Extend.BadRequestError);
     });
 
-    test("edit (3)", async () => {
+    test("edit (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -771,18 +977,14 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.edit({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.edit();
         }).rejects.toThrow(Extend.UnauthorizedError);
     });
 
-    test("edit (4)", async () => {
+    test("edit (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { code: "code", message: "message", retryable: true };
         server
             .mockEndpoint()
@@ -794,18 +996,14 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.edit({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.edit();
         }).rejects.toThrow(Extend.PaymentRequiredError);
     });
 
-    test("edit (5)", async () => {
+    test("edit (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { code: "code", message: "message", retryable: true };
         server
             .mockEndpoint()
@@ -817,18 +1015,14 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.edit({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.edit();
         }).rejects.toThrow(Extend.ForbiddenError);
     });
 
-    test("edit (6)", async () => {
+    test("edit (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -840,18 +1034,14 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.edit({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.edit();
         }).rejects.toThrow(Extend.NotFoundError);
     });
 
-    test("edit (7)", async () => {
+    test("edit (8)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { code: "code", message: "message", retryable: true };
         server
             .mockEndpoint()
@@ -863,18 +1053,14 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.edit({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.edit();
         }).rejects.toThrow(Extend.UnprocessableEntityError);
     });
 
-    test("edit (8)", async () => {
+    test("edit (9)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -886,18 +1072,14 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.edit({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.edit();
         }).rejects.toThrow(Extend.TooManyRequestsError);
     });
 
-    test("edit (9)", async () => {
+    test("edit (10)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
-        const rawRequestBody = { file: { url: "url" } };
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -909,11 +1091,7 @@ describe("ExtendClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.edit({
-                file: {
-                    url: "url",
-                },
-            });
+            return await client.edit();
         }).rejects.toThrow(Extend.InternalServerError);
     });
 
@@ -923,7 +1101,7 @@ describe("ExtendClient", () => {
         const rawRequestBody = {
             file: { url: "https://example.com/form.pdf" },
             config: {
-                engineVersion: "0.0.1",
+                engineVersion: "1.0.0",
                 instructions: "Detect the form fields and use human-readable field names.",
                 advancedOptions: { radioEnumsEnabled: true },
             },
@@ -948,7 +1126,7 @@ describe("ExtendClient", () => {
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported. Form schema detection currently requires a PDF.",
             config: {
-                engineVersion: "0.0.1",
+                engineVersion: "1.0.0",
                 inputSchema: {
                     type: "object",
                     properties: { key: {} },
@@ -1046,7 +1224,7 @@ describe("ExtendClient", () => {
                 url: "https://example.com/form.pdf",
             },
             config: {
-                engineVersion: "0.0.1",
+                engineVersion: "1.0.0",
                 instructions: "Detect the form fields and use human-readable field names.",
                 advancedOptions: {
                     radioEnumsEnabled: true,
@@ -1079,7 +1257,7 @@ describe("ExtendClient", () => {
             failureReason: "FILE_TYPE_NOT_SUPPORTED",
             failureMessage: "File type not supported. Form schema detection currently requires a PDF.",
             config: {
-                engineVersion: "0.0.1",
+                engineVersion: "1.0.0",
                 inputSchema: {
                     type: "object",
                     properties: {

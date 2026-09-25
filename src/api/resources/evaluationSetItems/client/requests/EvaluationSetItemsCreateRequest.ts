@@ -16,6 +16,20 @@ import type * as Extend from "../../../../index";
  *                 }
  *             }]
  *     }
+ *
+ * @example
+ *     {
+ *         items: [{
+ *                 fileIds: ["file_xK9mLPqRtN3vS8wF5hB2cQ", "file_aB3cD4eF5gH6iJ7kL8mN9o"],
+ *                 expectedOutput: {
+ *                     value: {
+ *                         "vendor_name": "Acme Corp",
+ *                         "invoice_number": "INV-001",
+ *                         "total_amount": 1500
+ *                     }
+ *                 }
+ *             }]
+ *     }
  */
 export interface EvaluationSetItemsCreateRequest {
     /** The workspace ID to target. **Required** when using an organization-scoped API key; optional for workspace-scoped keys (the key is already tied to a workspace). See [Authentication](https://docs.extend.ai/2026-02-09/api-reference/authentication) for details on API key scopes. */

@@ -17,8 +17,14 @@ export interface EvaluationSetItem {
      * Example: `"ev_2LcgeY_mp2T5yPaEuq5Lw"`
      */
     evaluationSetId: string;
-    /** A summary of the file associated with the evaluation set item. */
-    file: Extend.FileSummary;
+    /** A summary of the file associated with the evaluation set item. `null` for multifile items (use `files` instead). */
+    file: Extend.FileSummary | null;
+    /**
+     * The files associated with a multifile evaluation set item, in the order they were submitted. Only populated for items created with `fileIds`.
+     *
+     * For single-file items, this is `null` — use `file` instead.
+     */
+    files: Extend.FileSummary[] | null;
     /** The expected output that will be used to evaluate the performance of the extractor, classifier, or splitter associated with the evaluation set. This must conform to the output schema of the entity associated with the evaluation set. */
     expectedOutput: Extend.ProvidedProcessorOutput;
     createdBy: Extend.CreatedBy | null;

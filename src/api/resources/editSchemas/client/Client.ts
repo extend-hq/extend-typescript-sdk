@@ -51,7 +51,7 @@ export class EditSchemasClient {
      *             url: "https://example.com/form.pdf"
      *         },
      *         config: {
-     *             engineVersion: "0.0.1",
+     *             engineVersion: "1.0.0",
      *             instructions: "Detect the form fields and use human-readable field names.",
      *             advancedOptions: {
      *                 radioEnumsEnabled: true

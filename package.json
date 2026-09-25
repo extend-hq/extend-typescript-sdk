@@ -1,6 +1,6 @@
 {
     "name": "extend-ai",
-    "version": "2.2.0",
+    "version": "2.3.0",
     "private": false,
     "repository": {
         "type": "git",
@@ -23,11 +23,8 @@
         "test:wire": "jest --selectProjects wire"
     },
     "dependencies": {
-        "form-data": "^4.0.4",
-        "formdata-node": "^6.0.3",
         "node-fetch": "^2.7.0",
         "readable-stream": "^4.5.2",
-        "form-data-encoder": "^4.0.2",
         "zod": "^4.3.6"
     },
     "devDependencies": {

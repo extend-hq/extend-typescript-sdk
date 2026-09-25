@@ -6,7 +6,7 @@ import type * as Extend from "../index";
  * Configuration options for edit schema generation.
  */
 export interface EditSchemaGenerationConfig {
-    /** The Edit engine version to use for form detection. Use an exact version for reproducible results, or `latest` to use the latest stable version. Defaults to `0.0.1` when omitted. Responses contain the resolved exact version. */
+    /** The Edit engine version to use for form detection. Use an exact version for reproducible results, or `latest` to use the latest stable version. Defaults to `1.0.0` when omitted. Responses contain the resolved exact version. */
     engineVersion?: string;
     /**
      * Optional existing edit schema to map onto the detected form fields. When provided, the response may include a `mappingResult`

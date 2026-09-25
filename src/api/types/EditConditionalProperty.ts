@@ -16,9 +16,9 @@ export interface EditConditionalProperty {
     /** Description of the field constraint. */
     description?: string;
     /** Allowed values for enum-based conditional constraints. */
-    enum?: string[];
+    enum?: (Extend.EditConditionalPropertyEnumItem | null)[];
     /** Nested array item schema for conditional array constraints. */
-    items?: Extend.EditConditionalObjectProperty;
+    items?: Extend.EditConditionalProperty;
     /** Nested object property constraints. */
     properties?: Record<string, Extend.EditConditionalProperty>;
     /** Required nested object properties. */

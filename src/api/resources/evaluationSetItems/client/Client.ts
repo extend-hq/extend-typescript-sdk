@@ -144,6 +144,11 @@ export class EvaluationSetItemsClient {
     /**
      * Evaluation set items are the individual files and expected outputs that are used to evaluate the performance of a given extractor, classifier, or splitter in Extend. This endpoint will create new evaluation set items in Extend, which will be used during an evaluation run.
      *
+     * Each item references exactly one of:
+     *
+     * - **`fileId`** — a single file. The item is evaluated as one single-file run.
+     * - **`fileIds`** — an ordered package of 2–50 files. The item is evaluated as one [multifile extraction](https://docs.extend.ai/2026-02-09/extraction/multifile) run, with a single `expectedOutput` covering the whole package. Multifile items are only supported on evaluation sets attached to a JSON-schema extractor.
+     *
      * **Limit:** You can create up to 100 items at a time.
      *
      * Learn more about how to create evaluation set items in the [Evaluation Sets](https://docs.extend.ai/2026-02-09/evaluation/overview) product page.
@@ -167,6 +172,20 @@ export class EvaluationSetItemsClient {
      *     await client.evaluationSetItems.create("evaluation_set_id_here", {
      *         items: [{
      *                 fileId: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+     *                 expectedOutput: {
+     *                     value: {
+     *                         "vendor_name": "Acme Corp",
+     *                         "invoice_number": "INV-001",
+     *                         "total_amount": 1500
+     *                     }
+     *                 }
+     *             }]
+     *     })
+     *
+     * @example
+     *     await client.evaluationSetItems.create("evaluation_set_id_here", {
+     *         items: [{
+     *                 fileIds: ["file_xK9mLPqRtN3vS8wF5hB2cQ", "file_aB3cD4eF5gH6iJ7kL8mN9o"],
      *                 expectedOutput: {
      *                     value: {
      *                         "vendor_name": "Acme Corp",

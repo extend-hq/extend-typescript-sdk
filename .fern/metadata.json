@@ -13,7 +13,7 @@
         "testFramework": "jest",
         "streamType": "wrapper",
         "fileResponseType": "stream",
-        "formDataSupport": "Node16",
+        "formDataSupport": "Node18",
         "fetchSupport": "node-fetch",
         "inlineFileProperties": false,
         "inlinePathParameters": false,
@@ -39,6 +39,6 @@
             "homepage": "https://docs.extend.ai/sdks"
         }
     },
-    "originGitCommit": "6e3d9789227c3634760b8c48e3922b407c74b60b",
-    "sdkVersion": "2.2.0"
+    "originGitCommit": "9a1bed66b89caba2582775131bfea43d42b1bd31",
+    "sdkVersion": "2.3.0"
 }
