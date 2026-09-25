@@ -25,7 +25,7 @@ export class EditTemplatesClient {
     /**
      * Retrieve a saved edit template by ID.
      *
-     * Use this endpoint to inspect the source file, default edit configuration, and optional schema generation configuration saved on an edit template. You can reuse the returned `config` with `POST /edit` or `POST /edit_runs`, and reuse `schemaConfig` with `POST /detect_form` or `POST /form_detection_runs`.
+     * Use this endpoint to inspect the source file, default edit configuration, and optional schema generation configuration saved on an edit template. To run an edit directly from a template, pass its ID as the top-level `templateId` field (in place of `file`) to `POST /edit` or `POST /edit_runs` — the template's file and `config` are used automatically, and any `config` values also set on the request take precedence over the template's. Reuse `schemaConfig` with `POST /detect_form` or `POST /form_detection_runs`.
      *
      * @param {string} id - The unique identifier for the edit template.
      *

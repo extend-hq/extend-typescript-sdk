@@ -2,13 +2,24 @@
 
 import type * as Extend from "../../../index";
 
+/**
+ * Each item references exactly one of `fileId` (a single file) or `fileIds` (a multifile item) — provide one or the other.
+ */
 export interface EvaluationSetItemsCreateRequestItemsItem {
     /**
-     * Extend's internal ID for the file. It will always start with "file_".
+     * Extend's internal ID for the file. It will always start with "file_". Mutually exclusive with `fileIds`.
      *
      * Example: `"file_xK9mLPqRtN3vS8wF5hB2cQ"`
      */
-    fileId: string;
-    /** The expected output that will be compared to the actual output of the extractor, classifier, or splitter when run against the file. */
+    fileId?: string;
+    /**
+     * An ordered list of Extend file IDs to evaluate together as a single multifile item. Mutually exclusive with `fileId`.
+     *
+     * Each evaluation run evaluates the item as one multifile extraction run over these files, in this order. Only supported for evaluation sets whose entity is a JSON-schema extractor. File IDs must be unique.
+     *
+     * See [Multifile Extraction](https://docs.extend.ai/2026-02-09/extraction/multifile) for details.
+     */
+    fileIds?: string[];
+    /** The expected output that will be compared to the actual output of the extractor, classifier, or splitter when run against the file(s). */
     expectedOutput: Extend.ProvidedProcessorOutput;
 }

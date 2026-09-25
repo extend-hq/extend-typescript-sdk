@@ -91,6 +91,8 @@ Edit a file synchronously, waiting for the result before returning. This endpoin
 
 The Edit endpoint allows you to detect and fill form fields in PDF documents.
 
+Pass `file` to edit a document directly, or `templateId` to run against a saved [edit template](https://docs.extend.ai/2026-02-09/api-reference/endpoints/edit/get-edit-template). Exactly one of `file` or `templateId` must be provided.
+
 For more details, see the [Edit File guide](https://docs.extend.ai/2026-02-09/editing/overview). See [Editing Error Handling](https://docs.extend.ai/2026-02-09/editing/error-handling) for HTTP errors and run failure reasons.
 </dd>
 </dl>
@@ -111,7 +113,7 @@ await client.edit({
         url: "https://example.com/form.pdf"
     },
     config: {
-        engineVersion: "0.0.1",
+        engineVersion: "1.0.0",
         instructions: "Fill out the form with the provided data",
         advancedOptions: {
             flattenPdf: true
@@ -187,7 +189,7 @@ await client.detectForm({
         url: "https://example.com/form.pdf"
     },
     config: {
-        engineVersion: "0.0.1",
+        engineVersion: "1.0.0",
         instructions: "Detect the form fields and use human-readable field names.",
         advancedOptions: {
             radioEnumsEnabled: true
@@ -789,7 +791,7 @@ await client.files.upload(createReadStream("path/to/file"), {});
 <dl>
 <dd>
 
-**file:** `File | fs.ReadStream | Blob` 
+**file:** `core.file.Uploadable` 
     
 </dd>
 </dl>
@@ -1285,6 +1287,73 @@ await client.parseRuns.createBatch({
 </details>
 
 ## EditRuns
+<details><summary><code>client.editRuns.<a href="/src/api/resources/editRuns/client/Client.ts">list</a>({ ...params }) -> Extend.EditRunsListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List edit runs, with optional filters for status, source, and file name.
+
+Returns a paginated list of edit runs. Use `GET /edit_runs/{id}` to retrieve the full result, including `config` and `output`, for a specific run.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.editRuns.list({
+    nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.EditRunsListRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `EditRunsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.editRuns.<a href="/src/api/resources/editRuns/client/Client.ts">create</a>({ ...params }) -> Extend.EditRun</code></summary>
 <dl>
 <dd>
@@ -1321,7 +1390,7 @@ await client.editRuns.create({
         url: "https://example.com/form.pdf"
     },
     config: {
-        engineVersion: "0.0.1",
+        engineVersion: "1.0.0",
         instructions: "Fill out the form with the provided data",
         advancedOptions: {
             flattenPdf: true
@@ -1532,7 +1601,7 @@ Example: `"edr_xK9mLPqRtN3vS8wF5hB2cQ"`
 
 Retrieve a saved edit template by ID.
 
-Use this endpoint to inspect the source file, default edit configuration, and optional schema generation configuration saved on an edit template. You can reuse the returned `config` with `POST /edit` or `POST /edit_runs`, and reuse `schemaConfig` with `POST /detect_form` or `POST /form_detection_runs`.
+Use this endpoint to inspect the source file, default edit configuration, and optional schema generation configuration saved on an edit template. To run an edit directly from a template, pass its ID as the top-level `templateId` field (in place of `file`) to `POST /edit` or `POST /edit_runs` — the template's file and `config` are used automatically, and any `config` values also set on the request take precedence over the template's. Reuse `schemaConfig` with `POST /detect_form` or `POST /form_detection_runs`.
 </dd>
 </dl>
 </dd>
@@ -1636,7 +1705,7 @@ await client.editSchemas.generate({
         url: "https://example.com/form.pdf"
     },
     config: {
-        engineVersion: "0.0.1",
+        engineVersion: "1.0.0",
         instructions: "Detect the form fields and use human-readable field names.",
         advancedOptions: {
             radioEnumsEnabled: true
@@ -1713,7 +1782,7 @@ await client.formDetectionRuns.create({
         url: "https://example.com/form.pdf"
     },
     config: {
-        engineVersion: "0.0.1",
+        engineVersion: "1.0.0",
         instructions: "Detect the form fields and use human-readable field names.",
         advancedOptions: {
             radioEnumsEnabled: true
@@ -7245,6 +7314,11 @@ Example: `"ev_2LcgeY_mp2T5yPaEuq5Lw"`
 <dd>
 
 Evaluation set items are the individual files and expected outputs that are used to evaluate the performance of a given extractor, classifier, or splitter in Extend. This endpoint will create new evaluation set items in Extend, which will be used during an evaluation run.
+
+Each item references exactly one of:
+
+- **`fileId`** — a single file. The item is evaluated as one single-file run.
+- **`fileIds`** — an ordered package of 2–50 files. The item is evaluated as one [multifile extraction](https://docs.extend.ai/2026-02-09/extraction/multifile) run, with a single `expectedOutput` covering the whole package. Multifile items are only supported on evaluation sets attached to a JSON-schema extractor.
 
 **Limit:** You can create up to 100 items at a time.
 

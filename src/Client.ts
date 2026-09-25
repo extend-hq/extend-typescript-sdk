@@ -310,6 +310,8 @@ export class ExtendClient {
      *
      * The Edit endpoint allows you to detect and fill form fields in PDF documents.
      *
+     * Pass `file` to edit a document directly, or `templateId` to run against a saved [edit template](https://docs.extend.ai/2026-02-09/api-reference/endpoints/edit/get-edit-template). Exactly one of `file` or `templateId` must be provided.
+     *
      * For more details, see the [Edit File guide](https://docs.extend.ai/2026-02-09/editing/overview). See [Editing Error Handling](https://docs.extend.ai/2026-02-09/editing/error-handling) for HTTP errors and run failure reasons.
      *
      * @param {Extend.EditRequest} request
@@ -330,23 +332,28 @@ export class ExtendClient {
      *             url: "https://example.com/form.pdf"
      *         },
      *         config: {
-     *             engineVersion: "0.0.1",
+     *             engineVersion: "1.0.0",
      *             instructions: "Fill out the form with the provided data",
      *             advancedOptions: {
      *                 flattenPdf: true
      *             }
      *         }
      *     })
+     *
+     * @example
+     *     await client.edit({
+     *         templateId: "edt_xK9mLPqRtN3vS8wF5hB2cQ"
+     *     })
      */
     public edit(
-        request: Extend.EditRequest,
+        request: Extend.EditRequest = {},
         requestOptions?: ExtendClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.EditRun> {
         return core.HttpResponsePromise.fromPromise(this.__edit(request, requestOptions));
     }
 
     private async __edit(
-        request: Extend.EditRequest,
+        request: Extend.EditRequest = {},
         requestOptions?: ExtendClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EditRun>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
@@ -438,7 +445,7 @@ export class ExtendClient {
      *             url: "https://example.com/form.pdf"
      *         },
      *         config: {
-     *             engineVersion: "0.0.1",
+     *             engineVersion: "1.0.0",
      *             instructions: "Detect the form fields and use human-readable field names.",
      *             advancedOptions: {
      *                 radioEnumsEnabled: true

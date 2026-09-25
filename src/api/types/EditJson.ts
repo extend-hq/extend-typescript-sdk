@@ -43,6 +43,7 @@ export interface EditJson {
     "extend_edit:text_edit_options"?: Extend.EditTextOptions;
     /** Width of the column as a percentage (for table fields) */
     "extend_edit:column_width"?: number;
+    "extend_edit:source_acroform"?: Extend.EditSourceAcroForm;
     /** The value to fill into this field. Can be any type. This will force the value at this field to be filled with this value. If a value is not provided, we will attempt to generate or infer one based on the instructions. */
     "extend_edit:value"?: unknown;
     /** Image fill for signature fields. Only PNG and JPEG image URLs are supported. */
@@ -55,6 +56,8 @@ export interface EditJson {
     properties?: Record<string, Extend.EditJson>;
     /** Allowed values for enum/dropdown/radio fields */
     enum?: string[];
+    /** Human-readable labels for the values in `enum`, in the same order. Include this property when using a schema returned by Detect Form. */
+    "extend:descriptions"?: string[];
     /** Maximum number of rows for array/table fields */
     maxItems?: number;
     /** List of required property names (for object types) */

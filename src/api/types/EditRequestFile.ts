@@ -3,6 +3,8 @@
 import type * as Extend from "../index";
 
 /**
- * The file to be edited. Files can be provided as a URL or an Extend file ID.
+ * The file to be edited. Mutually exclusive with `templateId` — provide one or the other.
+ *
+ * Files can be provided as a URL or an Extend file ID.
  */
 export type EditRequestFile = Extend.FileFromUrl | Extend.FileFromId;

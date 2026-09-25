@@ -28,7 +28,7 @@ describe("EditTemplatesClient", () => {
                 updatedAt: "2024-03-21T16:45:00Z",
             },
             config: {
-                engineVersion: "0.0.1",
+                engineVersion: "1.0.0",
                 schema: {
                     type: "object",
                     properties: { key: {} },
@@ -50,7 +50,7 @@ describe("EditTemplatesClient", () => {
                 },
             },
             schemaConfig: {
-                engineVersion: "0.0.1",
+                engineVersion: "1.0.0",
                 inputSchema: {
                     type: "object",
                     properties: { key: {} },
@@ -106,7 +106,7 @@ describe("EditTemplatesClient", () => {
                 updatedAt: "2024-03-21T16:45:00Z",
             },
             config: {
-                engineVersion: "0.0.1",
+                engineVersion: "1.0.0",
                 schema: {
                     type: "object",
                     properties: {
@@ -132,7 +132,7 @@ describe("EditTemplatesClient", () => {
                 },
             },
             schemaConfig: {
-                engineVersion: "0.0.1",
+                engineVersion: "1.0.0",
                 inputSchema: {
                     type: "object",
                     properties: {

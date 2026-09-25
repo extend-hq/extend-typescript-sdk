@@ -9,16 +9,33 @@ import type * as Extend from "../../index";
  *             url: "https://example.com/form.pdf"
  *         },
  *         config: {
- *             engineVersion: "0.0.1",
+ *             engineVersion: "1.0.0",
  *             instructions: "Fill out the form with the provided data",
  *             advancedOptions: {
  *                 flattenPdf: true
  *             }
  *         }
  *     }
+ *
+ * @example
+ *     {
+ *         templateId: "edt_xK9mLPqRtN3vS8wF5hB2cQ"
+ *     }
  */
 export interface EditRequest {
-    /** The file to be edited. Files can be provided as a URL or an Extend file ID. */
-    file: Extend.EditRequestFile;
+    /**
+     * The file to be edited. Mutually exclusive with `templateId` — provide one or the other.
+     *
+     * Files can be provided as a URL or an Extend file ID.
+     */
+    file?: Extend.EditRequestFile;
+    /**
+     * The ID of a saved [edit template](https://docs.extend.ai/2026-02-09/api-reference/endpoints/edit/get-edit-template) to run against. Mutually exclusive with `file` — provide one or the other.
+     *
+     * The template's saved file is used as the input file, and its saved `config` (schema, instructions, engine version, and advanced options) is used to fill in any values not set on the request's own `config`. Values set on the request's `config` always take precedence over the template's.
+     *
+     * Example: `"edt_xK9mLPqRtN3vS8wF5hB2cQ"`
+     */
+    templateId?: string;
     config?: Extend.EditConfig;
 }

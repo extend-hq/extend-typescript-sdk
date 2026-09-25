@@ -6,7 +6,11 @@
 export interface EditTextOptions {
     /** Font size in points */
     fontSize?: number;
-    /** RGB color values (0-255) for text color */
+    /** RGB color values from 0 to 255 for text color. */
+    color?: number[];
+    /** Text opacity from 0 to 1. Defaults to 1. */
+    opacity?: number;
+    /** Deprecated alias for `color`. RGB color values from 0 to 255. */
     fontColor?: number[];
     /** Font family name */
     font?: string;

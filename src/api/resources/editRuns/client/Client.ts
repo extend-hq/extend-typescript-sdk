@@ -23,6 +23,124 @@ export class EditRunsClient {
     }
 
     /**
+     * List edit runs, with optional filters for status, source, and file name.
+     *
+     * Returns a paginated list of edit runs. Use `GET /edit_runs/{id}` to retrieve the full result, including `config` and `output`, for a specific run.
+     *
+     * @param {Extend.EditRunsListRequest} request
+     * @param {EditRunsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.PaymentRequiredError}
+     * @throws {@link Extend.ForbiddenError}
+     * @throws {@link Extend.NotFoundError}
+     * @throws {@link Extend.UnprocessableEntityError}
+     * @throws {@link Extend.TooManyRequestsError}
+     * @throws {@link Extend.InternalServerError}
+     *
+     * @example
+     *     await client.editRuns.list({
+     *         nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
+     *     })
+     */
+    public list(
+        request: Extend.EditRunsListRequest = {},
+        requestOptions?: EditRunsClient.RequestOptions,
+    ): core.HttpResponsePromise<Extend.EditRunsListResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
+    }
+
+    private async __list(
+        request: Extend.EditRunsListRequest = {},
+        requestOptions?: EditRunsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.EditRunsListResponse>> {
+        const {
+            status,
+            source,
+            fileNameContains,
+            sortBy,
+            sortDir,
+            nextPageToken,
+            maxPageSize,
+            "x-extend-workspace-id": extendWorkspaceId,
+        } = request;
+        const _queryParams: Record<string, unknown> = {
+            status: status != null ? status : undefined,
+            source: source != null ? source : undefined,
+            fileNameContains,
+            sortBy: sortBy != null ? sortBy : undefined,
+            sortDir: sortDir != null ? sortDir : undefined,
+            nextPageToken,
+            maxPageSize,
+        };
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                "edit_runs",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 300) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.EditRunsListResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new Extend.PaymentRequiredError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Extend.ForbiddenError(_response.error.body as Extend.ApiError, _response.rawResponse);
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 422:
+                    throw new Extend.UnprocessableEntityError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new Extend.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Extend.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/edit_runs");
+    }
+
+    /**
      * Edit and manipulate PDF documents by detecting and filling form fields.
      *
      * The Edit Runs endpoint allows you to convert and edit documents and get an edit run ID that can be used to check status and retrieve results with the Get Edit Run endpoint.
@@ -47,23 +165,28 @@ export class EditRunsClient {
      *             url: "https://example.com/form.pdf"
      *         },
      *         config: {
-     *             engineVersion: "0.0.1",
+     *             engineVersion: "1.0.0",
      *             instructions: "Fill out the form with the provided data",
      *             advancedOptions: {
      *                 flattenPdf: true
      *             }
      *         }
      *     })
+     *
+     * @example
+     *     await client.editRuns.create({
+     *         templateId: "edt_xK9mLPqRtN3vS8wF5hB2cQ"
+     *     })
      */
     public create(
-        request: Extend.EditRunsCreateRequest,
+        request: Extend.EditRunsCreateRequest = {},
         requestOptions?: EditRunsClient.RequestOptions,
     ): core.HttpResponsePromise<Extend.EditRun> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: Extend.EditRunsCreateRequest,
+        request: Extend.EditRunsCreateRequest = {},
         requestOptions?: EditRunsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Extend.EditRun>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();

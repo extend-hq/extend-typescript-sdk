@@ -6,7 +6,7 @@
 export interface EditSchemaGenerationConfigAdvancedOptions {
     /** Whether to parse table regions as arrays of objects. Defaults to `false`. */
     tableParsingEnabled?: boolean;
-    /** Whether to model radio fields as enums. This ensures only one radio widget is selected. Defaults to `false`. */
+    /** Whether to represent radio groups as enums so only one option can be selected. Defaults to `true` for Edit `1.0.0` and `1.0.0-beta`, and `false` for `0.0.1`. */
     radioEnumsEnabled?: boolean;
     /** If enabled, only native AcroForm fields from the PDF will be imported and used in the schema, skipping object detection. Defaults to `false`. */
     nativeFieldsOnly?: boolean;
