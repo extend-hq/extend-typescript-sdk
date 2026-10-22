@@ -5,6 +5,7 @@ import type * as Extend from "../index";
 export interface ArrayStrategy {
     /**
      * The strategy type for handling large array use cases. For most use cases this should be left null, or should be set to `large_array_heuristics`. If you're unsure of what your use case needs, reach out to the Extend team for help.
+     *
      * - `large_array_heuristics`: Optimized for documents with very large arrays, but where latency matters.
      *
      *   This strategy uses specialized heuristics around chunking, tables, and merging to handle large arrays efficiently over large documents.

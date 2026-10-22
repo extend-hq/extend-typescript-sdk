@@ -231,6 +231,75 @@ await client.detectForm({
 </dl>
 </details>
 
+<details><summary><code>client.<a href="/src/Client.ts">verify</a>({ ...params }) -> Extend.VerifyRun</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Check a single document for evidence of tampering, forgery, or AI generation and wait for the result. This endpoint times out after 5 minutes on both engines. A timed-out request usually fails with `504 Gateway Timeout`; the run keeps processing in the background. Use `POST /verify_runs` for `verify_agentic` and for any document that may take longer.
+
+For production workloads, use `POST /verify_runs` and poll `GET /verify_runs/{id}` instead. The response is a completed `verify_run`; read `output.riskLevel`, `output.summary`, and `output.signals`. An empty `signals` array means no Public Signals were detected; it is not a claim that the document is authentic.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.verify({
+    file: {
+        url: "https://example.com/bank_statement.pdf"
+    }
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.VerifyRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ExtendClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.<a href="/src/Client.ts">extract</a>({ ...params }) -> Extend.ExtractRun</code></summary>
 <dl>
 <dd>
@@ -1587,6 +1656,73 @@ Example: `"edr_xK9mLPqRtN3vS8wF5hB2cQ"`
 </details>
 
 ## EditTemplates
+<details><summary><code>client.editTemplates.<a href="/src/api/resources/editTemplates/client/Client.ts">list</a>({ ...params }) -> Extend.EditTemplatesListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List the edit templates saved in a workspace, with an optional filter on the template name.
+
+Returns a paginated list of edit template summaries. Use `GET /edit_templates/{id}` to retrieve a specific template in full, including its `config` and `schemaConfig`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.editTemplates.list({
+    nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.EditTemplatesListRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `EditTemplatesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.editTemplates.<a href="/src/api/resources/editTemplates/client/Client.ts">retrieve</a>(id, { ...params }) -> Extend.EditTemplate</code></summary>
 <dl>
 <dd>
@@ -1890,6 +2026,376 @@ Example: `"sgr_xK9mLPqRtN3vS8wF5hB2cQ"`
 <dd>
 
 **requestOptions:** `FormDetectionRunsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## VerifyRuns
+<details><summary><code>client.verifyRuns.<a href="/src/api/resources/verifyRuns/client/Client.ts">list</a>({ ...params }) -> Extend.VerifyRunsListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List verify runs, with optional filters for status, source, risk level, and file name.
+
+Returns a paginated list of run summaries, each carrying the run's `riskLevel` but not its `output`. Use `GET /verify_runs/{id}` to retrieve the signals and evidence for a specific run.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.verifyRuns.list({
+    nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.VerifyRunsListRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `VerifyRunsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.verifyRuns.<a href="/src/api/resources/verifyRuns/client/Client.ts">create</a>({ ...params }) -> Extend.VerifyRun</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Start checking a single document for evidence of tampering, forgery, or AI generation and return immediately with a `verify_run` resource in the `PROCESSING` state.
+
+Poll `GET /verify_runs/{id}` until the status is `PROCESSED`, `FAILED`, or `CANCELLED`. When processing succeeds, `output` contains the document-level `riskLevel`, a `summary`, and the detected `signals` with their evidence.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.verifyRuns.create({
+    file: {
+        url: "https://example.com/bank_statement.pdf"
+    }
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.VerifyRunsCreateRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `VerifyRunsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.verifyRuns.<a href="/src/api/resources/verifyRuns/client/Client.ts">retrieve</a>(id, { ...params }) -> Extend.VerifyRun</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve the status and result of a verify run.
+
+Use this endpoint to poll a run created with `POST /verify_runs`. When `status` is `PROCESSED`, `output` contains the document-level `riskLevel`, `summary`, and detected `signals`. When `status` is `FAILED`, read `failureReason` and `failureMessage`.
+
+For a zero-retention run, the first `GET` that returns the result also schedules its purge, so store what you need from that response.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.verifyRuns.retrieve("vr_xK9mLPqRtN3vS8wF5hB2cQ");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+
+The unique identifier for the verify run.
+
+Example: `"vr_xK9mLPqRtN3vS8wF5hB2cQ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.VerifyRunsRetrieveRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `VerifyRunsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.verifyRuns.<a href="/src/api/resources/verifyRuns/client/Client.ts">delete</a>(id, { ...params }) -> Extend.VerifyRunsDeleteResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Delete a verify run and all data derived from its document: the result, the evidence artifacts, and the embedded parse. This operation is permanent and cannot be undone. The input file itself is not deleted.
+
+A run that is still `PROCESSING` is cancelled first. After deletion the run returns `404` from every read and no longer appears in `GET /verify_runs`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.verifyRuns.delete("vr_xK9mLPqRtN3vS8wF5hB2cQ");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+
+The ID of the verify run to delete.
+
+Example: `"vr_xK9mLPqRtN3vS8wF5hB2cQ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.VerifyRunsDeleteRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `VerifyRunsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.verifyRuns.<a href="/src/api/resources/verifyRuns/client/Client.ts">cancel</a>(id, { ...params }) -> Extend.VerifyRun</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Cancel an in-progress verify run.
+
+Only runs with a status of `"PROCESSING"` are cancelled. Cancelling a run that has already completed, failed, or been cancelled is a no-op that returns the run unchanged. A cancelled run never produces `output`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.verifyRuns.cancel("vr_xK9mLPqRtN3vS8wF5hB2cQ");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+
+The ID of the verify run to cancel.
+
+Example: `"vr_xK9mLPqRtN3vS8wF5hB2cQ"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.VerifyRunsCancelRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `VerifyRunsClient.RequestOptions` 
     
 </dd>
 </dl>

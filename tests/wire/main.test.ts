@@ -60,6 +60,13 @@ describe("ExtendClient", () => {
                             pageNumber: 1.1,
                         },
                     ],
+                    lines: [
+                        {
+                            content: "content",
+                            boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
+                            pageNumber: 1.1,
+                        },
+                    ],
                 },
                 metadata: {
                     originalMimeType: "originalMimeType",
@@ -223,6 +230,18 @@ describe("ExtendClient", () => {
                                 bottom: 20,
                             },
                             confidence: 1.1,
+                            pageNumber: 1.1,
+                        },
+                    ],
+                    lines: [
+                        {
+                            content: "content",
+                            boundingBox: {
+                                left: 10,
+                                top: 10,
+                                right: 20,
+                                bottom: 20,
+                            },
                             pageNumber: 1.1,
                         },
                     ],
@@ -1550,6 +1569,700 @@ describe("ExtendClient", () => {
         }).rejects.toThrow(Extend.InternalServerError);
     });
 
+    test("verify (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { file: { url: "https://example.com/bank_statement.pdf" } };
+        const rawResponseBody = {
+            object: "verify_run",
+            id: "vr_xK9mLPqRtN3vS8wF5hB2cQ",
+            file: {
+                object: "file",
+                id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                name: "Invoices.pdf",
+                type: "PDF",
+                parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                metadata: {
+                    pageCount: 30,
+                    parentSplit: { id: "id", type: "Invoice", identifier: "other_2_9", startPage: 1, endPage: 10 },
+                },
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            status: "PROCESSING",
+            output: {
+                riskLevel: "LOW",
+                summary:
+                    "The document was modified after it was digitally signed: a later revision replaced page content that the signature had sealed.",
+                signals: [
+                    {
+                        id: "vs_xK9mLPqRtN3vS8wF5hB2cQ",
+                        type: "FILE_FORMAT_AND_PDF_STRUCTURE",
+                        riskAssessment: { type: "LEVEL", level: "LOW" },
+                        summary:
+                            "Content changed after the document was signed, outside the changes the signature permits.",
+                        evidence: [
+                            {
+                                type: "value_comparison",
+                                evidenceId: "meta.timestamp_conflict:001",
+                                data: {
+                                    code: "DOCUMENT_LIFECYCLE_TIMESTAMPS",
+                                    values: [
+                                        {
+                                            name: "modification_time",
+                                            raw: "D:20200101090000-05'00'",
+                                            normalized: "2020-01-01T14:00:00Z",
+                                            locationIds: ["loc_1"],
+                                        },
+                                    ],
+                                },
+                                locations: [
+                                    {
+                                        locationId: "loc_1",
+                                        page: { number: 1, width: 612, height: 792 },
+                                        boundingBox: { left: 325.4, top: 262.976, right: 360.66, bottom: 273.215 },
+                                        objectRefs: ["26 0 R"],
+                                        byteRange: { offset: 102334, length: 537 },
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+            failureReason: "FILE_TYPE_NOT_SUPPORTED",
+            failureMessage: "This file type is not supported for verification.",
+            metadata: { key: "value" },
+            metrics: { processingTimeMs: 4210, pageCount: 7 },
+            config: { engine: "verify_agentic", engineVersion: "0.1.0", advancedOptions: { requireParsing: true } },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                        charges: [
+                            {
+                                product: "extraction_performance",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 30,
+                                pages: [2, 4, 7],
+                            },
+                            { product: "review_agent", unit: "page", quantity: 10, credits: 10, pages: [2, 4, 7] },
+                            {
+                                product: "agentic_text_correction",
+                                unit: "page",
+                                quantity: 3,
+                                credits: 3,
+                                pages: [2, 4, 7],
+                            },
+                        ],
+                    },
+                ],
+            },
+            source: "API",
+            sourceId: "apireq_Xj8mK2pL9nR4vT7qY5wZ",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+        };
+        server
+            .mockEndpoint()
+            .post("/verify")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.verify({
+            file: {
+                url: "https://example.com/bank_statement.pdf",
+            },
+        });
+        expect(response).toEqual({
+            object: "verify_run",
+            id: "vr_xK9mLPqRtN3vS8wF5hB2cQ",
+            file: {
+                object: "file",
+                id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                name: "Invoices.pdf",
+                type: "PDF",
+                parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                metadata: {
+                    pageCount: 30,
+                    parentSplit: {
+                        id: "id",
+                        type: "Invoice",
+                        identifier: "other_2_9",
+                        startPage: 1,
+                        endPage: 10,
+                    },
+                },
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            status: "PROCESSING",
+            output: {
+                riskLevel: "LOW",
+                summary:
+                    "The document was modified after it was digitally signed: a later revision replaced page content that the signature had sealed.",
+                signals: [
+                    {
+                        id: "vs_xK9mLPqRtN3vS8wF5hB2cQ",
+                        type: "FILE_FORMAT_AND_PDF_STRUCTURE",
+                        riskAssessment: {
+                            type: "LEVEL",
+                            level: "LOW",
+                        },
+                        summary:
+                            "Content changed after the document was signed, outside the changes the signature permits.",
+                        evidence: [
+                            {
+                                type: "value_comparison",
+                                evidenceId: "meta.timestamp_conflict:001",
+                                data: {
+                                    code: "DOCUMENT_LIFECYCLE_TIMESTAMPS",
+                                    values: [
+                                        {
+                                            name: "modification_time",
+                                            raw: "D:20200101090000-05'00'",
+                                            normalized: "2020-01-01T14:00:00Z",
+                                            locationIds: ["loc_1"],
+                                        },
+                                    ],
+                                },
+                                locations: [
+                                    {
+                                        locationId: "loc_1",
+                                        page: {
+                                            number: 1,
+                                            width: 612,
+                                            height: 792,
+                                        },
+                                        boundingBox: {
+                                            left: 325.4,
+                                            top: 262.976,
+                                            right: 360.66,
+                                            bottom: 273.215,
+                                        },
+                                        objectRefs: ["26 0 R"],
+                                        byteRange: {
+                                            offset: 102334,
+                                            length: 537,
+                                        },
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+            failureReason: "FILE_TYPE_NOT_SUPPORTED",
+            failureMessage: "This file type is not supported for verification.",
+            metadata: {
+                key: "value",
+            },
+            metrics: {
+                processingTimeMs: 4210,
+                pageCount: 7,
+            },
+            config: {
+                engine: "verify_agentic",
+                engineVersion: "0.1.0",
+                advancedOptions: {
+                    requireParsing: true,
+                },
+            },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                        charges: [
+                            {
+                                product: "extraction_performance",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 30,
+                                pages: [2, 4, 7],
+                            },
+                            {
+                                product: "review_agent",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 10,
+                                pages: [2, 4, 7],
+                            },
+                            {
+                                product: "agentic_text_correction",
+                                unit: "page",
+                                quantity: 3,
+                                credits: 3,
+                                pages: [2, 4, 7],
+                            },
+                        ],
+                    },
+                ],
+            },
+            source: "API",
+            sourceId: "apireq_Xj8mK2pL9nR4vT7qY5wZ",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+        });
+    });
+
+    test("verify (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = {
+            file: { id: "file_xK9mLPqRtN3vS8wF5hB2cQ" },
+            config: { engine: "verify_light", engineVersion: "latest", advancedOptions: { requireParsing: true } },
+            metadata: { customerDocumentId: "credential-48391" },
+        };
+        const rawResponseBody = {
+            object: "verify_run",
+            id: "vr_xK9mLPqRtN3vS8wF5hB2cQ",
+            file: {
+                object: "file",
+                id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                name: "Invoices.pdf",
+                type: "PDF",
+                parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                metadata: {
+                    pageCount: 30,
+                    parentSplit: { id: "id", type: "Invoice", identifier: "other_2_9", startPage: 1, endPage: 10 },
+                },
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            status: "PROCESSING",
+            output: {
+                riskLevel: "LOW",
+                summary:
+                    "The document was modified after it was digitally signed: a later revision replaced page content that the signature had sealed.",
+                signals: [
+                    {
+                        id: "vs_xK9mLPqRtN3vS8wF5hB2cQ",
+                        type: "FILE_FORMAT_AND_PDF_STRUCTURE",
+                        riskAssessment: { type: "LEVEL", level: "LOW" },
+                        summary:
+                            "Content changed after the document was signed, outside the changes the signature permits.",
+                        evidence: [
+                            {
+                                type: "value_comparison",
+                                evidenceId: "meta.timestamp_conflict:001",
+                                data: {
+                                    code: "DOCUMENT_LIFECYCLE_TIMESTAMPS",
+                                    values: [
+                                        {
+                                            name: "modification_time",
+                                            raw: "D:20200101090000-05'00'",
+                                            normalized: "2020-01-01T14:00:00Z",
+                                            locationIds: ["loc_1"],
+                                        },
+                                    ],
+                                },
+                                locations: [
+                                    {
+                                        locationId: "loc_1",
+                                        page: { number: 1, width: 612, height: 792 },
+                                        boundingBox: { left: 325.4, top: 262.976, right: 360.66, bottom: 273.215 },
+                                        objectRefs: ["26 0 R"],
+                                        byteRange: { offset: 102334, length: 537 },
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+            failureReason: "FILE_TYPE_NOT_SUPPORTED",
+            failureMessage: "This file type is not supported for verification.",
+            metadata: { key: "value" },
+            metrics: { processingTimeMs: 4210, pageCount: 7 },
+            config: { engine: "verify_agentic", engineVersion: "0.1.0", advancedOptions: { requireParsing: true } },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                        charges: [
+                            {
+                                product: "extraction_performance",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 30,
+                                pages: [2, 4, 7],
+                            },
+                            { product: "review_agent", unit: "page", quantity: 10, credits: 10, pages: [2, 4, 7] },
+                            {
+                                product: "agentic_text_correction",
+                                unit: "page",
+                                quantity: 3,
+                                credits: 3,
+                                pages: [2, 4, 7],
+                            },
+                        ],
+                    },
+                ],
+            },
+            source: "API",
+            sourceId: "apireq_Xj8mK2pL9nR4vT7qY5wZ",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+        };
+        server
+            .mockEndpoint()
+            .post("/verify")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.verify({
+            file: {
+                id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+            },
+            config: {
+                engine: "verify_light",
+                engineVersion: "latest",
+                advancedOptions: {
+                    requireParsing: true,
+                },
+            },
+            metadata: {
+                customerDocumentId: "credential-48391",
+            },
+        });
+        expect(response).toEqual({
+            object: "verify_run",
+            id: "vr_xK9mLPqRtN3vS8wF5hB2cQ",
+            file: {
+                object: "file",
+                id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
+                name: "Invoices.pdf",
+                type: "PDF",
+                parentFileId: "file_Zk9mNP12Qw4yTv8BdR3H",
+                metadata: {
+                    pageCount: 30,
+                    parentSplit: {
+                        id: "id",
+                        type: "Invoice",
+                        identifier: "other_2_9",
+                        startPage: 1,
+                        endPage: 10,
+                    },
+                },
+                createdAt: "2024-03-21T16:45:00Z",
+                updatedAt: "2024-03-21T16:45:00Z",
+            },
+            status: "PROCESSING",
+            output: {
+                riskLevel: "LOW",
+                summary:
+                    "The document was modified after it was digitally signed: a later revision replaced page content that the signature had sealed.",
+                signals: [
+                    {
+                        id: "vs_xK9mLPqRtN3vS8wF5hB2cQ",
+                        type: "FILE_FORMAT_AND_PDF_STRUCTURE",
+                        riskAssessment: {
+                            type: "LEVEL",
+                            level: "LOW",
+                        },
+                        summary:
+                            "Content changed after the document was signed, outside the changes the signature permits.",
+                        evidence: [
+                            {
+                                type: "value_comparison",
+                                evidenceId: "meta.timestamp_conflict:001",
+                                data: {
+                                    code: "DOCUMENT_LIFECYCLE_TIMESTAMPS",
+                                    values: [
+                                        {
+                                            name: "modification_time",
+                                            raw: "D:20200101090000-05'00'",
+                                            normalized: "2020-01-01T14:00:00Z",
+                                            locationIds: ["loc_1"],
+                                        },
+                                    ],
+                                },
+                                locations: [
+                                    {
+                                        locationId: "loc_1",
+                                        page: {
+                                            number: 1,
+                                            width: 612,
+                                            height: 792,
+                                        },
+                                        boundingBox: {
+                                            left: 325.4,
+                                            top: 262.976,
+                                            right: 360.66,
+                                            bottom: 273.215,
+                                        },
+                                        objectRefs: ["26 0 R"],
+                                        byteRange: {
+                                            offset: 102334,
+                                            length: 537,
+                                        },
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+            failureReason: "FILE_TYPE_NOT_SUPPORTED",
+            failureMessage: "This file type is not supported for verification.",
+            metadata: {
+                key: "value",
+            },
+            metrics: {
+                processingTimeMs: 4210,
+                pageCount: 7,
+            },
+            config: {
+                engine: "verify_agentic",
+                engineVersion: "0.1.0",
+                advancedOptions: {
+                    requireParsing: true,
+                },
+            },
+            usage: {
+                credits: 9,
+                totalCredits: 15,
+                breakdown: [
+                    {
+                        object: "extract_run",
+                        id: "pr_3UZSj69pYZDKHFuuX57ic",
+                        credits: 6,
+                        charges: [
+                            {
+                                product: "extraction_performance",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 30,
+                                pages: [2, 4, 7],
+                            },
+                            {
+                                product: "review_agent",
+                                unit: "page",
+                                quantity: 10,
+                                credits: 10,
+                                pages: [2, 4, 7],
+                            },
+                            {
+                                product: "agentic_text_correction",
+                                unit: "page",
+                                quantity: 3,
+                                credits: 3,
+                                pages: [2, 4, 7],
+                            },
+                        ],
+                    },
+                ],
+            },
+            source: "API",
+            sourceId: "apireq_Xj8mK2pL9nR4vT7qY5wZ",
+            createdAt: "2024-03-21T16:45:00Z",
+            updatedAt: "2024-03-21T16:45:00Z",
+        });
+    });
+
+    test("verify (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { file: { url: "url" } };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/verify")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.verify({
+                file: {
+                    url: "url",
+                },
+            });
+        }).rejects.toThrow(Extend.BadRequestError);
+    });
+
+    test("verify (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { file: { url: "url" } };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/verify")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.verify({
+                file: {
+                    url: "url",
+                },
+            });
+        }).rejects.toThrow(Extend.UnauthorizedError);
+    });
+
+    test("verify (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { file: { url: "url" } };
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/verify")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(402)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.verify({
+                file: {
+                    url: "url",
+                },
+            });
+        }).rejects.toThrow(Extend.PaymentRequiredError);
+    });
+
+    test("verify (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { file: { url: "url" } };
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/verify")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.verify({
+                file: {
+                    url: "url",
+                },
+            });
+        }).rejects.toThrow(Extend.ForbiddenError);
+    });
+
+    test("verify (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { file: { url: "url" } };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/verify")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.verify({
+                file: {
+                    url: "url",
+                },
+            });
+        }).rejects.toThrow(Extend.NotFoundError);
+    });
+
+    test("verify (8)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { file: { url: "url" } };
+        const rawResponseBody = { code: "code", message: "message", retryable: true };
+        server
+            .mockEndpoint()
+            .post("/verify")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(422)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.verify({
+                file: {
+                    url: "url",
+                },
+            });
+        }).rejects.toThrow(Extend.UnprocessableEntityError);
+    });
+
+    test("verify (9)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { file: { url: "url" } };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/verify")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(429)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.verify({
+                file: {
+                    url: "url",
+                },
+            });
+        }).rejects.toThrow(Extend.TooManyRequestsError);
+    });
+
+    test("verify (10)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
+        const rawRequestBody = { file: { url: "url" } };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/verify")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.verify({
+                file: {
+                    url: "url",
+                },
+            });
+        }).rejects.toThrow(Extend.InternalServerError);
+    });
+
     test("extract (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
@@ -2160,7 +2873,7 @@ describe("ExtendClient", () => {
             reviewed: false,
             edited: false,
             config: {
-                baseProcessor: "classification_performance",
+                baseProcessor: "classification_standard",
                 baseVersion: "3.2.0",
                 classifications: [
                     {
@@ -2337,7 +3050,7 @@ describe("ExtendClient", () => {
             reviewed: false,
             edited: false,
             config: {
-                baseProcessor: "classification_performance",
+                baseProcessor: "classification_standard",
                 baseVersion: "3.2.0",
                 classifications: [
                     {
@@ -2745,6 +3458,7 @@ describe("ExtendClient", () => {
                         { start: 20, end: 30 },
                     ],
                     pageOverlapEnabled: true,
+                    strictIdentifierModeEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -2941,6 +3655,7 @@ describe("ExtendClient", () => {
                         },
                     ],
                     pageOverlapEnabled: true,
+                    strictIdentifierModeEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",

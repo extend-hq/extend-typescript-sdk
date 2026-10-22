@@ -13,7 +13,9 @@ export type StepRun =
     | Extend.StepRun.MergeExtract
     | Extend.StepRun.ConditionalExtract
     | Extend.StepRun.RuleValidation
-    | Extend.StepRun.ExternalDataValidation;
+    | Extend.StepRun.ExternalDataValidation
+    | Extend.StepRun.Validation
+    | Extend.StepRun.Router;
 
 export namespace StepRun {
     export interface Parse extends Extend.ParseStepRun {
@@ -46,5 +48,13 @@ export namespace StepRun {
 
     export interface ExternalDataValidation extends Extend.ExternalDataValidationStepRun {
         stepType: "EXTERNAL_DATA_VALIDATION";
+    }
+
+    export interface Validation extends Extend.ValidationStepRun {
+        stepType: "VALIDATION";
+    }
+
+    export interface Router extends Extend.RouterStepRun {
+        stepType: "ROUTER";
     }
 }

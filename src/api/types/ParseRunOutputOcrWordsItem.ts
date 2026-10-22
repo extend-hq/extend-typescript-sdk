@@ -13,4 +13,12 @@ export interface ParseRunOutputOcrWordsItem {
     pageNumber: number;
     /** The `id` of the block (see the `Block` schema) this word was assigned to, based on bounding-box overlap. Omitted when the word doesn't fall within any block's bounding box. */
     blockId?: string;
+    /**
+     * Clockwise degrees the word is rotated from upright, as a whole number in `[0, 360)`.
+     *
+     * `null` when the orientation could not be calculated for the word.
+     *
+     * **Availability:** Present on parse runs created on or after October 6, 2026.
+     */
+    rotation?: number | null;
 }

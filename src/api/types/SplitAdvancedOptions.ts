@@ -23,4 +23,14 @@ export interface SplitAdvancedOptions {
      * **Availability:** Supported on `splitting_light` >= 1.1.0 and `splitting_performance` >= 1.2.0. If provided on older versions, this field is accepted but ignored.
      */
     pageOverlapEnabled?: boolean;
+    /**
+     * When enabled, adjacent candidate sub-documents that share the same type and the same extracted identifier are merged into a single split before the splitter finalizes its boundaries. Use it when one logical document repeats its identifier across its pages — for example a multi-page invoice whose invoice number appears on every page.
+     *
+     * Identifiers come from the `identifierKey` rule on the matching classification in `splitClassifications` when one is defined. The splitter will always define a short descriptive identifier for each sub-document — make sure to define `identifierKey` on any classification you intend to merge by, so the identifier is a stable document-level value.
+     *
+     * **Default:** When omitted, this setting is enabled on `splitting_performance` >= 1.6.2 and `splitting_light` >= 1.4.1, and disabled on earlier versions.
+     *
+     * **Availability:** all `splitting_performance` versions and `splitting_light` >= 1.3.0
+     */
+    strictIdentifierModeEnabled?: boolean;
 }

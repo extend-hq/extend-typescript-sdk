@@ -3,9 +3,11 @@
 import type * as Extend from "../index";
 
 /**
- * Raw OCR data from the parsing process. Only included when `returnOcr` is configured in the parse config's advanced options.
+ * Raw OCR data from the parsing process. Words and lines are independently enabled with `returnOcr.words` and `returnOcr.lines`; either array may be omitted.
  */
 export interface ParseRunOutputOcr {
     /** An array of individual words detected by OCR. */
     words?: Extend.ParseRunOutputOcrWordsItem[];
+    /** Text lines detected by OCR. Only included when `config.advancedOptions.returnOcr.lines` is true and line data is available; enabling words does not enable lines. */
+    lines?: Extend.ParseRunOutputOcrLinesItem[];
 }

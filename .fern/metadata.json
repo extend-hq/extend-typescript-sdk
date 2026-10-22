@@ -39,6 +39,6 @@
             "homepage": "https://docs.extend.ai/sdks"
         }
     },
-    "originGitCommit": "9a1bed66b89caba2582775131bfea43d42b1bd31",
-    "sdkVersion": "2.3.0"
+    "originGitCommit": "38cc7c56f0e2b9d179614d51aaff85697575226d",
+    "sdkVersion": "2.4.0"
 }

@@ -163,7 +163,7 @@ describe("ClassifiersClient", () => {
                 description: "Added new document types for Q4 processing",
                 version: "draft",
                 config: {
-                    baseProcessor: "classification_performance",
+                    baseProcessor: "classification_standard",
                     baseVersion: "3.2.0",
                     classifications: [
                         {
@@ -231,7 +231,7 @@ describe("ClassifiersClient", () => {
                 description: "Added new document types for Q4 processing",
                 version: "draft",
                 config: {
-                    baseProcessor: "classification_performance",
+                    baseProcessor: "classification_standard",
                     baseVersion: "3.2.0",
                     classifications: [
                         {
@@ -458,7 +458,7 @@ describe("ClassifiersClient", () => {
                 description: "Added new document types for Q4 processing",
                 version: "draft",
                 config: {
-                    baseProcessor: "classification_performance",
+                    baseProcessor: "classification_standard",
                     baseVersion: "3.2.0",
                     classifications: [
                         {
@@ -504,7 +504,7 @@ describe("ClassifiersClient", () => {
                 description: "Added new document types for Q4 processing",
                 version: "draft",
                 config: {
-                    baseProcessor: "classification_performance",
+                    baseProcessor: "classification_standard",
                     baseVersion: "3.2.0",
                     classifications: [
                         {
@@ -659,7 +659,7 @@ describe("ClassifiersClient", () => {
                 description: "Added new document types for Q4 processing",
                 version: "draft",
                 config: {
-                    baseProcessor: "classification_performance",
+                    baseProcessor: "classification_standard",
                     baseVersion: "3.2.0",
                     classifications: [
                         {
@@ -708,7 +708,7 @@ describe("ClassifiersClient", () => {
                 description: "Added new document types for Q4 processing",
                 version: "draft",
                 config: {
-                    baseProcessor: "classification_performance",
+                    baseProcessor: "classification_standard",
                     baseVersion: "3.2.0",
                     classifications: [
                         {

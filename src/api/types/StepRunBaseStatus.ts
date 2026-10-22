@@ -7,6 +7,7 @@
  * * `"PROCESSING"` - The step run is currently executing
  * * `"PROCESSED"` - The step run completed successfully
  * * `"FAILED"` - The step run encountered an error
+ * * `"INVALIDATED"` - The step run was invalidated
  * * `"CANCELLED"` - The step run was cancelled
  */
 export const StepRunBaseStatus = {
@@ -15,6 +16,7 @@ export const StepRunBaseStatus = {
     Processing: "PROCESSING",
     Processed: "PROCESSED",
     Failed: "FAILED",
+    Invalidated: "INVALIDATED",
     Cancelled: "CANCELLED",
 } as const;
 export type StepRunBaseStatus = (typeof StepRunBaseStatus)[keyof typeof StepRunBaseStatus] | string;

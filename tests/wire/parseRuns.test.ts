@@ -251,6 +251,13 @@ describe("ParseRunsClient", () => {
                             pageNumber: 1.1,
                         },
                     ],
+                    lines: [
+                        {
+                            content: "content",
+                            boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
+                            pageNumber: 1.1,
+                        },
+                    ],
                 },
                 metadata: {
                     originalMimeType: "originalMimeType",
@@ -414,6 +421,18 @@ describe("ParseRunsClient", () => {
                                 bottom: 20,
                             },
                             confidence: 1.1,
+                            pageNumber: 1.1,
+                        },
+                    ],
+                    lines: [
+                        {
+                            content: "content",
+                            boundingBox: {
+                                left: 10,
+                                top: 10,
+                                right: 20,
+                                bottom: 20,
+                            },
                             pageNumber: 1.1,
                         },
                     ],
@@ -753,6 +772,13 @@ describe("ParseRunsClient", () => {
                             pageNumber: 1.1,
                         },
                     ],
+                    lines: [
+                        {
+                            content: "content",
+                            boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
+                            pageNumber: 1.1,
+                        },
+                    ],
                 },
                 metadata: {
                     originalMimeType: "originalMimeType",
@@ -910,6 +936,18 @@ describe("ParseRunsClient", () => {
                                 bottom: 20,
                             },
                             confidence: 1.1,
+                            pageNumber: 1.1,
+                        },
+                    ],
+                    lines: [
+                        {
+                            content: "content",
+                            boundingBox: {
+                                left: 10,
+                                top: 10,
+                                right: 20,
+                                bottom: 20,
+                            },
                             pageNumber: 1.1,
                         },
                     ],
@@ -1276,6 +1314,13 @@ describe("ParseRunsClient", () => {
                             pageNumber: 1.1,
                         },
                     ],
+                    lines: [
+                        {
+                            content: "content",
+                            boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
+                            pageNumber: 1.1,
+                        },
+                    ],
                 },
                 metadata: {
                     originalMimeType: "originalMimeType",
@@ -1433,6 +1478,18 @@ describe("ParseRunsClient", () => {
                                 bottom: 20,
                             },
                             confidence: 1.1,
+                            pageNumber: 1.1,
+                        },
+                    ],
+                    lines: [
+                        {
+                            content: "content",
+                            boundingBox: {
+                                left: 10,
+                                top: 10,
+                                right: 20,
+                                bottom: 20,
+                            },
                             pageNumber: 1.1,
                         },
                     ],

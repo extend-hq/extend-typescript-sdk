@@ -329,6 +329,7 @@ describe("SplitRunsClient", () => {
                         { start: 20, end: 30 },
                     ],
                     pageOverlapEnabled: true,
+                    strictIdentifierModeEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -507,6 +508,7 @@ describe("SplitRunsClient", () => {
                         },
                     ],
                     pageOverlapEnabled: true,
+                    strictIdentifierModeEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -870,6 +872,7 @@ describe("SplitRunsClient", () => {
                         { start: 20, end: 30 },
                     ],
                     pageOverlapEnabled: true,
+                    strictIdentifierModeEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -1040,6 +1043,7 @@ describe("SplitRunsClient", () => {
                         },
                     ],
                     pageOverlapEnabled: true,
+                    strictIdentifierModeEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -1424,6 +1428,7 @@ describe("SplitRunsClient", () => {
                         { start: 20, end: 30 },
                     ],
                     pageOverlapEnabled: true,
+                    strictIdentifierModeEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -1594,6 +1599,7 @@ describe("SplitRunsClient", () => {
                         },
                     ],
                     pageOverlapEnabled: true,
+                    strictIdentifierModeEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",

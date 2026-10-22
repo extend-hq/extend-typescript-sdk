@@ -24,6 +24,7 @@ import { ProcessorVersionClient } from "./api/resources/processorVersion/client/
 import { SplitRunsClient } from "./api/resources/splitRuns/client/Client";
 import { SplittersClient } from "./api/resources/splitters/client/Client";
 import { SplitterVersionsClient } from "./api/resources/splitterVersions/client/Client";
+import { VerifyRunsClient } from "./api/resources/verifyRuns/client/Client";
 import { WebhookEndpointsClient } from "./api/resources/webhookEndpoints/client/Client";
 import { WebhookSubscriptionsClient } from "./api/resources/webhookSubscriptions/client/Client";
 import { WorkflowRunsClient } from "./api/resources/workflowRuns/client/Client";
@@ -51,6 +52,7 @@ export class ExtendClient {
     protected _editTemplates: EditTemplatesClient | undefined;
     protected _editSchemas: EditSchemasClient | undefined;
     protected _formDetectionRuns: FormDetectionRunsClient | undefined;
+    protected _verifyRuns: VerifyRunsClient | undefined;
     protected _extractRuns: ExtractRunsClient | undefined;
     protected _extractors: ExtractorsClient | undefined;
     protected _extractorVersions: ExtractorVersionsClient | undefined;
@@ -100,6 +102,10 @@ export class ExtendClient {
 
     public get formDetectionRuns(): FormDetectionRunsClient {
         return (this._formDetectionRuns ??= new FormDetectionRunsClient(this._options));
+    }
+
+    public get verifyRuns(): VerifyRunsClient {
+        return (this._verifyRuns ??= new VerifyRunsClient(this._options));
     }
 
     public get extractRuns(): ExtractRunsClient {
@@ -528,6 +534,128 @@ export class ExtendClient {
         }
 
         return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/detect_form");
+    }
+
+    /**
+     * Check a single document for evidence of tampering, forgery, or AI generation and wait for the result. This endpoint times out after 5 minutes on both engines. A timed-out request usually fails with `504 Gateway Timeout`; the run keeps processing in the background. Use `POST /verify_runs` for `verify_agentic` and for any document that may take longer.
+     *
+     * For production workloads, use `POST /verify_runs` and poll `GET /verify_runs/{id}` instead. The response is a completed `verify_run`; read `output.riskLevel`, `output.summary`, and `output.signals`. An empty `signals` array means no Public Signals were detected; it is not a claim that the document is authentic.
+     *
+     * @param {Extend.VerifyRequest} request
+     * @param {ExtendClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Extend.BadRequestError}
+     * @throws {@link Extend.UnauthorizedError}
+     * @throws {@link Extend.PaymentRequiredError}
+     * @throws {@link Extend.ForbiddenError}
+     * @throws {@link Extend.NotFoundError}
+     * @throws {@link Extend.UnprocessableEntityError}
+     * @throws {@link Extend.TooManyRequestsError}
+     * @throws {@link Extend.InternalServerError}
+     *
+     * @example
+     *     await client.verify({
+     *         file: {
+     *             url: "https://example.com/bank_statement.pdf"
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.verify({
+     *         file: {
+     *             id: "file_xK9mLPqRtN3vS8wF5hB2cQ"
+     *         },
+     *         config: {
+     *             engine: "verify_light",
+     *             engineVersion: "latest",
+     *             advancedOptions: {
+     *                 requireParsing: true
+     *             }
+     *         },
+     *         metadata: {
+     *             "customerDocumentId": "credential-48391"
+     *         }
+     *     })
+     */
+    public verify(
+        request: Extend.VerifyRequest,
+        requestOptions?: ExtendClient.RequestOptions,
+    ): core.HttpResponsePromise<Extend.VerifyRun> {
+        return core.HttpResponsePromise.fromPromise(this.__verify(request, requestOptions));
+    }
+
+    private async __verify(
+        request: Extend.VerifyRequest,
+        requestOptions?: ExtendClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Extend.VerifyRun>> {
+        const { "x-extend-workspace-id": extendWorkspaceId, ..._body } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({
+                "x-extend-workspace-id": extendWorkspaceId,
+                "x-extend-api-version": requestOptions?.extendApiVersion ?? "2026-02-09",
+            }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ExtendEnvironment.Production,
+                "verify",
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryParameters: requestOptions?.queryParams,
+            requestType: "json",
+            body: _body,
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 300) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Extend.VerifyRun, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Extend.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Extend.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new Extend.PaymentRequiredError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Extend.ForbiddenError(_response.error.body as Extend.ApiError, _response.rawResponse);
+                case 404:
+                    throw new Extend.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 422:
+                    throw new Extend.UnprocessableEntityError(
+                        _response.error.body as Extend.ApiError,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new Extend.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Extend.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ExtendError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/verify");
     }
 
     /**

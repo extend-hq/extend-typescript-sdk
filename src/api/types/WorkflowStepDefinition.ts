@@ -19,6 +19,8 @@ export type WorkflowStepDefinition =
     | Extend.WorkflowStepDefinition.ExternalDataValidation
     | Extend.WorkflowStepDefinition.WebhookResponse
     | Extend.WorkflowStepDefinition.RuleValidation
+    | Extend.WorkflowStepDefinition.Validation
+    | Extend.WorkflowStepDefinition.Router
     | Extend.WorkflowStepDefinition.HumanReview
     | Extend.WorkflowStepDefinition.Collect
     | Extend.WorkflowStepDefinition.FileConversion;
@@ -66,6 +68,14 @@ export namespace WorkflowStepDefinition {
 
     export interface RuleValidation extends Extend.RuleValidationStepDefinition {
         type: "RULE_VALIDATION";
+    }
+
+    export interface Validation extends Extend.ValidationStepDefinition {
+        type: "VALIDATION";
+    }
+
+    export interface Router extends Extend.RouterStepDefinition {
+        type: "ROUTER";
     }
 
     export interface HumanReview extends Extend.HumanReviewStepDefinition {

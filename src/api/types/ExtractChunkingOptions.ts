@@ -2,6 +2,9 @@
 
 import type * as Extend from "../index";
 
+/**
+ * Options controlling how documents are chunked before extraction.
+ */
 export interface ExtractChunkingOptions {
     /** The strategy to use for chunking the document. */
     chunkingStrategy?: Extend.ExtractChunkingOptionsChunkingStrategy;

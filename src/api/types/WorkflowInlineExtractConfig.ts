@@ -7,7 +7,7 @@ import type * as Extend from "../index";
  */
 export interface WorkflowInlineExtractConfig {
     baseProcessor?: Extend.ExtractBaseProcessor;
-    /** The version of the `"extraction_performance"` or `"extraction_light"` processor to use. If not provided, the latest stable version for the selected `baseProcessor` will be used automatically. See [Extraction Changelog](https://docs.extend.ai/2026-02-09/model-versioning/extraction/extraction-performance) for more details. */
+    /** The version of the `"extraction_performance"`, `"extraction_light"`, or `"extraction_operator"` processor to use. If not provided, the latest stable version will be used. See [Extraction Changelog](https://docs.extend.ai/2026-02-09/model-versioning/extraction/extraction-performance) for more details. */
     baseVersion?: string;
     /** Custom rules to guide the extraction process in natural language. */
     extractionRules?: string;
