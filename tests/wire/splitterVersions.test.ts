@@ -228,6 +228,7 @@ describe("SplitterVersionsClient", () => {
                         { start: 20, end: 30 },
                     ],
                     pageOverlapEnabled: true,
+                    strictIdentifierModeEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -290,6 +291,7 @@ describe("SplitterVersionsClient", () => {
                         },
                     ],
                     pageOverlapEnabled: true,
+                    strictIdentifierModeEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -521,6 +523,7 @@ describe("SplitterVersionsClient", () => {
                         { start: 20, end: 30 },
                     ],
                     pageOverlapEnabled: true,
+                    strictIdentifierModeEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",
@@ -579,6 +582,7 @@ describe("SplitterVersionsClient", () => {
                         },
                     ],
                     pageOverlapEnabled: true,
+                    strictIdentifierModeEnabled: true,
                 },
                 parseConfig: {
                     target: "markdown",

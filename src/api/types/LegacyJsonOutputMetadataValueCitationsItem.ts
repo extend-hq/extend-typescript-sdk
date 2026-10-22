@@ -3,12 +3,14 @@
 import type * as Extend from "../index";
 
 export interface LegacyJsonOutputMetadataValueCitationsItem {
-    /** Page number where the citation was found */
+    /** Page number where the citation was found. For Excel, the 1-based worksheet index; for CSV, always 1. */
     page?: number;
     /** The text that was referenced */
     referenceText?: string | null;
     /** Array of points defining the polygon around the referenced text */
     polygon?: Extend.LegacyJsonOutputMetadataValueCitationsItemPolygonItem[];
+    /** The cited cell or range in A1 notation for Excel and CSV files. Returned instead of a polygon when a cell reference is available. */
+    cellRange?: string;
     /** Width of the page in points */
     pageWidth?: number;
     /** Height of the page in points */

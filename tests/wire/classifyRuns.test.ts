@@ -278,7 +278,7 @@ describe("ClassifyRunsClient", () => {
             reviewed: false,
             edited: false,
             config: {
-                baseProcessor: "classification_performance",
+                baseProcessor: "classification_standard",
                 baseVersion: "3.2.0",
                 classifications: [
                     {
@@ -439,7 +439,7 @@ describe("ClassifyRunsClient", () => {
             reviewed: false,
             edited: false,
             config: {
-                baseProcessor: "classification_performance",
+                baseProcessor: "classification_standard",
                 baseVersion: "3.2.0",
                 classifications: [
                     {
@@ -777,7 +777,7 @@ describe("ClassifyRunsClient", () => {
             reviewed: false,
             edited: false,
             config: {
-                baseProcessor: "classification_performance",
+                baseProcessor: "classification_standard",
                 baseVersion: "3.2.0",
                 classifications: [
                     {
@@ -930,7 +930,7 @@ describe("ClassifyRunsClient", () => {
             reviewed: false,
             edited: false,
             config: {
-                baseProcessor: "classification_performance",
+                baseProcessor: "classification_standard",
                 baseVersion: "3.2.0",
                 classifications: [
                     {
@@ -1343,7 +1343,7 @@ describe("ClassifyRunsClient", () => {
             reviewed: false,
             edited: false,
             config: {
-                baseProcessor: "classification_performance",
+                baseProcessor: "classification_standard",
                 baseVersion: "3.2.0",
                 classifications: [
                     {
@@ -1496,7 +1496,7 @@ describe("ClassifyRunsClient", () => {
             reviewed: false,
             edited: false,
             config: {
-                baseProcessor: "classification_performance",
+                baseProcessor: "classification_standard",
                 baseVersion: "3.2.0",
                 classifications: [
                     {

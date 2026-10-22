@@ -10,4 +10,6 @@ export interface Citation {
     referenceText?: string | null;
     /** Array of points defining the polygon around the referenced text */
     polygon?: Extend.Polygon[];
+    /** The cited cell or range in A1 notation for Excel and CSV files. Returned instead of a polygon when a cell reference is available. */
+    cellRange?: string;
 }

@@ -10,7 +10,7 @@ import type * as Extend from "../index";
 export interface ParseRunOutput {
     /** An array of chunks that were parsed from the file. */
     chunks: Extend.Chunk[];
-    /** Raw OCR data from the parsing process. Only included when `returnOcr` is configured in the parse config's advanced options. */
+    /** Raw OCR data from the parsing process. Words and lines are independently enabled with `returnOcr.words` and `returnOcr.lines`; either array may be omitted. */
     ocr?: Extend.ParseRunOutputOcr;
     /** Rotation, dimension, and file-type metadata about the parse output. `null` for parse runs that completed before this field was introduced. */
     metadata?: Extend.ParseRunOutputMetadata | null;
