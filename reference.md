@@ -9047,3 +9047,221 @@ Example: `"whes_Xj8mK2pL9nR4vT7qY5wZ"`
 </dd>
 </dl>
 </details>
+
+## Workspaces
+<details><summary><code>client.workspaces.<a href="/src/api/resources/workspaces/client/Client.ts">list</a>({ ...params }) -> Extend.WorkspacesListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List every workspace in your organization.
+
+Requires an **organization-scoped** API key. See [Create Workspace](https://docs.extend.ai/2026-02-09/api-reference/endpoints/workspace/create-workspace) for the availability and authentication rules that apply to all `/workspaces` endpoints.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.workspaces.list({
+    "x-extend-workspace-id": "x-extend-workspace-id",
+    nextPageToken: "xK9mLPqRtN3vS8wF5hB2cQ==:zWvUxYjM4nKpL7aDgE9HbTcR2mAyX3/Q+CNkfBSw1dZ="
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.WorkspacesListRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WorkspacesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.workspaces.<a href="/src/api/resources/workspaces/client/Client.ts">create</a>({ ...params }) -> Extend.Workspace</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a new workspace in your organization. 
+
+**Availability.** Workspace management may be enabled for customers on the Enterprise plan. Contact [support@extend.ai](mailto:support@extend.ai) if you would like to have it enabled for your organization.
+
+**Authentication.** Requires an **organization-scoped** API key. As with every organization-key request, you must still send `x-extend-workspace-id` with an existing workspace.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.workspaces.create({
+    "x-extend-workspace-id": "x-extend-workspace-id",
+    name: "Workspace A"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Extend.WorkspacesCreateRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WorkspacesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.workspaces.<a href="/src/api/resources/workspaces/client/Client.ts">retrieve</a>(id, { ...params }) -> Extend.Workspace</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve a workspace by ID.
+
+Requires an **organization-scoped** API key. See [Create Workspace](https://docs.extend.ai/2026-02-09/api-reference/endpoints/workspace/create-workspace) for the availability and authentication rules that apply to all `/workspaces` endpoints.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.workspaces.retrieve("workspace_id_here", {
+    "x-extend-workspace-id": "x-extend-workspace-id"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+
+The ID of the workspace.
+
+Example: `"ws_GSdEJY2mXL0FaQ3mL4kNY"`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Extend.WorkspacesRetrieveRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WorkspacesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>

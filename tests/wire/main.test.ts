@@ -47,6 +47,7 @@ describe("ExtendClient", () => {
                                 metadata: { sheet: { index: 0, name: "Sheet1" } },
                                 polygon: [{ x: 10, y: 20 }],
                                 boundingBox: { left: 10, top: 10, right: 20, bottom: 20 },
+                                source: { type: "html", byteOffset: 30, byteLength: 13 },
                             },
                         ],
                     },
@@ -68,12 +69,20 @@ describe("ExtendClient", () => {
                         },
                     ],
                 },
+                source: { nodes: [{ content: "content", byteOffset: 1, byteLength: 1, blockId: "blockId" }] },
                 metadata: {
                     originalMimeType: "originalMimeType",
                     finalMimeType: "finalMimeType",
+                    sourceEncoding: "utf-8",
                     pages: [
                         { number: 1, rotationApplied: null, originalPageWidth: 1.1, originalPageHeight: 1.1, dpi: 1.1 },
                     ],
+                    languageDetected: {
+                        languageCode: "languageCode",
+                        confidence: 1.1,
+                        languages: [{ languageCode: "languageCode", confidence: 1.1, coverage: 1.1 }],
+                        undeterminedCoverage: 1.1,
+                    },
                 },
             },
             outputUrl: "https://...",
@@ -89,6 +98,7 @@ describe("ExtendClient", () => {
                         { start: 1, end: 10 },
                         { start: 20, end: 30 },
                     ],
+                    textExtractionMethod: "auto",
                     excelParsingMode: "basic",
                     excelSkipHiddenContent: true,
                     excelUseRawCellValues: true,
@@ -96,7 +106,10 @@ describe("ExtendClient", () => {
                     excelIncludeCellMetadata: true,
                     excelIncludeCellFormatting: true,
                     verticalGroupingThreshold: 1.1,
+                    embedOcrInPdf: true,
                     alwaysConvertToPdf: true,
+                    htmlSourceAnchors: true,
+                    returnSourceNodes: true,
                     enrichmentFormat: "xml",
                     imageConversionQuality: "high",
                     formattingDetection: [{ type: "change_tracking" }],
@@ -215,6 +228,11 @@ describe("ExtendClient", () => {
                                     right: 20,
                                     bottom: 20,
                                 },
+                                source: {
+                                    type: "html",
+                                    byteOffset: 30,
+                                    byteLength: 13,
+                                },
                             },
                         ],
                     },
@@ -246,9 +264,20 @@ describe("ExtendClient", () => {
                         },
                     ],
                 },
+                source: {
+                    nodes: [
+                        {
+                            content: "content",
+                            byteOffset: 1,
+                            byteLength: 1,
+                            blockId: "blockId",
+                        },
+                    ],
+                },
                 metadata: {
                     originalMimeType: "originalMimeType",
                     finalMimeType: "finalMimeType",
+                    sourceEncoding: "utf-8",
                     pages: [
                         {
                             number: 1,
@@ -258,6 +287,18 @@ describe("ExtendClient", () => {
                             dpi: 1.1,
                         },
                     ],
+                    languageDetected: {
+                        languageCode: "languageCode",
+                        confidence: 1.1,
+                        languages: [
+                            {
+                                languageCode: "languageCode",
+                                confidence: 1.1,
+                                coverage: 1.1,
+                            },
+                        ],
+                        undeterminedCoverage: 1.1,
+                    },
                 },
             },
             outputUrl: "https://...",
@@ -288,6 +329,7 @@ describe("ExtendClient", () => {
                             end: 30,
                         },
                     ],
+                    textExtractionMethod: "auto",
                     excelParsingMode: "basic",
                     excelSkipHiddenContent: true,
                     excelUseRawCellValues: true,
@@ -295,7 +337,10 @@ describe("ExtendClient", () => {
                     excelIncludeCellMetadata: true,
                     excelIncludeCellFormatting: true,
                     verticalGroupingThreshold: 1.1,
+                    embedOcrInPdf: true,
                     alwaysConvertToPdf: true,
+                    htmlSourceAnchors: true,
+                    returnSourceNodes: true,
                     enrichmentFormat: "xml",
                     imageConversionQuality: "high",
                     formattingDetection: [
@@ -1822,7 +1867,7 @@ describe("ExtendClient", () => {
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
             file: { id: "file_xK9mLPqRtN3vS8wF5hB2cQ" },
-            config: { engine: "verify_light", engineVersion: "latest", advancedOptions: { requireParsing: true } },
+            config: { engine: "verify_standard", engineVersion: "latest", advancedOptions: { requireParsing: true } },
             metadata: { customerDocumentId: "credential-48391" },
         };
         const rawResponseBody = {
@@ -1934,7 +1979,7 @@ describe("ExtendClient", () => {
                 id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
             },
             config: {
-                engine: "verify_light",
+                engine: "verify_standard",
                 engineVersion: "latest",
                 advancedOptions: {
                     requireParsing: true,

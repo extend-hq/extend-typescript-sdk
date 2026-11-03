@@ -12,6 +12,8 @@ export interface ParseRunOutput {
     chunks: Extend.Chunk[];
     /** Raw OCR data from the parsing process. Words and lines are independently enabled with `returnOcr.words` and `returnOcr.lines`; either array may be omitted. */
     ocr?: Extend.ParseRunOutputOcr;
-    /** Rotation, dimension, and file-type metadata about the parse output. `null` for parse runs that completed before this field was introduced. */
+    /** Word-level source anchors for text formats, the counterpart to `ocr` for documents parsed from markup rather than pixels. Only included when `advancedOptions.returnSourceNodes` is enabled and the file contains text. */
+    source?: Extend.ParseRunOutputSource;
+    /** Rotation, dimension, file-type, and detected-language metadata about the parse output. `null` for parse runs that completed before this field was introduced. */
     metadata?: Extend.ParseRunOutputMetadata | null;
 }

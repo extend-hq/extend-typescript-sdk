@@ -26,6 +26,8 @@ export interface EvaluationSetRun {
     status: Extend.BatchRunStatus;
     /** The options for the evaluation set run. */
     options: Extend.EvaluationSetRunOptions;
+    /** Usage credits consumed by this evaluation set run, aggregated across the processor runs it executed. */
+    usage?: Extend.EvaluationSetRunUsage | null;
     createdAt: Extend.CreatedAt;
     updatedAt: Extend.UpdatedAt;
 }

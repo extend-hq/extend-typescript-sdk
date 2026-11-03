@@ -7,6 +7,15 @@ export interface ParseConfigAdvancedOptions {
     pageRotationEnabled?: boolean;
     pageRanges?: Extend.PageRanges;
     /**
+     * Controls how page text is obtained for PDFs, including documents converted to PDF.
+     *
+     * * `auto`: Use the PDF's own embedded text on pages where it is reliable, and OCR the rest.
+     * * `ocr_only`: Read every page with OCR and ignore embedded text.
+     *
+     * Available on `parse_auto` and `parse_light` >= `1.0.0`, which both default to `auto`. Other engines, including `parse_performance`, always use OCR.
+     */
+    textExtractionMethod?: Extend.ParseConfigAdvancedOptionsTextExtractionMethod;
+    /**
      * Controls how Excel files are parsed.
      *
      * * `basic`: Fast, deterministic parsing.
@@ -27,10 +36,22 @@ export interface ParseConfigAdvancedOptions {
     excelIncludeCellFormatting?: boolean;
     /** Multiplier for the Y-axis threshold used to determine if text blocks should be placed on the same line or not (0.1-5.0, default 1.0). Higher values group elements that are further apart vertically. Only applies when the spatial target is set. */
     verticalGroupingThreshold?: number;
+    /**
+     * Embed recognized OCR words as an invisible text layer in the processed PDF, enabling search, selection, and copying while preserving page appearance. Pages that already contain text are skipped entirely; existing text layers are not replaced or corrected. Only processed pages with usable OCR words are candidates for embedding.
+     *
+     * Applies to PDFs, including supported inputs converted to PDF with `alwaysConvertToPdf`. Independent of `returnOcr.words` and `returnOcr.lines`; enabling embedding does not include OCR arrays in the JSON response.
+     *
+     * After the run is processed, retrieve its `file.id` with Get File and use `presignedUrl` to download the PDF. The parse run's `outputUrl` downloads parsed JSON. See [Embed OCR in PDF](https://docs.extend.ai/parsing/embed-ocr-in-pdf).
+     */
+    embedOcrInPdf?: boolean;
     /** Options for returning raw OCR data in the response. Words and lines are independent opt-ins and both default to false. */
     returnOcr?: Extend.ParseConfigAdvancedOptionsReturnOcr;
-    /** Whether to convert supported file types (images, Word documents, PowerPoint, Excel, HTML) to PDF before parsing. This can improve parsing quality for some file types and ensures spatial output with bounding boxes. */
+    /** Whether to convert supported file types (images, Word documents, PowerPoint, Excel, HTML) to PDF before parsing. This can improve parsing quality for some file types and ensures spatial output with bounding boxes. Cannot be combined with `htmlSourceAnchors`. */
     alwaysConvertToPdf?: boolean;
+    /** HTML only. Whether to anchor each block to the byte range it came from in the uploaded file, returned as `source` on the block in place of `polygon`/`boundingBox`. Files must be UTF-8 or Windows-1252 encoded. Cannot be combined with `alwaysConvertToPdf`. */
+    htmlSourceAnchors?: boolean;
+    /** HTML only. Whether to include word-level source anchors under `output.source.nodes`, the text-format counterpart to `returnOcr.words`. Requires `htmlSourceAnchors`. */
+    returnSourceNodes?: boolean;
     /**
      * The format used for enrichment annotations in the output.
      *

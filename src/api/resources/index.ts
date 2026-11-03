@@ -83,3 +83,6 @@ export * from "./workflows/types";
 export * as workflowVersions from "./workflowVersions";
 export * from "./workflowVersions/client/requests";
 export * from "./workflowVersions/types";
+export * as workspaces from "./workspaces";
+export * from "./workspaces/client/requests";
+export * from "./workspaces/types";

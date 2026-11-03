@@ -50,6 +50,7 @@ export interface ParseRun {
      * * `CHUNKING_ERROR` - An error occurred while chunking the document
      * * `INTERNAL_ERROR` - An unexpected internal error occurred
      * * `INVALID_CONFIG_OPTIONS` - The provided configuration options are invalid
+     * * `UNSUPPORTED_FILE_ENCODING` - The file could not be decoded as UTF-8 or Windows-1252, which `advancedOptions.htmlSourceAnchors` requires
      * * `OUT_OF_CREDITS` - Insufficient credits to process the file
      *
      * **Note:** Additional failure reasons may be added in the future. Your integration should handle unknown values gracefully.
