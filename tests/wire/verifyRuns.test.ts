@@ -523,7 +523,7 @@ describe("VerifyRunsClient", () => {
         const client = new ExtendClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = {
             file: { id: "file_xK9mLPqRtN3vS8wF5hB2cQ" },
-            config: { engine: "verify_light", engineVersion: "latest", advancedOptions: { requireParsing: true } },
+            config: { engine: "verify_standard", engineVersion: "latest", advancedOptions: { requireParsing: true } },
             metadata: { customerDocumentId: "credential-48391" },
         };
         const rawResponseBody = {
@@ -635,7 +635,7 @@ describe("VerifyRunsClient", () => {
                 id: "file_xK9mLPqRtN3vS8wF5hB2cQ",
             },
             config: {
-                engine: "verify_light",
+                engine: "verify_standard",
                 engineVersion: "latest",
                 advancedOptions: {
                     requireParsing: true,

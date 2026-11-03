@@ -32,10 +32,12 @@ export interface Block {
     details: Extend.BlockDetails;
     /** Metadata about the block. */
     metadata: Extend.BlockMetadata;
-    /** An array of points defining the polygon that bounds the block. */
-    polygon: Extend.BlockPolygonItem[];
-    /** A simplified bounding box for the block. */
-    boundingBox: Extend.BoundingBox;
-    /** An array of child blocks. For example, a table block may contain table cell blocks as children when `cellBlocksEnabled` is set to true. */
+    /** An array of points defining the polygon that bounds the block. Omitted on blocks that carry a `source` anchor. */
+    polygon?: Extend.BlockPolygonItem[];
+    /** A simplified bounding box for the block. Omitted on blocks that carry a `source` anchor. */
+    boundingBox?: Extend.BoundingBox;
+    /** The byte range this block came from in the uploaded file, measured in the encoding reported by `output.metadata.sourceEncoding`. Replaces `polygon`/`boundingBox`. Only set for HTML input when `advancedOptions.htmlSourceAnchors` is enabled. */
+    source?: Extend.BlockSource;
+    /** An array of child blocks. For example, a table block may contain table cell blocks as children when `blockOptions.tables.cellBlocksEnabled` is set to true. */
     children?: Extend.Block[];
 }

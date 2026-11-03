@@ -16,7 +16,7 @@ import type * as Extend from "../../index";
  *             id: "file_xK9mLPqRtN3vS8wF5hB2cQ"
  *         },
  *         config: {
- *             engine: "verify_light",
+ *             engine: "verify_standard",
  *             engineVersion: "latest",
  *             advancedOptions: {
  *                 requireParsing: true

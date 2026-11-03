@@ -30,6 +30,7 @@ import { WebhookSubscriptionsClient } from "./api/resources/webhookSubscriptions
 import { WorkflowRunsClient } from "./api/resources/workflowRuns/client/Client";
 import { WorkflowsClient } from "./api/resources/workflows/client/Client";
 import { WorkflowVersionsClient } from "./api/resources/workflowVersions/client/Client";
+import { WorkspacesClient } from "./api/resources/workspaces/client/Client";
 import type { BaseClientOptions, BaseRequestOptions } from "./BaseClient";
 import { type NormalizedClientOptionsWithAuth, normalizeClientOptionsWithAuth } from "./BaseClient";
 import * as core from "./core";
@@ -75,6 +76,7 @@ export class ExtendClient {
     protected _evaluationSetRuns: EvaluationSetRunsClient | undefined;
     protected _webhookEndpoints: WebhookEndpointsClient | undefined;
     protected _webhookSubscriptions: WebhookSubscriptionsClient | undefined;
+    protected _workspaces: WorkspacesClient | undefined;
 
     constructor(options: ExtendClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
@@ -194,6 +196,10 @@ export class ExtendClient {
 
     public get webhookSubscriptions(): WebhookSubscriptionsClient {
         return (this._webhookSubscriptions ??= new WebhookSubscriptionsClient(this._options));
+    }
+
+    public get workspaces(): WorkspacesClient {
+        return (this._workspaces ??= new WorkspacesClient(this._options));
     }
 
     /**
@@ -566,7 +572,7 @@ export class ExtendClient {
      *             id: "file_xK9mLPqRtN3vS8wF5hB2cQ"
      *         },
      *         config: {
-     *             engine: "verify_light",
+     *             engine: "verify_standard",
      *             engineVersion: "latest",
      *             advancedOptions: {
      *                 requireParsing: true

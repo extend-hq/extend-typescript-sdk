@@ -6,4 +6,6 @@
 export interface ParseConfigBlockOptionsKeyValue {
     /** Whether to preserve blank field formatting for key-value pairs with empty values. */
     blankFieldFormattingEnabled?: boolean;
+    /** Whether to return each form region as a typed tree of keys, filled values, empty fields, signatures, checkboxes, and tables, with a bounding box per node. When enabled, every `key_value` block includes `details.form`. Requires `parse_performance` >= `2.0.0`, `parse_light` >= `1.0.0`, or `parse_auto`. */
+    structuredOutputEnabled?: boolean;
 }

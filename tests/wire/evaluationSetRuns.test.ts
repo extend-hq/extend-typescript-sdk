@@ -62,6 +62,7 @@ describe("EvaluationSetRunsClient", () => {
             },
             status: "PENDING",
             options: { fuzzyMatchFields: ["fuzzyMatchFields"], excludeFields: ["excludeFields"] },
+            usage: { credits: 15320, totalCredits: 15320 },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
         };
@@ -137,6 +138,10 @@ describe("EvaluationSetRunsClient", () => {
                 fuzzyMatchFields: ["fuzzyMatchFields"],
                 excludeFields: ["excludeFields"],
             },
+            usage: {
+                credits: 15320,
+                totalCredits: 15320,
+            },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
         });
@@ -199,6 +204,7 @@ describe("EvaluationSetRunsClient", () => {
             },
             status: "PENDING",
             options: { fuzzyMatchFields: ["fuzzyMatchFields"], excludeFields: ["excludeFields"] },
+            usage: { credits: 15320, totalCredits: 15320 },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
         };
@@ -270,6 +276,10 @@ describe("EvaluationSetRunsClient", () => {
             options: {
                 fuzzyMatchFields: ["fuzzyMatchFields"],
                 excludeFields: ["excludeFields"],
+            },
+            usage: {
+                credits: 15320,
+                totalCredits: 15320,
             },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
@@ -498,6 +508,7 @@ describe("EvaluationSetRunsClient", () => {
             },
             status: "PENDING",
             options: { fuzzyMatchFields: ["fuzzyMatchFields"], excludeFields: ["excludeFields"] },
+            usage: { credits: 15320, totalCredits: 15320 },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",
         };
@@ -565,6 +576,10 @@ describe("EvaluationSetRunsClient", () => {
             options: {
                 fuzzyMatchFields: ["fuzzyMatchFields"],
                 excludeFields: ["excludeFields"],
+            },
+            usage: {
+                credits: 15320,
+                totalCredits: 15320,
             },
             createdAt: "2024-03-21T16:45:00Z",
             updatedAt: "2024-03-21T16:45:00Z",

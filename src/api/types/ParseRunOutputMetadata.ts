@@ -3,13 +3,21 @@
 import type * as Extend from "../index";
 
 /**
- * Rotation, dimension, and file-type metadata about the parse output. `null` for parse runs that completed before this field was introduced.
+ * Rotation, dimension, file-type, and detected-language metadata about the parse output. `null` for parse runs that completed before this field was introduced.
  */
 export interface ParseRunOutputMetadata {
     /** The file's media type before any format conversion. */
     originalMimeType?: string | null;
     /** The file's media type after any format conversion. */
     finalMimeType?: string | null;
-    /** Per-page rotation and original-dimension info. Set when file is a PDF or was converted to PDF. */
+    /** The encoding that `source.byteOffset`/`byteLength` values are measured against. Only set when `advancedOptions.htmlSourceAnchors` is enabled. */
+    sourceEncoding?: Extend.ParseRunOutputMetadataSourceEncoding;
+    /** Per-page rotation and original-dimension info. Set when file is a PDF or was converted to PDF, otherwise is null. */
     pages?: Extend.ParseRunOutputMetadataPagesItem[] | null;
+    /**
+     * The languages detected in the document. Set for every supported file type, regardless of how the file was parsed.
+     *
+     * `null` when no reliable detection was possible because the document did not contain enough characters for the detector to reach a conclusion. This can happen on numeric-only documents such as ledgers or forms of bare amounts and dates. Omitted when the parse run completed before language detection was introduced.
+     */
+    languageDetected?: Extend.ParseRunOutputMetadataLanguageDetected | null;
 }
